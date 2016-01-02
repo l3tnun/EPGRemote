@@ -19,11 +19,17 @@ Node.js + HTML + CSS + Jquery を書くのはこれが初めてです。温か�
 * ffmpeg なるべく新しい物を使用してください
 
 ## インストール方法
+* リポジトリをクローン
+
+````
+git clone https://github.com/l3tnun/EPGRemote.git
+````
+
 * nvm などで Node.js をインストールしてください
 * npm で MySQL, log4js, Socket.IO をインストール
 
 ````
-$ npm install -g forever mysql log4js socketio
+$ npm install -g mysql log4js socketio
 ```` 
 
 * HLSでリアルタイム視聴を行う場合、ffmpeg と recpt1 等が必要です
