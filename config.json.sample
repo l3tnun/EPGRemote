@@ -1,0 +1,86 @@
+{
+    "serverPort" : "8888",
+
+    "epgrecConfig" : {
+        "host" : "192.168.xx.xx:xxxx",
+        "index.php" : "index2.php",
+        "hourheight" : 180
+    },
+
+    "video" : [
+        {
+            "id" : "1",
+            "size" : "1280x1720",
+            "vb" : "3000k",
+            "ab" : "192k",
+            "audioMode" : "main"
+        },
+        {
+            "id" : "2",
+            "size" : "960x540",
+            "vb" : "2000k",
+            "ab" : "192k",
+            "audioMode" : "sub"
+        },
+        {
+            "id" : "3",
+            "size" : "720x480",
+            "vb" : "1500k",
+            "ab" : "192k",
+            "audioMode" : "main"
+        },
+        {
+            "id" : "4",
+            "size" : "640x360",
+            "vb" : "1024k",
+            "ab" : "192k",
+            "audioMode" : "sub"
+        }
+    ],
+
+    "tuners": [
+        {
+            "id" : "1",
+            "name"      : "PT3-S1",
+            "types"     : [ "BS", "CS" ],
+            "command:   : "/hoge/recpt1 --device /dev/pt3video0 --b25 --strip --sid <sid> <channel> - - "
+        },
+        {
+            "id" : "2",
+            "name"      : "PT3-S2",
+            "types"     : [ "BS", "CS" ],
+            "command:   : "/hoge/recpt1 --device /dev/pt3video1 --b25 --strip --sid <sid> <channel> - - "
+        },
+        {
+            "id" : "3",
+            "name"      : "PT3-T1",
+            "types"     : [ "GR" ],
+            "command:   : "/hoge/recpt1 --device /dev/pt3video2 --b25 --strip --sid <sid> <channel> - - "
+        },
+        {
+            "id" : "4",
+            "name"      : "PT3-T2",
+            "types"     : [ "GR" ],
+            "command:   : "/hoge/recpt1 --device /dev/pt3video3 --b25 --strip --sid <sid> <channel> - - "
+        }
+    ],
+
+    "ffmpeg": {
+        "command" : "/ffmpeg_path/ffmpeg -re -dual_mono_mode <audioMode> -i pipe:0 -f hls -hls_time 3 -hls_list_size 17 -hls_allow_cache 1 -hls_segment_filename  <streamFilesDir>/stream<streamNum>-%09d.ts -threads auto -acodec libfdk_aac -ar 48000 -ab <ab> -ac 2 -vcodec libx264 -s <size> -aspect 16:9 -vb <vb> -fpre <ffpreset> <streamFilesDir>/stream<streamNum>.m3u8"
+    },
+
+    "ffpresetPath" : "/hoge/libx264-hls.ffpreset",
+
+    "streamFilePath" : "/hoge/streamfiles",
+
+    "EpgrecDatabaseCpnfig" : {
+        "host": "192.168.xx.xx",
+        "user": "epgrec",
+        "password": "epgrec",
+        "database": "epgrec",
+        "timeout": 5000
+    },
+
+    "EpgrecRecoardName" : "Recorder_"
+}
+

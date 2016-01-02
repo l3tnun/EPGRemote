@@ -1,0 +1,7 @@
+*.swp
+.DS_Store
+streamfiles
+logs
+logConfig.json
+config.json
+

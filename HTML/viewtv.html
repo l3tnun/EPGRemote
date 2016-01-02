@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTTP Live Streaming</title>
+    <meta name="viewport" content="width=device-width">
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="/css/loading.css" />
+    <link rel="stylesheet" href="/jquery/jquery.mobile.min.css" />
+    <link rel="stylesheet" href="/css/tvprogram.css" />
+    <link rel="stylesheet" href="/css/viewtv.css" />
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/jquery/jquery.mobile.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+        var socketio = io.connect('http://' + window.location.hostname + ':@@@PORT@@@');
+    </script>
+    <script src="/js/viewtv.js"></script>
+</head>
+
+<body>
+
+<div data-role="header">
+    <a href="/">TOP</a>
+    <h1>HTTP Live Streaming</h1>
+</div>
+<div id="loading">
+    <div data-role="content">
+        <center>
+        <img src="/image/loading/loading.gif">
+        </center>
+    </div>
+</div>
+
+<!--チャンネル変更ダイアログ-->
+<a id='linkChangeChannelDialog' href="#progChangeChannelDialog" data-rel="popup" data-position-to="window" data-transition="pop" style='display:none;'></a>
+
+<div data-role="popup" id="progChangeChannelDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width:260px; height: 100%;">
+    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">close</a>
+
+        <div id="dialogChannelName">channel name</div>
+        <select name="tuner" id="changeTuner" form="new_stream_form">
+        </select>
+        <select name="size" id="changeVideoSize" form="new_stream_form">
+        </select>
+        <a id="changeDialogButton" href="javascript:notifyChangeChannel();" class="ui-btn">確定</a>
+</div>
+
+<div id="container">
+    <div data-role="content">
+         <video id="videoPlayer" width="100%" height="$auto" src="@@@TVWAATCH@@@" preload="none" onclick="this.play()" controls ></video>
+    </div>
+</div>
+<div data-role="content">
+    <a href="javascript:notiyStopStream()" class="ui-btn" data-ajax="false">停止</a>
+
+    <div class="program_info_content" style="display: none;">
+        <div id="program_info_station_name"></div>
+        <div id="program_info_time"></div>
+        <div id="program_info_title"></div>
+        <div id="program_info_description" class="wordbreak" ></div>
+    </div>
+
+    <div id="other_stream">
+    </div>
+
+    <ul class="tabs ui-grid-c">
+        <a id="GR_tab" class="ui-block-a tab active" href="#cont1">GR</a>
+        <a id="BS_tab" class="ui-block-b tab" href="#cont2">BS</a>
+        <a id="CS_tab" class="ui-block-c tab" href="#cont3">CS</a>
+        <a id="EX_tab" class="ui-block-d tab" href="#cont4">EX</a>
+    </ul>
+
+    <ul data-role="listview" id="program_list"></ul>
+</div>
+
+<form name="new_stream_form" form action="/viewtv" method="post" id="new_stream_form">
+    <input type="hidden" id = "sid">
+    <input type="hidden" id = "channel">
+    <input type="hidden" id = "channelName">
+</form>
+
+<input type="hidden" id="streamNumber" name="streamNumber" value="@@@STREAMNUMBER@@@">
+</body>
+</html>
+

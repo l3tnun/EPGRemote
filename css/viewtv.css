@@ -1,0 +1,52 @@
+.tabs { padding: 8px; }
+.tabs > .tab {
+    display: inline-block;
+    background-color: rgb(85, 85, 85);
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    border-right: 3px solid white;
+}
+.tabs > .tab.active {
+    background-color: #FFA07A;
+    color: white;
+}
+
+#dialogChannelName {
+    font-size: 16px;
+    font-weight: bold;
+    text-align:center;
+}
+
+.program_info_content {
+    background: #FFF none repeat scroll 0% 0%;
+    border: medium solid #DDD;
+    border-width: 1px;
+}
+#program_info_station_name {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0.45em 0px;
+}
+
+#program_info_time {
+    font-size: 0.75em;
+    margin: 0.6em 0px;
+}
+
+#program_info_title {
+    font-size: 0.75em;;
+    margin: 0.6em 0px;
+    font-weight: 700;
+}
+
+
+#program_info_description {
+    font-size: 0.75em;;
+    margin: 0.6em 0px;
+    word-wrap: break-word;
+    font-weight: 700;
+}
+

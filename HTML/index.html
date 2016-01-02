@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EPGRemote</title>
+    <meta name="viewport" content="width=device-width">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/jquery/jquery.mobile.min.css" />
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/jquery/jquery.mobile.min.js"></script>
+
+</head>
+<body>
+<div data-role="header">
+    <h1>EPGRemote</h1>
+</div>
+<div role="main" class="ui-content">
+    <!--リストを準備-->
+    <ul data-role="listview">
+        <li><a href="tvprogram?GR=true" TARGET="_self">番組表(地上波)</a></li>
+        <li><a href="tvprogram?BS=true" TARGET="_self" >番組表(BS)</a></li>
+        <li><a href="tvprogram?CS=true" TARGET="_self" >番組表(CS)</a></li>
+        <li><a href="tvprogram?EX=true" TARGET="_self" >番組表(スカパーHD)</a></li>
+        <li><a href="epgrec" TARGET="_self" >EPGRec Mobile</a></li>
+        @@@CHANNEL@@@
+    </ul>
+</div>
+</body>
+</html>

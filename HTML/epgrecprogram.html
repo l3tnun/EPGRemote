@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@@@TITLE@@@</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/jquery/jquery.mobile.min.css" />
+    <link rel="stylesheet" href="/css/epgrec_tv_skeleton_layout.css" />
+    <link rel="stylesheet" href="/css/category.css" />
+    <link rel="stylesheet" href="/css/epgrec_layout.css" />
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/jquery/jquery.mobile.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/epgrec_layout.js"></script>
+    <script src="/js/epgrec_command.js"></script>
+    <script>
+        var socketio = io.connect('http://' + window.location.hostname + ':@@@PORT@@@');
+    </script>
+    <script src="/js/epgrec_jump_view_tv.js"></script>
+    <style>
+        .tv_program_section { }
+        .tv_time_section { }
+        .scroll_top_button {
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            background-color:rgba(0,0,0,0.45);
+            color: white;
+            text-align: center;
+            font-size: 36px;
+            border-radius: 50%;
+            position: fixed;
+            right: 16px;
+            bottom: 16px;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+<!--topにスクロールするボタン-->
+<a class="scroll_top_button" style="color: white;" herf="#" onclick="javascript:scrollTopButton()">▲</a>
+
+<!--予約ダイアログ-->
+<a id='lnkDialog' href="#progDialog" data-rel="popup" data-position-to="window" data-transition="pop" style='display:none;'></a>
+
+<div data-role="popup" id="progDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width:400px;">
+    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">close</a>
+    <div style="overflow: scroll; height: 340; width: 400px;">
+        <div id="info_title">title</div>
+        <br>
+        <div id="info_station_name">station_name</div>
+        <div id="info_time">time</div>
+        <br>
+        <div id="info_description">description</div>
+        <br>
+        <div id="info_prgID">prg_ID</div>
+    </div>
+    <div id="info_simple_rec_element" style="height: 50px; width: 400px; margin:1em 0 1em 0;text-align:center;">
+        <a href="#" onclick="javascript:rec($('#info_prgID')[0].innerHTML);" target="_self" class="info_button" style="color: white;">予約</a>
+        <a href="#" onclick="javascript:toggleAutoRec($('#info_prgID')[0].innerHTML);" target="_self" class="info_button" style="color: white;">自動予約禁止</a>
+        <a href="#" onclick="javascript:programSearch($('#info_prgID')[0].innerHTML);" target="_blank" class="info_button" style="color: white;">番組検索</a>
+    </div>
+    <div id="info_simple_rec_cancel_element" style="height: 50px; width: 400px; margin:1em 0 1em 0;text-align:center;">
+        <a href="#" onclick="javascript:cancelRec($('#info_prgID')[0].innerHTML);" target="_self" class="info_cancel_button" style="color: white;">予約削除</a>
+        <a href="#" onclick="javascript:toggleAutoRec($('#info_prgID')[0].innerHTML);" target="_self" class="info_cancel_button" style="color: white;">自動予約禁止</a>
+        <a href="#" onclick="javascript:programSearch($('#info_prgID')[0].innerHTML);" target="_blank" class="info_cancel_button" style="color: white;">番組検索</a>
+    </div>
+</div>
+
+<!--メニューダイアログ-->
+<div data-role="popup" id="progMenuDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width:400px; height: 260px;">
+    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">close</a>
+    <p>時間</p>
+    <div style="overflow: scroll;">
+        <div style="width: 480px; height: 50px;">
+        @@@MENUTIME@@@
+        </div>
+    </div>
+
+    <p>日付</p>
+    <div style="overflow: scroll;">
+        <div style="width: 480px; height: 50px;">
+            @@@MENUDATE@@@
+        </div>
+    </div>
+
+    <p>放送波選択</p>
+    <div style="width: 250px; height: 50px;">
+        @@@MENUWAVE@@@
+    </div>
+</div>
+
+
+<!--Jump viewTv ダイアログ-->
+<a id='jumpViewTvDialogButton' href="#jumpViewTvDialog" data-rel="popup" data-position-to="window" data-transition="pop" style='display:none;'></a>
+
+<div data-role="popup" id="jumpViewTvDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width:400px; height: 100%;">
+    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">close</a>
+
+    <div id="jumpDialogChannelName">channel name</div>
+    <select name="tuner" id="jumpTuner" form="new_stream_form">
+    </select>
+    <select name="size" id="jumpVideoSize" form="new_stream_form">
+    </select>
+    <a id="changeDialogButton" href="javascript:notifyJumpChannel();" class="ui-btn">確定</a>
+</div>
+
+<!--header-->
+<div id="header" data-role="header">
+    <a href="epgrec" target="_self">BACK</a>
+    <a href="#progMenuDialog" class="ui-btn-right" data-rel="popup" data-icon="bars" data-iconpos="notext" data-position-to="window" data-transition="pop">&nbsp;</a>
+    <h1>@@@TITLE@@@</h1>
+</div>
+<div style="padding: 0px" role="main" class="ui-content">
+
+<!--時刻線-->
+<div id="tableNowBas" style="z-index: 1000; position: absolute; background-color: red; height: 2px; width: 4860px; overflow:hidden; top: 75px;">now</div>
+
+<!--時刻-->
+<div class="tv_time_section" id = "tv_time_id" style="float: left; overflow: hidden;">
+<div style="margin-top: 30px;">
+    @@@TIME@@@
+</div>
+</div>
+
+<!--番組名-->
+<div id="station_name_id" style="overflow: hidden;">
+<div style="width: @@@ROGRAMWIDTH@@@;">
+@@@STATION_NAME@@@
+</div>
+</div>
+
+<div id="empty"></div>
+
+<!--tv program-->
+<div id="tv_program_id" style="overflow: scroll; -webkit-overflow-scrolling : touch;">
+<div class="tv_program_section" style="width: @@@ROGRAMWIDTH@@@;">
+    @@@TVPROGRAM@@@
+</div>
+</div>
+
+</div>
+
+<form name="new_stream_form" form action="/viewtv" method="post" id="new_stream_form">
+    <input type="hidden" id = "sid">
+    <input type="hidden" id = "channel">
+    <input type="hidden" id = "channelName">
+</form>
+
+</body>
+</html>
+
