@@ -33,7 +33,7 @@ $ npm install -g forever mysql log4js socketio
 * 番組表 Web UIを使用する際には EPGRec UNA のindex.php 内の $programs の内容が必要になります。$programs を Json で返すようにしてください。
 
 ````
-$ cd EPGRec UNA のディレクトリ
+$ cd 'EPGRec UNA のディレクトリ'
 $ cp index.php index2.php
 ````
 * index2.php の最後の行を以下のように修正
@@ -139,16 +139,16 @@ json ファイルは JSON.parse() でパースしているため、きちんと�
 
 ##開発環境
 * サーバ
-OS Debian 8.2
-node.js version v5.2.0
+ * OS Debian 8.2
+ * node.js version v5.2.0
 
 * クライアント
-iPhone 5s  (iOS 9.2) Mobile Safari
-iPad mini2 (iOS 9.2) Mobile Safari
-iPad Air   (iOS 9.2) Mobile Safari
-iPad Air2  (iOS 9.2) Mobile Safari
-Xperia Z3 Compact (5.1.1) Chrome (47.0.2526.83)
-Xperia Z3         (5.1.1) Chrome (47.0.2526.83)
+ * iPhone 5s  (iOS 9.2) Mobile Safari
+ * iPad mini2 (iOS 9.2) Mobile Safari
+ * iPad Air   (iOS 9.2) Mobile Safari
+ * iPad Air2  (iOS 9.2) Mobile Safari
+ * Xperia Z3 Compact (5.1.1) Chrome (47.0.2526.83)
+ * Xperia Z3         (5.1.1) Chrome (47.0.2526.83)
 
 ## 今後の拡張予定
 * 予約検索と録画済みの一覧 & HLSで配信とか対応したいですね
