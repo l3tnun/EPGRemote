@@ -1,11 +1,11 @@
 EPGRemote
 ====
 
-EPGRec UNA の HSL View + 番組表簡易 Web UI (Node.js)
+EPGRec UNA の HLS View + 番組表簡易 Web UI (Node.js)
 
 ## これはなに？
 
-EPGRec UNA 用の後方支援プログラムです。EPGRec UNA の番組情報を使用して HSL(HTTP Live Streaming) でリアルタイムに視聴可能にします。また、簡易的なものですが、スマートフォン用の番組表 Web UI 付属します。簡易予約、自動予約禁止に対応してます。
+EPGRec UNA 用の後方支援プログラムです。EPGRec UNA の番組情報を使用して HLS(HTTP Live Streaming) でリアルタイムに視聴可能にします。また、簡易的なものですが、スマートフォン用の番組表 Web UI 付属します。簡易予約、自動予約禁止に対応してます。
 
 HLSでのリアルタイム視聴は CPU にとってかなり重たい処理となります。スペックに余裕があるマシンで動かしてください。
 
