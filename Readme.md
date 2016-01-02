@@ -94,7 +94,7 @@ config.json 設定
             "name"      : "PX-W3U3-S1",   //Web UIでチューナを識別するための名前
             "types"     : [ "BS", "CS" ], //チューナタイプ GR, CS, BS, EX が設定可能
             //録画コマンド フルパスで書く
-            "command:   : "/hoge/recpt1 --device /dev/pt3video0 --b25 --strip --sid <sid> <channel> - - "
+            "command"   : "/hoge/recpt1 --device /dev/pt3video0 --b25 --strip --sid <sid> <channel> - - "
         }, ...
      
      //ffmpeg の設定 フルパスで書く
@@ -119,7 +119,7 @@ config.json 設定
     },
     
     //EPGRec UNAで設定したテーブル接頭辞
-    "EpgrecRecoardName" : "Recorder_"
+    "EpgrecRecordName" : "Recorder_"
 
 ````
 

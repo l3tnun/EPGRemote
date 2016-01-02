@@ -43,25 +43,25 @@
             "id" : "1",
             "name"      : "PT3-S1",
             "types"     : [ "BS", "CS" ],
-            "command:   : "/hoge/recpt1 --device /dev/pt3video0 --b25 --strip --sid <sid> <channel> - - "
+            "command"   : "/hoge/recpt1 --device /dev/pt3video0 --b25 --strip --sid <sid> <channel> - - "
         },
         {
             "id" : "2",
             "name"      : "PT3-S2",
             "types"     : [ "BS", "CS" ],
-            "command:   : "/hoge/recpt1 --device /dev/pt3video1 --b25 --strip --sid <sid> <channel> - - "
+            "command"   : "/hoge/recpt1 --device /dev/pt3video1 --b25 --strip --sid <sid> <channel> - - "
         },
         {
             "id" : "3",
             "name"      : "PT3-T1",
             "types"     : [ "GR" ],
-            "command:   : "/hoge/recpt1 --device /dev/pt3video2 --b25 --strip --sid <sid> <channel> - - "
+            "command"   : "/hoge/recpt1 --device /dev/pt3video2 --b25 --strip --sid <sid> <channel> - - "
         },
         {
             "id" : "4",
             "name"      : "PT3-T2",
             "types"     : [ "GR" ],
-            "command:   : "/hoge/recpt1 --device /dev/pt3video3 --b25 --strip --sid <sid> <channel> - - "
+            "command"   : "/hoge/recpt1 --device /dev/pt3video3 --b25 --strip --sid <sid> <channel> - - "
         }
     ],
 
@@ -74,13 +74,13 @@
     "streamFilePath" : "/hoge/streamfiles",
 
     "EpgrecDatabaseCpnfig" : {
-        "host": "192.168.xx.xx",
+        "host": "localhost",
         "user": "epgrec",
         "password": "epgrec",
         "database": "epgrec",
         "timeout": 5000
     },
 
-    "EpgrecRecoardName" : "Recorder_"
+    "EpgrecRecordName" : "Recorder_"
 }
 
