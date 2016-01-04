@@ -181,7 +181,6 @@ function epgrecProgram(response, length, time, json, type) {
         if(station["list"].length > 1) {
             stationNameCnt += 1;
             stationNameStr += `<a href="javascript:jumpViewTv('${station.sid}', '${station.channel}', '${station.station_name}')" class="station_name" style="color: white;">${station.station_name}</a>`;
-            console.log(station.sid + " " + station.channel);
             programStr += '<div class="station">';
             for(var i = 0; i < station["list"].length; i++) {
                 var program = station["list"][i];

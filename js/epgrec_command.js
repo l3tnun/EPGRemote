@@ -73,7 +73,13 @@ function programSearch(id) {
 
     socketio.emit("getEpgRecHostName");
     socketio.on("epgRecHostNameResult", function (data){
-        location.href = data.value + keyword;
+        urlStr = ""
+        if(data.value.slice(-1) != "/") {
+            urlStr = data.value + "/" + keyword;
+        } else {
+            urlStr = data.value + keyword;
+        }
+        location.href = "http://" + urlStr;
     });
     $('#progDialog').popup('close');
 }

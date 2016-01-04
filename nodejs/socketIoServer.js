@@ -117,7 +117,7 @@ function start(server) {
         });
 
         socket.on("getEpgRecHostName", function () {
-            io.sockets.emit("epgRecHostNameResult", {value : util.getConfig.epgrecConfig["host"]});
+            io.sockets.emit("epgRecHostNameResult", {value : util.getConfig()["epgrecConfig"]["host"]});
         });
     });
 
