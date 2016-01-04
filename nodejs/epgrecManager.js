@@ -1,7 +1,6 @@
 var util = require(__dirname + "/util");
 var log = require(__dirname + "/logger").getLogger();
 var http = require('http');
-var host = "192.168.11.22:1180";
 
 function getProgram(type, length, time, callback) {
     var epgrecConfig = util.getConfig()["epgrecConfig"];

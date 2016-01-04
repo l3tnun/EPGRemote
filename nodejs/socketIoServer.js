@@ -7,7 +7,6 @@ var sqlModel = require(__dirname + "/sqlModel");
 var log = require(__dirname + "/logger").getLogger();
 var io;
 
-var epgrecHost = 'http://192.168.11.22:1180/'
 var stopStreamCallback;
 
 //set callback
@@ -118,7 +117,7 @@ function start(server) {
         });
 
         socket.on("getEpgRecHostName", function () {
-            io.sockets.emit("epgRecHostNameResult", {value : epgrecHost});
+            io.sockets.emit("epgRecHostNameResult", {value : util.getConfig.epgrecConfig["host"]});
         });
     });
 
