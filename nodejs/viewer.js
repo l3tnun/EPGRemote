@@ -97,12 +97,10 @@ function formatDate(result) {
 }
 
 function viewTv(response, streamNumber) {
-    var port = util.getConfig()["serverPort"];
     var htmlfile = readFile("./HTML/viewtv.html");
     if(typeof htmlfile == "undefined") { notFound(response, 'file not found'); return; }
     var videoTag = `streamfiles/stream${streamNumber}.m3u8`;
 
-    htmlfile = htmlfile.replace("@@@PORT@@@", port);
     htmlfile = htmlfile.replace("@@@TVWAATCH@@@", videoTag);
     htmlfile = htmlfile.replace("@@@STREAMNUMBER@@@", streamNumber);
     responseFile(response, htmlfile);
@@ -252,12 +250,8 @@ function epgrecProgram(response, length, time, json, type) {
         menueBroadcastWave += `<a href="/epgrec_program?type=${broadcastWave[i]}&length=${length}&time=${time}" data-ajax="false" onclick="javascript:$('#progMenuDialog').popup('close');" class="menu_hour_button" style="color: white;">${broadcastWave[i]}</a>\n`;
     }
 
-    //socketio port
-    var port = util.getConfig()["serverPort"];
-
     var htmlfile = readFile("./HTML/epgrecprogram.html");
     if(typeof htmlfile == "undefined") { notFound(response, 'file not found'); return; }
-    htmlfile = htmlfile.replace(/@@@PORT@@@/g, port);
     htmlfile = htmlfile.replace(/@@@MENUTIME@@@/g, menuTime);
     htmlfile = htmlfile.replace(/@@@MENUDATE@@@/g, menuDate);
     htmlfile = htmlfile.replace(/@@@MENUWAVE@@@/g, menueBroadcastWave);

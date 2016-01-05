@@ -28,7 +28,6 @@ function resultJumpChannelList(data) {
 
     var videoConfigStr = "";
     for(var i=0; i < data.videoConfig.length; i++) {
-        console.log(data.videoConfig[i]);
         videoConfigStr += `<option value="${data.videoConfig[i].id}">${data.videoConfig[i].size}</option>`;
     }
 
