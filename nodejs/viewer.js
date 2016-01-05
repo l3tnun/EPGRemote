@@ -115,7 +115,13 @@ function viewTvError(response) {
 
 function responseSpecifiedFile(response, parsedUrl, fileTypeHash) {
     var uri = parsedUrl.pathname;
-    var filename = path.join(util.getRootPath(), uri);
+    var filename;
+
+    if (uri.match(/streamfiles/)) {
+        filename = path.join(util.getConfig()["streamFilePath"], path.basename(uri));
+    } else {
+        filename = path.join(util.getRootPath(), uri);
+    }
 
     fs.exists(filename, function (exists) {
         if (!exists) {
