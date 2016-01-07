@@ -2,6 +2,8 @@ var util = require(__dirname + "/util");
 var fs = require('fs');
 var log = require(__dirname + "/logger").getLogger();
 
+var streamHashs = {};
+
 function deleteFile(streamNumber, fileNum) {
     var config = util.getConfig();
     var dirPath = config["streamFilePath"];
@@ -31,5 +33,20 @@ function deleteFile(streamNumber, fileNum) {
     };
 }
 
-exports.deleteFile = deleteFile
+function deleteAllFiles(streamNumber) {
+    deleteFile(streamNumber, 0);
+}
+
+function startDeleteTsFiles(streamNumber) {
+    var intervalId = setInterval(function() { deleteFile(streamNumber, 20); }, 10000);
+    streamHashs[streamNumber] = intervalId;
+}
+
+function stopDelteTsFiles(streamNumber) {
+    clearInterval(streamHashs[streamNumber]);
+}
+
+exports.deleteAllFiles = deleteAllFiles
+exports.startDeleteTsFiles = startDeleteTsFiles;
+exports.stopDelteTsFiles = stopDelteTsFiles;
 

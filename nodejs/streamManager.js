@@ -34,8 +34,8 @@ function getEmptyStreamNumber() {
     }
 }
 
-function addStreamHash(streamNumber, channelName, channel, sid,  intervalId, ffmpegChild, recChild) {
-    streamHashs[streamNumber] =  { "channelName" : channelName, "channel" : channel, "sid" : sid, "intervalId" : intervalId, "ffmpegChild" : ffmpegChild, "recChild" : recChild };
+function addStreamHash(streamNumber, channelName, channel, sid, ffmpegChild, recChild) {
+    streamHashs[streamNumber] =  { "channelName" : channelName, "channel" : channel, "sid" : sid, "ffmpegChild" : ffmpegChild, "recChild" : recChild };
 }
 
 function childProcessExit(name, streamNumber, code, signal) {
@@ -63,7 +63,7 @@ function setChildErrprProcessing(child, name, streamNumber) {
 
 function runCommand(streamNumber, videoConfig, channelName, channel, sid, tunerId) {
     //delete ts files
-    streamFileManager.deleteFile(streamNumber, 0);
+    streamFileManager.deleteAllFiles(streamNumber);
 
     //run cmds
     var ffmpegChild = ffmpegManager.runFFmpeg(streamNumber, videoConfig);
@@ -75,8 +75,8 @@ function runCommand(streamNumber, videoConfig, channelName, channel, sid, tunerI
     setChildErrprProcessing(ffmpegChild, "ffmpegChild", streamNumber);
     setChildErrprProcessing(recChild, "recChild", streamNumber);
 
-    var intervalId = setInterval(function() { streamFileManager.deleteFile(streamNumber, 20); }, 10000);
-    addStreamHash(streamNumber, channelName, channel, sid, intervalId, ffmpegChild, recChild);
+    streamFileManager.startDeleteTsFiles(streamNumber);
+    addStreamHash(streamNumber, channelName, channel, sid, ffmpegChild, recChild);
 }
 
 function startStream(streamNumber, channelName, videoConfig, channel, sid, tunerId) {
@@ -110,7 +110,7 @@ function stopStream(streamNumber, code) {
       return;
     }
 
-    clearInterval(streamHashs[streamNumber]["intervalId"]);
+    streamFileManager.stopDelteTsFiles(streamNumber);
     var ffmpegChild = streamHashs[streamNumber]["ffmpegChild"];
     var recChild = streamHashs[streamNumber]["recChild"];
     ffmpegChild.stdout.removeAllListeners('data');
@@ -120,7 +120,7 @@ function stopStream(streamNumber, code) {
     recChild.kill('SIGKILL');
 
     //delete rm -rf dirPath/*
-    streamFileManager.deleteFile(streamNumber, 0);
+    streamFileManager.deleteAllFiles(streamNumber);
 
     if(changeChannelHash[streamNumber] == false) {
         delete streamHashs[streamNumber];
