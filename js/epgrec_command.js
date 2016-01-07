@@ -49,16 +49,20 @@ socketio.on("resultEPGRecProgramList", function (data){
 
                 if(typeof program["prg_start"] != "undefined") {
                     programStr += `<div id="prgID_${program["id"]}" style="height:${program["height"]/epgrecHeight*3}px;" class="${classNameStr}">\n`
-                    programStr += `<div class="pr_title">${program["title"]}</div>\n`
-                    programStr += `<div class="pr_starttime">${program["starttime"]}</div>\n`
-                    programStr += `<div class="pr_description">${program["description"]}</div>\n`
-                    programStr += `<div class="pr_start">${program["prg_start"]}</div>\n`
-                    programStr += `<div class="pr_rec">${program["rec"]}</div>\n`
-                    programStr += `<div class="pr_autorec">${program["autorec"]}</div>\n`
-                    programStr += `<div class="pr_keyword">${program["keyword"]}</div>\n`
-                    programStr += `<div class="pr_station_name">${station.station_name}</div>\n`
-                    if(typeof station["list"][i + 1] != "undefined") {
-                        programStr += `<div class="pr_next_time">${station["list"][i + 1]["prg_start"]}</div>\n`
+                    if(program["id"] != 0) {
+                        programStr += `<div class="pr_title">${program["title"]}</div>\n`
+                        programStr += `<div class="pr_starttime">${program["starttime"]}</div>\n`
+                        programStr += `<div class="pr_description">${program["description"]}</div>\n`
+                        programStr += `<div class="pr_start">${program["prg_start"]}</div>\n`
+                        programStr += `<div class="pr_rec">${program["rec"]}</div>\n`
+                        programStr += `<div class="pr_autorec">${program["autorec"]}</div>\n`
+                        programStr += `<div class="pr_keyword">${program["keyword"]}</div>\n`
+                        programStr += `<div class="pr_station_name">${station.station_name}</div>\n`
+                        if(typeof station["list"][i + 1] != "undefined") {
+                            programStr += `<div class="pr_next_time">${station["list"][i + 1]["prg_start"]}</div>\n`
+                        }
+                    } else {
+                        programStr += `<div class="pr_title" style="visibility: hidden;">NULL</div>\n`
                     }
                     programStr += `</div>\n`;
                 }

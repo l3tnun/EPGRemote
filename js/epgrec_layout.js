@@ -35,6 +35,7 @@ function setTvProgramClickDiaalog() {
         }
         document.getElementById('info_description').innerHTML = stationInfo["pr_description"];
         document.getElementById('info_prgID').innerHTML = element.currentTarget.id.split('_')[1];
+        if(stationInfo["pr_title"] == "NULL") { return; }
         $("#lnkDialog").click();
     });
 }
