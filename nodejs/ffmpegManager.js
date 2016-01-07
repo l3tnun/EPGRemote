@@ -25,6 +25,8 @@ function runFFmpeg(streamNumber, videoConfig) {
     var ffmpegChild = spawn('sh', ffmpegCmd);
     log.stream.info(`run ffmpeg command pid : ${ffmpegChild.pid}`);
 
+    ffmpegChild.stderr.on('data', function (data) { log.stream.debug(`ffmpeg: ${data}`); });
+
     return ffmpegChild;
 }
 

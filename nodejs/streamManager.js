@@ -3,6 +3,7 @@ var spawn = require('child_process').spawn;
 var util = require(__dirname + "/util");
 var log = require(__dirname + "/logger").getLogger();
 var ffmpegManager = require(__dirname + "/ffmpegManager");
+var recManager = require(__dirname + "/recManager");
 var tunerManager = require(__dirname + "/tunerManager");
 var exitCallback, errorExitCallback, notifyEnableCallback;
 var streamHashs = {};
@@ -66,20 +67,11 @@ function runCommand(streamNumber, videoConfig, channelName, channel, sid, tunerI
     //delete ts files
     deleteTsFiles(streamNumber, 0);
 
-    var tunerConfig = tunerManager.getTunerComand(tunerId, sid, channel).split(" ");
-    var tunerCmd = tunerConfig.shift();
-
-    //run ffmpeg rec
+    //run cmds
     var ffmpegChild = ffmpegManager.runFFmpeg(streamNumber, videoConfig);
-
-    var recChild = spawn(tunerCmd, tunerConfig);
-    log.stream.info(`run rec command pid : ${recChild.pid}`);
+    var recChild = recManager.runRec(channel, sid, tunerId);
 
     recChild.stdout.pipe(ffmpegChild.stdin);
-
-    //sdterr
-    ffmpegChild.stderr.on('data', function (data) { log.stream.debug(`ffmpeg: ${data}`); });
-    recChild.stderr.on('data', function (data) { log.stream.debug(`rec: ${data}`); });
 
     //終了した時の処置
     ffmpegChild.on("exit", function (code, signal) { childProcessExit("ffmpegChild", streamNumber, recChild, code, signal) } );
