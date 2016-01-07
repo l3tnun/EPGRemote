@@ -40,24 +40,19 @@ function addStreamHash(streamNumber, channelName, channel, sid,  intervalId, ffm
 
 function childProcessExit(name, streamNumber, code, signal) {
     if(!changeChannelHash[streamNumber]) {
-        log.stream.debug(name + "code:" + code + " signal:" + signal);
-        if(code != null) {
-            stopStream(streamNumber, true);
-        } else {
-            stopStream(streamNumber, false);
-        }
+        log.stream.debug(name + ' ' + streamNumber + " code:" + code + " signal:" + signal);
+        stopStream(streamNumber, (code != null));
     } else {
-        log.stream.debug("change " + name + "code:" + code + " signal:" + signal);
+        log.stream.debug("change " + name + ' ' + streamNumber + " code:" + code + " signal:" + signal);
     }
 }
 
 function childProcessPipeError(name, streamNumber, err) {
-    log.stream.debug(name + 'stream error ' + err);
     if(!changeChannelHash[streamNumber]) {
-        log.stream.debug(name + "error err:" + err);
+        log.stream.debug(name + ' ' + streamNumber + ' stream pipe error ' + err);
         stopStream(streamNumber, false);
     } else {
-        log.stream.debug("change " + name + " err:" + err);
+        log.stream.debug("change " + name + ' ' + streamNumber + " err:" + err);
     }
 }
 
