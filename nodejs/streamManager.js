@@ -56,7 +56,7 @@ function childProcessPipeError(name, streamNumber, err) {
     }
 }
 
-function setChildErrprProcessing(child, name, streamNumber) {
+function setChildErrorProcessing(child, name, streamNumber) {
     child.on("exit", function (code, signal) { childProcessExit(name, streamNumber, code, signal) } );
     child.stdin.on('error', function (err) { childProcessPipeError(name, streamNumber, err) } );
 }
@@ -72,8 +72,8 @@ function runCommand(streamNumber, videoConfig, channelName, channel, sid, tunerI
     recChild.stdout.pipe(ffmpegChild.stdin);
 
     //エラー終了時の処理
-    setChildErrprProcessing(ffmpegChild, "ffmpegChild", streamNumber);
-    setChildErrprProcessing(recChild, "recChild", streamNumber);
+    setChildErrorProcessing(ffmpegChild, "ffmpegChild", streamNumber);
+    setChildErrorProcessing(recChild, "recChild", streamNumber);
 
     streamFileManager.startDeleteTsFiles(streamNumber);
     addStreamHash(streamNumber, channelName, channel, sid, ffmpegChild, recChild);
