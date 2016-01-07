@@ -2,6 +2,7 @@ var fs = require('fs');
 var spawn = require('child_process').spawn;
 var util = require(__dirname + "/util");
 var log = require(__dirname + "/logger").getLogger();
+var ffmpegManager = require(__dirname + "/ffmpegManager");
 var tunerManager = require(__dirname + "/tunerManager");
 var exitCallback, errorExitCallback, notifyEnableCallback;
 var streamHashs = {};
@@ -52,31 +53,13 @@ function childProcessExit(name, streamNumber, child, code, signal) {
 
 function childProcessPipeError(name, streamNumber, child, err) {
     log.stream.debug(name + 'stream error ' + err);
-    child.kill('SIGKILL'); //念のため
     if(!changeChannelHash[streamNumber]) {
         log.stream.debug(name + "error err:" + err);
+        child.kill('SIGKILL'); //念のため
         stopStream(streamNumber, false);
     } else {
         log.stream.debug("change " + name + " err:" + err);
     }
-}
-
-function getFfmpegCommand(streamNumber, videoConfig) {
-    var config = util.getConfig();
-    var ffmpegConfig = config["ffmpeg"]["command"];
-    var streamDirPath = config["streamFilePath"];
-    var ffpresetPath = config["ffpresetPath"];
-
-    ffmpegConfig = ffmpegConfig.replace("<audioMode>", videoConfig["audioMode"]);
-    ffmpegConfig = ffmpegConfig.replace(/<streamNum>/g, streamNumber);
-    ffmpegConfig = ffmpegConfig.replace("<ab>", videoConfig["ab"]);
-    ffmpegConfig = ffmpegConfig.replace("<vb>", videoConfig["vb"]);
-    ffmpegConfig = ffmpegConfig.replace("<size>", videoConfig["size"]);
-    ffmpegConfig = ffmpegConfig.replace("<ffpreset>", ffpresetPath);
-    ffmpegConfig = ffmpegConfig.replace(/<streamFilesDir>/g, streamDirPath);
-    var ffmpegCmd = ['-c', ffmpegConfig];
-
-    return ffmpegCmd;
 }
 
 function runCommand(streamNumber, videoConfig, channelName, channel, sid, tunerId) {
@@ -87,9 +70,8 @@ function runCommand(streamNumber, videoConfig, channelName, channel, sid, tunerI
     var tunerCmd = tunerConfig.shift();
 
     //run ffmpeg rec
-    var ffmpegCmd = getFfmpegCommand(streamNumber, videoConfig);
-    var ffmpegChild = spawn('sh', ffmpegCmd);
-    log.stream.info(`run ffmpeg command pid : ${ffmpegChild.pid}`);
+    var ffmpegChild = ffmpegManager.runFFmpeg(streamNumber, videoConfig);
+
     var recChild = spawn(tunerCmd, tunerConfig);
     log.stream.info(`run rec command pid : ${recChild.pid}`);
 
