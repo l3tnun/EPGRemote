@@ -1,5 +1,4 @@
 var fs = require('fs');
-var spawn = require('child_process').spawn;
 var util = require(__dirname + "/util");
 var log = require(__dirname + "/logger").getLogger();
 var ffmpegManager = require(__dirname + "/ffmpegManager");
