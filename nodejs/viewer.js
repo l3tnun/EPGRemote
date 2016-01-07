@@ -166,7 +166,7 @@ function epgrec(response) {
     responseFile(response, htmlfile);
 }
 
-function epgrecProgram(response, length, time, json, type) {
+function epgrecProgram(response, length, time, type) {
     //time
     var hour = Number(time.substr(8, 2));
     var timeStr = ""
@@ -177,13 +177,6 @@ function epgrecProgram(response, length, time, json, type) {
             timeStr += `<div class="time">${hour + i}</div>\n`
         }
     }
-
-    var stationNameStr = ""; //station name
-    json.forEach(function(station) {
-        if(station["list"].length > 1) {
-            stationNameStr += `<a href="javascript:jumpViewTv('${station.sid}', '${station.channel}', '${station.station_name}')" class="station_name" style="color: white;">${station.station_name}</a>`;
-        }
-    });
 
     //title
     var strYear = time.substr(0, 4);
@@ -219,7 +212,6 @@ function epgrecProgram(response, length, time, json, type) {
     htmlfile = htmlfile.replace(/@@@MENUWAVE@@@/g, menueBroadcastWave);
     htmlfile = htmlfile.replace(/@@@TITLE@@@/g, titleStr);
     htmlfile = htmlfile.replace("@@@TIME@@@", timeStr);
-    htmlfile = htmlfile.replace("@@@STATION_NAME@@@", stationNameStr);
     responseFile(response, htmlfile);
 }
 

@@ -100,18 +100,7 @@ function epgrecProgram(response, parsedUrl) {
         time = `${date.getFullYear()}${('0'+date.getMonth()+1).slice(-2)}${('0' + date.getDate()).slice(-2)}${('0' + date.getHours()).slice(-2)}`;
     }
 
-    epgrecManager.getProgram(type, length, time, function(body) {
-        var json;
-        try {
-            json = JSON.parse(body);
-        } catch(e) {
-            log.access.error("get epgrec program error");
-            log.access.error(e);
-            viewer.notFound(response, "epgrec error");
-            return;
-        }
-        viewer.epgrecProgram(response, length, time, json, type);
-    });
+    viewer.epgrecProgram(response, length, time, type);
 }
 
 exports.topPage = topPage;
