@@ -92,8 +92,7 @@ function runCommand(streamNumber, ffmpegCmd, channelName, channel, sid, tunerId)
     var recChild = spawn(tunerCmd, tunerConfig);
     log.stream.info(`run rec command pid : ${recChild.pid}`);
 
-    //rec command の stdout を ffmpeg の stdin へ入力
-    recChild.stdout.on('data',function(data){ ffmpegChild.stdin.write(data); });
+    recChild.stdout.pipe(ffmpegChild.stdin);
 
     //sdterr
     ffmpegChild.stderr.on('data', function (data) { log.stream.debug(`ffmpeg: ${data}`); });
@@ -147,8 +146,13 @@ function stopStream(streamNumber, code) {
     }
 
     clearInterval(streamHashs[streamNumber]["intervalId"]);
-    streamHashs[streamNumber]["ffmpegChild"].kill();
-    streamHashs[streamNumber]["recChild"].kill('SIGKILL');
+    var ffmpegChild = streamHashs[streamNumber]["ffmpegChild"];
+    var recChild = streamHashs[streamNumber]["recChild"];
+    ffmpegChild.stdout.removeAllListeners('data');
+    ffmpegChild.stderr.removeAllListeners('data');
+    recChild.stdout.unpipe();
+    ffmpegChild.kill('SIGKILL');
+    recChild.kill('SIGKILL');
 
     //delete rm -rf dirPath/*
     deleteTsFiles(streamNumber, 0);
