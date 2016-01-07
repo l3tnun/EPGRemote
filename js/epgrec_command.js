@@ -66,11 +66,11 @@ socketio.on("resultEPGRecProgramList", function (data){
         }
         programStr += '</div>'
         $("#tv_program_content").append(programStr);
-        console.log(programStr);
     });
 
     $("#station_name_content").css("width", (stationNameCnt * 140) + "px");
     $("#tv_program_content").css("width", (stationNameCnt * 140) + "px");
+    setTvProgramClickDiaalog();
 });
 
 function rec(id) {
