@@ -1,7 +1,9 @@
 var fs = require('fs');
-var spawn = require('child_process').spawn;
 var util = require(__dirname + "/util");
 var log = require(__dirname + "/logger").getLogger();
+var streamFileManager = require(__dirname + "/streamFileManager");
+var ffmpegManager = require(__dirname + "/ffmpegManager");
+var recManager = require(__dirname + "/recManager");
 var tunerManager = require(__dirname + "/tunerManager");
 var exitCallback, errorExitCallback, notifyEnableCallback;
 var streamHashs = {};
@@ -32,82 +34,49 @@ function getEmptyStreamNumber() {
     }
 }
 
-function addStreamHash(streamNumber, channelName, channel, sid,  intervalId, ffmpegChild, recChild) {
-    streamHashs[streamNumber] =  { "channelName" : channelName, "channel" : channel, "sid" : sid, "intervalId" : intervalId, "ffmpegChild" : ffmpegChild, "recChild" : recChild };
+function addStreamHash(streamNumber, channelName, channel, sid, ffmpegChild, recChild) {
+    streamHashs[streamNumber] =  { "channelName" : channelName, "channel" : channel, "sid" : sid, "ffmpegChild" : ffmpegChild, "recChild" : recChild };
 }
 
-function childProcessExit(name, streamNumber, child, code, signal) {
+function childProcessExit(name, streamNumber, code, signal) {
     if(!changeChannelHash[streamNumber]) {
-        log.stream.debug(name + "code:" + code + " signal:" + signal);
-        child.kill('SIGKILL'); //念のため
-        if(code != null) {
-            stopStream(streamNumber, true);
-        } else {
-            stopStream(streamNumber, false);
-        }
+        log.stream.debug(name + ' ' + streamNumber + " code:" + code + " signal:" + signal);
+        stopStream(streamNumber, (code != null));
     } else {
-        log.stream.debug("change " + name + "code:" + code + " signal:" + signal);
+        log.stream.debug("change " + name + ' ' + streamNumber + " code:" + code + " signal:" + signal);
     }
 }
 
-function childProcessPipeError(name, streamNumber, child, err) {
-    log.stream.debug(name + 'stream error ' + err);
-    child.kill('SIGKILL'); //念のため
+function childProcessPipeError(name, streamNumber, err) {
     if(!changeChannelHash[streamNumber]) {
-        log.stream.debug(name + "error err:" + err);
+        log.stream.debug(name + ' ' + streamNumber + ' stream pipe error ' + err);
         stopStream(streamNumber, false);
     } else {
-        log.stream.debug("change " + name + " err:" + err);
+        log.stream.debug("change " + name + ' ' + streamNumber + " err:" + err);
     }
 }
 
-function getFfmpegCommand(streamNumber, videoConfig) {
-    var config = util.getConfig();
-    var ffmpegConfig = config["ffmpeg"]["command"];
-    var streamDirPath = config["streamFilePath"];
-    var ffpresetPath = config["ffpresetPath"];
-
-    ffmpegConfig = ffmpegConfig.replace("<audioMode>", videoConfig["audioMode"]);
-    ffmpegConfig = ffmpegConfig.replace(/<streamNum>/g, streamNumber);
-    ffmpegConfig = ffmpegConfig.replace("<ab>", videoConfig["ab"]);
-    ffmpegConfig = ffmpegConfig.replace("<vb>", videoConfig["vb"]);
-    ffmpegConfig = ffmpegConfig.replace("<size>", videoConfig["size"]);
-    ffmpegConfig = ffmpegConfig.replace("<ffpreset>", ffpresetPath);
-    ffmpegConfig = ffmpegConfig.replace(/<streamFilesDir>/g, streamDirPath);
-    var ffmpegCmd = ['-c', ffmpegConfig];
-
-    return ffmpegCmd;
+function setChildErrorProcessing(child, name, streamNumber) {
+    child.on("exit", function (code, signal) { childProcessExit(name, streamNumber, code, signal) } );
+    child.stdin.on('error', function (err) { childProcessPipeError(name, streamNumber, err) } );
 }
 
-function runCommand(streamNumber, ffmpegCmd, channelName, channel, sid, tunerId) {
+function runCommand(streamNumber, videoConfig, channelName, channel, sid, tunerId) {
     //delete ts files
-    deleteTsFiles(streamNumber, 0);
+    streamFileManager.deleteAllFiles(streamNumber);
 
-    var tunerConfig = tunerManager.getTunerComand(tunerId, sid, channel).split(" ");
-    var tunerCmd = tunerConfig.shift();
-
-    //run ffmpeg rec
-    var ffmpegChild = spawn('sh', ffmpegCmd);
-    log.stream.info(`run ffmpeg command pid : ${ffmpegChild.pid}`);
-    var recChild = spawn(tunerCmd, tunerConfig);
-    log.stream.info(`run rec command pid : ${recChild.pid}`);
+    //run cmds
+    var ffmpegChild = ffmpegManager.runFFmpeg(streamNumber, videoConfig);
+    var recChild = recManager.runRec(channel, sid, tunerId);
 
     recChild.stdout.pipe(ffmpegChild.stdin);
 
-    //sdterr
-    ffmpegChild.stderr.on('data', function (data) { log.stream.debug(`ffmpeg: ${data}`); });
-    recChild.stderr.on('data', function (data) { log.stream.debug(`rec: ${data}`); });
+    //エラー終了時の処理
+    setChildErrorProcessing(ffmpegChild, "ffmpegChild", streamNumber);
+    setChildErrorProcessing(recChild, "recChild", streamNumber);
 
-    //終了した時の処置
-    ffmpegChild.on("exit", function (code, signal) { childProcessExit("ffmpegChild", streamNumber, recChild, code, signal) } );
-    recChild.on("exit", function (code, signal) { childProcessExit("recChild", streamNumber, ffmpegChild, code, signal) } );
-
-    //pipe エラーで終了した時
-    ffmpegChild.stdin.on('error', function (err) { childProcessPipeError("ffmpegChild", streamNumber, recChild, err) } );
-    recChild.stdin.on('error', function (err) { childProcessPipeError("recChild", streamNumber, ffmpegChild, err) } );
-
-    var intervalId = setInterval(function() { deleteTsFiles(streamNumber, 20); }, 10000);
-    addStreamHash(streamNumber, channelName, channel, sid, intervalId, ffmpegChild, recChild);
+    streamFileManager.startDeleteTsFiles(streamNumber);
+    addStreamHash(streamNumber, channelName, channel, sid, ffmpegChild, recChild);
 }
 
 function startStream(streamNumber, channelName, videoConfig, channel, sid, tunerId) {
@@ -118,9 +87,7 @@ function startStream(streamNumber, channelName, videoConfig, channel, sid, tuner
         return;
     }
 
-    var ffmpegCmd = getFfmpegCommand(streamNumber, videoConfig);
-
-    runCommand(streamNumber, ffmpegCmd, channelName, channel, sid, tunerId)
+    runCommand(streamNumber, videoConfig, channelName, channel, sid, tunerId)
 }
 
 function changeStream(streamNumber, channelName, videoConfig, channel, sid, tunerId) {
@@ -130,11 +97,7 @@ function changeStream(streamNumber, channelName, videoConfig, channel, sid, tune
 
     //完全に前のffmpegのファイルが削除できるまで待つ
     setTimeout(function(){
-        var ffmpegCmd = getFfmpegCommand(streamNumber, videoConfig);
-
-        runCommand(streamNumber, ffmpegCmd, channelName, channel, sid, tunerId);
-
-
+        runCommand(streamNumber, videoConfig, channelName, channel, sid, tunerId);
         changeChannelHash[streamNumber] = false;
     },500);
 }
@@ -145,7 +108,7 @@ function stopStream(streamNumber, code) {
       return;
     }
 
-    clearInterval(streamHashs[streamNumber]["intervalId"]);
+    streamFileManager.stopDelteTsFiles(streamNumber);
     var ffmpegChild = streamHashs[streamNumber]["ffmpegChild"];
     var recChild = streamHashs[streamNumber]["recChild"];
     ffmpegChild.stdout.removeAllListeners('data');
@@ -155,7 +118,7 @@ function stopStream(streamNumber, code) {
     recChild.kill('SIGKILL');
 
     //delete rm -rf dirPath/*
-    deleteTsFiles(streamNumber, 0);
+    streamFileManager.deleteAllFiles(streamNumber);
 
     if(changeChannelHash[streamNumber] == false) {
         delete streamHashs[streamNumber];
@@ -168,35 +131,6 @@ function stopStream(streamNumber, code) {
             exitCallback(streamNumber);
         }
     }
-}
-
-function deleteTsFiles(streamNumber, fileNum) {
-    var config = util.getConfig();
-    var dirPath = config["streamFilePath"];
-    files = fs.readdirSync(dirPath);
-
-    var tsFileList = [];
-    files.forEach(function(file) {
-        if(fileNum == 0 && file.match(".m3u8") && file.match(`stream${streamNumber}`)) {
-            tsFileList.push(file);
-        }
-        if(file.match(".ts") && file.match(`stream${streamNumber}`)) {
-            tsFileList.push(file);
-        }
-    });
-
-    //一応ソート
-    tsFileList = tsFileList.sort();
-
-    for(var i = 0; i < tsFileList.length - fileNum; i++) {
-        if(typeof tsFileList[i] != "undefined") {
-            fs.unlink(`${dirPath}/${tsFileList[i]}`, function (err) {
-                //log.stream.error(`unlink error ${tsFileList[i]}`);
-                //log.stream.error(err);
-            });
-            log.stream.info(`deleted ${tsFileList[i]}`);
-        }
-    };
 }
 
 //HLS配信の準備が整ったらcallbackが実行される
