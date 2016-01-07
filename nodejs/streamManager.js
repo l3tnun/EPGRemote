@@ -1,6 +1,7 @@
 var fs = require('fs');
 var util = require(__dirname + "/util");
 var log = require(__dirname + "/logger").getLogger();
+var streamFileManager = require(__dirname + "/streamFileManager");
 var ffmpegManager = require(__dirname + "/ffmpegManager");
 var recManager = require(__dirname + "/recManager");
 var tunerManager = require(__dirname + "/tunerManager");
@@ -64,7 +65,7 @@ function childProcessPipeError(name, streamNumber, child, err) {
 
 function runCommand(streamNumber, videoConfig, channelName, channel, sid, tunerId) {
     //delete ts files
-    deleteTsFiles(streamNumber, 0);
+    streamFileManager.deleteFile(streamNumber, 0);
 
     //run cmds
     var ffmpegChild = ffmpegManager.runFFmpeg(streamNumber, videoConfig);
@@ -80,7 +81,7 @@ function runCommand(streamNumber, videoConfig, channelName, channel, sid, tunerI
     ffmpegChild.stdin.on('error', function (err) { childProcessPipeError("ffmpegChild", streamNumber, recChild, err) } );
     recChild.stdin.on('error', function (err) { childProcessPipeError("recChild", streamNumber, ffmpegChild, err) } );
 
-    var intervalId = setInterval(function() { deleteTsFiles(streamNumber, 20); }, 10000);
+    var intervalId = setInterval(function() { streamFileManager.deleteFile(streamNumber, 20); }, 10000);
     addStreamHash(streamNumber, channelName, channel, sid, intervalId, ffmpegChild, recChild);
 }
 
@@ -125,7 +126,7 @@ function stopStream(streamNumber, code) {
     recChild.kill('SIGKILL');
 
     //delete rm -rf dirPath/*
-    deleteTsFiles(streamNumber, 0);
+    streamFileManager.deleteFile(streamNumber, 0);
 
     if(changeChannelHash[streamNumber] == false) {
         delete streamHashs[streamNumber];
@@ -138,35 +139,6 @@ function stopStream(streamNumber, code) {
             exitCallback(streamNumber);
         }
     }
-}
-
-function deleteTsFiles(streamNumber, fileNum) {
-    var config = util.getConfig();
-    var dirPath = config["streamFilePath"];
-    files = fs.readdirSync(dirPath);
-
-    var tsFileList = [];
-    files.forEach(function(file) {
-        if(fileNum == 0 && file.match(".m3u8") && file.match(`stream${streamNumber}`)) {
-            tsFileList.push(file);
-        }
-        if(file.match(".ts") && file.match(`stream${streamNumber}`)) {
-            tsFileList.push(file);
-        }
-    });
-
-    //一応ソート
-    tsFileList = tsFileList.sort();
-
-    for(var i = 0; i < tsFileList.length - fileNum; i++) {
-        if(typeof tsFileList[i] != "undefined") {
-            fs.unlink(`${dirPath}/${tsFileList[i]}`, function (err) {
-                //log.stream.error(`unlink error ${tsFileList[i]}`);
-                //log.stream.error(err);
-            });
-            log.stream.info(`deleted ${tsFileList[i]}`);
-        }
-    };
 }
 
 //HLS配信の準備が整ったらcallbackが実行される
