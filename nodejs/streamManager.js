@@ -98,8 +98,6 @@ function changeStream(streamNumber, channelName, videoConfig, channel, sid, tune
     //完全に前のffmpegのファイルが削除できるまで待つ
     setTimeout(function(){
         runCommand(streamNumber, videoConfig, channelName, channel, sid, tunerId);
-
-
         changeChannelHash[streamNumber] = false;
     },500);
 }
