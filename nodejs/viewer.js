@@ -178,50 +178,12 @@ function epgrecProgram(response, length, time, json, type) {
         }
     }
 
-    var stationNameCnt = 0;
     var stationNameStr = ""; //station name
-    var programStr = ""; //tv program
     json.forEach(function(station) {
         if(station["list"].length > 1) {
-            stationNameCnt += 1;
             stationNameStr += `<a href="javascript:jumpViewTv('${station.sid}', '${station.channel}', '${station.station_name}')" class="station_name" style="color: white;">${station.station_name}</a>`;
-            programStr += '<div class="station">';
-            for(var i = 0; i < station["list"].length; i++) {
-                var program = station["list"][i];
-                var title = program["title"];
-                if(typeof title != "undefined") {
-                    var classNameStr = `tv_program ctg_${program["genre"]} `
-                    if(program["rec"] == 1) {
-                        classNameStr += "tv_program_reced ";
-                    }
-                    if(program["autorec"] == 0) {
-                        classNameStr += "tv_program_freeze ";
-                    }
-
-                    var epgrecHeight = util.getConfig()["epgrecConfig"]["hourheight"] / 60;
-                    if(typeof program["prg_start"] != "undefined") {
-                        programStr += `<div id="prgID_${program["id"]}" style="height:${program["height"]/epgrecHeight*3}px;" class="${classNameStr}">\n`
-                        programStr += `<div class="pr_title">${program["title"]}</div>\n`
-                        programStr += `<div class="pr_starttime">${program["starttime"]}</div>\n`
-                        programStr += `<div class="pr_description">${program["description"]}</div>\n`
-                        programStr += `<div class="pr_start">${program["prg_start"]}</div>\n`
-                        programStr += `<div class="pr_rec">${program["rec"]}</div>\n`
-                        programStr += `<div class="pr_autorec">${program["autorec"]}</div>\n`
-                        programStr += `<div class="pr_keyword">${program["keyword"]}</div>\n`
-                        programStr += `<div class="pr_station_name">${station.station_name}</div>\n`
-                        if(typeof station["list"][i + 1] != "undefined") {
-                            programStr += `<div class="pr_next_time">${station["list"][i + 1]["prg_start"]}</div>\n`
-                        }
-                        programStr += `</div>\n`;
-                    }
-                }
-            }
-            programStr += '</div>';
         }
     });
-
-    //width
-    var width = (stationNameCnt * 140) + "px";
 
     //title
     var strYear = time.substr(0, 4);
@@ -258,8 +220,6 @@ function epgrecProgram(response, length, time, json, type) {
     htmlfile = htmlfile.replace(/@@@TITLE@@@/g, titleStr);
     htmlfile = htmlfile.replace("@@@TIME@@@", timeStr);
     htmlfile = htmlfile.replace("@@@STATION_NAME@@@", stationNameStr);
-    htmlfile = htmlfile.replace(/@@@ROGRAMWIDTH@@@/g, width);
-    htmlfile = htmlfile.replace(/@@@TVPROGRAM@@@/g, programStr);
     responseFile(response, htmlfile);
 }
 

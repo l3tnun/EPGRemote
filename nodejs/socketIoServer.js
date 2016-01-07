@@ -98,6 +98,23 @@ function start(server) {
         });
 
         /*EPGRec 通信部分*/
+        //EPGRec から番組表を取得
+        socket.on("getEPGRecProgramList", function (socketid, type, length, time) {
+            log.access.debug(`getEPGRecProgramList ${socketid} ${type} ${length} ${time}`);
+            epgrecManager.getProgram(type, length, time, function(body) {
+                var json;
+                try {
+                    json = JSON.parse(body);
+                } catch(e) {
+                    console.log('getEPGRecProgramList json error');
+                    console.log(e);
+                    return;
+                }
+
+                io.sockets.emit("resultEPGRecProgramList", {"socketid" : socketid, "json" : json , "hourheight" : util.getConfig()["epgrecConfig"]["hourheight"]});
+            });
+        });
+
         socket.on("getRec", function (id) {
             epgrecManager.getRecResult(id, function(result) {
                                                 io.sockets.emit("recResult", {value : result});
