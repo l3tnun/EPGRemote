@@ -1,3 +1,78 @@
+//番組情報取得関係
+var socketid = `${new Date().getTime()}:${Math.random().toString(36).slice(-8)}`;
+
+$(function(){
+    var url = window.location.search;
+
+    query = {};
+    array  = url.slice(1).split('&');
+    for (var i = 0; i < array.length; i++) {
+        vars = array[i].split('=');
+        query[vars[0]] = vars[1];
+    }
+
+    var type = query.type;
+    var length = query.length;
+    var time = query.time;
+
+    if(typeof type == "undefined") { type = "GR"; }
+    if(typeof length == "undefined") { length = 18; }
+    if(typeof time == "undefined" || !(time.length >= 9  && time.length <= 10)) {
+        var date = new Date();
+        time = `${date.getFullYear()}${('0'+date.getMonth()+1).slice(-2)}${('0' + date.getDate()).slice(-2)}${('0'+ date.getHours()).slice(-2)}`;
+    }
+
+    socketio.emit("getEPGRecProgramList", socketid, type, length, time);
+});
+
+socketio.on("resultEPGRecProgramList", function (data){
+    var stationNameCnt = 0;
+
+    if(data.socketid != socketid) { return; }
+    data.json.forEach(function(station) {
+        if(!(station["list"].length > 1)) { return; }
+        var stationNameStr = `<a href="javascript:jumpViewTv('${station.sid}', '${station.channel}', '${station.station_name}')" class="station_name" style="color: white;">${station.station_name}</a>`;
+        stationNameCnt += 1;
+        $("#station_name_content").append(stationNameStr);
+
+        var programStr = "";
+        var epgrecHeight = data.hourheight / 60;
+
+        programStr += '<div class="station">'
+        for(var i = 0; i < station["list"].length; i++) {
+            var program = station["list"][i];
+            var title = program["title"];
+            if(typeof title != "undefined") {
+                var classNameStr = `tv_program ctg_${program["genre"]} `
+                if(program["rec"] == 1) { classNameStr += "tv_program_reced "; }
+                if(program["autorec"] == 0) { classNameStr += "tv_program_freeze "; }
+
+                if(typeof program["prg_start"] != "undefined") {
+                    programStr += `<div id="prgID_${program["id"]}" style="height:${program["height"]/epgrecHeight*3}px;" class="${classNameStr}">\n`
+                    programStr += `<div class="pr_title">${program["title"]}</div>\n`
+                    programStr += `<div class="pr_starttime">${program["starttime"]}</div>\n`
+                    programStr += `<div class="pr_description">${program["description"]}</div>\n`
+                    programStr += `<div class="pr_start">${program["prg_start"]}</div>\n`
+                    programStr += `<div class="pr_rec">${program["rec"]}</div>\n`
+                    programStr += `<div class="pr_autorec">${program["autorec"]}</div>\n`
+                    programStr += `<div class="pr_keyword">${program["keyword"]}</div>\n`
+                    programStr += `<div class="pr_station_name">${station.station_name}</div>\n`
+                    if(typeof station["list"][i + 1] != "undefined") {
+                        programStr += `<div class="pr_next_time">${station["list"][i + 1]["prg_start"]}</div>\n`
+                    }
+                    programStr += `</div>\n`;
+                }
+            }
+        }
+        programStr += '</div>'
+        $("#tv_program_content").append(programStr);
+    });
+
+    $("#station_name_content").css("width", (stationNameCnt * 140) + "px");
+    $("#tv_program_content").css("width", (stationNameCnt * 140) + "px");
+    setTvProgramClickDiaalog();
+});
+
 function rec(id) {
     socketio.emit("getRec", id);
     socketio.on("recResult", function (data){

@@ -1,5 +1,5 @@
 //テレビ表クリック時のダイアログ表示
-$(function(){
+function setTvProgramClickDiaalog() {
     $(".tv_program").click(function(element) {
         var pr_info = $('#' + element.currentTarget.id).contents("div");
         var stationInfo = {}
@@ -37,7 +37,7 @@ $(function(){
         document.getElementById('info_prgID').innerHTML = element.currentTarget.id.split('_')[1];
         $("#lnkDialog").click();
     });
-});
+}
 
 //スマホの時の表示倍率設定
 if(screen.width < 600) {
