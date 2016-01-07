@@ -79,7 +79,7 @@ function getFfmpegCommand(streamNumber, videoConfig) {
     return ffmpegCmd;
 }
 
-function runCommand(streamNumber, ffmpegCmd, channelName, channel, sid, tunerId) {
+function runCommand(streamNumber, videoConfig, channelName, channel, sid, tunerId) {
     //delete ts files
     deleteTsFiles(streamNumber, 0);
 
@@ -87,6 +87,7 @@ function runCommand(streamNumber, ffmpegCmd, channelName, channel, sid, tunerId)
     var tunerCmd = tunerConfig.shift();
 
     //run ffmpeg rec
+    var ffmpegCmd = getFfmpegCommand(streamNumber, videoConfig);
     var ffmpegChild = spawn('sh', ffmpegCmd);
     log.stream.info(`run ffmpeg command pid : ${ffmpegChild.pid}`);
     var recChild = spawn(tunerCmd, tunerConfig);
@@ -118,9 +119,7 @@ function startStream(streamNumber, channelName, videoConfig, channel, sid, tuner
         return;
     }
 
-    var ffmpegCmd = getFfmpegCommand(streamNumber, videoConfig);
-
-    runCommand(streamNumber, ffmpegCmd, channelName, channel, sid, tunerId)
+    runCommand(streamNumber, videoConfig, channelName, channel, sid, tunerId)
 }
 
 function changeStream(streamNumber, channelName, videoConfig, channel, sid, tunerId) {
@@ -130,9 +129,7 @@ function changeStream(streamNumber, channelName, videoConfig, channel, sid, tune
 
     //完全に前のffmpegのファイルが削除できるまで待つ
     setTimeout(function(){
-        var ffmpegCmd = getFfmpegCommand(streamNumber, videoConfig);
-
-        runCommand(streamNumber, ffmpegCmd, channelName, channel, sid, tunerId);
+        runCommand(streamNumber, videoConfig, channelName, channel, sid, tunerId);
 
 
         changeChannelHash[streamNumber] = false;
