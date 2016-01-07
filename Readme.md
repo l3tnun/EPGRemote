@@ -162,6 +162,7 @@ json ファイルは JSON.parse() でパースしているため、きちんと�
 
 ## 更新履歴
 * version 0.1 初版
+* version 0.1.1 EPGRec番組表の軽量化 
 
 ## Licence
 
