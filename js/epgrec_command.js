@@ -26,14 +26,14 @@ $(function(){
 });
 
 socketio.on("resultEPGRecProgramList", function (data){
-    var stationNameStr = ""; //station name
     var stationNameCnt = 0;
 
     if(data.socketid != socketid) { return; }
     data.json.forEach(function(station) {
         if(!(station["list"].length > 1)) { return; }
-        stationNameStr += `<a href="javascript:jumpViewTv('${station.sid}', '${station.channel}', '${station.station_name}')" class="station_name" style="color: white;">${station.station_name}</a>`;
+        var stationNameStr = `<a href="javascript:jumpViewTv('${station.sid}', '${station.channel}', '${station.station_name}')" class="station_name" style="color: white;">${station.station_name}</a>`;
         stationNameCnt += 1;
+        $("#station_name_content").append(stationNameStr);
 
         var programStr = "";
         var epgrecHeight = data.hourheight / 60;
@@ -69,7 +69,6 @@ socketio.on("resultEPGRecProgramList", function (data){
         console.log(programStr);
     });
 
-    $("#station_name_content").append(stationNameStr);
     $("#station_name_content").css("width", (stationNameCnt * 140) + "px");
     $("#tv_program_content").css("width", (stationNameCnt * 140) + "px");
 });
