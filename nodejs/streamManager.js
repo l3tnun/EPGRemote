@@ -38,10 +38,9 @@ function addStreamHash(streamNumber, channelName, channel, sid,  intervalId, ffm
     streamHashs[streamNumber] =  { "channelName" : channelName, "channel" : channel, "sid" : sid, "intervalId" : intervalId, "ffmpegChild" : ffmpegChild, "recChild" : recChild };
 }
 
-function childProcessExit(name, streamNumber, child, code, signal) {
+function childProcessExit(name, streamNumber, code, signal) {
     if(!changeChannelHash[streamNumber]) {
         log.stream.debug(name + "code:" + code + " signal:" + signal);
-        child.kill('SIGKILL'); //念のため
         if(code != null) {
             stopStream(streamNumber, true);
         } else {
@@ -52,15 +51,19 @@ function childProcessExit(name, streamNumber, child, code, signal) {
     }
 }
 
-function childProcessPipeError(name, streamNumber, child, err) {
+function childProcessPipeError(name, streamNumber, err) {
     log.stream.debug(name + 'stream error ' + err);
     if(!changeChannelHash[streamNumber]) {
         log.stream.debug(name + "error err:" + err);
-        child.kill('SIGKILL'); //念のため
         stopStream(streamNumber, false);
     } else {
         log.stream.debug("change " + name + " err:" + err);
     }
+}
+
+function setChildErrprProcessing(child, name, streamNumber) {
+    child.on("exit", function (code, signal) { childProcessExit(name, streamNumber, code, signal) } );
+    child.stdin.on('error', function (err) { childProcessPipeError(name, streamNumber, err) } );
 }
 
 function runCommand(streamNumber, videoConfig, channelName, channel, sid, tunerId) {
@@ -73,13 +76,9 @@ function runCommand(streamNumber, videoConfig, channelName, channel, sid, tunerI
 
     recChild.stdout.pipe(ffmpegChild.stdin);
 
-    //終了した時の処置
-    ffmpegChild.on("exit", function (code, signal) { childProcessExit("ffmpegChild", streamNumber, recChild, code, signal) } );
-    recChild.on("exit", function (code, signal) { childProcessExit("recChild", streamNumber, ffmpegChild, code, signal) } );
-
-    //pipe エラーで終了した時
-    ffmpegChild.stdin.on('error', function (err) { childProcessPipeError("ffmpegChild", streamNumber, recChild, err) } );
-    recChild.stdin.on('error', function (err) { childProcessPipeError("recChild", streamNumber, ffmpegChild, err) } );
+    //エラー終了時の処理
+    setChildErrprProcessing(ffmpegChild, "ffmpegChild", streamNumber);
+    setChildErrprProcessing(recChild, "recChild", streamNumber);
 
     var intervalId = setInterval(function() { streamFileManager.deleteFile(streamNumber, 20); }, 10000);
     addStreamHash(streamNumber, channelName, channel, sid, intervalId, ffmpegChild, recChild);
