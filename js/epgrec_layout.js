@@ -57,8 +57,11 @@ function moveTableNowBas() {
         $('#tableNowBas').css('top', basPosition + 'px');
     }
 }
+
 function timerNowBars() {
-    window.setTimeout( "moveTableNowBas()", 60000 - new Date().getSeconds() * 1000 );
+    var timerNum = 60000 - new Date().getSeconds() * 1000;
+    window.setTimeout( "moveTableNowBas()", timerNum);
+    window.setTimeout( "timerNowBars()", timerNum);
 }
 
 //局名と時刻と時刻線のスクロール
@@ -120,8 +123,6 @@ $(document).ready(function () {
         var hour = queryTime.substr(8, 2);
         oldDate = new Date(year, month - 1, date, hour, 0);
     }
-    moveTableNowBas();
-    timerNowBars();
 });
 $(window).resize(function () {
     var headerSize = $("#header").height();

@@ -75,6 +75,9 @@ socketio.on("resultEPGRecProgramList", function (data){
     $("#station_name_content").css("width", (stationNameCnt * 140) + "px");
     $("#tv_program_content").css("width", (stationNameCnt * 140) + "px");
     setTvProgramClickDiaalog();
+
+    moveTableNowBas();
+    timerNowBars();
 });
 
 function rec(id) {
