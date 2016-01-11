@@ -80,7 +80,7 @@ function tvProgram(response, results, GR, BS, CS, EX) {
                 programStr += `<h3>${result["name"]}</h3>`
                 programStr += `<p>${formatDate(result["starttime"])} ~ ${formatDate(result["endtime"])}</p>`
                 programStr += `<p>${result["title"]}</p>`
-                programStr += `<p class="wordbreak" id="description">${result["description"]}</p>`
+                programStr += `<p class="wordbreak">${result["description"]}</p>`
                 programStr += `</a></li>\n`;
             }
         });

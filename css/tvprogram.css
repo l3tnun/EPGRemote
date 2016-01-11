@@ -1,4 +1,4 @@
-.wordbreak#description{
+.ui-listview .wordbreak {
     overflow: visible;
     white-space: normal;
 }

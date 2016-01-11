@@ -190,7 +190,7 @@ function resultTvProgramList(data) {
                 programStr += `<h3>${result["name"]}</h3>`
                 programStr += `<p>${getFormatedDate(result["starttime"])} ~ ${getFormatedDate(result["endtime"])}</p>`
                 programStr += `<p>${result["title"]}</p>`
-                programStr += `<p class="wordbreak" id="description">${result["description"]}</p>`
+                programStr += `<p class="wordbreak">${result["description"]}</p>`
                 programStr += `</a></li>\n`;
 
                 var subDate = new Date(result["endtime"]).getTime() - nowDate;
