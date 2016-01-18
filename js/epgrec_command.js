@@ -48,6 +48,11 @@ socketio.on("resultEPGRecProgramList", function (data){
                 if(program["autorec"] == 0) { classNameStr += "tv_program_freeze "; }
 
                 if(typeof program["prg_start"] != "undefined") {
+                    if(i == 0) {
+                        programStr += `<div style="height:0px;">\n`
+                        programStr += `<div class="" style="visibility: hidden;">dummy</div>\n`
+                        programStr += `</div>\n`;
+                    }
                     programStr += `<div id="prgID_${program["id"]}" style="height:${program["height"]/epgrecHeight*3}px;" class="${classNameStr}">\n`
                     if(program["id"] != 0) {
                         programStr += `<div class="pr_title">${program["title"]}</div>\n`
