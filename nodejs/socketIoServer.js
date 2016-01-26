@@ -1,3 +1,4 @@
+var path = require('path');
 var socketio = require('socket.io');
 var util = require(__dirname + "/util");
 var streamManager = require(__dirname + '/streamManager');
@@ -106,8 +107,8 @@ function start(server) {
                 try {
                     json = JSON.parse(body);
                 } catch(e) {
-                    console.log('getEPGRecProgramList json error');
-                    console.log(e);
+                    log.access.error('getEPGRecProgramList json error');
+                    log.access.error.log(e);
                     return;
                 }
 

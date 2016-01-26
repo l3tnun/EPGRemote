@@ -49,7 +49,7 @@ function getNowEpgData(callback, hash) {
 
 function getRecordedList(callback) {
     var jsonConfig = util.getConfig();
-    var sql = `select * from ${jsonConfig["EpgrecRecordName"]}channelTbl;select * from ${jsonConfig["EpgrecRecordName"]}reserveTbl where complete = 1 order by starttime desc;`;
+    var sql = `select * from ${jsonConfig["EpgrecRecordName"]}channelTbl; select * from ${jsonConfig["EpgrecRecordName"]}transcodeTbl; select * from ${jsonConfig["EpgrecRecordName"]}reserveTbl where complete = 1 order by starttime desc;`;
     var connection = createSqlConnection();
 
     connection.query(sql, function(err, results) {

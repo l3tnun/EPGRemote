@@ -133,7 +133,7 @@ function responseSpecifiedFile(response, parsedUrl, fileTypeHash) {
                     internalServerError(response);
                 } else if (contents) {
                     response.writeHead(200, {'Content-Type': fileTypeHash[path.extname(uri)]});
-                    if(path.extname(uri) == ".ts") {
+                    if(path.extname(uri) == ".ts" || path.extname(uri) == ".mp4") {
                         log.stream.info('sending file: ' + filename);
                         var stream = fs.createReadStream(filename, { bufferSize: 64 * 1024 });
                         stream.pipe(response);
@@ -230,7 +230,7 @@ function getAddDate(year, month, date, num) {
 function epgrecRecorded(response, programs) {
     var programStr = ""
     programs.forEach(function(program){
-        programStr += `<li><a href="#" target="_self">`
+        programStr += `<li><a href="${program.videLink}" target="_self">`
         programStr += `<img src="${program.thumbs}">`
         programStr += `<h3>${program.title}</h3>`
         programStr += `<p>${program.info}</p>`

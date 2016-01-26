@@ -4,7 +4,8 @@
     "epgrecConfig" : {
         "host" : "192.168.xx.xx:xxxx",
         "index.php" : "index2.php",
-        "hourheight" : 180
+        "hourheight" : 180,
+        "videoPath" : "/var/www/epgrec/video"
     },
 
     "video" : [

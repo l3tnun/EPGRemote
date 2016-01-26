@@ -30,7 +30,7 @@ function tvProgram(response, parsedUrl) {
     sqlModel.getNowEpgData(callback);
 }
 
-function viewTv(response, parsedUrl, postData) {
+function viewTv(response, parsedUrl, request, postData) {
     log.access.info("Request handler 'viewTv' was called.");
     var parsedPostQuery = url.parse("?" + postData, true).query;
     var configJson = util.getConfig();
@@ -104,8 +104,10 @@ function epgrecProgram(response, parsedUrl) {
     viewer.epgrecProgram(response, length, time, type);
 }
 
-function epgrecRecorded(response, parsedUrl) {
+function epgrecRecorded(response, parsedUrl, request) {
     log.access.info("Request handler 'epgrec recorded' was called.");
+
+    var ua = JSON.stringify(request.headers['user-agent']).toLocaleLowerCase();
     sqlModel.getRecordedList( function(results) {
         if(results == '') { notFound(response); return; }
 
@@ -114,10 +116,25 @@ function epgrecRecorded(response, parsedUrl) {
             channelName[result.id] = result.name
         });
 
-        var programs = []
+        var config = util.getConfig()["epgrecConfig"]
+        var videoPaths = {}
         results[1].forEach(function(result) {
+            var videoPath = result.path.toString('UTF-8').replace(config.videoPath, "");
+            videoPaths[result.rec_id] = {"status" : result.status, "path" : `${path.join(config.host, "video", videoPath)}`};
+        });
+
+        var programs = []
+        results[2].forEach(function(result) {
             program = {}
+            program.id = result.id
             program.thumbs = `http://${util.getConfig().epgrecConfig.host}/thumbs/${path.basename(result.path.toString('UTF-8'))}.jpg`
+            if(typeof videoPaths[result.id] == "undefined") {
+                program.videLink = "#"
+            } else if(ua.indexOf('ipad') != -1 || ua.indexOf('ipod') != -1 || ua.indexOf('iphone') != -1) {
+                program.videLink = `vlc://${videoPaths[result.id].path}`
+            } else {
+                program.videLink = `http://${videoPaths[result.id].path}`
+            }
             program.title = result.title
             program.info = `${getDateStr(result.starttime)} ${channelName[result.channel_id]}`
             program.description = result.description

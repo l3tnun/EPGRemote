@@ -18,14 +18,13 @@ var fileTypeHash = {
     ".js"   : "text/javascript",
     ".ts"   : "application/vnd.apple.mpegurl",
     ".m3u8" : "video/MP2T",
-    ".gif"  : "image/gif",
-    ".mp4"  : "video/mp4"
+    ".gif"  : "image/gif"
 }
 
-function route(parsedUrl, response, postData) {
+function route(parsedUrl, response, request, postData) {
     log.access.info("About to route a request for " + parsedUrl.pathname);
     if(typeof handle[parsedUrl.pathname] == 'function') {
-        return handle[parsedUrl.pathname](response, parsedUrl, postData);
+        return handle[parsedUrl.pathname](response, parsedUrl, request, postData);
     } else if (path.extname(parsedUrl.pathname) in fileTypeHash) {
         return requestHandlers.responseSpecifiedFile(response, parsedUrl, fileTypeHash);
     } else {
