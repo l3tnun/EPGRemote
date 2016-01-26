@@ -1,4 +1,5 @@
 var url = require("url");
+var path = require('path');
 var fs = require('fs');
 var util = require(__dirname + "/util");
 var viewer = require(__dirname + "/viewer");
@@ -103,6 +104,34 @@ function epgrecProgram(response, parsedUrl) {
     viewer.epgrecProgram(response, length, time, type);
 }
 
+function epgrecRecorded(response, parsedUrl) {
+    log.access.info("Request handler 'epgrec recorded' was called.");
+    sqlModel.getRecordedList( function(results) {
+        if(results == '') { notFound(response); return; }
+
+        var channelName = {}
+        results[0].forEach(function(result) {
+            channelName[result.id] = result.name
+        });
+
+        var programs = []
+        results[1].forEach(function(result) {
+            program = {}
+            program.thumbs = `http://${util.getConfig().epgrecConfig.host}/thumbs/${path.basename(result.path.toString('UTF-8'))}.jpg`
+            program.title = result.title
+            program.info = `${getDateStr(result.starttime)} ${channelName[result.channel_id]}`
+            program.description = result.description
+            programs.push(program)
+        });
+        viewer.epgrecRecorded(response, programs);
+    });
+}
+
+function getDateStr(d) {
+    var days = ['日', '月', '火', '水', '木', '金', '土'];
+    return `${("0" + (d.getMonth() + 1)).slice(-2)}/${("0" + d.getDate()).slice(-2)}(${days[d.getDay()]}) ${("0" + d.getHours()).slice(-2)}:${("0" + d.getMinutes()).slice(-2)}`
+}
+
 exports.topPage = topPage;
 exports.settings = settings;
 exports.tvProgram = tvProgram;
@@ -112,4 +141,5 @@ exports.responseSpecifiedFile = responseSpecifiedFile;
 exports.notFound = notFound;
 exports.epgrec = epgrec;
 exports.epgrecProgram = epgrecProgram;
+exports.epgrecRecorded = epgrecRecorded;
 

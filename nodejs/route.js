@@ -11,13 +11,15 @@ handle["/viewtv"] = requestHandlers.viewTv;
 handle["/viewtv_error"] = requestHandlers.viewTvError;
 handle["/epgrec"] = requestHandlers.epgrec;
 handle["/epgrec_program"] = requestHandlers.epgrecProgram;
+handle["/epgrec_recorded"] = requestHandlers.epgrecRecorded;
 
 var fileTypeHash = {
     ".css"  : "text/css",
     ".js"   : "text/javascript",
     ".ts"   : "application/vnd.apple.mpegurl",
     ".m3u8" : "video/MP2T",
-    ".gif"  : "image/gif"
+    ".gif"  : "image/gif",
+    ".mp4"  : "video/mp4"
 }
 
 function route(parsedUrl, response, postData) {

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>番組表</title>
+    <meta name="viewport" content="width=device-width">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/jquery/jquery.mobile.min.css" />
+    <link rel="stylesheet" href="/css/topbutton.css" />
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/jquery/jquery.mobile.min.js"></script>
+    <script type="text/javascript">
+        function scrollTopButton() {
+            $('html,body').animate({ scrollTop: 0 }, 'swing');
+        }
+    </script>
+    <style>
+    .ui-listview > .ui-li-has-thumb > .ui-btn {
+        padding-left: 5.25em;
+    }
+    .ui-listview .ui-li-has-thumb > .ui-btn > img:first-child {
+        max-width: none;
+        clip: rect(0px 80px 80px 0px);
+    }
+    .ui-listview > li p {
+        margin: 0.1em 0px;
+    }
+
+    .ui-listview > li h3 {
+        margin: 0.1em 0px;
+    }
+    </style>
+</head>
+<body>
+<!--topにスクロールするボタン-->
+ <a class="scroll_top_button" style="color: white;" herf="#" onclick="javascript:scrollTopButton()">▲</a>
+
+<div data-role="header">
+    <a href="/">TOP</a>
+    <h1>録画一覧</h1>
+</div>
+<div role="main">
+    <ul data-role="listview">
+        @@@PROGRAM@@@
+    </ul>
+</div>
+</body>
+</html>
