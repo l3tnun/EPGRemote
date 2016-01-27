@@ -36,7 +36,7 @@
         function openDeleteDialog(id, title) {
             $("#deleteDialog").empty();
             $("#deleteDialog").append('<div style="font-weight: bold; ">' + title + " を削除しますか?" + '</div>');
-            var checkbox = '<div style="text-align:center; margin: 10px;"><input id="delete_file" name="delete_file" value="1" type="checkbox" checked="checked">録画ファイルも削除する</div>'
+            var checkbox = '<div style="text-align:center; margin: 10px;"><input id="delete_file" style="margin-right: 15px;" name="delete_file" value="1" type="checkbox" checked="checked">録画ファイルも削除する</div>'
 
             $("#deleteDialog").append(checkbox);
             var button = '<div class="ui-grid-a">';
