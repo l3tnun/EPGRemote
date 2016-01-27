@@ -29,6 +29,10 @@
             socketio.emit("requestDeleteVideoFile", rec_id, $('#delete_file')[0].checked);
         }
 
+        function openVideoNotFoundDialog() {
+            $("#lnkVideoNotFoundDialog").click();
+        }
+
         function openDeleteDialog(id, title) {
             $("#deleteDialog").empty();
             $("#deleteDialog").append('<div style="font-weight: bold; ">' + title + " を削除しますか?" + '</div>');
@@ -112,6 +116,14 @@
 <a id='lnkDeleteDialog' href="#deleteDialog" data-rel="popup" data-position-to="window" data-transition="pop" style='display:none;'></a>
 
 <div data-role="popup" id="deleteDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width: 260px;">
+</div>
+
+<a id='lnkVideoNotFoundDialog' href="#videoNotFoundDialog" data-rel="popup" data-position-to="window" data-transition="pop" style='display:none;'></a>
+
+<div data-role="popup" id="videoNotFoundDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width: 260px;">
+    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">close</a>
+    <p style="text-align: center; font-weight: bold; margin-bottom: 20px;">変換済みの動画がありません。</p>
+    <a data-rel="back" href="#" class="ui-btn ui-corner-all">閉じる</a>
 </div>
 
 <div data-role="header">

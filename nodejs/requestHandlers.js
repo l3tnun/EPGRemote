@@ -122,7 +122,7 @@ function epgrecRecorded(response, parsedUrl, request) {
         var videoPaths = {}
         results[1].forEach(function(result) {
             var videoPath = result.path.toString('UTF-8').replace(config.videoPath, "");
-            videoPaths[result.rec_id] = {"status" : result.status, "path" : `${path.join(config.host, "video", videoPath)}`};
+            videoPaths[result.rec_id] = {"vide_status" : result.status, "path" : `${path.join(config.host, "video", videoPath)}`};
         });
 
         //ページ番号
@@ -143,8 +143,8 @@ function epgrecRecorded(response, parsedUrl, request) {
             program = {}
             program.id = result.id
             program.thumbs = `http://${util.getConfig().epgrecConfig.host}/thumbs/${path.basename(result.path.toString('UTF-8'))}.jpg`
-            if(typeof videoPaths[result.id] == "undefined") {
-                program.videLink = "#"
+            if(typeof videoPaths[result.id] == "undefined" || videoPaths[result.id].vide_status != 2) {
+                program.videLink = "javascript:openVideoNotFoundDialog()"
             } else if(ua.indexOf('ipad') != -1 || ua.indexOf('ipod') != -1 || ua.indexOf('iphone') != -1) {
                 program.videLink = `vlc://${videoPaths[result.id].path}`
             } else {
