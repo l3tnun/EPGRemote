@@ -111,11 +111,13 @@ function epgrecRecorded(response, parsedUrl, request) {
     sqlModel.getRecordedList( function(results) {
         if(results == '') { notFound(response); return; }
 
+        //チャンネル名
         var channelName = {}
         results[0].forEach(function(result) {
             channelName[result.id] = result.name
         });
 
+        //mp4ファイルのパス
         var config = util.getConfig()["epgrecConfig"]
         var videoPaths = {}
         results[1].forEach(function(result) {
@@ -123,8 +125,21 @@ function epgrecRecorded(response, parsedUrl, request) {
             videoPaths[result.rec_id] = {"status" : result.status, "path" : `${path.join(config.host, "video", videoPath)}`};
         });
 
+        //ページ番号
+        var num;
+        if(typeof parsedUrl.query.num == "undefined" || parsedUrl.query.num < 2) {
+            num = 1;
+        } else {
+            num = Number(parsedUrl.query.num);
+        }
+        var min = (num - 1) * 15;
+        var max = num * 15;
+
+        //録画一覧
+        var i = 0;
         var programs = []
         results[2].forEach(function(result) {
+            if(i >= min && i < max) {
             program = {}
             program.id = result.id
             program.thumbs = `http://${util.getConfig().epgrecConfig.host}/thumbs/${path.basename(result.path.toString('UTF-8'))}.jpg`
@@ -139,7 +154,10 @@ function epgrecRecorded(response, parsedUrl, request) {
             program.info = `${getDateStr(result.starttime)} ${channelName[result.channel_id]}`
             program.description = result.description
             programs.push(program)
+            }
+            i++;
         });
+
         viewer.epgrecRecorded(response, programs);
     });
 }
