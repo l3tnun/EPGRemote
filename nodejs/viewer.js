@@ -230,12 +230,12 @@ function getAddDate(year, month, date, num) {
 function epgrecRecorded(response, programs) {
     var programStr = ""
     programs.forEach(function(program){
-        programStr += `<li><a href="${program.videLink}" target="_self">`
+        programStr += `<li data-icon="delete"><a href="${program.videLink}" target="_self">`
         programStr += `<img src="${program.thumbs}">`
         programStr += `<h3>${program.title}</h3>`
         programStr += `<p>${program.info}</p>`
         programStr += `<p>${program.description}</p>`
-        programStr += '</a></li>'
+        programStr += `</a><a href="javascript:openDeleteDialog(${program.id}, '${program.title}')"></a></li>`
     });
 
     var htmlfile = readFile("./HTML/epgrecrecorded.html");

@@ -137,6 +137,13 @@ function start(server) {
         socket.on("getEpgRecHostName", function () {
             io.sockets.emit("epgRecHostNameResult", {value : util.getConfig()["epgrecConfig"]["host"]});
         });
+
+        /*video file 削除部分*/
+        socket.on("requestDeleteVideoFile", function (rec_id, checkbox) {
+            epgrecManager.deleteVideoFile(rec_id, checkbox, function(result) {
+                                                io.sockets.emit("resultDeleteVideoFile", result);
+                                            });
+        });
     });
 
 }

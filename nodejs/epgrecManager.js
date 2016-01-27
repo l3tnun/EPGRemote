@@ -94,8 +94,34 @@ function getToggleAutoRec(id, autorec, callback) {
     });
 }
 
+function deleteVideoFile(rec_id, checkbox, callback) {
+    var epgrecConfig = util.getConfig()["epgrecConfig"];
+    var df = 0;
+    if(checkbox) { df = 1; }
+    var url = `http://${epgrecConfig["host"]}/cancelReservation.php?reserve_id=${rec_id}&delete_file=${df}&db_clean=1`;
+
+    log.system.info('delete video file ' + rec_id + ' ' + checkbox);
+
+    http.get(url, function(res){
+        var body = '';
+        res.setEncoding('utf8');
+
+        res.on('data', function(chunk){
+            body += chunk;
+        });
+
+        res.on('end', function(res){
+            callback(body);
+        });
+    }).on('error', function(e){
+        log.system.error('failed EPGRec auto rec')
+        log.system.error(e.message); //エラー時
+    });
+}
+
 exports.getProgram = getProgram;
 exports.getRecResult = getRecResult;
 exports.getCancelRecResult = getCancelRecResult;
 exports.getToggleAutoRec = getToggleAutoRec;
+exports.deleteVideoFile = deleteVideoFile;
 
