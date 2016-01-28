@@ -112,11 +112,13 @@
 <!--topにスクロールするボタン-->
 <a class="scroll_top_button" style="color: white;" herf="#" onclick="javascript:scrollTopButton()">▲</a>
 
+<!--削除ダイアログ-->
 <a id='lnkDeleteDialog' href="#deleteDialog" data-rel="popup" data-position-to="window" data-transition="pop" style='display:none;'></a>
 
 <div data-role="popup" id="deleteDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width: 260px;">
 </div>
 
+<!--video not found ダイアログ-->
 <a id='lnkVideoNotFoundDialog' href="#videoNotFoundDialog" data-rel="popup" data-position-to="window" data-transition="pop" style='display:none;'></a>
 
 <div data-role="popup" id="videoNotFoundDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width: 260px;">
@@ -125,9 +127,17 @@
     <a data-rel="back" href="#" class="ui-btn ui-corner-all">閉じる</a>
 </div>
 
+<!--メニュー-->
+<div data-role="popup" id="pullDownMenu" data-history="false">
+    <ul data-role="listview" data-inset="true" style="min-width:150px;">
+        <li><a class="ui-btn ui-btn-icon-left ui-icon-tag" data-ajax="false" href="./epgrec_recorded/tag">Tag</a></li>
+    </ul>
+</div>
+
 <div data-role="header">
     <a href="epgrec" target="_self">BACK</a>
     <h1>録画済み一覧</h1>
+    <a href="#pullDownMenu" data-rel="popup" data-transition="none" data-position-to="original" class="ui-btn ui-icon-bars ui-btn-icon-notext"></a>
 </div>
 <div role="main">
     <ul id="program_list" data-role="listview">
