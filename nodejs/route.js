@@ -12,6 +12,7 @@ handle["/viewtv_error"] = requestHandlers.viewTvError;
 handle["/epgrec"] = requestHandlers.epgrec;
 handle["/epgrec_program"] = requestHandlers.epgrecProgram;
 handle["/epgrec_recorded"] = requestHandlers.epgrecRecorded;
+handle["/epgrec_recorded/tag"] = requestHandlers.epgrecRecordedTag;
 
 var fileTypeHash = {
     ".css"  : "text/css",

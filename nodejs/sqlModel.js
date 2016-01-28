@@ -65,6 +65,44 @@ function getRecordedList(callback) {
     });
 }
 
+function getRecordedKeywordList(callback) {
+    var jsonConfig = util.getConfig();
+    var sql = `select * from ${jsonConfig["EpgrecRecordName"]}keywordTbl; select * from ${jsonConfig["EpgrecRecordName"]}reserveTbl where starttime <= now() order by starttime desc;`;
+    var connection = createSqlConnection();
+
+    connection.query(sql, function(err, results) {
+        if (err) {
+            log.system.error('sql getRecordedList error is : ', err );
+            callback('');
+            return;
+        }
+
+        log.system.debug("sql getRecordedList data");
+        callback(results);
+        connection.destroy();
+    });
+}
+
+function getRecordedChannelList(callback) {
+    var jsonConfig = util.getConfig();
+    var sql = `select * from ${jsonConfig["EpgrecRecordName"]}channelTbl; select * from ${jsonConfig["EpgrecRecordName"]}reserveTbl where starttime <= now() order by starttime desc;`;
+    var connection = createSqlConnection();
+
+    connection.query(sql, function(err, results) {
+        if (err) {
+            log.system.error('sql getRecordedList error is : ', err );
+            callback('');
+            return;
+        }
+
+        log.system.debug("sql getRecordedList data");
+        callback(results);
+        connection.destroy();
+    });
+}
+
 exports.getNowEpgData = getNowEpgData;
 exports.getRecordedList = getRecordedList;
+exports.getRecordedKeywordList = getRecordedKeywordList;
+exports.getRecordedChannelList = getRecordedChannelList;
 

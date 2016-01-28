@@ -229,7 +229,7 @@ function getAddDate(year, month, date, num) {
 
 function epgrecRecorded(response, programs) {
     var programStr = ""
-    programs.forEach(function(program){
+    programs.forEach(function(program) {
         programStr += `<li data-icon="delete"><a href="${program.videLink}" target="_self">`
         programStr += `<img src="${program.thumbs}">`
         programStr += `<h3>${program.title}</h3>`
@@ -243,6 +243,35 @@ function epgrecRecorded(response, programs) {
     responseFile(response, htmlfile);
 }
 
+function epgrecRecordedKeywordsTag(response, keywords) {
+    console.log(keywords);
+    var tagListStr = ""
+    keywords.forEach(function(keyword) {
+        if(keyword.cnt == 0) { return; }
+        tagListStr += `<li><a href="#" target="_self">`
+        tagListStr += `<h3>${keyword.keyword}</h3>`
+        tagListStr += `<span class="ui-li-count">${keyword.cnt}</span></a></li>`
+    });
+
+    var htmlfile = readFile("./HTML/epgrecrecordedtag.html");
+    htmlfile = htmlfile.replace("@@@TAGLIST@@@", tagListStr);
+    responseFile(response, htmlfile);
+}
+
+function epgrecRecordedChannelTag(response, channels) {
+    console.log(channels);
+    var tagListStr = ""
+    channels.forEach(function(channel) {
+        tagListStr += `<li><a href="#" target="_self">`
+        tagListStr += `<h3>${channel.channelName}</h3>`
+        tagListStr += `<span class="ui-li-count">${channel.cnt}</span></a></li>`
+    });
+
+    var htmlfile = readFile("./HTML/epgrecrecordedtag.html");
+    htmlfile = htmlfile.replace("@@@TAGLIST@@@", tagListStr);
+    responseFile(response, htmlfile);
+}
+
 exports.topPage = topPage;
 exports.settings = settings;
 exports.tvProgram = tvProgram;
@@ -253,4 +282,6 @@ exports.notFound = notFound;
 exports.epgrec = epgrec;
 exports.epgrecProgram = epgrecProgram;
 exports.epgrecRecorded = epgrecRecorded;
+exports.epgrecRecordedKeywordsTag = epgrecRecordedKeywordsTag;
+exports.epgrecRecordedChannelTag = epgrecRecordedChannelTag;
 
