@@ -256,7 +256,7 @@ function channelTagView(response, parsedUrl, results) {
 
 function createPageNumber(queryNum) {
     var num = 1;
-    if(typeof queryNum == "undefined" && queryNum >= 2) {
+    if(typeof queryNum != "undefined" && queryNum >= 2) {
         num = Number(queryNum);
     }
 
