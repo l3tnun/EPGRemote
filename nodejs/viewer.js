@@ -244,11 +244,10 @@ function epgrecRecorded(response, programs) {
 }
 
 function epgrecRecordedKeywordsTag(response, keywords) {
-    console.log(keywords);
     var tagListStr = ""
     keywords.forEach(function(keyword) {
         if(keyword.cnt == 0) { return; }
-        tagListStr += `<li><a href="#" target="_self">`
+        tagListStr += `<li><a href="/epgrec_recorded?keyword=${keyword.autorec}" target="_self">`
         tagListStr += `<h3>${keyword.keyword}</h3>`
         tagListStr += `<span class="ui-li-count">${keyword.cnt}</span></a></li>`
     });
@@ -259,10 +258,9 @@ function epgrecRecordedKeywordsTag(response, keywords) {
 }
 
 function epgrecRecordedChannelTag(response, channels) {
-    console.log(channels);
     var tagListStr = ""
     channels.forEach(function(channel) {
-        tagListStr += `<li><a href="#" target="_self">`
+        tagListStr += `<li><a href="/epgrec_recorded?channel=${channel.channel_id}" target="_self">`
         tagListStr += `<h3>${channel.channelName}</h3>`
         tagListStr += `<span class="ui-li-count">${channel.cnt}</span></a></li>`
     });

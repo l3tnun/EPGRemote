@@ -125,35 +125,46 @@ function epgrecRecorded(response, parsedUrl, request) {
             videoPaths[result.rec_id] = {"vide_status" : result.status, "path" : `${path.join(config.host, "video", videoPath)}`};
         });
 
-        //ページ番号
-        var num;
-        if(typeof parsedUrl.query.num == "undefined" || parsedUrl.query.num < 2) {
-            num = 1;
-        } else {
-            num = Number(parsedUrl.query.num);
+        //tag パラメータ
+        var parameter;
+        var parameterHash = {
+            "keyword" : { "sqlData" : "autorec", "query" : "keyword" },
+            "channel" : { "sqlData" : "channel_id", "query" : "channel" }
+        };
+
+        if(typeof parsedUrl.query.keyword != "undefined") { parameter = parameterHash.keyword }
+        if(typeof parsedUrl.query.channel != "undefined") { parameter = parameterHash.channel }
+
+        if(typeof parameter != "undefined") {
+            var newRecorded = [];
+            results[2].forEach(function(result) {
+                if(result[parameter.sqlData] == parsedUrl.query[parameter.query]) {
+                    newRecorded.push(result);
+                }
+            });
+            results[2] = newRecorded;
         }
-        var min = (num - 1) * 15;
-        var max = num * 15;
 
         //録画一覧
+        var pageNum = createPageNumber(parsedUrl.query.num);
         var i = 0;
         var programs = []
         results[2].forEach(function(result) {
-            if(i >= min && i < max) {
-            program = {}
-            program.id = result.id
-            program.thumbs = `http://${util.getConfig().epgrecConfig.host}/thumbs/${path.basename(result.path.toString('UTF-8'))}.jpg`
-            if(typeof videoPaths[result.id] == "undefined" || videoPaths[result.id].vide_status != 2) {
-                program.videLink = "javascript:openVideoNotFoundDialog()"
-            } else if(ua.indexOf('ipad') != -1 || ua.indexOf('ipod') != -1 || ua.indexOf('iphone') != -1) {
-                program.videLink = `vlc://${videoPaths[result.id].path}`
-            } else {
-                program.videLink = `http://${videoPaths[result.id].path}`
-            }
-            program.title = result.title
-            program.info = `${getDateStr(result.starttime)} ${channelName[result.channel_id]}`
-            program.description = result.description
-            programs.push(program)
+            if(i >= pageNum.min && i < pageNum.max) {
+                program = {}
+                program.id = result.id
+                program.thumbs = `http://${util.getConfig().epgrecConfig.host}/thumbs/${path.basename(result.path.toString('UTF-8'))}.jpg`;
+                if(typeof videoPaths[result.id] == "undefined" || videoPaths[result.id].vide_status != 2) {
+                    program.videLink = "javascript:openVideoNotFoundDialog()";
+                } else if(ua.indexOf('ipad') != -1 || ua.indexOf('ipod') != -1 || ua.indexOf('iphone') != -1) {
+                    program.videLink = `vlc://${videoPaths[result.id].path}`;
+                } else {
+                    program.videLink = `http://${videoPaths[result.id].path}`;
+                }
+                program.title = result.title;
+                program.info = `${getDateStr(result.starttime)} ${channelName[result.channel_id]}`;
+                program.description = result.description;
+                programs.push(program);
             }
             i++;
         });
@@ -201,20 +212,12 @@ function keywordTagView(response, parsedUrl, results) {
         }
     });
 
-    //ページ番号
-    var num;
-    if(typeof parsedUrl.query.num == "undefined" || parsedUrl.query.num < 2) {
-        num = 1;
-    } else {
-        num = Number(parsedUrl.query.num);
-    }
-    var min = (num - 1) * 15;
-    var max = num * 15;
+    var pageNum = createPageNumber(parsedUrl.query.num);
     var i = 0;
     var keywords = [];
 
     for (var key in keywordList) {
-        if(i >= min && i < max) {
+        if(i >= pageNum.min && i < pageNum.max) {
             keywords.push({ "autorec" : key, "keyword" : keywordList[key].keyword, "cnt" : keywordList[key].cnt });
         }
         i += 1;
@@ -231,26 +234,17 @@ function channelTagView(response, parsedUrl, results) {
         channelList[result.id] = { "channelName" : result.name, "cnt" : 0 }
     });
 
-
     results[1].forEach(function(result) {
         channelList[result.channel_id].cnt += 1;
     });
 
-    //ページ番号
-    var num;
-    if(typeof parsedUrl.query.num == "undefined" || parsedUrl.query.num < 2) {
-        num = 1;
-    } else {
-        num = Number(parsedUrl.query.num);
-    }
-    var min = (num - 1) * 15;
-    var max = num * 15;
+    var pageNum = createPageNumber(parsedUrl.query.num);
     var i = 0;
     var channels = [];
 
     for (var key in channelList){
         if(channelList[key].cnt != 0) {
-            if(i >= min && i < max) {
+            if(i >= pageNum.min && i < pageNum.max) {
                 channels.push({ "channel_id" : key, "channelName" : channelList[key].channelName, "cnt" : channelList[key].cnt });
             }
             i += 1;
@@ -258,6 +252,15 @@ function channelTagView(response, parsedUrl, results) {
     }
 
     viewer.epgrecRecordedChannelTag(response, channels);
+}
+
+function createPageNumber(queryNum) {
+    var num = 1;
+    if(typeof queryNum == "undefined" && queryNum >= 2) {
+        num = Number(queryNum);
+    }
+
+    return { "min" : (num - 1) * 15, "max" : num * 15 };
 }
 
 exports.topPage = topPage;
