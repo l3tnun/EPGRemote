@@ -9,7 +9,8 @@ module.exports = function(response, parsedUrl, request) {
     log.access.info("Request handler 'epgrec recorded' was called.");
 
     var ua = JSON.stringify(request.headers['user-agent']).toLocaleLowerCase();
-    sqlModel.getRecordedList( function(results) {
+
+    sqlModel.getRecordedList( { "autorec" : parsedUrl.query.keyword, "channel_id" : parsedUrl.query.channel }, function(results) {
         if(results == '') { notFound(response); return; }
 
         //チャンネル名
@@ -25,26 +26,6 @@ module.exports = function(response, parsedUrl, request) {
             var videoPath = result.path.toString('UTF-8').replace(config.videoPath, "");
             videoPaths[result.rec_id] = {"vide_status" : result.status, "path" : `${path.join(config.host, "video", videoPath)}`};
         });
-
-        //tag パラメータ
-        var parameter;
-        var parameterHash = {
-            "keyword" : { "sqlData" : "autorec", "query" : "keyword" },
-            "channel" : { "sqlData" : "channel_id", "query" : "channel" }
-        };
-
-        if(typeof parsedUrl.query.keyword != "undefined") { parameter = parameterHash.keyword }
-        if(typeof parsedUrl.query.channel != "undefined") { parameter = parameterHash.channel }
-
-        if(typeof parameter != "undefined") {
-            var newRecorded = [];
-            results[2].forEach(function(result) {
-                if(result[parameter.sqlData] == parsedUrl.query[parameter.query]) {
-                    newRecorded.push(result);
-                }
-            });
-            results[2] = newRecorded;
-        }
 
         //録画一覧
         var pageNum = createPageNumber(parsedUrl.query.num);
