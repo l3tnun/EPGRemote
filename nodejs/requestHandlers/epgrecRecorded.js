@@ -4,13 +4,14 @@ var viewer = require(__dirname + "/../viewer");
 var sqlModel = require(__dirname + "/../sqlModel");
 var log = require(__dirname + "/../logger").getLogger();
 var createPageNumber = require(__dirname + "/createPageNumber");
+var notFound = require(__dirname + "/notFound");
 
 module.exports = function(response, parsedUrl, request) {
     log.access.info("Request handler 'epgrec recorded' was called.");
 
     var ua = JSON.stringify(request.headers['user-agent']).toLocaleLowerCase();
 
-    sqlModel.getRecordedList( { "autorec" : parsedUrl.query.keyword, "channel_id" : parsedUrl.query.channel }, function(results) {
+    sqlModel.getRecordedList(15, parsedUrl.query.num, { "autorec" : parsedUrl.query.keyword, "channel_id" : parsedUrl.query.channel }, function(results) {
         if(results == '') { notFound(response); return; }
 
         //チャンネル名
@@ -28,27 +29,22 @@ module.exports = function(response, parsedUrl, request) {
         });
 
         //録画一覧
-        var pageNum = createPageNumber(parsedUrl.query.num);
-        var i = 0;
         var programs = []
         results[2].forEach(function(result) {
-            if(i >= pageNum.min && i < pageNum.max) {
-                program = {}
-                program.id = result.id
-                program.thumbs = `http://${util.getConfig().epgrecConfig.host}/thumbs/${path.basename(result.path.toString('UTF-8'))}.jpg`;
-                if(typeof videoPaths[result.id] == "undefined" || videoPaths[result.id].vide_status != 2) {
-                    program.videLink = "javascript:openVideoNotFoundDialog()";
-                } else if(ua.indexOf('ipad') != -1 || ua.indexOf('ipod') != -1 || ua.indexOf('iphone') != -1) {
-                    program.videLink = `vlc://${videoPaths[result.id].path}`;
-                } else {
-                    program.videLink = `http://${videoPaths[result.id].path}`;
-                }
-                program.title = result.title;
-                program.info = `${getDateStr(result.starttime)} ${channelName[result.channel_id]}`;
-                program.description = result.description;
-                programs.push(program);
+            program = {}
+            program.id = result.id
+            program.thumbs = `http://${util.getConfig().epgrecConfig.host}/thumbs/${path.basename(result.path.toString('UTF-8'))}.jpg`;
+            if(typeof videoPaths[result.id] == "undefined" || videoPaths[result.id].vide_status != 2) {
+                program.videLink = "javascript:openVideoNotFoundDialog()";
+            } else if(ua.indexOf('ipad') != -1 || ua.indexOf('ipod') != -1 || ua.indexOf('iphone') != -1) {
+                program.videLink = `vlc://${videoPaths[result.id].path}`;
+            } else {
+                program.videLink = `http://${videoPaths[result.id].path}`;
             }
-            i++;
+            program.title = result.title;
+            program.info = `${getDateStr(result.starttime)} ${channelName[result.channel_id]}`;
+            program.description = result.description;
+            programs.push(program);
         });
 
         viewer.epgrecRecorded(response, programs);
