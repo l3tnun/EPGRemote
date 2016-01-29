@@ -17,6 +17,7 @@ var fileTypeHash = {
     ".css"  : "text/css",
     ".js"   : "text/javascript",
     ".ts"   : "application/vnd.apple.mpegurl",
+    ".mp4"  : "video/mp4",
     ".m3u8" : "video/MP2T",
     ".gif"  : "image/gif"
 }
@@ -26,7 +27,7 @@ function route(parsedUrl, response, request, postData) {
     if(typeof handle[parsedUrl.pathname] == 'function') {
         return handle[parsedUrl.pathname](response, parsedUrl, request, postData);
     } else if (path.extname(parsedUrl.pathname) in fileTypeHash) {
-        return requestHandlers.responseSpecifiedFile(response, parsedUrl, fileTypeHash);
+        return requestHandlers.responseSpecifiedFile(response, request, parsedUrl, fileTypeHash);
     } else {
         return requestHandlers.notFound(response);
     }
