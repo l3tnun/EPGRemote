@@ -37,7 +37,7 @@ module.exports = function(response, parsedUrl, request) {
             if(typeof videoPaths[result.id] == "undefined" || videoPaths[result.id].vide_status != 2) {
                 program.videLink = "javascript:openVideoNotFoundDialog()";
             } else if(ua.indexOf('ipad') != -1 || ua.indexOf('ipod') != -1 || ua.indexOf('iphone') != -1) {
-                program.videLink = `vlc-x-callback://x-callback-url/stream?url=http://${util.getConfig().serverIP}:${util.getConfig().serverPort}/video/videoid${result.id}.mp4`;
+                program.videLink = `vlc-x-callback://x-callback-url/stream?url=http://${util.getConfig().serverIP}:${util.getConfig().serverPort}/videoid${result.id}.mp4`;
             } else {
                 program.videLink = videoPaths[result.id].path;
             }
