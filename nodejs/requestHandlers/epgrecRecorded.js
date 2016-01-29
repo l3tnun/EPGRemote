@@ -1,6 +1,6 @@
 var path = require('path');
 var util = require(__dirname + "/../util");
-var viewer = require(__dirname + "/../viewer");
+var viewerEpgrecRecorded = require(__dirname + "/../viewer/epgrecRecorded");
 var sqlModel = require(__dirname + "/../sqlModel");
 var log = require(__dirname + "/../logger").getLogger();
 var createPageNumber = require(__dirname + "/createPageNumber");
@@ -47,7 +47,7 @@ module.exports = function(response, parsedUrl, request) {
             programs.push(program);
         });
 
-        viewer.epgrecRecorded(response, programs);
+        viewerEpgrecRecorded(response, programs);
     });
 }
 

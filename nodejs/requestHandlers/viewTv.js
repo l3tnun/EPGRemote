@@ -1,7 +1,8 @@
 var url = require("url");
 var fs = require('fs');
 var util = require(__dirname + "/../util");
-var viewer = require(__dirname + "/../viewer");
+var viewerNotFound = require(__dirname + "/../viewer/notFound");
+var viewerViewTv = require(__dirname + "/../viewer/viewTv");
 var streamManager = require(__dirname + "/../streamManager");
 var tunerManager = require(__dirname + "/../tunerManager");
 var io = require(__dirname + "/../socketIoServer");
@@ -25,20 +26,20 @@ module.exports = function(response, parsedUrl, request, postData) {
             log.stream.error('tuner or ffmpeg not found');
             log.stream.error('tuner : ' + tunerBinPath);
             log.stream.error('ffmpeg : ' + ffmpegBinPath);
-            viewer.notFound(response, "tuner bin is not found.");
+            viewerNotFound(response, "tuner bin is not found.");
             return;
         }
 
         io.setStopStreamCallback(streamManager.stopStream);
         if(tunerManager.lockTuner(parsedPostQuery.tuner, streamNumber)) {
-            viewer.viewTv(response, streamNumber);
+            viewerViewTv(response, streamNumber);
             streamManager.startStream(streamNumber, parsedPostQuery.channelName , videoConfig, parsedPostQuery.channel, parsedPostQuery.sid, parsedPostQuery.tuner);
             streamManager.streamNotifyEnable(streamNumber);
         } else { //tunerがロックされていた
-            viewer.notFound(response, "tuner is locked");
+            viewerNotFound(response, "tuner is locked");
         }
     } else { //すでに配信中のものを見る
-        viewer.viewTv(response, parsedUrl.query.num);
+        viewerViewTv(response, parsedUrl.query.num);
         setTimeout(function(){
             streamManager.streamNotifyEnable(parsedUrl.query.num);
         },1000);

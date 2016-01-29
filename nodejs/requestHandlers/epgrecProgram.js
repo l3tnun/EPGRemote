@@ -1,4 +1,4 @@
-var viewer = require(__dirname + "/../viewer");
+var viewerEpgrecProgram = require(__dirname + "/../viewer/epgrecProgram");
 var log = require(__dirname + "/../logger").getLogger();
 
 module.exports = function(response, parsedUrl) {
@@ -14,6 +14,6 @@ module.exports = function(response, parsedUrl) {
         time = `${date.getFullYear()}${('0'+date.getMonth()+1).slice(-2)}${('0' + date.getDate()).slice(-2)}${('0' + date.getHours()).slice(-2)}`;
     }
 
-    viewer.epgrecProgram(response, length, time, type);
+    viewerEpgrecProgram(response, length, time, type);
 }
 

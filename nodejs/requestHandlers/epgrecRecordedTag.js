@@ -1,4 +1,4 @@
-var viewer = require(__dirname + "/../viewer");
+var viewerEpgrecRecordedTag = require(__dirname + "/../viewer/epgrecRecordedTag");
 var log = require(__dirname + "/../logger").getLogger();
 var sqlModel = require(__dirname + "/../sqlModel");
 var notFound = require(__dirname + "/notFound");
@@ -35,7 +35,7 @@ module.exports = function(response, parsedUrl) {
             }
         }
 
-        viewer.epgrecRecordedTag(response, tags);
+        viewerEpgrecRecordedTag(response, tags);
     });
 }
 

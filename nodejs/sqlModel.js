@@ -47,9 +47,17 @@ function getNowEpgData(callback, hash) {
     });
 }
 
-function getRecordedList(callback) {
+function getOffset(num, limit) {
+    if(typeof num == "undefined") { num = 1; } else { num = Number(num); }
+    if(num <= 1) { return 0; } else { return (num - 1) * limit; }
+}
+
+function getRecordedList(limit, queryNum, query, callback) {
+    var option = "";
+    for (var key in query) { if(typeof query[key] != "undefined") { option += `and ${key} = ${query[key]}`; } }
+
     var jsonConfig = util.getConfig();
-    var sql = `select * from ${jsonConfig["EpgrecRecordName"]}channelTbl; select * from ${jsonConfig["EpgrecRecordName"]}transcodeTbl; select * from ${jsonConfig["EpgrecRecordName"]}reserveTbl where starttime <= now() order by starttime desc;`;
+    var sql = `select * from ${ jsonConfig["EpgrecRecordName"] }channelTbl; select * from ${ jsonConfig["EpgrecRecordName"] }transcodeTbl; select * from ${ jsonConfig["EpgrecRecordName"] }reserveTbl where starttime <= now() ${ option } order by starttime desc limit ${ limit } offset ${ getOffset(queryNum, limit) };`;
     var connection = createSqlConnection();
 
     connection.query(sql, function(err, results) {
@@ -65,9 +73,9 @@ function getRecordedList(callback) {
     });
 }
 
-function getRecordedKeywordList(callback) {
+function getRecordedKeywordList(limit, queryNum, callback) {
     var jsonConfig = util.getConfig();
-    var sql = `select * from ${jsonConfig["EpgrecRecordName"]}keywordTbl; select * from ${jsonConfig["EpgrecRecordName"]}reserveTbl where starttime <= now() order by starttime desc;`;
+    var sql = `select * from ${jsonConfig["EpgrecRecordName"]}keywordTbl; select * from ${jsonConfig["EpgrecRecordName"]}reserveTbl where starttime <= now() order by starttime desc limit ${ limit } offset ${ getOffset(queryNum) };`;
     var connection = createSqlConnection();
 
     connection.query(sql, function(err, results) {
@@ -83,9 +91,9 @@ function getRecordedKeywordList(callback) {
     });
 }
 
-function getRecordedChannelList(callback) {
+function getRecordedChannelList(limit, queryNum, callback) {
     var jsonConfig = util.getConfig();
-    var sql = `select * from ${jsonConfig["EpgrecRecordName"]}channelTbl; select * from ${jsonConfig["EpgrecRecordName"]}reserveTbl where starttime <= now() order by starttime desc;`;
+    var sql = `select * from ${jsonConfig["EpgrecRecordName"]}channelTbl; select * from ${jsonConfig["EpgrecRecordName"]}reserveTbl where starttime <= now() order by starttime desc limit ${ limit } offset ${ getOffset(queryNum) };`;
     var connection = createSqlConnection();
 
     connection.query(sql, function(err, results) {

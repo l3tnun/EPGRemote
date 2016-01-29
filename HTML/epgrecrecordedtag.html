@@ -19,10 +19,10 @@
         }
 
         //上部ボタン処理
-        if(typeof query.type == "undefined") { query.type = "KW" }
+        if(typeof query.type == "undefined") { query.type = "keyword" }
 
-        if(query.type == "KW") { $("#reserved_words_button").addClass("ui-btn-active"); }
-        else if(query.type == "CH") { $("#channel_button").addClass("ui-btn-active"); }
+        if(query.type == "keyword") { $("#reserved_words_button").addClass("ui-btn-active"); }
+        else if(query.type == "channel") { $("#channel_button").addClass("ui-btn-active"); }
 
         //pagination処理
         if($('#tag_list').children().length == 0) {
@@ -53,10 +53,10 @@
 <div role="main" class="ui-content">
     <div class="ui-grid-a" style="margin: -18px;">
       <div class="ui-block-a">
-        <a href="./tag?type=KW" id="reserved_words_button" class="ui-btn ui-corner-all" TARGET="_self">keywords</a>
+        <a href="./tag?type=keyword" id="reserved_words_button" class="ui-btn ui-corner-all" TARGET="_self">keywords</a>
       </div>
       <div class="ui-block-b">
-        <a href="./tag?type=CH" id="channel_button" class="ui-btn ui-corner-all" TARGET="_self">Channel</a>
+        <a href="./tag?type=channel" id="channel_button" class="ui-btn ui-corner-all" TARGET="_self">Channel</a>
       </div>
     </div>
 
