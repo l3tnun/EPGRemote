@@ -9,6 +9,8 @@ module.exports = function(response, request, parsedUrl, fileTypeHash) {
     var filename;
     if (uri.match(/streamfiles/)) {
         filename = path.join(util.getConfig()["streamFilePath"], path.basename(uri));
+    } else if(uri.match(/thumbs/) && path.extname(parsedUrl.pathname) == ".jpg") {
+        filename = decodeURIComponent(path.join(util.getConfig().epgrecConfig.thumbsPath, path.basename(uri)));
     } else if(path.extname(parsedUrl.pathname) == ".mp4") {
         filename = path.join(util.getConfig().epgrecConfig.videoPath, uri);
     } else {

@@ -33,7 +33,7 @@ module.exports = function(response, parsedUrl, request) {
         results[2].forEach(function(result) {
             program = {}
             program.id = result.id
-            program.thumbs = `http://${util.getConfig().epgrecConfig.host}/thumbs/${path.basename(result.path.toString('UTF-8'))}.jpg`;
+            program.thumbs = `/thumbs/${path.basename(result.path.toString('UTF-8'))}.jpg`;
             if(typeof videoPaths[result.id] == "undefined" || videoPaths[result.id].vide_status != 2) {
                 program.videLink = "javascript:openVideoNotFoundDialog()";
             } else if(ua.indexOf('ipad') != -1 || ua.indexOf('ipod') != -1 || ua.indexOf('iphone') != -1) {

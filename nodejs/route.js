@@ -19,6 +19,7 @@ var fileTypeHash = {
     ".ts"   : "application/vnd.apple.mpegurl",
     ".mp4"  : "video/mp4",
     ".m3u8" : "video/MP2T",
+    ".jpg"  : "image/jpg",
     ".gif"  : "image/gif"
 }
 
