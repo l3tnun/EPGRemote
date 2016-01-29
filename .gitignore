@@ -5,4 +5,5 @@ streamfiles
 logs
 logConfig.json
 config.json
+node_modules
 
