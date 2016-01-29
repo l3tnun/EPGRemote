@@ -6,38 +6,51 @@ var notFound = require(__dirname + "/notFound");
 var sqlModel = require(__dirname + "/../sqlModel");
 
 module.exports = function(response, request, parsedUrl, fileTypeHash) {
+    var configJson = util.getConfig();
     var uri = parsedUrl.pathname;
     var filename;
 
     if (uri.match(/streamfiles/)) {
-        filename = path.join(util.getConfig()["streamFilePath"], path.basename(uri));
+        filename = path.join(configJson["streamFilePath"], path.basename(uri));
     } else if(uri.split(path.sep)[1] == "thumbs" && path.extname(parsedUrl.pathname) == ".jpg") {
-        filename = decodeURIComponent(path.join(util.getConfig().epgrecConfig.thumbsPath, path.basename(uri)));
-    } else if(uri.split(path.sep)[1] == "video" && uri.match(/videoid/) && path.extname(parsedUrl.pathname) == "." + util.getConfig().RecordedFileExtension) {
+        filename = decodeURIComponent(path.join(configJson.epgrecConfig.thumbsPath, path.basename(uri)));
+    } else if(uri.split(path.sep)[1] == "video" && uri.match(/videoid/) && path.extname(parsedUrl.pathname) == "." + configJson.RecordedFileExtension) {
         var rec_id = path.basename(uri).replace("videoid", "").split(".")[0];
-        sqlModel.getTranscodeList(rec_id, function(result) {
-            if(result == '' || result.length == 0) { notFound(response); return; }
 
-            filename = result[0].path.toString('UTF-8');
-            responseFile(response, request, fileTypeHash, filename, uri);
-        });
+        if(configJson.RecordedFileExtension == "ts") {
+            sqlModel.getRecordedId(rec_id, function(result) {
+                if(result == '' || result.length == 0) { notFound(response); return; }
+
+                filename = path.join(configJson.epgrecConfig.videoPath, result[0].path.toString('UTF-8'));
+                responseFile(response, request, fileTypeHash, filename, uri);
+            });
+        } else {
+            sqlModel.getTranscodeId(rec_id, function(result) {
+                if(result == '' || result.length == 0) { notFound(response); return; }
+
+                filename = result[0].path.toString('UTF-8');
+                responseFile(response, request, fileTypeHash, filename, uri);
+            });
+        }
+
         return;
-    } else if(uri.split(path.sep)[1] == "video" && path.extname(parsedUrl.pathname) == "." + util.getConfig().RecordedFileExtension) {
-        filename = path.join(util.getConfig().epgrecConfig.videoPath, decodeURIComponent(uri)).replace("/video", "");
+    } else if(uri.split(path.sep)[1] == "video" && path.extname(parsedUrl.pathname) == "." + configJson.RecordedFileExtension) {
+        filename = path.join(configJson.epgrecConfig.videoPath, decodeURIComponent(uri)).replace("/video", "");
     } else {
         filename = path.join(util.getRootPath(), uri);
     }
 
-    responseFile(response, request, fileTypeHash, filename, uri);
+    responseFile(response, request, fileTypeHash, filename, uri, configJson);
 }
 
-function responseFile(response, request, fileTypeHash, filename, uri) {
+function responseFile(response, request, fileTypeHash, filename, uri, configJson) {
     fs.exists(filename, function (exists) {
         if (!exists) {
             log.access.error(`${filename} is not found`);
             notFound(response);
             return;
         } else {
+            log.access.info(`response ${filename}`);
             var responseHeaders = {};
             responseHeaders['Content-Type'] = fileTypeHash[path.extname(uri)];
 

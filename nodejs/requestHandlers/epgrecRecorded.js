@@ -8,7 +8,7 @@ var notFound = require(__dirname + "/notFound");
 
 module.exports = function(response, parsedUrl, request) {
     log.access.info("Request handler 'epgrec recorded' was called.");
-
+    var configJson = util.getConfig();
     var ua = JSON.stringify(request.headers['user-agent']).toLocaleLowerCase();
 
     sqlModel.getRecordedList(15, parsedUrl.query.num, { "autorec" : parsedUrl.query.keyword, "channel_id" : parsedUrl.query.channel }, function(results) {
@@ -21,12 +21,18 @@ module.exports = function(response, parsedUrl, request) {
         });
 
         //録画ファイルのパス
-        var config = util.getConfig()["epgrecConfig"]
+        var epgrecConfig = configJson["epgrecConfig"]
         var videoPaths = {}
-        results[1].forEach(function(result) {
-            var videoPath = result.path.toString('UTF-8').replace(config.videoPath, "");
-            videoPaths[result.rec_id] = {"vide_status" : result.status, "filename" : path.basename(videoPath), "path" : videoPath };
-        });
+        if(util.getConfig().RecordedFileExtension == "ts") {
+            results[2].forEach(function(result) {
+                videoPaths[result.id] = { "vide_status" : 2, "filename" : result.title + ".ts", "path" : result.path.toString('utf-8') }
+            });
+        } else {
+            results[1].forEach(function(result) {
+                var videoPath = result.path.toString('UTF-8').replace(configJson.epgrecConfig.videoPath, "");
+                videoPaths[result.rec_id] = { "vide_status" : result.status, "filename" : path.basename(videoPath), "path" : videoPath };
+            });
+        }
 
         //録画一覧
         var programs = []
@@ -37,7 +43,7 @@ module.exports = function(response, parsedUrl, request) {
             if(typeof videoPaths[result.id] == "undefined" || videoPaths[result.id].vide_status != 2) {
                 program.videLink = "javascript:openVideoNotFoundDialog()";
             } else if(ua.indexOf('ipad') != -1 || ua.indexOf('ipod') != -1 || ua.indexOf('iphone') != -1) {
-                program.videLink = `vlc-x-callback://x-callback-url/stream?url=http://${util.getConfig().serverIP}:${util.getConfig().serverPort}/video/videoid${result.id}.${util.getConfig().RecordedFileExtension}`;
+                program.videLink = `vlc-x-callback://x-callback-url/stream?url=http://${configJson.serverIP}:${configJson.serverPort}/video/videoid${result.id}.${configJson.RecordedFileExtension}`;
             } else {
                 program.videLink = path.join("video", videoPaths[result.id].path);
             }
