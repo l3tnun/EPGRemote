@@ -3,13 +3,13 @@ var log = require(__dirname + "/../logger").getLogger();
 var sqlModel = require(__dirname + "/../sqlModel");
 var notFound = require(__dirname + "/notFound");
 
+var viewFunction = {
+    "keyword" : { "sql" : sqlModel.getRecordedKeywordList, "id" : "autorec" ,"name" : "keyword", "noId" : "予約言なし" },
+    "channel" : { "sql" : sqlModel.getRecordedChannelList, "id" : "channel_id", "name" : "name", "noId" : "放送局なし" }
+};
+
 module.exports = function(response, parsedUrl) {
     log.access.info("Request handler 'epgrec recorded tag' was called.");
-
-    var viewFunction = {
-        "keyword" : { "sql" : sqlModel.getRecordedKeywordList, "id" : "autorec" ,"name" : "keyword", "noId" : "予約言なし" },
-        "channel" : { "sql" : sqlModel.getRecordedChannelList, "id" : "channel_id", "name" : "name", "noId" : "放送局なし" }
-    };
 
     var type;
     if(typeof parsedUrl.query.type == "undefined") { type = "keyword"; }
