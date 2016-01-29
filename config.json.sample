@@ -84,6 +84,8 @@
         "timeout": 5000
     },
 
-    "EpgrecRecordName" : "Recorder_"
+    "EpgrecRecordName" : "Recorder_",
+
+    "RecordedFileExtension" : "mp4"
 }
 

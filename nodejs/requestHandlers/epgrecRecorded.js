@@ -20,7 +20,7 @@ module.exports = function(response, parsedUrl, request) {
             channelName[result.id] = result.name
         });
 
-        //mp4ファイルのパス
+        //録画ファイルのパス
         var config = util.getConfig()["epgrecConfig"]
         var videoPaths = {}
         results[1].forEach(function(result) {
@@ -37,9 +37,9 @@ module.exports = function(response, parsedUrl, request) {
             if(typeof videoPaths[result.id] == "undefined" || videoPaths[result.id].vide_status != 2) {
                 program.videLink = "javascript:openVideoNotFoundDialog()";
             } else if(ua.indexOf('ipad') != -1 || ua.indexOf('ipod') != -1 || ua.indexOf('iphone') != -1) {
-                program.videLink = `vlc-x-callback://x-callback-url/stream?url=http://${util.getConfig().serverIP}:${util.getConfig().serverPort}/videoid${result.id}.mp4`;
+                program.videLink = `vlc-x-callback://x-callback-url/stream?url=http://${util.getConfig().serverIP}:${util.getConfig().serverPort}/video/videoid${result.id}.${util.getConfig().RecordedFileExtension}`;
             } else {
-                program.videLink = videoPaths[result.id].path;
+                program.videLink = path.join("video", videoPaths[result.id].path);
             }
             program.title = result.title;
             program.info = `${getDateStr(result.starttime)} ${channelName[result.channel_id]}`;
