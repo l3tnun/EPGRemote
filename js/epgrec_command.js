@@ -146,7 +146,7 @@ function toggleAutoRec(id) {
     socketio.emit("getToggleAutoRec", id, autorec);
     socketio.on("autoRecResult", function (data){
         if(id != data.id) { return; }
-        if(!data.value) {
+        if(autorec) {
             $('#prgID_' + id).addClass('tv_program_freeze');
         } else {
             $('#prgID_' + id).removeClass('tv_program_freeze');
