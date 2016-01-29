@@ -1,11 +1,10 @@
 var path = require('path');
-var requestHandlers = require(__dirname + "/requestHandlers");
+var requestHandlers = require(__dirname + "/requestHandlers/");
 var log = require(__dirname + "/logger").getLogger();
 
 var handle = {}
 handle["/"] = requestHandlers.topPage;
 handle["/index.html"] = requestHandlers.topPage;
-handle["/settings"] = requestHandlers.settings;
 handle["/tvprogram"] = requestHandlers.tvProgram;
 handle["/viewtv"] = requestHandlers.viewTv;
 handle["/viewtv_error"] = requestHandlers.viewTvError;

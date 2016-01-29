@@ -37,12 +37,6 @@ function topPage(response, streamStatus) {
     responseFile(response, htmlfile.replace("@@@CHANNEL@@@", channelStr));
 }
 
-function settings(response) {
-    var htmlfile = readFile("./HTML/settings.html");
-    if(typeof htmlfile == "undefined") { notFound(response, 'file not found'); return; }
-    responseFile(response, htmlfile);
-}
-
 function tvProgram(response, results, GR, BS, CS, EX) {
     var htmlfile = readFile("./HTML/tvprogram.html");
     if(typeof htmlfile == "undefined") { notFound(response, 'file not found'); return; }
@@ -271,7 +265,6 @@ function epgrecRecordedChannelTag(response, channels) {
 }
 
 exports.topPage = topPage;
-exports.settings = settings;
 exports.tvProgram = tvProgram;
 exports.viewTv = viewTv;
 exports.viewTvError = viewTvError;
