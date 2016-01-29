@@ -3,6 +3,7 @@ var path = require('path');
 var util = require(__dirname + "/../util");
 var log = require(__dirname + "/../logger").getLogger();
 var notFound = require(__dirname + "/notFound");
+var sqlModel = require(__dirname + "/../sqlModel");
 
 module.exports = function(response, request, parsedUrl, fileTypeHash) {
     var uri = parsedUrl.pathname;
@@ -11,12 +12,25 @@ module.exports = function(response, request, parsedUrl, fileTypeHash) {
         filename = path.join(util.getConfig()["streamFilePath"], path.basename(uri));
     } else if(uri.match(/thumbs/) && path.extname(parsedUrl.pathname) == ".jpg") {
         filename = decodeURIComponent(path.join(util.getConfig().epgrecConfig.thumbsPath, path.basename(uri)));
+    } else if(uri.match(/videoid/) && path.extname(parsedUrl.pathname) == ".mp4") {
+        var rec_id = path.basename(uri).replace("videoid", "").split(".")[0];
+        sqlModel.getTranscodeList(rec_id, function(result) {
+            if(result == '' || result.length == 0) { notFound(response); return; }
+
+            filename = result[0].path.toString('UTF-8');
+            responseFile(response, request, fileTypeHash, filename, uri);
+        });
+        return;
     } else if(path.extname(parsedUrl.pathname) == ".mp4") {
-        filename = path.join(util.getConfig().epgrecConfig.videoPath, uri);
+        filename = path.join(util.getConfig().epgrecConfig.videoPath, decodeURIComponent(uri));
     } else {
         filename = path.join(util.getRootPath(), uri);
     }
 
+    responseFile(response, request, fileTypeHash, filename, uri);
+}
+
+function responseFile(response, request, fileTypeHash, filename, uri) {
     fs.exists(filename, function (exists) {
         if (!exists) {
             log.access.error(`${filename} is not found`);

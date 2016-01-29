@@ -109,8 +109,27 @@ function getRecordedChannelList(limit, queryNum, callback) {
     });
 }
 
+function getTranscodeList(rec_id, callback) {
+    var jsonConfig = util.getConfig();
+    var sql = `select * from ${ jsonConfig["EpgrecRecordName"] }transcodeTbl where rec_id = ${rec_id};`;
+    var connection = createSqlConnection();
+
+    connection.query(sql, function(err, results) {
+        if (err) {
+            log.system.error('sql getTranscodeList error is : ', err );
+            callback('');
+            return;
+        }
+
+        log.system.debug("sql getTranscodeList data");
+        callback(results);
+        connection.destroy();
+    });
+}
+
 exports.getNowEpgData = getNowEpgData;
 exports.getRecordedList = getRecordedList;
 exports.getRecordedKeywordList = getRecordedKeywordList;
 exports.getRecordedChannelList = getRecordedChannelList;
+exports.getTranscodeList = getTranscodeList;
 
