@@ -55,7 +55,7 @@ function getOffset(num, limit) {
 function getRecordedList(limit, queryNum, searchSQLQuery, query, callback) {
     var option = "";
     for (var key in query) { if(typeof query[key] != "undefined") { option += `and ${key} = ${query[key]}`; } }
-    if(typeof searchSQLQuery != "undefined" && earchSQLQuery.length != 0) {
+    if(typeof searchSQLQuery != "undefined" && searchSQLQuery.length != 0) {
         var titleOption = '(title like "%' + searchSQLQuery.replace(/\s+/g, "%) and (title like %")  + '%")';
         var description = '(description like "%' + searchSQLQuery.replace(/\s+/g, "%) and (description like %")  + '%")';
         option += ` and (${titleOption} or ${description}) `;
