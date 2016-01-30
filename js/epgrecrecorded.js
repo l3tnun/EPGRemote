@@ -19,6 +19,11 @@ function openVideoNotFoundDialog() {
     $("#videoNotFoundDialog").popup('open');
 }
 
+function openSearchDialog() {
+    $('#pullDownMenu').popup('close');
+    $('#searchDialog').popup('open');
+}
+
 function openDeleteDialog(id, title) {
     $("#deleteDialog").empty();
     $("#deleteDialog").append('<div style="font-weight: bold; ">' + title + " を削除しますか?" + '</div>');
