@@ -86,6 +86,8 @@
 
     "EpgrecRecordName" : "Recorder_",
 
-    "RecordedFileExtension" : "mp4"
+    "RecordedFileExtension" : "mp4",
+
+    "RecordedStreamingiOSURL" : "vlc-x-callback://x-callback-url/stream?url=ADDRESS"
 }
 
