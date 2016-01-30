@@ -52,12 +52,18 @@ function getOffset(num, limit) {
     if(num <= 1) { return 0; } else { return (num - 1) * limit; }
 }
 
-function getRecordedList(limit, queryNum, query, callback) {
+function getRecordedList(limit, queryNum, searchSQLQuery, query, callback) {
     var option = "";
     for (var key in query) { if(typeof query[key] != "undefined") { option += `and ${key} = ${query[key]}`; } }
+    if(typeof searchSQLQuery != "undefined" && earchSQLQuery.length != 0) {
+        var titleOption = '(title like "%' + searchSQLQuery.replace(/\s+/g, "%) and (title like %")  + '%")';
+        var description = '(description like "%' + searchSQLQuery.replace(/\s+/g, "%) and (description like %")  + '%")';
+        option += ` and (${titleOption} or ${description}) `;
+    }
 
     var jsonConfig = util.getConfig();
     var sql = `select * from ${ jsonConfig["EpgrecRecordName"] }channelTbl; select * from ${ jsonConfig["EpgrecRecordName"] }transcodeTbl; select * from ${ jsonConfig["EpgrecRecordName"] }reserveTbl where starttime <= now() ${ option } order by starttime desc limit ${ limit } offset ${ getOffset(queryNum, limit) };`;
+
     var connection = createSqlConnection();
 
     connection.query(sql, function(err, results) {

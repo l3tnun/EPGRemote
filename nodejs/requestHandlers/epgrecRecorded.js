@@ -1,4 +1,5 @@
 var path = require('path');
+var url = require("url");
 var util = require(__dirname + "/../util");
 var viewerEpgrecRecorded = require(__dirname + "/../viewer/epgrecRecorded");
 var sqlModel = require(__dirname + "/../sqlModel");
@@ -6,12 +7,19 @@ var log = require(__dirname + "/../logger").getLogger();
 var createPageNumber = require(__dirname + "/createPageNumber");
 var notFound = require(__dirname + "/notFound");
 
-module.exports = function(response, parsedUrl, request) {
+module.exports = function(response, parsedUrl, request, postData) {
     log.access.info("Request handler 'epgrec recorded' was called.");
     var configJson = util.getConfig();
     var ua = JSON.stringify(request.headers['user-agent']).toLocaleLowerCase();
+    var parsedPostQuery = url.parse("?" + postData, true).query;
+    var searchSQLQuery;
 
-    sqlModel.getRecordedList(15, parsedUrl.query.num, { "autorec" : parsedUrl.query.keyword, "category_id" : parsedUrl.query.category ,"channel_id" : parsedUrl.query.channel }, function(results) {
+    //検索クエリの組み立て
+    if(typeof parsedPostQuery.search != "undefined" && parsedPostQuery.search != '') {
+        searchSQLQuery = parsedPostQuery.search.replace(/　/g, " ").trim().replace(/^\s+|\s+$/g,'').replace(/ +/g,' ');
+    }
+
+    sqlModel.getRecordedList(15, parsedUrl.query.num, searchSQLQuery, { "autorec" : parsedUrl.query.keyword, "category_id" : parsedUrl.query.category ,"channel_id" : parsedUrl.query.channel }, function(results) {
         if(results == '') { notFound(response); return; }
 
         //チャンネル名
