@@ -4,7 +4,6 @@ var util = require(__dirname + "/../util");
 var viewerEpgrecRecorded = require(__dirname + "/../viewer/epgrecRecorded");
 var sqlModel = require(__dirname + "/../sqlModel");
 var log = require(__dirname + "/../logger").getLogger();
-var createPageNumber = require(__dirname + "/createPageNumber");
 var notFound = require(__dirname + "/notFound");
 
 module.exports = function(response, parsedUrl, request, postData) {
