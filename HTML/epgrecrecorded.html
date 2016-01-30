@@ -11,94 +11,7 @@
     <script src="/jquery/jquery.mobile.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/new_socketio.js"></script>
-    <script type="text/javascript">
-        function scrollTopButton() {
-            $('html,body').animate({ scrollTop: 0 }, 'swing');
-        }
-
-        //video削除処理
-        socketio.on("resultDeleteVideoFile", function(result) {
-            if(result.match(/^error/i)){
-                alert(result);
-            } else {
-                location.reload();
-            }
-        });
-
-        function deleteVideo(rec_id) {
-            socketio.emit("requestDeleteVideoFile", rec_id, $('#delete_file')[0].checked);
-        }
-
-        function openVideoNotFoundDialog() {
-            $("#lnkVideoNotFoundDialog").click();
-        }
-
-        function openDeleteDialog(id, title) {
-            $("#deleteDialog").empty();
-            $("#deleteDialog").append('<div style="font-weight: bold; ">' + title + " を削除しますか?" + '</div>');
-            var checkbox = '<div style="text-align:center; margin: 10px;"><input id="delete_file" style="margin-right: 15px;" name="delete_file" value="1" type="checkbox" checked="checked">録画ファイルも削除する</div>'
-
-            $("#deleteDialog").append(checkbox);
-            var button = '<div class="ui-grid-a">';
-            button += '<div class="ui-block-a"><a data-rel="back" href="#" class="ui-btn ui-corner-all">戻る</a></div>'
-            button += '<div class="ui-block-b"><a id="deleteButton" href="javascript:deleteVideo(' + id  + ')' + '" class="ui-btn ui-btn-b ui-corner-all">削除</a></div></div>';
-            $("#deleteDialog").append(button);
-            $('#actionMenu').popup('close');
-            $("#lnkDeleteDialog").click();
-        }
-
-        $(window).load(function() {
-            //アクションメニュー
-            $('.openActionMenu').on('click', function(element, ui) {
-                var id = element.target.id;
-                var title = $('#'+ id).attr('programTitle');
-                var programId = $('#'+ id).attr('programId')
-                $("#actionDownload").attr('href', $('#'+ id).attr('downloadLink'));
-                $("#actionDelete").attr('href','javascript:openDeleteDialog(' + programId + ',"' + title + '")');
-                $('#actionMenu').popup('open', { x: element.pageX, y: element.pageY });
-            });
-
-            //pagination処理
-            if($('#program_list').children().length == 0) {
-                $(".pagination").css("display", "none");
-                return;
-            } else if($('#program_list').children().length < 15) {
-                $(".pagination_next").css("visibility", "hidden");
-            }
-
-            var url = window.location.search;
-            query = {};
-            array  = url.slice(1).split('&');
-            for (var i = 0; i < array.length; i++) {
-                vars = array[i].split('=');
-                query[vars[0]] = vars[1];
-            }
-
-            var parameters = getQueryParameter(query);
-            var pathname = window.location.pathname;
-
-            if(typeof query.num == "undefined" || query.num < 2) {
-                $(".pagination_prev").css("visibility", "hidden");
-                $(".pagination_name").text("ページ1");
-                $(".pagination_next").attr("href", pathname + "?num=2" + parameters)
-            } else {
-                $(".pagination_name").text("ページ" + query.num);
-                $(".pagination_next").attr("href", pathname + "?num=" + (Number(query.num) + 1) + parameters)
-                $(".pagination_prev").attr("href", pathname + "?num=" + (Number(query.num) - 1) + parameters)
-            }
-
-            function getQueryParameter(query) {
-                var parameterList = ["keyword", "channel"];
-
-                var parameters = ""
-                parameterList.forEach(function(parameter) {
-                    if(typeof query[parameter] != "undefined") { parameters += "&" + parameter + "=" + query[parameter]; }
-                });
-
-                return parameters;
-            }
-        });
-    </script>
+    <script src="/js/epgrecrecorded.js"></script>
     <style>
     .ui-listview > .ui-li-has-thumb > .ui-btn {
         padding-left: 5.25em;
@@ -126,18 +39,23 @@
 <a class="scroll_top_button" style="color: white;" herf="#" onclick="javascript:scrollTopButton()">▲</a>
 
 <!--削除ダイアログ-->
-<a id='lnkDeleteDialog' href="#deleteDialog" data-rel="popup" data-position-to="window" data-transition="pop" style='display:none;'></a>
-
 <div data-role="popup" id="deleteDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width: 260px;">
 </div>
 
 <!--video not found ダイアログ-->
-<a id='lnkVideoNotFoundDialog' href="#videoNotFoundDialog" data-rel="popup" data-position-to="window" data-transition="pop" style='display:none;'></a>
-
 <div data-role="popup" id="videoNotFoundDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width: 260px;">
     <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">close</a>
     <p style="text-align: center; font-weight: bold; margin-bottom: 20px;">変換済みの動画がありません。</p>
     <a data-rel="back" href="#" class="ui-btn ui-corner-all">閉じる</a>
+</div>
+
+<!--プログラム詳細ダイアログ-->
+<div data-role="popup" id="programInfoDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width: 260px;">
+    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">close</a>
+    <p id="programDialogTitle" style="font-weight: bold;">title</p>
+    <p id="programDialogInfo" style="font-size: 13px;">info</p>
+    <img id="programDialogThumbs" style="margin: 12px auto; display: block; width: 100%; height: 100%;"></img>
+    <p id="programDialogDescription">description</p>
 </div>
 
 <!--メニュー-->
@@ -150,8 +68,9 @@
 <!--アクション メニュー-->
 <div data-role="popup" id="actionMenu" data-history="false">
   <ul data-role="listview" data-inset="true" style="min-width:145px;">
+    <li><a id="actionProgram" class="ui-btn ui-btn-icon-left ui-icon-comment" href="#" target="_self">Programs</a></li>
     <li><a id="actionDownload" class="ui-btn ui-btn-icon-left ui-icon-arrow-d" href="#" target="_self">Download</a></li>
-    <li><a id="actionDelete" class="ui-btn ui-btn-icon-left ui-icon-delete" path="" fullTitle="" href="#" target="_self">Delete</a></li>
+    <li><a id="actionDelete" class="ui-btn ui-btn-icon-left ui-icon-delete" href="#" target="_self">Delete</a></li>
     <li><a data-rel="back" class="ui-btn ui-btn-icon-left ui-icon-back" href="#">Back</a></li>
   </ul>
 </div>
