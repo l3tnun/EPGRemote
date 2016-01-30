@@ -79,9 +79,9 @@ function getRecordedList(limit, queryNum, searchSQLQuery, query, callback) {
     });
 }
 
-function getRecordedKeywordList(limit, queryNum, callback) {
+function getRecordedKeywordList(callback) {
     var jsonConfig = util.getConfig();
-    var sql = `select * from ${jsonConfig["EpgrecRecordName"]}keywordTbl; select * from ${jsonConfig["EpgrecRecordName"]}reserveTbl where starttime <= now() order by starttime desc limit ${ limit } offset ${ getOffset(queryNum) };`;
+    var sql = `select * from ${jsonConfig["EpgrecRecordName"]}keywordTbl; select * from ${jsonConfig["EpgrecRecordName"]}reserveTbl where starttime <= now() order by starttime desc;`;
     var connection = createSqlConnection();
 
     connection.query(sql, function(err, results) {
@@ -97,9 +97,9 @@ function getRecordedKeywordList(limit, queryNum, callback) {
     });
 }
 
-function getRecordedChannelList(limit, queryNum, callback) {
+function getRecordedChannelList(callback) {
     var jsonConfig = util.getConfig();
-    var sql = `select * from ${jsonConfig["EpgrecRecordName"]}channelTbl; select * from ${jsonConfig["EpgrecRecordName"]}reserveTbl where starttime <= now() order by starttime desc limit ${ limit } offset ${ getOffset(queryNum) };`;
+    var sql = `select * from ${jsonConfig["EpgrecRecordName"]}channelTbl; select * from ${jsonConfig["EpgrecRecordName"]}reserveTbl where starttime <= now() order by starttime desc;`;
     var connection = createSqlConnection();
 
     connection.query(sql, function(err, results) {
@@ -115,9 +115,9 @@ function getRecordedChannelList(limit, queryNum, callback) {
     });
 }
 
-function getRecordedCategoryList(limit, queryNum, callback) {
+function getRecordedCategoryList(callback) {
     var jsonConfig = util.getConfig();
-    var sql = `select * from ${jsonConfig["EpgrecRecordName"]}categoryTbl; select * from ${jsonConfig["EpgrecRecordName"]}reserveTbl where starttime <= now() order by starttime desc limit ${ limit } offset ${ getOffset(queryNum) };`;
+    var sql = `select * from ${jsonConfig["EpgrecRecordName"]}categoryTbl; select * from ${jsonConfig["EpgrecRecordName"]}reserveTbl where starttime <= now() order by starttime desc`;
     var connection = createSqlConnection();
 
     connection.query(sql, function(err, results) {

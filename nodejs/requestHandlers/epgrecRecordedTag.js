@@ -17,7 +17,7 @@ module.exports = function(response, parsedUrl) {
     else { type = parsedUrl.query.type; }
 
     if(typeof viewFunction[type] == "undefined") { notFound(response); return; }
-    viewFunction[type].sql(15, parsedUrl.query.num, function(results) {
+    viewFunction[type].sql(function(results) {
         if(results == '') { notFound(response); return; }
         var tagList = {}
         results[0].forEach(function(result) { tagList[result.id] = { "name" : result[viewFunction[type].name], "cnt" : 0 } });
@@ -29,10 +29,19 @@ module.exports = function(response, parsedUrl) {
             tagList[result[viewFunction[type].id]].cnt += 1;
         });
 
+        var num, endNum, startNum, limit = 15;
+        if(typeof parsedUrl.query.num == "undefined") { num = 1; } else { num = Number(parsedUrl.query.num); }
+        if(num <= 1) { startNum = 1; } else { startNum = ((num - 1) * limit) + 1; }
+        endNum = num * limit;
+
+        var i = 1;
         var tags = [];
         for (var key in tagList) {
             if(tagList[key].cnt != 0) {
-                tags.push({ "type" : type, "link" : key, "title" : tagList[key].name, "cnt" : tagList[key].cnt });
+                if (i >= startNum && i <= endNum) {
+                    tags.push({ "type" : type, "link" : key, "title" : tagList[key].name, "cnt" : tagList[key].cnt });
+                }
+                i += 1;
             }
         }
 
