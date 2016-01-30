@@ -88,7 +88,7 @@
 
     "RecordedFileExtension" : "mp4",
 
-    "RecordedStreamingiOSURL" : "vlc-x-callback://x-callback-url/stream?url=ADDRESS",
-    "RecordedDownloadiOSURL" : "vlc-x-callback://x-callback-url/download?url=ADDRESS&filename=FILENAME"
+    "RecordedStreamingiOSURL" : "vlc-x-callback://x-callback-url/stream?url=http://ADDRESS",
+    "RecordedDownloadiOSURL" : "vlc-x-callback://x-callback-url/download?url=http://ADDRESS&filename=FILENAME"
 }
 

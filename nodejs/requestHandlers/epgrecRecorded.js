@@ -44,7 +44,7 @@ module.exports = function(response, parsedUrl, request) {
                 program.videLink = "javascript:openVideoNotFoundDialog()";
                 program.downloadLink = "javascript:openVideoNotFoundDialog()";
             } else if(ua.indexOf('ipad') != -1 || ua.indexOf('ipod') != -1 || ua.indexOf('iphone') != -1) {
-                var address = `http://${configJson.serverIP}:${configJson.serverPort}/video/videoid${result.id}.${configJson.RecordedFileExtension}`;
+                var address = `${configJson.serverIP}:${configJson.serverPort}/video/videoid${result.id}.${configJson.RecordedFileExtension}`;
                 program.videLink = configJson.RecordedStreamingiOSURL.replace("ADDRESS", address);
                 program.downloadLink = configJson.RecordedDownloadiOSURL.replace("ADDRESS", address).replace("FILENAME", path.basename(videoPaths[result.id].path));
             } else {
