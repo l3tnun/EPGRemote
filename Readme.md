@@ -190,7 +190,7 @@ json ファイルは JSON.parse() でパースしているため、きちんと�
 ## 更新履歴
 * version 0.1 初版
 * version 0.1.1 EPGRec番組表の軽量化 
-* version 0.2.1 EPGRec UNA でトランスコード済みのファイルを視聴できるようにした(HSL配信ではありません)
+* version 0.2.0 EPGRec UNA でトランスコード済みのファイルを視聴できるようにした(HSL配信ではありません)
 
 ## Licence
 
