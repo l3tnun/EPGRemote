@@ -43,11 +43,21 @@
             button += '<div class="ui-block-a"><a data-rel="back" href="#" class="ui-btn ui-corner-all">戻る</a></div>'
             button += '<div class="ui-block-b"><a id="deleteButton" href="javascript:deleteVideo(' + id  + ')' + '" class="ui-btn ui-btn-b ui-corner-all">削除</a></div></div>';
             $("#deleteDialog").append(button);
+            $('#actionMenu').popup('close');
             $("#lnkDeleteDialog").click();
         }
 
-        //pagination処理
         $(window).load(function() {
+            //アクションメニュー
+            $('.openActionMenu').on('click', function(element, ui) {
+                var id = element.target.id;
+                var title = $('#'+ id).attr('programTitle');
+                var programId = $('#'+ id).attr('programId')
+                $("#actionDelete").attr('href','javascript:openDeleteDialog(' + programId + ',"' + title + '")');
+                $('#actionMenu').popup('open', { x: element.pageX, y: element.pageY });
+            });
+
+            //pagination処理
             if($('#program_list').children().length == 0) {
                 $(".pagination").css("display", "none");
                 return;
@@ -134,6 +144,15 @@
     <ul data-role="listview" data-inset="true" style="min-width:150px;">
         <li><a class="ui-btn ui-btn-icon-left ui-icon-tag" data-ajax="false" href="./epgrec_recorded/tag">Tag</a></li>
     </ul>
+</div>
+
+<!--アクション メニュー-->
+<div data-role="popup" id="actionMenu" data-history="false">
+  <ul data-role="listview" data-inset="true" style="min-width:145px;">
+    <li><a id="actionDownload" class="ui-btn ui-btn-icon-left ui-icon-arrow-d" href="#" target="_self">Download</a></li>
+    <li><a id="actionDelete" class="ui-btn ui-btn-icon-left ui-icon-delete" path="" fullTitle="" href="#" target="_self">Delete</a></li>
+    <li><a data-rel="back" class="ui-btn ui-btn-icon-left ui-icon-back" href="#">Back</a></li>
+  </ul>
 </div>
 
 <div data-role="header">
