@@ -1,0 +1,7 @@
+vcodec=nvenc
+
+vprofile=baseline
+maxrate=10000000
+bufsize=10000000
+flags=+loop-global_header
+
