@@ -5,7 +5,13 @@ EPGRec UNA の HLS View + 番組表簡易 Web UI (Node.js)
 
 ## これはなに？
 
-EPGRec UNA 用の後方支援プログラムです。EPGRec UNA の番組情報を使用して HLS(HTTP Live Streaming) でリアルタイムに視聴可能にします。また、簡易的なものですが、スマートフォン用の番組表 Web UI 付属します。簡易予約、自動予約禁止に対応してます。
+EPGRec UNA 用の後方支援プログラムです。EPGRec UNA の番組情報を使用して HLS(HTTP Live Streaming) でリアルタイムに視聴可能にします。
+
+* 機能
+ *  現在放送中の番組のリアルタイム配信(HLS)
+ *  スマートフォン用の EPGRec UNA の 簡易 Web UI
+     * 番組表一覧 (簡易予約、自動予約禁止に対応)
+     * 録画済み一覧 (ts or EPGRec UNA でエンコード済み動画ファイル をスマートフォンの任意のアプリで再生する機能)
 
 HLSでのリアルタイム視聴は CPU にとってかなり重たい処理となります。スペックに余裕があるマシンで動かしてください。
 
@@ -13,6 +19,14 @@ ffmpeg の設定については [v42fg3g/TvRemoteViewer_VB](https://github.com/v
 
 
 Node.js + HTML + CSS + Jquery を書くのはこれが初めてです。温かい目で見守ってください。
+
+## スクリーンショット
+<img src="https://github.com/l3tnun/EPGRemote/wiki/images/Readme/hls_program_list.PNG" width="250px">
+<img src="https://github.com/l3tnun/EPGRemote/wiki/images/Readme/epgrec_program_list1.PNG" width="250px">
+<img src="https://github.com/l3tnun/EPGRemote/wiki/images/Readme/epgrec_program_list2.PNG" width="250px">
+<img src="https://github.com/l3tnun/EPGRemote/wiki/images/Readme/epgrec_Recorded_list1.PNG" width="250px">
+<img src="https://github.com/l3tnun/EPGRemote/wiki/images/Readme/epgrec_Recorded_list2.PNG" width="250px">
+<img src="https://github.com/l3tnun/EPGRemote/wiki/images/Readme/program_download.PNG" width="250px">
 
 ## 使用ツール
 * Node.js version v5.2.0以降
@@ -35,6 +49,8 @@ $ npm install -g mysql log4js socketio
 * HLSでリアルタイム視聴を行う場合、ffmpeg と recpt1 等が必要です
 * 必須ではありませんが、EPGRec UNA とのチューナーの取り合いを回避するため、BonDriverProxy + recbond のインストールを推奨します。
 
+* 録画済み一覧から動画を再生する場合は、EPGrec UNA のエンコード機能とサムネイル作成機能を ON にしておくことを推奨します
+* エンコードなしで ts ファイルを直接再生も可能ですがスマートフォン側にそれなりの性能が必要になります。
 
 * 番組表 Web UIを使用する際には EPGRec UNA のindex.php 内の $programs の内容が必要になります。$programs を Json で返すようにしてください。
 
@@ -73,14 +89,16 @@ config.json 設定
 
 ````
 {
-    //Webからアクセスするときに使用するポート番号
-    "serverPort" : "8888",
+	"serverIP" : "192.168.xx.xx", //サーバのIPアドレス
+    "serverPort" : "8888", //Webからアクセスするときに使用するポート番号
     
     //EPGRec UNAの設定
     "epgrecConfig" : {
         "host" : "192.168.xx.xx:xxxx", //EPGRec UNAが動いてるホストの IP
         "index.php" : "index2.php",     //番組表データ取得のための php ファイルの名前 
         "hourheight" : 180, //EPGRec UNA で設定した1時間あたりの高さ
+        "videoPath" : "/var/www/epgrec/video", //EPGRec UNA の録画ファイルが保存されているディレクトリのパス
+        "thumbsPath" : "/var/www/epgrec/thumbs" //EPGRec UNA の録画ファイルのサムネイルが保存されているディレクトリのパス
     },
 
     //ffmpegで使用するビデオサイズ等の設定
@@ -125,7 +143,16 @@ config.json 設定
     },
     
     //EPGRec UNAで設定したテーブル接頭辞
-    "EpgrecRecordName" : "Recorder_"
+    "EpgrecRecordName" : "Recorder_",
+    
+    //録画済み一覧で再生する際に使用する動画の拡張子
+    //EPGRec UNA でエンコードしたファイルの拡張子を書いてください
+    //EPGRec UNA　でエンコードしていない場合は "ts" と書けばスマホの VLC 等で ts ファイルが再生できます
+    "RecordedFileExtension" : "mp4",
+
+    //ios の録画済み一覧の URL Scheme の設定　↓の場合だと VLC が起動するようになっている
+    "RecordedStreamingiOSURL" : "vlc-x-callback://x-callback-url/stream?url=http://ADDRESS",
+    "RecordedDownloadiOSURL" : "vlc-x-callback://x-callback-url/download?url=http://ADDRESS&filename=FILENAME"
 
 ````
 
@@ -157,12 +184,13 @@ json ファイルは JSON.parse() でパースしているため、きちんと�
  * Xperia Z3         (5.1.1) Chrome (47.0.2526.83)
 
 ## 今後の拡張予定
-* 予約検索と録画済みの一覧 & HLSで配信とか対応したいですね
+* 予約検索と録画済みの一覧をHLSで配信とか対応したいですね
 * Firefox, Chrome は HLS に対応していないので Flash のプラグインを追加して対応できそう
 
 ## 更新履歴
 * version 0.1 初版
 * version 0.1.1 EPGRec番組表の軽量化 
+* version 0.2.1 EPGRec UNA でトランスコード済みのファイルを視聴できるようにした(HSL配信ではありません)
 
 ## Licence
 
