@@ -22,6 +22,7 @@
         if(typeof query.type == "undefined") { query.type = "keyword" }
 
         if(query.type == "keyword") { $("#reserved_words_button").addClass("ui-btn-active"); }
+        else if(query.type == "category") { $("#category_button").addClass("ui-btn-active"); }
         else if(query.type == "channel") { $("#channel_button").addClass("ui-btn-active"); }
 
         //pagination処理
@@ -44,6 +45,14 @@
         }
     });
     </script>
+    <style>
+        .ui-page-theme-a .ui-btn.ui-btn-active {
+            margin: 0px;
+        }
+        .ui-page-theme-a .ui-btn {
+            margin: 0px;
+        }
+    </style>
 </head>
 <body>
 <div data-role="header">
@@ -51,12 +60,15 @@
     <h1>録画済み Tag</h1>
 </div>
 <div role="main" class="ui-content">
-    <div class="ui-grid-a" style="margin: -18px;">
+    <div class="ui-grid-b" style="margin: -6px;">
       <div class="ui-block-a">
-        <a href="./tag?type=keyword" id="reserved_words_button" class="ui-btn ui-corner-all" TARGET="_self">keywords</a>
+        <a href="./tag?type=keyword" id="reserved_words_button" class="ui-btn ui-corner-all" TARGET="_self">予約言</a>
       </div>
       <div class="ui-block-b">
-        <a href="./tag?type=channel" id="channel_button" class="ui-btn ui-corner-all" TARGET="_self">Channel</a>
+        <a href="./tag?type=category" id="category_button" class="ui-btn ui-corner-all" TARGET="_self">種類</a>
+      </div>
+      <div class="ui-block-c">
+        <a href="./tag?type=channel" id="channel_button" class="ui-btn ui-corner-all" TARGET="_self">CH</a>
       </div>
     </div>
 

@@ -109,6 +109,24 @@ function getRecordedChannelList(limit, queryNum, callback) {
     });
 }
 
+function getRecordedCategoryList(limit, queryNum, callback) {
+    var jsonConfig = util.getConfig();
+    var sql = `select * from ${jsonConfig["EpgrecRecordName"]}categoryTbl; select * from ${jsonConfig["EpgrecRecordName"]}reserveTbl where starttime <= now() order by starttime desc limit ${ limit } offset ${ getOffset(queryNum) };`;
+    var connection = createSqlConnection();
+
+    connection.query(sql, function(err, results) {
+        if (err) {
+            log.system.error('sql getRecordedList error is : ', err );
+            callback('');
+            return;
+        }
+
+        log.system.debug("sql getRecordedList data");
+        callback(results);
+        connection.destroy();
+    });
+}
+
 function getTranscodeId(rec_id, callback) {
     var jsonConfig = util.getConfig();
     var sql = `select * from ${ jsonConfig["EpgrecRecordName"] }transcodeTbl where rec_id = ${rec_id};`;
@@ -148,6 +166,7 @@ function getRecordedId(rec_id, callback) {
 exports.getNowEpgData = getNowEpgData;
 exports.getRecordedList = getRecordedList;
 exports.getRecordedKeywordList = getRecordedKeywordList;
+exports.getRecordedCategoryList = getRecordedCategoryList;
 exports.getRecordedChannelList = getRecordedChannelList;
 exports.getTranscodeId = getTranscodeId;
 exports.getRecordedId = getRecordedId;

@@ -5,6 +5,7 @@ var notFound = require(__dirname + "/notFound");
 
 var viewFunction = {
     "keyword" : { "sql" : sqlModel.getRecordedKeywordList, "id" : "autorec" ,"name" : "keyword", "noId" : "予約言なし" },
+    "category" : { "sql" : sqlModel.getRecordedCategoryList, "id" : "category_id" ,"name" : "name_jp", "noId" : "分類なし" },
     "channel" : { "sql" : sqlModel.getRecordedChannelList, "id" : "channel_id", "name" : "name", "noId" : "放送局なし" }
 };
 

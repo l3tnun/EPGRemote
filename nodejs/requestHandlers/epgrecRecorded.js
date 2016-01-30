@@ -11,7 +11,7 @@ module.exports = function(response, parsedUrl, request) {
     var configJson = util.getConfig();
     var ua = JSON.stringify(request.headers['user-agent']).toLocaleLowerCase();
 
-    sqlModel.getRecordedList(15, parsedUrl.query.num, { "autorec" : parsedUrl.query.keyword, "channel_id" : parsedUrl.query.channel }, function(results) {
+    sqlModel.getRecordedList(15, parsedUrl.query.num, { "autorec" : parsedUrl.query.keyword, "category_id" : parsedUrl.query.category ,"channel_id" : parsedUrl.query.channel }, function(results) {
         if(results == '') { notFound(response); return; }
 
         //チャンネル名
