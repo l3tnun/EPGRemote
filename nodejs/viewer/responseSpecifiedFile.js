@@ -11,7 +11,9 @@ module.exports = function(response, request, filename, fileTypeHash, mode) {
         if (!exists) {
             log.access.error(`${filename} is not found`);
             notFound(response);
-            return;
+        } else if(fs.statSync(filename).isDirectory()) {
+            log.access.error(`${filename} is directory`);
+            notFound(response);
         } else {
             var responseHeaders = {};
             if(typeof mode != "undefined" && mode == "download") {
