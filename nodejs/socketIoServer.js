@@ -1,3 +1,4 @@
+var path = require('path');
 var socketio = require('socket.io');
 var util = require(__dirname + "/util");
 var streamManager = require(__dirname + '/streamManager');
@@ -106,8 +107,8 @@ function start(server) {
                 try {
                     json = JSON.parse(body);
                 } catch(e) {
-                    console.log('getEPGRecProgramList json error');
-                    console.log(e);
+                    log.access.error('getEPGRecProgramList json error');
+                    log.access.error.log(e);
                     return;
                 }
 
@@ -135,6 +136,13 @@ function start(server) {
 
         socket.on("getEpgRecHostName", function () {
             io.sockets.emit("epgRecHostNameResult", {value : util.getConfig()["epgrecConfig"]["host"]});
+        });
+
+        /*video file 削除部分*/
+        socket.on("requestDeleteVideoFile", function (rec_id, checkbox) {
+            epgrecManager.deleteVideoFile(rec_id, checkbox, function(result) {
+                                                io.sockets.emit("resultDeleteVideoFile", result);
+                                            });
         });
     });
 

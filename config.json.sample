@@ -1,10 +1,13 @@
 {
+    "serverIP" : "192.168.xx.xx",
     "serverPort" : "8888",
 
     "epgrecConfig" : {
         "host" : "192.168.xx.xx:xxxx",
         "index.php" : "index2.php",
-        "hourheight" : 180
+        "hourheight" : 180,
+        "videoPath" : "/var/www/epgrec/video",
+        "thumbsPath" : "/var/www/epgrec/thumbs"
     },
 
     "video" : [
@@ -81,6 +84,11 @@
         "timeout": 5000
     },
 
-    "EpgrecRecordName" : "Recorder_"
+    "EpgrecRecordName" : "Recorder_",
+
+    "RecordedFileExtension" : "mp4",
+
+    "RecordedStreamingiOSURL" : "vlc-x-callback://x-callback-url/stream?url=http://ADDRESS",
+    "RecordedDownloadiOSURL" : "vlc-x-callback://x-callback-url/download?url=http://ADDRESS&filename=FILENAME"
 }
 

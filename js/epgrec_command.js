@@ -1,7 +1,12 @@
 //番組情報取得関係
-var socketid = `${new Date().getTime()}:${Math.random().toString(36).slice(-8)}`;
+var socketid;
+
+function updateSocketid() {
+    socketid = `${new Date().getTime()}:${Math.random().toString(36).slice(-8)}`;
+}
 
 $(function(){
+    updateSocketid();
     var url = window.location.search;
 
     query = {};
@@ -87,28 +92,29 @@ socketio.on("resultEPGRecProgramList", function (data){
 
 function rec(id) {
     socketio.emit("getRec", id);
-    socketio.on("recResult", function (data){
-        var recv = data.value.match(/error/i);
-        if( recv != null ){
-            alert(data.value);
-            $('#progDialog').popup('close');
-        } else {
-            var pt = data.value.split( ':' );
-            var r_id = parseInt(pt[0]);
-            var tuner = pt[1];
-            var reload = parseInt(pt[3]);
-
-            if( reload ){
-                location.reload();
-            } else {
-                if( r_id ) {
-                    $('#prgID_' + r_id).addClass('tv_program_reced'); //赤枠追加
-                }
-                $('#progDialog').popup('close');
-            }
-        }
-    });
 };
+
+socketio.on("recResult", function (data) {
+    var recv = data.value.match(/error/i);
+    if( recv != null ){
+        alert(data.value);
+        $('#progDialog').popup('close');
+    } else {
+        var pt = data.value.split( ':' );
+        var r_id = parseInt(pt[0]);
+        var tuner = pt[1];
+        var reload = parseInt(pt[3]);
+
+        if( reload ){
+            location.reload();
+        } else {
+            if( r_id ) {
+                $('#prgID_' + r_id).addClass('tv_program_reced'); //赤枠追加
+            }
+            $('#progDialog').popup('close');
+        }
+    }
+});
 
 function cancelRec(id) {
     socketio.emit("getCancelRec", id);
@@ -140,7 +146,7 @@ function toggleAutoRec(id) {
     socketio.emit("getToggleAutoRec", id, autorec);
     socketio.on("autoRecResult", function (data){
         if(id != data.id) { return; }
-        if(!data.value) {
+        if(autorec) {
             $('#prgID_' + id).addClass('tv_program_freeze');
         } else {
             $('#prgID_' + id).removeClass('tv_program_freeze');

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>録画済み Tag</title>
+    <meta name="viewport" content="width=device-width">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/jquery/jquery.mobile.min.css" />
+    <link rel="stylesheet" href="/css/pagination.css" />
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/jquery/jquery.mobile.min.js"></script>
+    <script>
+    $(window).load(function() {
+        var url = window.location.search;
+        query = {};
+        array  = url.slice(1).split('&');
+        for (var i = 0; i < array.length; i++) {
+            vars = array[i].split('=');
+            query[vars[0]] = vars[1];
+        }
+
+        //上部ボタン処理
+        if(typeof query.type == "undefined") { query.type = "keyword" }
+
+        if(query.type == "keyword") { $("#reserved_words_button").addClass("ui-btn-active"); }
+        else if(query.type == "category") { $("#category_button").addClass("ui-btn-active"); }
+        else if(query.type == "channel") { $("#channel_button").addClass("ui-btn-active"); }
+
+        //pagination処理
+        if($('#tag_list').children().length == 0) {
+            $(".pagination").css("display", "none");
+            return;
+        } else if($('#tag_list').children().length < 15) {
+            $(".pagination_next").css("visibility", "hidden");
+        }
+
+        var pathname = window.location.pathname;
+        if(typeof query.num == "undefined" || query.num < 2) {
+            $(".pagination_prev").css("visibility", "hidden");
+            $(".pagination_name").text("ページ1");
+            $(".pagination_next").attr("href", pathname + "?type=" + query.type + "&num=2");
+        } else {
+            $(".pagination_name").text("ページ" + query.num);
+            $(".pagination_next").attr("href", pathname + "?type=" + query.type + "&num=" + (Number(query.num) + 1));
+            $(".pagination_prev").attr("href", pathname + "?type=" + query.type + "&num=" + (Number(query.num) - 1))
+        }
+    });
+    </script>
+    <style>
+        .ui-page-theme-a .ui-btn.ui-btn-active {
+            margin: 0px;
+        }
+        .ui-page-theme-a .ui-btn {
+            margin: 0px;
+        }
+    </style>
+</head>
+<body>
+<div data-role="header">
+    <a href="/epgrec_recorded" target="_self">BACK</a>
+    <h1>録画済み Tag</h1>
+</div>
+<div role="main" class="ui-content">
+    <div class="ui-grid-b" style="margin: -6px;">
+      <div class="ui-block-a">
+        <a href="./tag?type=keyword" id="reserved_words_button" class="ui-btn ui-corner-all" TARGET="_self">予約言</a>
+      </div>
+      <div class="ui-block-b">
+        <a href="./tag?type=category" id="category_button" class="ui-btn ui-corner-all" TARGET="_self">種類</a>
+      </div>
+      <div class="ui-block-c">
+        <a href="./tag?type=channel" id="channel_button" class="ui-btn ui-corner-all" TARGET="_self">CH</a>
+      </div>
+    </div>
+
+    <ul id="tag_list" style="margin-top: 18px;" data-role="listview">
+        @@@TAGLIST@@@
+    </ul>
+    <div class="pagination" style="margin-top: 18px; margin-bottom: -18px">
+        <a class="pagination_prev" herf="#" target="_self"><</a>
+        <span class="pagination_name"></span>
+        <a class="pagination_next" herf="#" target="_self">></a>
+    </div>
+</div>
+</body>
+</html>
