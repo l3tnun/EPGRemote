@@ -1,49 +1,13 @@
-var fs = require('fs')
+var fs = require('fs');
 var path = require('path');
 var util = require(__dirname + "/../util");
 var log = require(__dirname + "/../logger").getLogger();
 var notFound = require(__dirname + "/notFound");
 var sqlModel = require(__dirname + "/../sqlModel");
 
-module.exports = function(response, request, parsedUrl, fileTypeHash) {
+module.exports = function(response, request, filename, fileTypeHash) {
     var configJson = util.getConfig();
-    var uri = parsedUrl.pathname;
-    var filename;
 
-    if (uri.match(/streamfiles/)) {
-        filename = path.join(configJson["streamFilePath"], path.basename(uri));
-    } else if(uri.split(path.sep)[1] == "thumbs" && path.extname(parsedUrl.pathname) == ".jpg") {
-        filename = decodeURIComponent(path.join(configJson.epgrecConfig.thumbsPath, path.basename(uri)));
-    } else if(uri.split(path.sep)[1] == "video" && uri.match(/videoid/) && path.extname(parsedUrl.pathname) == "." + configJson.RecordedFileExtension) {
-        var rec_id = path.basename(uri).replace("videoid", "").split(".")[0];
-
-        if(configJson.RecordedFileExtension == "ts") {
-            sqlModel.getRecordedId(rec_id, function(result) {
-                if(result == '' || result.length == 0) { notFound(response); return; }
-
-                filename = path.join(configJson.epgrecConfig.videoPath, result[0].path.toString('UTF-8'));
-                responseFile(response, request, fileTypeHash, filename, uri);
-            });
-        } else {
-            sqlModel.getTranscodeId(rec_id, function(result) {
-                if(result == '' || result.length == 0) { notFound(response); return; }
-
-                filename = result[0].path.toString('UTF-8');
-                responseFile(response, request, fileTypeHash, filename, uri);
-            });
-        }
-
-        return;
-    } else if(uri.split(path.sep)[1] == "video" && path.extname(parsedUrl.pathname) == "." + configJson.RecordedFileExtension) {
-        filename = path.join(configJson.epgrecConfig.videoPath, decodeURIComponent(uri)).replace("/video", "");
-    } else {
-        filename = path.join(util.getRootPath(), uri);
-    }
-
-    responseFile(response, request, fileTypeHash, filename, uri, configJson);
-}
-
-function responseFile(response, request, fileTypeHash, filename, uri, configJson) {
     fs.exists(filename, function (exists) {
         if (!exists) {
             log.access.error(`${filename} is not found`);
@@ -52,7 +16,7 @@ function responseFile(response, request, fileTypeHash, filename, uri, configJson
         } else {
             log.access.info(`response ${filename}`);
             var responseHeaders = {};
-            responseHeaders['Content-Type'] = fileTypeHash[path.extname(uri)];
+            responseHeaders['Content-Type'] = fileTypeHash[path.extname(filename)];
 
             var stat = fs.statSync(filename);
             var rangeRequest = readRangeHeader(request.headers['range'], stat.size);

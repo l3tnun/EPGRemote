@@ -4,6 +4,7 @@ module.exports = {
     viewTv : require(__dirname + '/viewTv'),
     viewTvError : require(__dirname + '/viewTvError'),
     responseSpecifiedFile : require(__dirname + '/responseSpecifiedFile'),
+    responseVideoFile : require(__dirname + '/responseVideoFile'),
     notFound : require(__dirname + '/notFound'),
     epgrec : require(__dirname + '/epgrec'),
     epgrecProgram : require(__dirname + '/epgrecProgram'),
