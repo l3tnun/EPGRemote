@@ -3,9 +3,8 @@ var path = require('path');
 var util = require(__dirname + "/../util");
 var log = require(__dirname + "/../logger").getLogger();
 var notFound = require(__dirname + "/notFound");
-var sqlModel = require(__dirname + "/../sqlModel");
 
-module.exports = function(response, request, filename, fileTypeHash) {
+module.exports = function(response, request, filename, fileTypeHash, mode) {
     var configJson = util.getConfig();
 
     fs.exists(filename, function (exists) {
@@ -14,9 +13,16 @@ module.exports = function(response, request, filename, fileTypeHash) {
             notFound(response);
             return;
         } else {
-            log.access.info(`response ${filename}`);
             var responseHeaders = {};
-            responseHeaders['Content-Type'] = fileTypeHash[path.extname(filename)];
+            if(typeof mode != "undefined" && mode == "download") {
+                log.access.info(`response ${filename} mode download`);
+                console.log(path.basename(filename));
+                responseHeaders['Content-Type'] = 'application/octet-stream';
+                responseHeaders['Content-disposition'] = "attachment; filename*=utf-8'ja'" + encodeURIComponent(filename) + ";"
+            } else {
+                log.access.info(`response ${filename}`);
+                responseHeaders['Content-Type'] = fileTypeHash[path.extname(filename)];
+            }
 
             var stat = fs.statSync(filename);
             var rangeRequest = readRangeHeader(request.headers['range'], stat.size);

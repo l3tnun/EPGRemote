@@ -42,10 +42,14 @@ module.exports = function(response, parsedUrl, request) {
             program.thumbs = `/thumbs/${path.basename(result.path.toString('UTF-8'))}.jpg`;
             if(typeof videoPaths[result.id] == "undefined" || videoPaths[result.id].vide_status != 2) {
                 program.videLink = "javascript:openVideoNotFoundDialog()";
+                program.downloadLink = "javascript:openVideoNotFoundDialog()";
             } else if(ua.indexOf('ipad') != -1 || ua.indexOf('ipod') != -1 || ua.indexOf('iphone') != -1) {
-                program.videLink = configJson.RecordedStreamingiOSURL.replace("ADDRESS", `http://${configJson.serverIP}:${configJson.serverPort}/video/videoid${result.id}.${configJson.RecordedFileExtension}`);
+                var address = `http://${configJson.serverIP}:${configJson.serverPort}/video/videoid${result.id}.${configJson.RecordedFileExtension}`;
+                program.videLink = configJson.RecordedStreamingiOSURL.replace("ADDRESS", address);
+                program.downloadLink = configJson.RecordedDownloadiOSURL.replace("ADDRESS", address).replace("FILENAME", path.basename(videoPaths[result.id].path));
             } else {
                 program.videLink = path.join("video", videoPaths[result.id].path);
+                program.downloadLink = path.join("video", videoPaths[result.id].path) + "?mode=download";
             }
             program.title = result.title;
             program.info = `${getDateStr(result.starttime)} ${channelName[result.channel_id]}`;

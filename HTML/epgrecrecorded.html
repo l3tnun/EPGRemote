@@ -53,6 +53,7 @@
                 var id = element.target.id;
                 var title = $('#'+ id).attr('programTitle');
                 var programId = $('#'+ id).attr('programId')
+                $("#actionDownload").attr('href', $('#'+ id).attr('downloadLink'));
                 $("#actionDelete").attr('href','javascript:openDeleteDialog(' + programId + ',"' + title + '")');
                 $('#actionMenu').popup('open', { x: element.pageX, y: element.pageY });
             });

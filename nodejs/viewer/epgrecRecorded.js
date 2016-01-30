@@ -11,7 +11,7 @@ module.exports = function(response, programs) {
         programStr += `<p>${program.info}</p>`
         programStr += `<p>${program.description}</p>`
         //programStr += `</a><a href="javascript:openDeleteDialog(${program.id}, '${program.title}')"></a></li>`
-        programStr += `</a><a id="actionId${actionId}" href="#" programId="${program.id}" programTitle="${program.title}" class="openActionMenu"></a></li>`
+        programStr += `</a><a id="actionId${actionId}" href="#" programId="${program.id}" programTitle="${program.title}" downloadLink="${program.downloadLink}" class="openActionMenu"></a></li>`
         actionId += 1;
     });
 
