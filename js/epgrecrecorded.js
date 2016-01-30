@@ -19,9 +19,9 @@ function openVideoNotFoundDialog() {
     $("#videoNotFoundDialog").popup('open');
 }
 
-function openSearchDialog() {
+function openSearch() {
     $('#pullDownMenu').popup('close');
-    $('#searchDialog').popup('open');
+    $('#searchForm').css("display", "block");
 }
 
 function openDeleteDialog(id, title) {

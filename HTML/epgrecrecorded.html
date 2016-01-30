@@ -58,21 +58,12 @@
     <p id="programDialogDescription">description</p>
 </div>
 
-<!--検索ダイアログ-->
-<div data-role="popup" id="searchDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width: 260px;">
-    <form action="" method="post" data-ajax="false">
-        <label for="search">検索</label>
-        <input type="search" name="search" id="search">
-        <input type="submit" value="検索" data-inline="true" data-mini="true">
-    </form>
-</div>
-
 <!--メニュー-->
 <div data-role="popup" id="pullDownMenu" data-history="false">
     <ul data-role="listview" data-inset="true" style="min-width:150px;">
         <li><a class="ui-btn ui-btn-icon-left ui-icon-home" href="./epgrec_recorded" target="_self">録画済み一覧</a></li>
         <li><a class="ui-btn ui-btn-icon-left ui-icon-tag" href="./epgrec_recorded/tag" target="_self">Tag</a></li>
-        <li><a class="ui-btn ui-btn-icon-left ui-icon-search" href="javascript:openSearchDialog()" target="_self">検索</a></li>
+        <li><a class="ui-btn ui-btn-icon-left ui-icon-search" href="javascript:openSearch()" target="_self">検索</a></li>
     </ul>
 </div>
 
@@ -92,6 +83,9 @@
     <a href="#pullDownMenu" data-rel="popup" data-transition="none" data-position-to="original" class="ui-btn ui-icon-bars ui-btn-icon-notext"></a>
 </div>
 <div role="main">
+    <form id="searchForm" style="margin: 0px 10px; display: none;" action="" method="post" data-ajax="false">
+        <input type="search" name="search" id="search">
+    </form>
     <ul id="program_list" data-role="listview">
         @@@PROGRAM@@@
     </ul>
