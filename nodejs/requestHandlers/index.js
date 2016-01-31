@@ -9,5 +9,6 @@ module.exports = {
     epgrec : require(__dirname + '/epgrec'),
     epgrecProgram : require(__dirname + '/epgrecProgram'),
     epgrecRecorded : require(__dirname + '/epgrecRecorded'),
-    epgrecRecordedTag : require(__dirname + '/epgrecRecordedTag')
+    epgrecRecordedTag : require(__dirname + '/epgrecRecordedTag'),
+    epgrecReservationTable : require(__dirname + '/epgrecReservationTable')
 }
