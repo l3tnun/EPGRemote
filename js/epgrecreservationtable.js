@@ -61,7 +61,7 @@ $(window).load(function() {
     });
 
     //pagination処理
-    if($('#program_list').children().length != 0) {
+    if($('#program_list').children().length == 0) {
         $(".pagination").css("display", "none");
         return;
     } else if($('#program_list').children().length < 15) {
