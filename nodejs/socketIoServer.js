@@ -144,6 +144,13 @@ function start(server) {
                                                 io.sockets.emit("resultDeleteVideoFile", result);
                                             });
         });
+
+        /*録画予約一覧 削除部分*/
+        socket.on("requestCancelReservation", function (rec_id, checkbox) {
+            epgrecManager.getCancelReservationResult(rec_id, checkbox, function(result) {
+                                                io.sockets.emit("resultCancelReservation", result);
+                                            });
+        });
     });
 
 }

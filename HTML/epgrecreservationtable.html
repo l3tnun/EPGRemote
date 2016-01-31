@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>録画予約一覧</title>
+    <meta name="viewport" content="width=device-width">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/jquery/jquery.mobile.min.css" />
+    <link rel="stylesheet" href="/css/topbutton.css" />
+    <link rel="stylesheet" href="/css/pagination.css" />
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/jquery/jquery.mobile.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/new_socketio.js"></script>
+    <script src="/js/epgrecreservationtable.js"></script>
+    <style>
+    .ui-listview .wordbreak {
+        overflow: visible;
+        white-space: normal;
+    }
+    input[type="checkbox"] {
+        -webkit-transform: scale(1.5);
+        transform: scale(1.5);
+    }
+    </style>
+</head>
+<body>
+<!--topにスクロールするボタン-->
+<a class="scroll_top_button" style="color: white;" herf="#" onclick="javascript:scrollTopButton()">▲</a>
+
+<!--削除ダイアログ-->
+<div data-role="popup" id="deleteDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width: 260px;">
+</div>
+
+<!--アクション メニュー-->
+<div data-role="popup" id="actionMenu" data-history="false">
+  <ul data-role="listview" data-inset="true" style="min-width:145px;">
+    <li><a id="actionEdit" class="ui-btn ui-btn-icon-left ui-icon-edit" href="#" target="_self">Edit</a></li>
+    <li><a id="actionDelete" class="ui-btn ui-btn-icon-left ui-icon-delete" href="#" target="_self">Delete</a></li>
+    <li><a data-rel="back" class="ui-btn ui-btn-icon-left ui-icon-back" href="#">Back</a></li>
+  </ul>
+</div>
+
+<!--プログラム詳細ダイアログ-->
+<div data-role="popup" id="programInfoDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width: 260px;">
+    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">close</a>
+    <p id="programDialogTitle" style="font-weight: bold;">title</p>
+    <p id="programDialogChannelName" style="font-size: 13px;">channel name</p>
+    <p id="programDialogTime" style="font-size: 13px;">time</p>
+    <p id="programDialogDescription">description</p>
+</div>
+
+<div data-role="header">
+    <a href="epgrec" target="_self">BACK</a>
+    <h1>録画予約一覧</h1>
+</div>
+<div role="main">
+    <ul id="program_list" data-role="listview">
+        @@@PROGRAM@@@
+    </ul>
+    <div class="pagination">
+        <a class="pagination_prev" herf="#" target="_self"><</a>
+        <span class="pagination_name"></span>
+        <a class="pagination_next" herf="#" target="_self">></a>
+    </div>
+</div>
+</body>
+</html>

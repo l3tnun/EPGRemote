@@ -59,9 +59,19 @@ function deleteVideoFile(rec_id, checkbox, callback) {
     httpGet(url, callback, 'delete video file ' + rec_id + ' ' + checkbox);
 }
 
+function getCancelReservationResult(rec_id, checkbox, callback) {
+    var epgrecConfig = util.getConfig()["epgrecConfig"];
+    var df = 0;
+    if(checkbox) { df = 1; }
+    var url = `http://${epgrecConfig["host"]}/cancelReservation.php?reserve_id=${rec_id}&autorec=${df}`;
+
+    httpGet(url, callback, 'cancel reservation result ' + rec_id + ' ' + checkbox);
+}
+
 exports.getProgram = getProgram;
 exports.getRecResult = getRecResult;
 exports.getCancelRecResult = getCancelRecResult;
 exports.getToggleAutoRec = getToggleAutoRec;
 exports.deleteVideoFile = deleteVideoFile;
+exports.getCancelReservationResult = getCancelReservationResult;
 

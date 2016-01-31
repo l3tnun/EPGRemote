@@ -12,6 +12,7 @@ handle["/epgrec"] = requestHandlers.epgrec;
 handle["/epgrec_program"] = requestHandlers.epgrecProgram;
 handle["/epgrec_recorded"] = requestHandlers.epgrecRecorded;
 handle["/epgrec_recorded/tag"] = requestHandlers.epgrecRecordedTag;
+handle["/epgrec_reservation_table"] = requestHandlers.epgrecReservationTable;
 
 var fileTypeHash = {
     ".css"  : "text/css",
