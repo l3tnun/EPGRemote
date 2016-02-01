@@ -5,7 +5,7 @@ var log = require(__dirname + "/../logger").getLogger();
 var notFound = require(__dirname + "/notFound");
 
 module.exports = function(response, parsedUrl, request, postData) {
-    log.access.info("Request handler 'epgrec epgrec reservation table' was called.");
+    log.access.info("Request handler 'epgrec reservation table' was called.");
 
     sqlModel.getReservationTable(15, parsedUrl.query.num, function(results) {
         if(results == '') { notFound(response); return; }
