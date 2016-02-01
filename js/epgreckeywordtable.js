@@ -2,10 +2,21 @@ function scrollTopButton() {
     $('html,body').animate({ scrollTop: 0 }, 'swing');
 }
 
+socketio.on("resultDeleteKeyword", function(result) {
+    if(result.match(/^error/i)){
+        alert(result);
+    } else {
+        location.reload();
+    }
+});
+
+function deleteKeyword(id) {
+    socketio.emit("requestDeleteKeyword", id);
+}
+
 //キーワード詳細
 function openKeywordInfo(keywordStr) {
     keyword = JSON.parse(keywordStr.replace(/'/g, '"'));
-    console.log(keyword);
     var channelType = "";
     if(keyword.typeGR) { channelType += "GR "; }
     if(keyword.typeBS) { channelType += "BS "; }
@@ -24,6 +35,7 @@ function openKeywordInfo(keywordStr) {
     $("#keywordDialogSftStart").text("時刻シフト(開始): " + keyword.sft_start);
     $("#keywordDialogSftEnd").text("時刻シフト(終了): " + keyword.sft_end);
     $("#keywordDialogEdit").attr('href', keyword.editLink);
+    $("#keywordDialogDelete").attr('href', "javascript:deleteKeyword(" + keyword.id +");");
     $('#actionMenu').popup('close');
     $("#keywordInfoDialog").popup('open');
 }

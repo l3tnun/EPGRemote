@@ -68,10 +68,18 @@ function getCancelReservationResult(rec_id, checkbox, callback) {
     httpGet(url, callback, 'cancel reservation result ' + rec_id + ' ' + checkbox);
 }
 
+function getDeleteKeywordResult(id, callback) {
+    var epgrecConfig = util.getConfig()["epgrecConfig"];
+    var url = `http://${epgrecConfig["host"]}/deleteKeyword.php?keyword_id=${id}`;
+
+    httpGet(url, callback, 'delete keyword result ' + id);
+}
+
 exports.getProgram = getProgram;
 exports.getRecResult = getRecResult;
 exports.getCancelRecResult = getCancelRecResult;
 exports.getToggleAutoRec = getToggleAutoRec;
 exports.deleteVideoFile = deleteVideoFile;
 exports.getCancelReservationResult = getCancelReservationResult;
+exports.getDeleteKeywordResult = getDeleteKeywordResult;
 
