@@ -102,7 +102,7 @@ function start(server) {
         //EPGRec から番組表を取得
         socket.on("getEPGRecProgramList", function (socketid, type, length, time) {
             log.access.debug(`getEPGRecProgramList ${socketid} ${type} ${length} ${time}`);
-            epgrecManager.getProgram(type, length, time, function(body) {
+            epgrecManager.getProgram(type, length + 1, time, function(body) {
                 var json;
                 try {
                     json = JSON.parse(body);

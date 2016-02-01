@@ -1,5 +1,6 @@
 //番組情報取得関係
 var socketid;
+var timeLength=0;
 
 function updateSocketid() {
     socketid = `${new Date().getTime()}:${Math.random().toString(36).slice(-8)}`;
@@ -27,11 +28,14 @@ $(function(){
         time = `${date.getFullYear()}${('0'+(date.getMonth()+1)).slice(-2)}${('0' + date.getDate()).slice(-2)}${('0'+ date.getHours()).slice(-2)}`;
     }
 
+    timeLength = length;
     socketio.emit("getEPGRecProgramList", socketid, type, length, time);
 });
 
 socketio.on("resultEPGRecProgramList", function (data){
     var stationNameCnt = 0;
+    var epgrecHeight = data.hourheight / 60;
+    var maxTimeHeight = epgrecHeight * 60 * timeLength;
 
     if(data.socketid != socketid) { return; }
     data.json.forEach(function(station) {
@@ -41,13 +45,13 @@ socketio.on("resultEPGRecProgramList", function (data){
         $("#station_name_content").append(stationNameStr);
 
         var programStr = "";
-        var epgrecHeight = data.hourheight / 60;
+        var timeHeightCnt = 0;
 
         programStr += '<div class="station">'
         for(var i = 0; i < station["list"].length; i++) {
             var program = station["list"][i];
             var title = program["title"];
-            if(typeof title != "undefined") {
+            if(typeof title != "undefined" && timeHeightCnt < maxTimeHeight) {
                 var classNameStr = `tv_program ctg_${program["genre"]} `
                 if(program["rec"] == 1) { classNameStr += "tv_program_reced "; }
                 if(program["autorec"] == 0) { classNameStr += "tv_program_freeze "; }
@@ -58,7 +62,12 @@ socketio.on("resultEPGRecProgramList", function (data){
                         programStr += `<div class="" style="visibility: hidden;">dummy</div>\n`
                         programStr += `</div>\n`;
                     }
-                    programStr += `<div id="prgID_${program["id"]}" style="height:${program["height"]/epgrecHeight*3}px;" class="${classNameStr}">\n`
+                    var pr_height = program["height"]/epgrecHeight*3;
+                    if(timeHeightCnt + pr_height > maxTimeHeight) {
+                        pr_height = maxTimeHeight - timeHeightCnt;
+                    }
+                    timeHeightCnt += pr_height;
+                    programStr += `<div id="prgID_${program["id"]}" style="height:${pr_height}px;" class="${classNameStr}">\n`
                     if(program["id"] != 0) {
                         programStr += `<div class="pr_title">${program["title"]}</div>\n`
                         programStr += `<div class="pr_starttime">${program["starttime"]}</div>\n`
