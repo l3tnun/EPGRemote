@@ -188,6 +188,25 @@ function getReservationTable(limit, queryNum, callback) {
     });
 }
 
+function getKeywordTable(limit, queryNum, callback) {
+    var jsonConfig = util.getConfig();
+    var sql = `select * from ${ jsonConfig["EpgrecRecordName"] }channelTbl; select * from ${ jsonConfig["EpgrecRecordName"] }categoryTbl; select * from ${ jsonConfig["EpgrecRecordName"] }keywordTbl order by id limit ${ limit } offset ${ getOffset(queryNum, limit) };`;
+
+    var connection = createSqlConnection();
+
+    connection.query(sql, function(err, results) {
+        if (err) {
+            log.system.error('sql getReservationTable error is : ', err );
+            callback('');
+            return;
+        }
+
+        log.system.debug("sql getReservationTable data");
+        callback(results);
+        connection.destroy();
+    });
+}
+
 exports.getNowEpgData = getNowEpgData;
 exports.getRecordedList = getRecordedList;
 exports.getRecordedKeywordList = getRecordedKeywordList;
@@ -196,4 +215,5 @@ exports.getRecordedChannelList = getRecordedChannelList;
 exports.getTranscodeId = getTranscodeId;
 exports.getRecordedId = getRecordedId;
 exports.getReservationTable = getReservationTable;
+exports.getKeywordTable = getKeywordTable;
 

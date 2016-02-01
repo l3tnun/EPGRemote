@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>自動録画キーワードの管理</title>
+    <meta name="viewport" content="width=device-width">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/jquery/jquery.mobile.min.css" />
+    <link rel="stylesheet" href="/css/topbutton.css" />
+    <link rel="stylesheet" href="/css/pagination.css" />
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/jquery/jquery.mobile.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/new_socketio.js"></script>
+    <script src="/js/epgreckeywordtable.js"></script>
+    <style>
+    .ui-listview .wordbreak {
+        overflow: visible;
+        white-space: normal;
+    }
+    input[type="checkbox"] {
+        -webkit-transform: scale(1.5);
+        transform: scale(1.5);
+    }
+    .dialogButton {
+        color: #FFF;
+        background: #0078AE none repeat scroll 0% 0%;
+        width: 110px;
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: 300;
+        text-decoration: none;
+        padding: 13px 0px;
+        display: block;
+        font-size: 16px;
+        margin-top: 6px;
+        float: left;
+        outline: medium none;
+    }
+    </style>
+</head>
+<body>
+<!--topにスクロールするボタン-->
+<a class="scroll_top_button" style="color: white;" herf="#" onclick="javascript:scrollTopButton()">▲</a>
+
+<!--プログラム詳細ダイアログ-->
+<div data-role="popup" id="keywordInfoDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width: 260px;">
+    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">close</a>
+    <p id="keywordDialogKeyword" style="font-weight: bold;">keyword</p>
+    <p id="keywordDialogOptions" style="font-size: 13px;">options</p>
+    <p id="keywordDialogChannelType" style="font-size: 13px;">channel Type</p>
+    <p id="keywordDialogChannelName" style="font-size: 13px;">channel name</p>
+    <p id="keywordDialogCategory" style="font-size: 13px;">category</p>
+    <p id="keywordDialogWeeks" style="font-size: 13px;">weeks</p>
+    <p id="keywordDialogTime" style="font-size: 13px;">time</p>
+    <p id="keywordDialogPriority" style="font-size: 13px;">priority</p>
+    <p id="keywordDialogSftStart" style="font-size: 13px;">sft start</p>
+    <p id="keywordDialogSftEnd" style="font-size: 13px;">sft end</p>
+    <p id="keywordDialogDiscontinuity" style="font-size: 13px;">discontinuity</p>
+
+    <div style="height: 50px;">
+        <a id="keywordDialogEdit" href="#" class="dialogButton" style="color: white; margin-left: 9px;">編集</a>
+        <a id="keywordDialogDelete" href="#" class="dialogButton" style="color: white; margin-left: 24px;">削除</a>
+    </div>
+</div>
+
+<div data-role="header">
+    <a href="epgrec" target="_self">BACK</a>
+    <h1>自動録画キーワードの管理</h1>
+</div>
+<div role="main">
+    <ul id="program_list" data-role="listview">
+        @@@KEYWORD@@@
+    </ul>
+    <div class="pagination">
+        <a class="pagination_prev" herf="#" target="_self"><</a>
+        <span class="pagination_name"></span>
+        <a class="pagination_next" herf="#" target="_self">></a>
+    </div>
+</div>
+</body>
+</html>
