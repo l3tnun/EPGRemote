@@ -1,11 +1,17 @@
 //テレビ表クリック時のダイアログ表示
+function getStationInfo(id) {
+    var pr_info = $('#' + id).contents("div");
+    var stationInfo = {}
+    for(var i = 0; i < pr_info.length; i++) {
+        stationInfo[pr_info[i].className] = pr_info[i].innerHTML;
+    }
+
+    return stationInfo;
+}
+
 function setTvProgramClickDiaalog() {
     $(".tv_program").click(function(element) {
-        var pr_info = $('#' + element.currentTarget.id).contents("div");
-        var stationInfo = {}
-        for(var i = 0; i < pr_info.length; i++) {
-            stationInfo[pr_info[i].className] = pr_info[i].innerHTML;
-        }
+        var stationInfo = getStationInfo(element.currentTarget.id);
 
         //予約済みの場合
         var showElement;
@@ -20,29 +26,73 @@ function setTvProgramClickDiaalog() {
         }
 
         //自動予約書き換え
+        var autorecIndex = $("#info_simple_rec_element").css("display") == "none" ? 1 : 2
         if(element.currentTarget.className.split(" ").indexOf("tv_program_freeze") >= 0) {
-            showElement.children()[1].innerHTML = "自動予約許可";
+            showElement.children()[autorecIndex].innerHTML = "自動許可";
         } else {
-            showElement.children()[1].innerHTML = "自動予約禁止";
+            showElement.children()[autorecIndex].innerHTML = "自動禁止";
         }
 
-        document.getElementById('info_title').innerHTML = stationInfo["pr_title"];
-        document.getElementById('info_station_name').innerHTML = stationInfo["pr_station_name"];
+        $('#info_title').text(stationInfo["pr_title"]);
+        $('#info_station_name').text(stationInfo["pr_station_name"]);
         if(typeof stationInfo["pr_next_time"] == "undefined") {
-            document.getElementById('info_time').innerHTML = stationInfo["pr_start"] + " ~ ";
+            $('#info_time').text(stationInfo["pr_start"] + " ~ ");
         } else {
-            document.getElementById('info_time').innerHTML = stationInfo["pr_start"] + " ~ " + stationInfo["pr_next_time"];
+            $('#info_time').text(stationInfo["pr_start"] + " ~ " + stationInfo["pr_next_time"]);
         }
-        document.getElementById('info_description').innerHTML = stationInfo["pr_description"];
-        document.getElementById('info_prgID').innerHTML = element.currentTarget.id.split('_')[1];
+        $('#info_description').text(stationInfo["pr_description"]);
+        $('#info_prgID').text(element.currentTarget.id.split('_')[1]);
         if(stationInfo["pr_title"] == "NULL") { return; }
         $("#lnkDialog").click();
     });
 }
 
+function openTimerDialog() {
+    $("#progDetailRecDialog").popup('open');
+}
+
+function getTimeValue(timeStr) {
+    var array = timeStr.split(" ");
+    var date = array[0].split("/");
+    var time = array[1].split(":");
+
+    return {"year" : date[0], "month" : date[1], "day": date[2], "hour" : time[0], "minute" : time[1], "second" : time[2]};
+}
+
+function openDetailRec(prgID) {
+    var stationInfo = getStationInfo("prgID_" + prgID);
+
+    $("#progDialog").popup('close');
+    setTimeout("openTimerDialog()", 250);
+    $('#detail_rec_station_name').text(stationInfo["pr_station_name"]);
+
+    var startTime = getTimeValue(stationInfo["pr_start"]);
+    var endTime = getTimeValue(stationInfo["pr_next_time"]);
+
+    $("#detail_rec_start_year").val(startTime.year);
+    $("#detail_rec_start_month").val(startTime.month);
+    $("#detail_rec_start_day").val(startTime.day);
+    $("#detail_rec_start_hour").val(startTime.hour);
+    $("#detail_rec_start_minute").val(startTime.minute);
+    $("#detail_rec_start_second").val(startTime.second);
+
+    $("#detail_rec_end_year").val(endTime.year);
+    $("#detail_rec_end_month").val(endTime.month);
+    $("#detail_rec_end_day").val(endTime.day);
+    $("#detail_rec_end_hour").val(endTime.hour);
+    $("#detail_rec_end_minute").val(endTime.minute);
+    $("#detail_rec_end_second").val(endTime.second);
+
+    $('#detail_rec_title').val(stationInfo["pr_title"]);
+    $('#detail_rec_title').css("height", "80px");
+    $('#detail_rec_description').val(stationInfo["pr_description"]);
+    $('#detail_rec_description').css("height", "80px");
+    $('#detail_rec_prgID').text(prgID);
+}
+
 //スマホの時の表示倍率設定
 if(screen.width < 600) {
-    $("meta[name='viewport']").attr('content', 'width=width=device-width,initial-scale=0.70');
+    $("meta[name='viewport']").attr('content', 'width=width=device-width,initial-scale=0.70, user-scalable=no');
 }
 
 //時刻線
