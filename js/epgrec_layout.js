@@ -83,6 +83,12 @@ function openDetailRec(prgID) {
     $("#detail_rec_end_minute").val(endTime.minute);
     $("#detail_rec_end_second").val(endTime.second);
 
+    $("#rec_genre").val(stationInfo["pr_genre"]);
+    $("#rec_genre").selectmenu('refresh',true);
+
+    $("#rec_mode").val(recModeDefaultId);
+    $("#rec_mode").selectmenu('refresh',true);
+
     $('#detail_rec_title').val(stationInfo["pr_title"]);
     $('#detail_rec_title').css("height", "80px");
     $('#detail_rec_description').val(stationInfo["pr_description"]);

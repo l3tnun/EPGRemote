@@ -112,7 +112,10 @@ function start(server) {
                     return;
                 }
 
-                io.sockets.emit("resultEPGRecProgramList", {"socketid" : socketid, "json" : json , "hourheight" : util.getConfig()["epgrecConfig"]["hourheight"]});
+                sqlModel.getGenru( function(genrus) {
+                    io.sockets.emit("resultEPGRecProgramList", {"socketid" : socketid, "json" : json , "hourheight" : util.getConfig()["epgrecConfig"]["hourheight"], "genrus" : genrus, "recMode" : util.getConfig()["epgrecConfig"]["recMode"], "recModeDefaultId" : util.getConfig()["epgrecConfig"]["recModeDefaultId"] });
+                });
+
             });
         });
 

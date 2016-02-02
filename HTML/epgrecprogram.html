@@ -110,20 +110,16 @@
         <span style="padding-right: 10px;">優先度</span>
         <input id="detail_rec_end_second" type="number" value="10"/>
         <span style="padding-left: 10px;">番組ID保持</span>
-        <input id="detail_program_id_checkbox" type="checkbox"></input>
+        <input id="detail_program_id_checkbox" type="checkbox" checked="checked"></input>
         <span style="padding-left: 40px;">元ファイル削除</span>
         <input id="detail_delete_file" type="checkbox"></input>
     </div>
 
     <div style="display:inline-flex" class="detail_time">
-        <span >録画モード</span>
         <select id="rec_mode" style="padding-left: 10px;" name="rec_mode">
-            <option value="1">dummy1</option>
         </select>
 
-        <span >ジャンル</span>
         <select id="rec_genre" style="padding-left: 10px;" name="rec_genre">
-            <option value="1">dummy1</option>
         </select>
     </div>
 
@@ -168,10 +164,12 @@
     <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">close</a>
 
     <div id="jumpDialogChannelName">channel name</div>
+    <div style="display:inline-flex">
     <select name="tuner" id="jumpTuner" form="new_stream_form" style="font-size: 24px;">
     </select>
     <select name="size" id="jumpVideoSize" form="new_stream_form" style="font-size: 24px;">
     </select>
+    </div>
     <a id="changeDialogButton" href="javascript:notifyJumpChannel();" class="ui-btn">確定</a>
 </div>
 

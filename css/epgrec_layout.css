@@ -61,6 +61,14 @@
     display:none
 }
 
+.pr_genre {
+    display:none
+}
+
+.pr_sub_genre {
+    display:none
+}
+
 #info_title {
     color: #111;
     font-weight: bold;
@@ -179,4 +187,8 @@ input[type="checkbox"] {
     padding: 14px 4px;
     margin: 0 auto;
     font-size: 18px;
+}
+
+.ui-select {
+    width: 200px;
 }

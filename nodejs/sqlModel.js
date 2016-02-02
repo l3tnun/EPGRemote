@@ -47,6 +47,25 @@ function getNowEpgData(callback, hash) {
     });
 }
 
+function getGenru(callback) {
+    var jsonConfig = util.getConfig();
+    sql = `select id, name_jp from ${ jsonConfig["EpgrecRecordName"] }categoryTbl;`;
+
+    var connection = createSqlConnection();
+
+    connection.query(sql, function(err, results) {
+        if (err) {
+            log.system.error('sql getGenru error is : ', err );
+            callback('');
+            return;
+        }
+
+        log.system.debug("sql getGenru data");
+        callback(results);
+        connection.destroy();
+    });
+}
+
 function getOffset(num, limit) {
     if(typeof num == "undefined") { num = 1; } else { num = Number(num); }
     if(num <= 1) { return 0; } else { return (num - 1) * limit; }
@@ -208,6 +227,7 @@ function getKeywordTable(limit, queryNum, callback) {
 }
 
 exports.getNowEpgData = getNowEpgData;
+exports.getGenru = getGenru;
 exports.getRecordedList = getRecordedList;
 exports.getRecordedKeywordList = getRecordedKeywordList;
 exports.getRecordedCategoryList = getRecordedCategoryList;

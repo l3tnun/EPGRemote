@@ -1,6 +1,7 @@
 //番組情報取得関係
 var socketid;
 var timeLength=0;
+var recModeDefaultId=0;
 
 function updateSocketid() {
     socketid = `${new Date().getTime()}:${Math.random().toString(36).slice(-8)}`;
@@ -36,6 +37,16 @@ socketio.on("resultEPGRecProgramList", function (data){
     var stationNameCnt = 0;
     var epgrecHeight = data.hourheight / 60;
     var maxTimeHeight = epgrecHeight * 60 * timeLength;
+
+    data.genrus.forEach(function(genru) {
+        $('#rec_genre').append($('<option>').html(`${genru.name_jp}`).val(`${genru.id}`));
+    });
+
+    data.recMode.forEach(function(mode) {
+         $('#rec_mode').append($('<option>').html(`${mode.name}`).val(`${mode.id}`));
+    });
+
+    recModeDefaultId = data.recModeDefaultId;
 
     if(data.socketid != socketid) { return; }
     data.json.forEach(function(station) {
@@ -76,6 +87,8 @@ socketio.on("resultEPGRecProgramList", function (data){
                         programStr += `<div class="pr_rec">${program["rec"]}</div>\n`
                         programStr += `<div class="pr_autorec">${program["autorec"]}</div>\n`
                         programStr += `<div class="pr_keyword">${program["keyword"]}</div>\n`
+                        programStr += `<div class="pr_genre">${program["genre"]}</div>\n`
+                        programStr += `<div class="pr_sub_genre">${program["sub_genre"]}</div>\n`
                         programStr += `<div class="pr_station_name">${station.station_name}</div>\n`
                         if(typeof station["list"][i + 1] != "undefined") {
                             programStr += `<div class="pr_next_time">${station["list"][i + 1]["prg_start"]}</div>\n`
