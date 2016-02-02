@@ -1,11 +1,3 @@
-function openPopup() {
-    $("#linkPopup").click();
-}
-
-function openPopup2() {
-    $("#linkPopup2").click();
-}
-
 $(window).resize(function () {
     if($(window).height() > orgWindowHeightForPopup) {
         orgWindowHeightForPopup = $(window).height();
