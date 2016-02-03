@@ -129,6 +129,12 @@ function closeDialogs(id) {
     return false;
 }
 
+function notifyGrowl(title, id) {
+    if(typeof $("#" + id) == "undefined") { return; }
+    var stationInfo = getStationInfo(id);
+    $.growl({ title: title, message: stationInfo.pr_station_name + " " + stationInfo.pr_starttime + " " + stationInfo.pr_title, url: "#" });
+}
+
 function rec(id) {
     socketio.emit("getRec", id);
 };
@@ -150,6 +156,7 @@ socketio.on("recResult", function (data) {
         } else {
             if( r_id ) {
                 $('#prgID_' + r_id).addClass('tv_program_reced'); //赤枠追加
+                notifyGrowl("簡易予約が入りました", 'prgID_' + data.id)
             }
             closeDialogs(data.id);
         }
@@ -203,6 +210,7 @@ socketio.on("resultCustomRec", function (data){
         } else {
             if( r_id ) {
                 $('#prgID_' + r_id).addClass('tv_program_reced'); //赤枠追加
+                notifyGrowl("詳細予約が入りました", 'prgID_' + data.id)
             }
             closeDialogs(data.id);
         }
@@ -225,6 +233,7 @@ socketio.on("cancelRecResult", function (data){
             location.reload();
         } else {
             $('#prgID_' + data.id).removeClass('tv_program_reced');
+                notifyGrowl("予約がキャンセルされました", 'prgID_' + data.id)
             closeDialogs(data.id);
         }
     }
@@ -244,8 +253,10 @@ function toggleAutoRec(id) {
 socketio.on("autoRecResult", function (data){
     if(data.autorec) {
         $('#prgID_' + data.id).addClass('tv_program_freeze');
+        notifyGrowl("自動予約禁止", 'prgID_' + data.id)
     } else {
         $('#prgID_' + data.id).removeClass('tv_program_freeze');
+        notifyGrowl("自動予約許可", 'prgID_' + data.id)
     }
     closeDialogs(data.id);
 });
