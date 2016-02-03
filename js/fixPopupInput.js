@@ -5,7 +5,8 @@ $(window).resize(function () {
 
     if(windowHeightForPopup > $(window).height()) {
         if(windowKeyboardHeightForPopup == 0 || windowKeyboardHeightForPopup > 0 && $(window).height() - windowKeyboardHeightForPopup > orgWindowHeightForPopup / 4) {
-            windowKeyboardHeightForPopup = $(window).height() / 2 - orgWindowHeightForPopup / 10;
+            //windowKeyboardHeightForPopup = $(window).height() / 2 - orgWindowHeightForPopup / 10;
+            windowKeyboardHeightForPopup = $(window).height() / 2 - orgWindowHeightForPopup / 2;
         }
         $(".ui-popup-active").css("top", windowKeyboardHeightForPopup + "px");
     } else if($(".ui-popup-active").height() != null) {
