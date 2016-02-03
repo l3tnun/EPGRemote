@@ -137,7 +137,7 @@ socketio.on("recResult", function (data) {
     var recv = data.value.match(/error/i);
     if( recv != null ) {
         if(closeDialogs(data.id)) {
-            alert(data.value);
+            $.growl.error({ message: data.value });
         }
     } else {
         var pt = data.value.split( ':' );
@@ -190,7 +190,7 @@ socketio.on("resultCustomRec", function (data){
     var recv = data.value.match(/error/i);
     if( recv != null ) {
         if(closeDialogs(data.id)) {
-            alert(data.value);
+            $.growl.error({ message: data.value });
         }
     } else {
         var pt = data.value.split( ':' );
@@ -217,7 +217,7 @@ socketio.on("cancelRecResult", function (data){
     var recv = data.value.match(/error/i);
     if( recv != null ) {
         if(closeDialogs(data.id)) {
-            alert(data.value);
+            $.growl.error({ message: data.value });
         }
     } else {
         var reload = parseInt(data.value);

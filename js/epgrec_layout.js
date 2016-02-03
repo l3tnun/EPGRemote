@@ -185,6 +185,7 @@ $(document).ready(function () {
         oldDate = new Date(year, month - 1, date, hour, 0);
     }
 });
+
 $(window).resize(function () {
     var headerSize = $("#header").height();
     var stationNameSize = $("#station_name_id").height();
