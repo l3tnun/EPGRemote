@@ -5,7 +5,7 @@ function scrollTopButton() {
 //video削除処理
 socketio.on("resultDeleteVideoFile", function(result) {
     if(result.match(/^error/i)){
-        alert(result);
+        $.growl.error({ message: result });
     } else {
         location.reload();
     }
