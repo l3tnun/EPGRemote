@@ -100,7 +100,17 @@ config.json 設定
         "index.php" : "index2.php",     //番組表データ取得のための php ファイルの名前 
         "hourheight" : 180, //EPGRec UNA で設定した1時間あたりの高さ
         "videoPath" : "/var/www/epgrec/video", //EPGRec UNA の録画ファイルが保存されているディレクトリのパス
-        "thumbsPath" : "/var/www/epgrec/thumbs" //EPGRec UNA の録画ファイルのサムネイルが保存されているディレクトリのパス
+        "thumbsPath" : "/var/www/epgrec/thumbs", //EPGRec UNA の録画ファイルのサムネイルが保存されているディレクトリのパス
+        //EPGRec UNA の予約カスタマイズの録画モード id は 0から順につけてください
+        "recMode" : [
+                        { "id" :"0", "name" : "Full TS" },
+                        { "id" :"1", "name" : "HD TS" },
+                        { "id" :"2", "name" : "SD TS" },
+                        { "id" :"3", "name" : "H264-HD" },
+                        { "id" :"4", "name" : "H264-SD" }
+                    ],
+        //EPGRec UNA の予約カスタマイズの録画モードのデフォルト値 この場合 H264-HD になる
+        "recModeDefaultId" : "3"
     },
 
     //ffmpegで使用するビデオサイズ等の設定
