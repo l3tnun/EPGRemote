@@ -4,8 +4,10 @@ $(window).resize(function () {
     }
 
     if(windowHeightForPopup > $(window).height()) {
-        if(windowKeyboardHeightForPopup == 0 || windowKeyboardHeightForPopup > 0 && $(window).height() - windowKeyboardHeightForPopup > orgWindowHeightForPopup / 4) {
-            //windowKeyboardHeightForPopup = $(window).height() / 2 - orgWindowHeightForPopup / 10;
+        var tag = $(':focus').prop("tagName");
+        if(tag == "INPUT") {
+            windowKeyboardHeightForPopup = $(window).height() / 2 - orgWindowHeightForPopup / 10;
+        } else if(tag == "TEXTAREA") {
             windowKeyboardHeightForPopup = $(window).height() / 2 - orgWindowHeightForPopup / 2;
         }
         $(".ui-popup-active").css("top", windowKeyboardHeightForPopup + "px");
