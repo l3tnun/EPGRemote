@@ -47,20 +47,20 @@ function getNowEpgData(callback, hash) {
     });
 }
 
-function getGenru(callback) {
+function getChannelAndGenru(callback) {
     var jsonConfig = util.getConfig();
-    sql = `select id, name_jp from ${ jsonConfig["EpgrecRecordName"] }categoryTbl;`;
+    sql = `select id, name_jp from ${ jsonConfig["EpgrecRecordName"] }categoryTbl;select id, sid from ${ jsonConfig["EpgrecRecordName"] }channelTbl;`;
 
     var connection = createSqlConnection();
 
     connection.query(sql, function(err, results) {
         if (err) {
-            log.system.error('sql getGenru error is : ', err );
+            log.system.error('sql getChannelAndGenru error is : ', err );
             callback('');
             return;
         }
 
-        log.system.debug("sql getGenru data");
+        log.system.debug("sql getChannelAndGenru data");
         callback(results);
         connection.destroy();
     });
@@ -227,7 +227,7 @@ function getKeywordTable(limit, queryNum, callback) {
 }
 
 exports.getNowEpgData = getNowEpgData;
-exports.getGenru = getGenru;
+exports.getChannelAndGenru = getChannelAndGenru;
 exports.getRecordedList = getRecordedList;
 exports.getRecordedKeywordList = getRecordedKeywordList;
 exports.getRecordedCategoryList = getRecordedCategoryList;

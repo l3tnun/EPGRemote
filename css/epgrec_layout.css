@@ -69,6 +69,10 @@
     display:none
 }
 
+.pr_channel_id {
+    display:none
+}
+
 #info_title {
     color: #111;
     font-weight: bold;

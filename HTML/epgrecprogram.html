@@ -76,43 +76,45 @@
 
     <div style="display:inline-flex" class="detail_time">
         <span>開始時刻</span>
-        <input style="width:50px;" id="detail_rec_start_year" type="number" min=2016 max=2100/>
+        <input style="width:50px;" id="detail_rec_start_year" type="number" size="4" min=2016 max=2100/>
         <span>年</span>
-        <input id="detail_rec_start_month" type="number" min=1 max=12/>
+        <input id="detail_rec_start_month" type="number" size="2" min=1 max=12/>
         <span>月</span>
-        <input id="detail_rec_start_day" type="number" min=1 max=31/>
+        <input id="detail_rec_start_day" type="number" size="2" min=1 max=31/>
         <span>日</span>
-        <input id="detail_rec_start_hour" type="number" min=0 max=23/>
+        <input id="detail_rec_start_hour" type="number" size="2" min=0 max=23/>
         <span>時</span>
-        <input id="detail_rec_start_minute" type="number" min=0 max=59/>
+        <input id="detail_rec_start_minute" type="number" size="2" min=0 max=59/>
         <span>分</span>
-        <input id="detail_rec_start_second" type="number" min=0 max=59/>
+        <input id="detail_rec_start_second" type="number" size="2" min=0 max=59/>
         <span>秒</span>
     </div>
 
     <div style="display:inline-flex" class="detail_time">
         <span>終了時刻</span>
-        <input style="width:50px;" id="detail_rec_end_year" type="number" min=2016 max=2100/>
+        <input style="width:50px;" id="detail_rec_end_year" type="number" size="4" min=2016 max=2100/>
         <span>年</span>
-        <input id="detail_rec_end_month" type="number" min=1 max=12/>
+        <input id="detail_rec_end_month" type="number" size="2" min=1 max=12/>
         <span>月</span>
-        <input id="detail_rec_end_day" type="number" min=1 max=31/>
+        <input id="detail_rec_end_day" type="number" size="2" min=1 max=31/>
         <span>日</span>
-        <input id="detail_rec_end_hour" type="number" min=0 max=23/>
+        <input id="detail_rec_end_hour" type="number" size="2" min=0 max=23/>
         <span>時</span>
-        <input id="detail_rec_end_minute" type="number" min=0 max=59/>
+        <input id="detail_rec_end_minute" type="number" size="2" min=0 max=59/>
         <span>分</span>
-        <input id="detail_rec_end_second" type="number" min=0 max=59/>
+        <input id="detail_rec_end_second" type="number" size="2" min=0 max=59/>
         <span>秒</span>
     </div>
 
     <div style="display:inline-flex" class="detail_time">
         <span style="padding-right: 10px;">優先度</span>
-        <input id="detail_rec_end_second" type="number" value="10"/>
-        <span style="padding-left: 10px;">番組ID保持</span>
+        <input id="detail_rec_priority" type="number" value="10"/>
+        <span style="padding-left: 10px;">ID保持</span>
         <input id="detail_program_id_checkbox" type="checkbox" checked="checked"></input>
-        <span style="padding-left: 40px;">元ファイル削除</span>
-        <input id="detail_delete_file" type="checkbox"></input>
+        <span style="padding-left: 40px;">ts削除</span>
+        <input id="detail_rec_delete_file" type="checkbox"></input>
+        <span style="padding-left: 40px;">隣接禁止</span>
+        <input id="detail_rec_discontinuity" type="checkbox"></input>
     </div>
 
     <div style="display:inline-flex" class="detail_time">
@@ -128,9 +130,10 @@
     <textarea id="detail_rec_title" name="description" rows="3" cols="48"></textarea>
     <textarea id="detail_rec_description" name="title" rows="3" cols="48"></textarea>
 
-    <a href="#" target="_self" class="detaile_rec_button" style="color: white;">予約する</a>
+    <a href="javascript:customRec($('#detail_rec_prgID')[0].innerHTML);" target="_self" class="detaile_rec_button" style="color: white;">予約する</a>
 
     <p id="detail_rec_prgID" style="display: none;">prg_ID</p>
+    <p id="detail_channel_id" style="display: none;">channel_id</p>
 </div>
 
 <!--メニューダイアログ-->

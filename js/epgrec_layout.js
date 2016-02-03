@@ -69,19 +69,23 @@ function openDetailRec(prgID) {
     var startTime = getTimeValue(stationInfo["pr_start"]);
     var endTime = getTimeValue(stationInfo["pr_next_time"]);
 
-    $("#detail_rec_start_year").val(startTime.year);
-    $("#detail_rec_start_month").val(startTime.month);
-    $("#detail_rec_start_day").val(startTime.day);
-    $("#detail_rec_start_hour").val(startTime.hour);
-    $("#detail_rec_start_minute").val(startTime.minute);
-    $("#detail_rec_start_second").val(startTime.second);
+    $("#detail_rec_start_year").val(Number(startTime.year));
+    $("#detail_rec_start_month").val(Number(startTime.month));
+    $("#detail_rec_start_day").val(Number(startTime.day));
+    $("#detail_rec_start_hour").val(Number(startTime.hour));
+    $("#detail_rec_start_minute").val(Number(startTime.minute));
+    $("#detail_rec_start_second").val(Number(startTime.second));
 
-    $("#detail_rec_end_year").val(endTime.year);
-    $("#detail_rec_end_month").val(endTime.month);
-    $("#detail_rec_end_day").val(endTime.day);
-    $("#detail_rec_end_hour").val(endTime.hour);
-    $("#detail_rec_end_minute").val(endTime.minute);
-    $("#detail_rec_end_second").val(endTime.second);
+    $("#detail_rec_end_year").val(Number(endTime.year));
+    $("#detail_rec_end_month").val(Number(endTime.month));
+    $("#detail_rec_end_day").val(Number(endTime.day));
+    $("#detail_rec_end_hour").val(Number(endTime.hour));
+    $("#detail_rec_end_minute").val(Number(endTime.minute));
+    $("#detail_rec_end_second").val(Number(endTime.second));
+
+    $("#detail_program_id_checkbox").prop("checked", true);
+    $("#detail_rec_delete_file").prop("checked", false);
+    $("#detail_rec_discontinuity").prop("checked", false);
 
     $("#rec_genre").val(stationInfo["pr_genre"]);
     $("#rec_genre").selectmenu('refresh',true);
@@ -94,6 +98,7 @@ function openDetailRec(prgID) {
     $('#detail_rec_description').val(stationInfo["pr_description"]);
     $('#detail_rec_description').css("height", "80px");
     $('#detail_rec_prgID').text(prgID);
+    $('#detail_channel_id').text(stationInfo["pr_channel_id"]);
 }
 
 //スマホの時の表示倍率設定

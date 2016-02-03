@@ -112,8 +112,8 @@ function start(server) {
                     return;
                 }
 
-                sqlModel.getGenru( function(genrus) {
-                    io.sockets.emit("resultEPGRecProgramList", {"socketid" : socketid, "json" : json , "hourheight" : util.getConfig()["epgrecConfig"]["hourheight"], "genrus" : genrus, "recMode" : util.getConfig()["epgrecConfig"]["recMode"], "recModeDefaultId" : util.getConfig()["epgrecConfig"]["recModeDefaultId"] });
+                sqlModel.getChannelAndGenru( function(sqlReslut) {
+                    io.sockets.emit("resultEPGRecProgramList", {"socketid" : socketid, "json" : json , "hourheight" : util.getConfig()["epgrecConfig"]["hourheight"], "genrus" : sqlReslut[0], "channel" : sqlReslut[1], "recMode" : util.getConfig()["epgrecConfig"]["recMode"], "recModeDefaultId" : util.getConfig()["epgrecConfig"]["recModeDefaultId"] });
                 });
 
             });
@@ -121,19 +121,25 @@ function start(server) {
 
         socket.on("getRec", function (id) {
             epgrecManager.getRecResult(id, function(result) {
-                                                io.sockets.emit("recResult", {value : result});
+                                                io.sockets.emit("recResult", {value : result, "id" : id});
+                                            });
+        });
+
+        socket.on("getCustomRec", function (id, option) {
+            epgrecManager.getCustomRecResult(id, option, function(result) {
+                                                io.sockets.emit("resultCustomRec", {value : result, "id" : id});
                                             });
         });
 
         socket.on("getCancelRec", function (id) {
             epgrecManager.getCancelRecResult(id, function(result) {
-                                                io.sockets.emit("cancelRecResult", {value : result});
+                                                io.sockets.emit("cancelRecResult", {value : result, "id" : id});
                                             });
         });
 
         socket.on("getToggleAutoRec", function (id, autorec) {
             epgrecManager.getToggleAutoRec(id, autorec, function(result) {
-                                                io.sockets.emit("autoRecResult", {value : result, id : id});
+                                                io.sockets.emit("autoRecResult", {value : result, "id" : id, "autorec" : autorec});
                                             });
         });
 
