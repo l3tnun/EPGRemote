@@ -5,7 +5,7 @@ function scrollTopButton() {
 //予約削除処理
 socketio.on("resultCancelReservation", function(result) {
     if(result.match(/^error/i)){
-        alert(result);
+        $.growl.error({ message: result });
     } else {
         location.reload();
     }
