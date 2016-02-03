@@ -45,7 +45,7 @@ git clone https://github.com/l3tnun/EPGRemote.git
 * npm で MySQL, log4js, Socket.IO をインストール
 
 ````
-$ npm install -g mysql log4js socketio
+$ npm install -g mysql log4js socketio request
 ```` 
 
 * HLSでリアルタイム視聴を行う場合、ffmpeg と recpt1 等が必要です
