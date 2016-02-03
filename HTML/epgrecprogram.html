@@ -5,17 +5,20 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="stylesheet" href="/jquery/jquery.mobile.min.css" />
+    <link rel="stylesheet" href="/jquery.growl/css/jquery.growl.css" />
     <link rel="stylesheet" href="/css/epgrec_tv_skeleton_layout.css" />
     <link rel="stylesheet" href="/css/category.css" />
     <link rel="stylesheet" href="/css/epgrec_layout.css" />
     <script src="/jquery/jquery.min.js"></script>
     <script src="/jquery/jquery.mobile.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="/jquery.growl/js/jquery.growl.js"></script>
     <script src="/js/new_socketio.js"></script>
     <script src="/js/epgrec_layout.js"></script>
     <script src="/js/epgrec_command.js"></script>
     <script src="/js/reconnect_socketio.js"></script>
     <script src="/js/epgrec_jump_view_tv.js"></script>
+    <script src="/js/fixPopupInput.js"></script>
     <style>
         .tv_program_section { }
         .tv_time_section { }
@@ -55,15 +58,84 @@
         <div id="info_prgID">prg_ID</div>
     </div>
     <div id="info_simple_rec_element" style="height: 50px; width: 400px; margin:1em 0 1em 0;text-align:center;">
-        <a href="#" onclick="javascript:rec($('#info_prgID')[0].innerHTML);" target="_self" class="info_button" style="color: white;">予約</a>
-        <a href="#" onclick="javascript:toggleAutoRec($('#info_prgID')[0].innerHTML);" target="_self" class="info_button" style="color: white;">自動予約禁止</a>
+        <a href="#" onclick="javascript:openDetailRec($('#info_prgID')[0].innerHTML);" target="_self" class="info_button" style="color: white;">詳細予約</a>
+        <a href="#" onclick="javascript:rec($('#info_prgID')[0].innerHTML);" target="_self" class="info_button" style="color: white;">簡易予約</a>
+        <a href="#" onclick="javascript:toggleAutoRec($('#info_prgID')[0].innerHTML);" target="_self" class="info_button" style="color: white;">自動禁止</a>
         <a href="#" onclick="javascript:programSearch($('#info_prgID')[0].innerHTML);" target="_blank" class="info_button" style="color: white;">番組検索</a>
     </div>
     <div id="info_simple_rec_cancel_element" style="height: 50px; width: 400px; margin:1em 0 1em 0;text-align:center;">
         <a href="#" onclick="javascript:cancelRec($('#info_prgID')[0].innerHTML);" target="_self" class="info_cancel_button" style="color: white;">予約削除</a>
-        <a href="#" onclick="javascript:toggleAutoRec($('#info_prgID')[0].innerHTML);" target="_self" class="info_cancel_button" style="color: white;">自動予約禁止</a>
+        <a href="#" onclick="javascript:toggleAutoRec($('#info_prgID')[0].innerHTML);" target="_self" class="info_cancel_button" style="color: white;">自動禁止</a>
         <a href="#" onclick="javascript:programSearch($('#info_prgID')[0].innerHTML);" target="_blank" class="info_cancel_button" style="color: white;">番組検索</a>
     </div>
+</div>
+
+<!-- 詳細予約ダイアログ-->
+<a id='lnkDetailRecDialog' href="#progDetailRecDialog" data-rel="popup" data-position-to="window" data-transition="pop" style='display:none;'></a>
+
+<div data-role="popup" id="progDetailRecDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width:400px; height: auto;">
+    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">close</a>
+
+    <div style="display:inline-flex" class="detail_time">
+        <span>開始時刻</span>
+        <input style="width:50px;" id="detail_rec_start_year" type="number" size="4" min=2016 max=2100/>
+        <span>年</span>
+        <input id="detail_rec_start_month" type="number" size="2" min=1 max=12/>
+        <span>月</span>
+        <input id="detail_rec_start_day" type="number" size="2" min=1 max=31/>
+        <span>日</span>
+        <input id="detail_rec_start_hour" type="number" size="2" min=0 max=23/>
+        <span>時</span>
+        <input id="detail_rec_start_minute" type="number" size="2" min=0 max=59/>
+        <span>分</span>
+        <input id="detail_rec_start_second" type="number" size="2" min=0 max=59/>
+        <span>秒</span>
+    </div>
+
+    <div style="display:inline-flex" class="detail_time">
+        <span>終了時刻</span>
+        <input style="width:50px;" id="detail_rec_end_year" type="number" size="4" min=2016 max=2100/>
+        <span>年</span>
+        <input id="detail_rec_end_month" type="number" size="2" min=1 max=12/>
+        <span>月</span>
+        <input id="detail_rec_end_day" type="number" size="2" min=1 max=31/>
+        <span>日</span>
+        <input id="detail_rec_end_hour" type="number" size="2" min=0 max=23/>
+        <span>時</span>
+        <input id="detail_rec_end_minute" type="number" size="2" min=0 max=59/>
+        <span>分</span>
+        <input id="detail_rec_end_second" type="number" size="2" min=0 max=59/>
+        <span>秒</span>
+    </div>
+
+    <div style="display:inline-flex" class="detail_time">
+        <span style="padding-right: 10px;">優先度</span>
+        <input id="detail_rec_priority" type="number" value="10"/>
+        <span style="padding-left: 10px;">ID保持</span>
+        <input id="detail_program_id_checkbox" type="checkbox" checked="checked"></input>
+        <span style="padding-left: 40px;">ts削除</span>
+        <input id="detail_rec_delete_file" type="checkbox"></input>
+        <span style="padding-left: 40px;">隣接禁止</span>
+        <input id="detail_rec_discontinuity" type="checkbox"></input>
+    </div>
+
+    <div style="display:inline-flex" class="detail_time">
+        <select id="rec_mode" style="padding-left: 10px;" name="rec_mode">
+        </select>
+
+        <select id="rec_genre" style="padding-left: 10px;" name="rec_genre">
+        </select>
+    </div>
+
+    <div id="detail_rec_station_name">station_name</div>
+
+    <textarea id="detail_rec_title" name="description" rows="3" cols="48"></textarea>
+    <textarea id="detail_rec_description" name="title" rows="3" cols="48"></textarea>
+
+    <a href="javascript:customRec($('#detail_rec_prgID')[0].innerHTML);" target="_self" class="detaile_rec_button" style="color: white;">予約する</a>
+
+    <p id="detail_rec_prgID" style="display: none;">prg_ID</p>
+    <p id="detail_channel_id" style="display: none;">channel_id</p>
 </div>
 
 <!--メニューダイアログ-->
@@ -97,10 +169,12 @@
     <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">close</a>
 
     <div id="jumpDialogChannelName">channel name</div>
+    <div style="display:inline-flex">
     <select name="tuner" id="jumpTuner" form="new_stream_form" style="font-size: 24px;">
     </select>
     <select name="size" id="jumpVideoSize" form="new_stream_form" style="font-size: 24px;">
     </select>
+    </div>
     <a id="changeDialogButton" href="javascript:notifyJumpChannel();" class="ui-btn">確定</a>
 </div>
 

@@ -1,6 +1,7 @@
 var util = require(__dirname + "/util");
 var log = require(__dirname + "/logger").getLogger();
 var http = require('http');
+var request = require('request');
 
 function httpGet(url, callback, name) {
     log.system.info('get ' + name + ' rec');
@@ -17,9 +18,32 @@ function httpGet(url, callback, name) {
             callback(body);
         });
     }).on('error', function(e){
-        log.system.error('failed ' + name + ' rec')
+        log.system.error('failed get ' + name)
         log.system.error(e.message); //エラー時
     });
+}
+
+function httpPost(url, callback, option, name) {
+    log.system.info('post ' + name + ' rec');
+
+    request.post(
+        url,
+        { form: option },
+        function (error, response, body) {
+            if (error) {
+                log.system.error('failed post ' + name);
+                log.system.error(error);
+            }
+            callback(body);
+        }
+    );
+}
+
+function getCustomRecResult(rec_id, option, callback) {
+    var epgrecConfig = util.getConfig()["epgrecConfig"];
+    var url = `http://${epgrecConfig["host"]}/customReservation.php`;
+
+    httpPost(url, callback, option, "get getCustomRecResult");
 }
 
 function getProgram(type, length, time, callback) {
@@ -75,6 +99,7 @@ function getDeleteKeywordResult(id, callback) {
     httpGet(url, callback, 'delete keyword result ' + id);
 }
 
+exports.getCustomRecResult = getCustomRecResult;
 exports.getProgram = getProgram;
 exports.getRecResult = getRecResult;
 exports.getCancelRecResult = getCancelRecResult;

@@ -61,6 +61,18 @@
     display:none
 }
 
+.pr_genre {
+    display:none
+}
+
+.pr_sub_genre {
+    display:none
+}
+
+.pr_channel_id {
+    display:none
+}
+
 #info_title {
     color: #111;
     font-weight: bold;
@@ -89,11 +101,11 @@
     display: block;
     background: #0078AE none repeat scroll 0% 0%;
     text-decoration: none;
-    width: 110px;
+    width: 78px;
     text-align: center;
-    padding: 14px 4px;
+    padding: 14px 5px;
     margin: 12px 0px 0px 12px;
-    font-size: 18px;
+    font-size: 19px;
     text-transform: uppercase;
     font-weight: 300;
     float: left;
@@ -143,3 +155,44 @@
     text-decoration: none;
 }
 
+#detail_rec_station_name {
+    text-align: left;
+    color: #444;
+    font-size: 1.2em;
+}
+
+.detail_time > span {
+    margin-top: 18px;
+    padding-right: 3px;
+}
+
+.detail_time > .ui-input-text > input{
+    height:38px;
+    width: 30px;
+}
+
+input[type="checkbox"] {
+    -webkit-transform: scale(1.5);
+    transform: scale(1.5);
+}
+
+.ui-input-text.ui-textinput-autogrow {
+    max-height: 100px;
+    height: 40px;
+    width: 400px;
+}
+
+.detaile_rec_button {
+    display: block;
+    background: #0078AE none repeat scroll 0% 0%;
+    text-decoration: none;
+    width: 110px;
+    text-align: center;
+    padding: 14px 4px;
+    margin: 0 auto;
+    font-size: 18px;
+}
+
+.ui-select {
+    width: 200px;
+}

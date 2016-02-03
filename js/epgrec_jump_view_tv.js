@@ -5,11 +5,6 @@ socketio.on("resultJumpChannelList", function (data) { resultJumpChannelList(dat
 
 //ストリーム開始をサーバーに依頼
 function notifyJumpChannel() {
-    if($("#jumpTuner").children().length == 0) { //チューナーが無いとき
-        window.alert('チューナーの空きがありません');
-        return 0;
-    }
-
     $("#sid").html('<input type="hidden" name="sid" value='+ tmpSid + ' id="sid">');
     $("#channel").html('<input type="hidden" name="channel" value=' + tmpChannel + ' id="channel">');
     $("#channelName").html('<input type="hidden" name="channelName" value=' + tmpName + ' id="channelName">');
@@ -19,6 +14,11 @@ function notifyJumpChannel() {
 //チューナーリストを取得
 function resultJumpChannelList(data) {
     if(data.socketId != socketId) { return; }
+
+    if(data.tunerList.length == 0) {
+        $.growl.error({ message: "チューナーの空きがありません" });
+        return;
+    }
 
     //ダイアログの準備
     var tunerSelectStr = "";
