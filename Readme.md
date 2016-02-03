@@ -22,6 +22,9 @@ ffmpeg の設定については [v42fg3g/TvRemoteViewer_VB](https://github.com/v
 
 Node.js + HTML + CSS + Jquery を書くのはこれが初めてです。温かい目で見守ってください。
 
+## 2016年1月の終わりごろにこれを見た方 or 更新した人へ
+master ブランチが壊れていてまともに動かなかったと思います。ごめんさい。今は直っています。
+
 ## スクリーンショット
 <img src="https://github.com/l3tnun/EPGRemote/wiki/images/Readme/hls_program_list.PNG" width="250px">
 <img src="https://github.com/l3tnun/EPGRemote/wiki/images/Readme/epgrec_program_list1.PNG" width="250px">
