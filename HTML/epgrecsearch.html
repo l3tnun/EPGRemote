@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="/jquery/jquery.mobile.min.css" />
     <link rel="stylesheet" href="/jquery.growl/css/jquery.growl.css" />
+    <link rel="stylesheet" href="/css/topbutton.css" />
     <script src="/jquery/jquery.min.js"></script>
     <script src="/jquery/jquery.mobile.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
@@ -14,6 +15,10 @@
     <script src="/js/reconnect_socketio.js"></script>
 </head>
 <script>
+function scrollTopButton() {
+    $('html,body').animate({ scrollTop: 0 }, 'swing');
+}
+
 var genrus = {}, subGenrus, stations = {};
 var socketid = `${new Date().getTime()}:${Math.random().toString(36).slice(-8)}`;
 $(function () {
@@ -54,6 +59,7 @@ $(function($) {
     $('#search').keypress(function(key) {
         if(key.which == 13) {
             getEPGRecSearchResult();
+            $('#search').blur();
             return false;
         }
     });
@@ -125,10 +131,38 @@ function getEPGRecSearchResult() {
     socketio.emit("getEPGRecSearch", socketid, option);
 }
 
+//検索結果の取得
 socketio.on("resultEPGRecSearchResult", function(data) {
     if(socketid != data.socketid) { return; }
 
     console.log(data.json);
+    var cnt = 0;
+    //search_listview
+    var liStr = ""
+    data.json.forEach(function(program) {
+        if(program.station_name == 1) { return; }
+
+        var station_name = program.station_name.match(/\>.+?\</)[0].substr(1).slice(0, -1);
+        var classStr = "";
+        if(program.rec == 1) {
+            classStr += 'class="recorded"'
+        }
+
+        liStr += `<li ${classStr}><h3 class="wordbreak">${program.title}</h3>`;
+        liStr += ``;
+        liStr += `<p>${program.type}:${station_name}</p>`;
+        liStr += `<p class="wordbreak">${program.date} ${program.starttime}${program.endtime}(${program.duration})</p>`;
+        liStr += `<p class="wordbreak">${program.description}</p>`;
+        liStr += `</li>\n`;
+        cnt += 1;
+    });
+
+    $("#search_listview").empty();
+    $("#search_listview").append(liStr);
+    $("#search_listview").listview('refresh');
+
+    $('html,body').animate({ scrollTop: $("#search_listview").offset().top }, 'swing');
+    console.log(cnt + "件ヒットしました");
 })
 
 </script>
@@ -160,14 +194,29 @@ select {
     margin-bottom:5px;
 }
 
+.ui-listview .wordbreak {
+    overflow: visible;
+    white-space: normal;
+}
+
+.ui-listview .recorded {
+    background: #F55;
+    color: #FEE;
+}
+
+.ui-page-theme-a .ui-body-inherit {
+    text-shadow: none;
+}
 </style>
 <body>
+<!--topにスクロールするボタン-->
+<a class="scroll_top_button" style="color: white;" herf="#" onclick="javascript:scrollTopButton()">▲</a>
+
 <div data-role="header">
     <a href="/epgrec">BACK</a>
     <h1>番組検索</h1>
 </div>
 <div role="main" class="ui-content">
-
     <div class="inline" style="margin: -10px 0px;">
         <label data-role="none" style="font-size: 14px;">
         <input data-role="none" id="use_regexp" type="checkbox"/>正規表現</label>
@@ -283,10 +332,13 @@ select {
     </label>
     </div>
 
-    <a href="javascript:getEPGRecSearchResult()" class="ui-btn">検索</a>
+    <a href="javascript:getEPGRecSearchResult()" class="ui-btn" style="margin-bottom: 35px;">検索</a>
 
-    <ul data-role="listview">
-    </ul>
+
 </div>
+
+    <ul id = "search_listview" data-role="listview">
+    </ul>
+
 </body>
 </html>
