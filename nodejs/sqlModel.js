@@ -49,7 +49,7 @@ function getNowEpgData(callback, hash) {
 
 function getChannelAndGenru(callback) {
     var jsonConfig = util.getConfig();
-    sql = `select id, name_jp from ${ jsonConfig["EpgrecRecordName"] }categoryTbl;select id, sid from ${ jsonConfig["EpgrecRecordName"] }channelTbl;`;
+    sql = `select id, name_jp from ${ jsonConfig["EpgrecRecordName"] }categoryTbl order by id; select id, sid, channel_disc, name from ${ jsonConfig["EpgrecRecordName"] }channelTbl order by sid`;
 
     var connection = createSqlConnection();
 

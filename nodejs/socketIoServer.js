@@ -5,6 +5,7 @@ var streamManager = require(__dirname + '/streamManager');
 var tunerManager = require(__dirname + "/tunerManager");
 var epgrecManager = require(__dirname + '/epgrecManager');
 var sqlModel = require(__dirname + "/sqlModel");
+var subGenreModel = require(__dirname + "/subGenreModel");
 var log = require(__dirname + "/logger").getLogger();
 var io;
 
@@ -166,6 +167,14 @@ function start(server) {
             epgrecManager.getDeleteKeywordResult(id, function(result) {
                                                 io.sockets.emit("resultDeleteKeyword", result);
                                             });
+        });
+
+        /*検索部分*/
+        socket.on("getEPGRecSearchSetting", function (socketid) {
+            log.access.debug(`getEPGRecSearchSetting ${socketid}`);
+                sqlModel.getChannelAndGenru( function(sqlReslut) {
+                    io.sockets.emit("resultEPGRecSearchSetting", {"socketid" : socketid, "genrus" : sqlReslut[0], "subGenrus" : subGenreModel.getAllSubGenre(), "channel" : sqlReslut[1], "recMode" : util.getConfig()["epgrecConfig"]["recMode"], "recModeDefaultId" : util.getConfig()["epgrecConfig"]["recModeDefaultId"] });
+                });
         });
     });
 

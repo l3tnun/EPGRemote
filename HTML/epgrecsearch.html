@@ -7,19 +7,49 @@
     <link rel="stylesheet" href="/jquery/jquery.mobile.min.css" />
     <script src="/jquery/jquery.min.js"></script>
     <script src="/jquery/jquery.mobile.min.js"></script>
-
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/new_socketio.js"></script>
+    <script src="/js/reconnect_socketio.js"></script>
 </head>
 <script>
-function invalidJqueryMobile(name) {
-    $('input').bind('mobileinit',function(){
-        $.mobile.page.prototype.options.keepNative
-            = ".data-role-none, .data-role-none *";
-    });
-}
-
+var genrus = {}, subGenrus, stations = {};
+var socketid = `${new Date().getTime()}:${Math.random().toString(36).slice(-8)}`;
 $(function () {
-    invalidJqueryMobile('input');
-    invalidJqueryMobile('label');
+    socketio.emit("getEPGRecSearchSetting", socketid);
+
+    socketio.on("resultEPGRecSearchSetting", function(data) {
+        if(socketid != data.socketid) { return; }
+
+        data.genrus.forEach(function(genru) {
+            genrus[genru.id] = genru.name_jp
+            $("#genre").append($('<option>').html(`${genru.name_jp}`).val(`${genru.id}`));
+        });
+
+        data.channel.forEach(function(channel) {
+            stations[channel.channel_disc] = channel.sid;
+            $("#station").append($('<option>').html(`${channel.name}`).val(`${channel.id}`));
+        });
+
+        subGenrus = data.subGenrus;
+
+        //console.log(subGenrus);
+        //$("#station").selectmenu('refresh',true);
+
+        //console.log(data.recMode);
+        //console.log(data.recModeDefaultId);
+    });
+});
+
+//ジャンルが変更された時にサブジャンルを書き換える
+$(function($) {
+    $('#genre').change(function() {
+        $('#sub_genre').empty();
+        $('#sub_genre').append($('<option>').html("すべて").val("16"));
+        var i = 0;
+        subGenrus[$('#genre option:selected').val() - 1].forEach(function(sub) {
+            $('#sub_genre').append($('<option>').html(sub).val('"' + i + '"'));
+        });
+    });
 });
 
 </script>
@@ -40,7 +70,7 @@ select {
     -moz-appearance: button;
     appearance: button;
     width: 100%;
-    background:#EEE url(../img_common/arw_select_down.png) no-repeat;
+    background:#EEE;
     background-size:20px 10px;
     background-position: right center;
     height: 40px;
@@ -92,7 +122,8 @@ select {
 
     <div class="inline" style="margin: 3px 0px;">
     <label data-role="none">放送局</label>
-    <select data-role="none" id="genre">
+    <select data-role="none" id="station">
+        <option value="0">すべて</option>
     </select>
     </div>
 
@@ -101,14 +132,16 @@ select {
     <div class="ui-grid-a">
         <div class="ui-block-a">
             <label data-role="none">ジャンル
-            <input data-role="none" id="hozi" type="checkbox"/> 全保持</label>
+            <input data-role="none" id="first_genre" type="checkbox"/> 全保持</label>
             <select data-role="none" id="genre">
+                <option value="16">すべて</option>
             </select>
         </div>
 
         <div class="ui-block-b">
             <label data-role="none">サブジャンル<input data-role="none" type="checkbox" style="visibility: hidden;"/></label>
             <select data-role="none" id="sub_genre">
+                <option value="0">すべて</option>
             </select>
         </div>
     </div>
@@ -170,6 +203,8 @@ select {
     </select>
     </label>
     </div>
+
+    <a href="#" class="ui-btn">検索</a>
 
     <ul data-role="listview">
     </ul>
