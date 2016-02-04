@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, user-scalable=no,">
     <meta charset="utf-8">
     <link rel="stylesheet" href="/jquery/jquery.mobile.min.css" />
+    <link rel="stylesheet" href="/jquery.growl/css/jquery.growl.css" />
     <script src="/jquery/jquery.min.js"></script>
     <script src="/jquery/jquery.mobile.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="/jquery.growl/js/jquery.growl.js"></script>
     <script src="/js/new_socketio.js"></script>
     <script src="/js/reconnect_socketio.js"></script>
 </head>
@@ -32,16 +34,13 @@ $(function () {
 
         subGenrus = data.subGenrus;
 
-        //console.log(subGenrus);
-        //$("#station").selectmenu('refresh',true);
-
         //console.log(data.recMode);
         //console.log(data.recModeDefaultId);
     });
 });
 
-//ジャンルが変更された時にサブジャンルを書き換える
 $(function($) {
+    //ジャンルが変更された時にサブジャンルを書き換える
     $('#genre').change(function() {
         $('#sub_genre').empty();
         $('#sub_genre').append($('<option>').html("すべて").val("16"));
@@ -50,7 +49,82 @@ $(function($) {
             $('#sub_genre').append($('<option>').html(sub).val('"' + i + '"'));
         });
     });
+
+    //Enter キーが押された時
+    $('#search').keypress(function(key) {
+        if(key.which == 13) {
+            getEPGRecSearchResult();
+            return false;
+        }
+    });
 });
+
+function checkedSearchOption() {
+    //検索語句
+    if(!$("#use_regexp").prop('checked') && !$("#collate_ci").prop('checked') && !$("#enable_title").prop('checked') && !$("#enable_disc").prop('checked') || $("#collate_ci").prop('checked')) {
+        $("#enable_title").prop('checked', true);
+        $("#enable_disc").prop('checked', true);
+    } else if($("#use_regexp").prop('checked')) {
+        $("#collate_ci").prop('checked', false)
+    }
+
+    //曜日
+    if(!($("#week0").prop('checked') && $("#week1").prop('checked') && $("#week2").prop('checked') && $("#week3").prop('checked') && $("#week4").prop('checked') && $("#week5").prop('checked') && $("#week6").prop('checked'))) {
+        $("#week0").prop('checked', true);
+        $("#week1").prop('checked', true);
+        $("#week2").prop('checked', true);
+        $("#week3").prop('checked', true);
+        $("#week4").prop('checked', true);
+        $("#week5").prop('checked', true);
+        $("#week6").prop('checked', true);
+    }
+
+    //放送波
+    if(!( $("#type_gr").prop('checked') && $("#type_bs").prop('checked') && $("#type_cs").prop('checked') && $("#type_ex").prop('checked') )) {
+        $("#type_gr").prop('checked', true);
+        $("#type_bs").prop('checked', true);
+        $("#type_cs").prop('checked', true);
+        $("#type_ex").prop('checked', true);
+    }
+}
+
+function getEPGRecSearchResult() {
+    checkedSearchOption();
+
+    if($("#search").val() == "") {
+        $.growl.error({ message: "検索語句が入力されていません" });
+        return;
+    }
+
+    var option  = {
+            do_search: "1",
+            use_regexp: $("#use_regexp").prop('checked') ? "1" : "0",
+            collate_ci: $("#collate_ci").prop('checked') ? "1" : "0",
+            ena_title: $("#enable_title").prop('checked') ? "1" : "0",
+            ena_desc: $("#enable_disc").prop('checked') ? "1" : "0",
+            search: $("#search").val(),
+            typeGR: $("#type_gr").prop('checked') ? "1" : "0",
+            typeBS: $("#type_bs").prop('checked') ? "1" : "0",
+            typeCS: $("#type_cs").prop('checked') ? "1" : "0",
+            typeEX: $("#type_ex").prop('checked') ? "1" : "0",
+            week0: $("#week0").prop('checked') ? "1" : "0",
+            week1: $("#week1").prop('checked') ? "1" : "0",
+            week2: $("#week2").prop('checked') ? "1" : "0",
+            week3: $("#week3").prop('checked') ? "1" : "0",
+            week4: $("#week4").prop('checked') ? "1" : "0",
+            week5: $("#week5").prop('checked') ? "1" : "0",
+            week6: $("#week6").prop('checked') ? "1" : "0",
+            station: $("#station").val(),
+            first_genre: $("#first_genre").prop('checked') ? "1" : "0",
+            category_id: $("#genre").val(),
+            sub_genre: $("#sub_genre").val(),
+            prgtime: $("#prgtime").val(), //時間帯 なし
+            period: $("#period").val() //から 1時間
+    };
+
+    console.log(option);
+}
+
 
 </script>
 <style>
@@ -204,7 +278,7 @@ select {
     </label>
     </div>
 
-    <a href="#" class="ui-btn">検索</a>
+    <a href="javascript:getEPGRecSearchResult()" class="ui-btn">検索</a>
 
     <ul data-role="listview">
     </ul>
