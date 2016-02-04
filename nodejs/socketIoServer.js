@@ -176,6 +176,13 @@ function start(server) {
                     io.sockets.emit("resultEPGRecSearchSetting", {"socketid" : socketid, "genrus" : sqlReslut[0], "subGenrus" : subGenreModel.getAllSubGenre(), "channel" : sqlReslut[1], "recMode" : util.getConfig()["epgrecConfig"]["recMode"], "recModeDefaultId" : util.getConfig()["epgrecConfig"]["recModeDefaultId"] });
                 });
         });
+
+        socket.on("getEPGRecSearch", function (socketid, option) {
+            log.access.debug(`getEPGRecSearchResult ${socketid}`);
+            epgrecManager.getEPGRecSearch(option, function(result) {
+                                                io.sockets.emit("resultEPGRecSearchResult", {"socketid" : socketid, "json" : JSON.parse(result)});
+                                            });
+        });
     });
 
 }

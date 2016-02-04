@@ -122,9 +122,14 @@ function getEPGRecSearchResult() {
             period: $("#period").val() //から 1時間
     };
 
-    console.log(option);
+    socketio.emit("getEPGRecSearch", socketid, option);
 }
 
+socketio.on("resultEPGRecSearchResult", function(data) {
+    if(socketid != data.socketid) { return; }
+
+    console.log(data.json);
+})
 
 </script>
 <style>
@@ -208,14 +213,14 @@ select {
             <label data-role="none">ジャンル
             <input data-role="none" id="first_genre" type="checkbox"/> 全保持</label>
             <select data-role="none" id="genre">
-                <option value="16">すべて</option>
+                <option value="0">すべて</option>
             </select>
         </div>
 
         <div class="ui-block-b">
             <label data-role="none">サブジャンル<input data-role="none" type="checkbox" style="visibility: hidden;"/></label>
             <select data-role="none" id="sub_genre">
-                <option value="0">すべて</option>
+                <option value="16">すべて</option>
             </select>
         </div>
     </div>

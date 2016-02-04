@@ -99,6 +99,13 @@ function getDeleteKeywordResult(id, callback) {
     httpGet(url, callback, 'delete keyword result ' + id);
 }
 
+function getEPGRecSearch(option, callback) {
+    var epgrecConfig = util.getConfig()["epgrecConfig"];
+    var url = `http://${epgrecConfig["host"]}/programTable2.php`;
+
+    httpPost(url, callback, option, "get getEPGRecSearch");
+}
+
 exports.getCustomRecResult = getCustomRecResult;
 exports.getProgram = getProgram;
 exports.getRecResult = getRecResult;
@@ -107,4 +114,5 @@ exports.getToggleAutoRec = getToggleAutoRec;
 exports.deleteVideoFile = deleteVideoFile;
 exports.getCancelReservationResult = getCancelReservationResult;
 exports.getDeleteKeywordResult = getDeleteKeywordResult;
+exports.getEPGRecSearch = getEPGRecSearch;
 
