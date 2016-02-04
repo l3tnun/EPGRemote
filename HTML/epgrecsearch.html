@@ -2,19 +2,175 @@
 <html>
 <head>
     <title>番組検索</title>
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, user-scalable=no,">
     <meta charset="utf-8">
     <link rel="stylesheet" href="/jquery/jquery.mobile.min.css" />
     <script src="/jquery/jquery.min.js"></script>
     <script src="/jquery/jquery.mobile.min.js"></script>
 
 </head>
+<script>
+function invalidJqueryMobile(name) {
+    $('input').bind('mobileinit',function(){
+        $.mobile.page.prototype.options.keepNative
+            = ".data-role-none, .data-role-none *";
+    });
+}
+
+$(function () {
+    invalidJqueryMobile('input');
+    invalidJqueryMobile('label');
+});
+
+</script>
+<style>
+
+.inline label{
+  display: inline-block;
+}
+
+input[type="checkbox"] {
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+    margin-right: 3px;
+}
+
+select {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+    width: 100%;
+    background:#EEE url(../img_common/arw_select_down.png) no-repeat;
+    background-size:20px 10px;
+    background-position: right center;
+    height: 40px;
+    line-height: 40px;
+    font-size: 15px;
+    vertical-align: middle;
+    border:1px solid #CCC;
+    margin-bottom:5px;
+}
+
+</style>
 <body>
 <div data-role="header">
     <a href="/epgrec">BACK</a>
     <h1>番組検索</h1>
 </div>
 <div role="main" class="ui-content">
+
+    <div class="inline" style="margin: -10px 0px;">
+        <label data-role="none" style="font-size: 14px;">
+        <input data-role="none" id="use_regexp" type="checkbox"/>正規表現</label>
+        <label data-role="none" style="font-size: 14px;">
+        <input data-role="none" id="collate_ci" type="checkbox"/>全半角</label>
+        <label data-role="none" style="font-size: 14px;">
+        <input data-role="none" id="enable_title" type="checkbox"/>タイトル</label>
+        <label data-role="none" style="font-size: 14px;">
+        <input data-role="none" id="enable_disc" type="checkbox"/>概要</label>
+    </div>
+
+    <input id="search" name="search" type="text" data-clear-btn="true"/>
+
+    <div class="inline" style="margin: -2px 0px;">
+        <label data-role="none"><input data-role="none" id="type_gr" type="checkbox"/>GR</label>
+        <label data-role="none"><input data-role="none" id="type_bs" type="checkbox"/>BS</label>
+        <label data-role="none"><input data-role="none" id="type_cs" type="checkbox"/>CS</label>
+        <label data-role="none"><input data-role="none" id="type_ex" type="checkbox"/>EX</label>
+    </div>
+
+    <div class="inline" style="margin: 3px 0px;">
+        <label data-role="none"><input data-role="none" id="week0" type="checkbox"/>月</label>
+        <label data-role="none"><input data-role="none" id="week1" type="checkbox"/>火</label>
+        <label data-role="none"><input data-role="none" id="week2" type="checkbox"/>水</label>
+        <label data-role="none"><input data-role="none" id="week3" type="checkbox"/>木</label>
+        <label data-role="none"><input data-role="none" id="week4" type="checkbox"/>金</label>
+        <label data-role="none"><input data-role="none" id="week5" type="checkbox"/>土</label>
+        <label data-role="none"><input data-role="none" id="week6" type="checkbox"/>日</label>
+    </div>
+
+
+    <div class="inline" style="margin: 3px 0px;">
+    <label data-role="none">放送局</label>
+    <select data-role="none" id="genre">
+    </select>
+    </div>
+
+
+    <div class="inline" style="margin: 3px 0px;">
+    <div class="ui-grid-a">
+        <div class="ui-block-a">
+            <label data-role="none">ジャンル
+            <input data-role="none" id="hozi" type="checkbox"/> 全保持</label>
+            <select data-role="none" id="genre">
+            </select>
+        </div>
+
+        <div class="ui-block-b">
+            <label data-role="none">サブジャンル<input data-role="none" type="checkbox" style="visibility: hidden;"/></label>
+            <select data-role="none" id="sub_genre">
+            </select>
+        </div>
+    </div>
+
+    <div class="inline" style="margin: 3px 0px;">
+    <label data-role="none">
+    <select data-role="none" id="prgtime" name="prgtime" style="width:auto;">
+        <option value="0">0時</option>
+        <option value="1">1時</option>
+        <option value="2">2時</option>
+        <option value="3">3時</option>
+        <option value="4">4時</option>
+        <option value="5">5時</option>
+        <option value="6">6時</option>
+        <option value="7">7時</option>
+        <option value="8">8時</option>
+        <option value="9">9時</option>
+        <option value="10">10時</option>
+        <option value="11">11時</option>
+        <option value="12">12時</option>
+        <option value="13">13時</option>
+        <option value="14">14時</option>
+        <option value="15">15時</option>
+        <option value="16">16時</option>
+        <option value="17">17時</option>
+        <option value="18">18時</option>
+        <option value="19">19時</option>
+        <option value="20">20時</option>
+        <option value="21">21時</option>
+        <option value="22">22時</option>
+        <option value="23">23時</option>
+        <option selected="" value="24">なし</option>
+    </select>
+    時から
+    <select data-role="none" id="period" name="period" style="width:auto;">
+        <option value="1" selected="">1時間</option>
+        <option value="2">2時間</option>
+        <option value="3">3時間</option>
+        <option value="4">4時間</option>
+        <option value="5">5時間</option>
+        <option value="6">6時間</option>
+        <option value="7">7時間</option>
+        <option value="8">8時間</option>
+        <option value="9">9時間</option>
+        <option value="10">10時間</option>
+        <option value="11">11時間</option>
+        <option value="12">12時間</option>
+        <option value="13">13時間</option>
+        <option value="14">14時間</option>
+        <option value="15">15時間</option>
+        <option value="16">16時間</option>
+        <option value="17">17時間</option>
+        <option value="18">18時間</option>
+        <option value="19">19時間</option>
+        <option value="20">20時間</option>
+        <option value="21">21時間</option>
+        <option value="22">22時間</option>
+        <option value="23">23時間</option>
+    </select>
+    </label>
+    </div>
+
     <ul data-role="listview">
     </ul>
 </div>
