@@ -132,29 +132,31 @@ function getEPGRecSearchResult() {
 }
 
 //検索結果の取得
+var searchResult, searchResultKeyId;
 socketio.on("resultEPGRecSearchResult", function(data) {
     if(socketid != data.socketid) { return; }
 
-    console.log(data.json);
-    var cnt = 0;
+    searchResult = data.json;
+    searchResultKeyId = {};
+
     //search_listview
     var liStr = ""
     data.json.forEach(function(program) {
         if(program.station_name == 1) { return; }
 
-        var station_name = program.station_name.match(/\>.+?\</)[0].substr(1).slice(0, -1);
+        searchResultKeyId[program.id] = program;
+
         var classStr = "";
         if(program.rec == 1) {
             classStr += 'class="recorded"'
         }
 
-        liStr += `<li ${classStr}><h3 class="wordbreak">${program.title}</h3>`;
-        liStr += ``;
-        liStr += `<p>${program.type}:${station_name}</p>`;
+        liStr += `<li><a ${classStr} href="javascript:openInfoDialog(${program.id})" target="_self"">`
+        liStr += `<h3 class="wordbreak">${program.title}</h3>`;
+        liStr += `<p>${program.type}:${program.station_name_str}</p>`;
         liStr += `<p class="wordbreak">${program.date} ${program.starttime}${program.endtime}(${program.duration})</p>`;
         liStr += `<p class="wordbreak">${program.description}</p>`;
-        liStr += `</li>\n`;
-        cnt += 1;
+        liStr += `</a></li>\n`;
     });
 
     $("#search_listview").empty();
@@ -162,8 +164,18 @@ socketio.on("resultEPGRecSearchResult", function(data) {
     $("#search_listview").listview('refresh');
 
     $('html,body').animate({ scrollTop: $("#search_listview").offset().top }, 'swing');
-    console.log(cnt + "件ヒットしました");
-})
+    console.log(Object.keys(searchResultKeyId).length + "件ヒットしました");
+});
+
+function openInfoDialog(id) {
+    console.log(searchResultKeyId[id]);
+    $("#programDialogTitle").text(searchResultKeyId[id].title);
+    $("#programDialogChannelName").text(searchResultKeyId[id].station_name_str);
+    $("#programDialogTime").text(`${searchResultKeyId[id].date} ${searchResultKeyId[id].starttime}${searchResultKeyId[id].endtime}(${searchResultKeyId[id].duration})`);
+    $("#programDialogDescription").text(searchResultKeyId[id].description);
+
+    $("#infoDialog").popup('open');
+}
 
 </script>
 <style>
@@ -199,9 +211,16 @@ select {
     white-space: normal;
 }
 
-.ui-listview .recorded {
+.ui-listview > li > a.ui-btn:active.recorded {
     background: #F55;
     color: #FEE;
+    text-shadow: none;
+}
+
+.ui-listview > li > a.ui-btn.recorded {
+    background: #F55;
+    color: #FEE;
+    text-shadow: none;
 }
 
 .ui-page-theme-a .ui-body-inherit {
@@ -211,6 +230,14 @@ select {
 <body>
 <!--topにスクロールするボタン-->
 <a class="scroll_top_button" style="color: white;" herf="#" onclick="javascript:scrollTopButton()">▲</a>
+
+<div data-role="popup" id="infoDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width: 260px;">
+    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">close</a>
+    <p id="programDialogTitle" style="font-weight: bold;">title</p>
+    <p id="programDialogChannelName" style="font-size: 13px;">channel name</p>
+    <p id="programDialogTime" style="font-size: 13px;">time</p>
+    <p id="programDialogDescription">description</p>
+</div>
 
 <div data-role="header">
     <a href="/epgrec">BACK</a>

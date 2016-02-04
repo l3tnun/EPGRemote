@@ -103,7 +103,16 @@ function getEPGRecSearch(option, callback) {
     var epgrecConfig = util.getConfig()["epgrecConfig"];
     var url = `http://${epgrecConfig["host"]}/programTable2.php`;
 
-    httpPost(url, callback, option, "get getEPGRecSearch");
+    httpPost(url, function(result) {
+        var resultArray = [];
+        var json = JSON.parse(result);
+        json.forEach(function(program) {
+            if(program.station_name == 1) { return; }
+            program["station_name_str"] = program.station_name.match(/\>.+?\</)[0].substr(1).slice(0, -1);
+            resultArray.push(program);
+        });
+        callback(resultArray);
+    }, option, "get getEPGRecSearch");
 }
 
 exports.getCustomRecResult = getCustomRecResult;

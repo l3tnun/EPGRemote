@@ -180,7 +180,7 @@ function start(server) {
         socket.on("getEPGRecSearch", function (socketid, option) {
             log.access.debug(`getEPGRecSearchResult ${socketid}`);
             epgrecManager.getEPGRecSearch(option, function(result) {
-                                                io.sockets.emit("resultEPGRecSearchResult", {"socketid" : socketid, "json" : JSON.parse(result)});
+                                                io.sockets.emit("resultEPGRecSearchResult", {"socketid" : socketid, "json" : result});
                                             });
         });
     });
