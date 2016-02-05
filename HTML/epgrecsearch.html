@@ -13,6 +13,7 @@
     <script src="/jquery.growl/js/jquery.growl.js"></script>
     <script src="/js/new_socketio.js"></script>
     <script src="/js/reconnect_socketio.js"></script>
+    <script src="/js/epgrec_search_command.js"></script>
 </head>
 <script>
 function scrollTopButton() {
@@ -151,7 +152,7 @@ socketio.on("resultEPGRecSearchResult", function(data) {
             classStr += 'class="recorded"'
         }
 
-        liStr += `<li><a ${classStr} href="javascript:openInfoDialog(${program.id})" target="_self"">`
+        liStr += `<li><a id="prgID_${program.id}" ${classStr} href="javascript:openInfoDialog(${program.id})" target="_self"">`
         liStr += `<h3 class="wordbreak">${program.title}</h3>`;
         liStr += `<p>${program.type}:${program.station_name_str}</p>`;
         liStr += `<p class="wordbreak">${program.date} ${program.starttime}${program.endtime}(${program.duration})</p>`;
@@ -167,6 +168,7 @@ socketio.on("resultEPGRecSearchResult", function(data) {
     console.log(Object.keys(searchResultKeyId).length + "件ヒットしました");
 });
 
+var programId;
 function openInfoDialog(id) {
     console.log(searchResultKeyId[id]);
     $("#programDialogTitle").text(searchResultKeyId[id].title);
@@ -174,7 +176,6 @@ function openInfoDialog(id) {
     $("#programDialogTime").text(`${searchResultKeyId[id].date} ${searchResultKeyId[id].starttime}${searchResultKeyId[id].endtime}(${searchResultKeyId[id].duration})`);
     $("#programDialogDescription").text(searchResultKeyId[id].description);
 
-    console.log(searchResultKeyId[id].rec == 0)
     if(searchResultKeyId[id].rec == 0) {
         $("#reced_buton").hide();
         $("#no_reced_button").show();
@@ -191,6 +192,7 @@ function openInfoDialog(id) {
         $("#reced_autorec").text("自動許可");
     }
 
+    programId = id;
     $("#infoDialog").popup('open');
 }
 
@@ -284,14 +286,14 @@ select {
     <p id="programDialogDescription">description</p>
 
     <div id="no_reced_button" class="ui-grid-b">
-        <div class="ui-block-a"><a href="#" class="infoDialogButton">詳細予約</a></div>
-        <div class="ui-block-b"><a href="#" class="infoDialogButton">簡易予約</a></div>
-        <div class="ui-block-c"><a id="no_reced_autorec" href="#" class="infoDialogButton">自動禁止</a></div>
+        <div class="ui-block-a"><a href="javascript:customRec()" class="infoDialogButton">詳細予約</a></div>
+        <div class="ui-block-b"><a href="javascript:rec()" class="infoDialogButton">簡易予約</a></div>
+        <div class="ui-block-c"><a id="no_reced_autorec" href="javascript:toggleAutoRec()" class="infoDialogButton">自動禁止</a></div>
     </div>
 
     <div id="reced_buton" class="ui-grid-a">
-        <div class="ui-block-a"><a href="#" class="infoDialogCancelButton">予約削除</a></div>
-        <div class="ui-block-b"><a id="reced_autorec" href="#" class="infoDialogCancelButton">自動禁止</a></div>
+        <div class="ui-block-a"><a href="javascript:cancelRec()" class="infoDialogCancelButton">予約削除</a></div>
+        <div class="ui-block-b"><a id="reced_autorec" href="javascript:toggleAutoRec()" class="infoDialogCancelButton">自動禁止</a></div>
     </div>
 </div>
 
