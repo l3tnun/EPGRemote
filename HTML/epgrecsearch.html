@@ -113,30 +113,30 @@ function getEPGRecSearchResult() {
 
     var option  = {
             do_search: "1",
-            use_regexp: $("#use_regexp").prop('checked') ? "1" : "0",
-            collate_ci: $("#collate_ci").prop('checked') ? "1" : "0",
-            ena_title: $("#enable_title").prop('checked') ? "1" : "0",
-            ena_desc: $("#enable_disc").prop('checked') ? "1" : "0",
             search: $("#search").val(),
-            week0: $("#week0").prop('checked') ? "1" : "0",
-            week1: $("#week1").prop('checked') ? "1" : "0",
-            week2: $("#week2").prop('checked') ? "1" : "0",
-            week3: $("#week3").prop('checked') ? "1" : "0",
-            week4: $("#week4").prop('checked') ? "1" : "0",
-            week5: $("#week5").prop('checked') ? "1" : "0",
-            week6: $("#week6").prop('checked') ? "1" : "0",
             station: $("#station").val(),
-            first_genre: $("#first_genre").prop('checked') ? "1" : "0",
             category_id: $("#genre").val(),
             sub_genre: $("#sub_genre").val(),
-            prgtime: $("#prgtime").val(), //時間帯 なし
-            period: $("#period").val() //から 1時間
+            prgtime: $("#prgtime").val(),
+            period: $("#period").val()
     };
 
+    if($("#use_regexp").prop('checked')) { option.use_regexp = "1"; }
+    if($("#collate_ci").prop('checked')) { option.collate_ci = "1"; }
+    if($("#enable_title").prop('checked')) { option.enable_title = "1"; }
+    if($("#enable_disc").prop('checked')) { option.enable_disc = "1"; }
     if($("#type_gr").prop('checked')) { option.typeGR = "1"; }
     if($("#type_bs").prop('checked')) { option.typeBS = "1"; }
     if($("#type_cs").prop('checked')) { option.typeCS = "1"; }
     if($("#type_ex").prop('checked')) { option.typeEX = "1"; }
+    if($("#week0").prop('checked')) { option.week0 = "1"; }
+    if($("#week1").prop('checked')) { option.week1 = "1"; }
+    if($("#week2").prop('checked')) { option.week2 = "1"; }
+    if($("#week3").prop('checked')) { option.week3 = "1"; }
+    if($("#week4").prop('checked')) { option.week4 = "1"; }
+    if($("#week5").prop('checked')) { option.week5 = "1"; }
+    if($("#week6").prop('checked')) { option.week6 = "1"; }
+    if($("#first_genre").prop('checked')) { option.first_genre = "1"; }
 
     socketio.emit("getEPGRecSearch", socketid, option);
 }
