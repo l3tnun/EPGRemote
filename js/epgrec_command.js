@@ -132,6 +132,7 @@ function closeDialogs(id) {
 function notifyGrowl(title, id) {
     if(typeof $("#" + id) == "undefined") { return; }
     var stationInfo = getStationInfo(id);
+    if(typeof stationInfo == "undefined" || typeof stationInfo.pr_station_name == "undefined") { return; }
     $.growl({ title: title, message: stationInfo.pr_station_name + " " + stationInfo.pr_starttime + " " + stationInfo.pr_title });
 }
 
