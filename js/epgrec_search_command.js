@@ -37,8 +37,8 @@ socketio.on("recResult", function (data) {
         } else {
             if( r_id ) {
                 $('#prgID_' + r_id).addClass('recorded'); //予約背景追加
-                searchResultKeyId[r_id].rec = 1
-                notifyGrowl("簡易予約", data.id)
+                searchResultKeyId[r_id].rec = 1;
+                notifyGrowl("簡易予約", data.id);
             }
             closeDialogs(data.id);
         }
@@ -53,7 +53,7 @@ function cancelRec() {
     socketio.emit("getCancelRec", programId);
 }
 
-socketio.on("cancelRecResult", function (data){
+socketio.on("cancelRecResult", function (data) {
     var recv = data.value.match(/error/i);
     if( recv != null ) {
         if(closeDialogs(data.id)) {
@@ -65,13 +65,27 @@ socketio.on("cancelRecResult", function (data){
             location.reload();
         } else {
             $('#prgID_' + data.id).removeClass('recorded');
-            notifyGrowl("予約キャンセル", data.id)
-            searchResultKeyId[data.id].rec = 1
+            notifyGrowl("予約キャンセル", data.id);
+            searchResultKeyId[data.id].rec = 0;
             closeDialogs(data.id);
         }
     }
 });
 
 function toggleAutoRec() {
-
+    socketio.emit("getToggleAutoRec", programId, searchResultKeyId[programId].autorec);
 }
+
+socketio.on("autoRecResult", function (data){
+    if(data.autorec) {
+        $('#prgID_' + data.id).addClass('freeze');
+        searchResultKeyId[programId].autorec = 0;
+        notifyGrowl("自動予約禁止", data.id);
+    } else {
+        $('#prgID_' + data.id).removeClass('freeze');
+        searchResultKeyId[programId].autorec = 1;
+        notifyGrowl("自動予約許可", data.id);
+    }
+    closeDialogs(data.id);
+});
+

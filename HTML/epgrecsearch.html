@@ -147,10 +147,10 @@ socketio.on("resultEPGRecSearchResult", function(data) {
 
         searchResultKeyId[program.id] = program;
 
-        var classStr = "";
-        if(program.rec == 1) {
-            classStr += 'class="recorded"'
-        }
+        var classStr = 'class="';
+        if(program.rec == 1) { classStr += 'recorded '; }
+        if(program.autorec == 0) { classStr += 'freeze '; }
+        classStr += '"';
 
         liStr += `<li><a id="prgID_${program.id}" ${classStr} href="javascript:openInfoDialog(${program.id})" target="_self"">`
         liStr += `<h3 class="wordbreak">${program.title}</h3>`;
@@ -230,15 +230,15 @@ select {
     white-space: normal;
 }
 
-.ui-listview > li > a.ui-btn:active.recorded {
-    background: #F55;
-    color: #FEE;
+.ui-listview > li > a.ui-btn:active.recorded, .ui-listview > li > a.ui-btn.recorded {
+    background: #F55 !important;
+    color: #FEE !important;
     text-shadow: none;
 }
 
-.ui-listview > li > a.ui-btn.recorded {
-    background: #F55;
-    color: #FEE;
+.ui-listview > li > a.ui-btn:active.freeze, .ui-listview > li > a.ui-btn.freeze {
+    background: #AAA;
+    color: black;
     text-shadow: none;
 }
 
