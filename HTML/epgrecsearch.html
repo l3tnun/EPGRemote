@@ -84,7 +84,7 @@ function checkedSearchOption() {
     }
 
     //曜日
-    if(!($("#week0").prop('checked') && $("#week1").prop('checked') && $("#week2").prop('checked') && $("#week3").prop('checked') && $("#week4").prop('checked') && $("#week5").prop('checked') && $("#week6").prop('checked'))) {
+    if(!$("#week0").prop('checked') && !$("#week1").prop('checked') && !$("#week2").prop('checked') && !$("#week3").prop('checked') && !$("#week4").prop('checked') && !$("#week5").prop('checked') && !$("#week6").prop('checked')) {
         $("#week0").prop('checked', true);
         $("#week1").prop('checked', true);
         $("#week2").prop('checked', true);
@@ -95,7 +95,7 @@ function checkedSearchOption() {
     }
 
     //放送波
-    if(!( $("#type_gr").prop('checked') && $("#type_bs").prop('checked') && $("#type_cs").prop('checked') && $("#type_ex").prop('checked') )) {
+    if(!$("#type_gr").prop('checked') && !$("#type_bs").prop('checked') && !$("#type_cs").prop('checked') && !$("#type_ex").prop('checked') ) {
         $("#type_gr").prop('checked', true);
         $("#type_bs").prop('checked', true);
         $("#type_cs").prop('checked', true);
@@ -104,12 +104,12 @@ function checkedSearchOption() {
 }
 
 function getEPGRecSearchResult() {
-    checkedSearchOption();
-
     if($("#search").val() == "") {
         $.growl.error({ message: "検索語句が入力されていません" });
         return;
     }
+
+    checkedSearchOption();
 
     var option  = {
             do_search: "1",
@@ -173,7 +173,11 @@ socketio.on("resultEPGRecSearchResult", function(data) {
     $("#search_listview").listview('refresh');
 
     $('html,body').animate({ scrollTop: $("#search_listview").offset().top }, 'swing');
-    console.log(Object.keys(searchResultKeyId).length + "件ヒットしました");
+    if(Object.keys(searchResultKeyId).length == 0){
+        $.growl.error({ message: "検索結果がありません" });
+    } else {
+        $.growl({ title: '' , message: Object.keys(searchResultKeyId).length + "件ヒットしました" });
+    }
 });
 
 var programId;
