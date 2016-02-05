@@ -118,10 +118,6 @@ function getEPGRecSearchResult() {
             ena_title: $("#enable_title").prop('checked') ? "1" : "0",
             ena_desc: $("#enable_disc").prop('checked') ? "1" : "0",
             search: $("#search").val(),
-            typeGR: $("#type_gr").prop('checked') ? "1" : "0",
-            typeBS: $("#type_bs").prop('checked') ? "1" : "0",
-            typeCS: $("#type_cs").prop('checked') ? "1" : "0",
-            typeEX: $("#type_ex").prop('checked') ? "1" : "0",
             week0: $("#week0").prop('checked') ? "1" : "0",
             week1: $("#week1").prop('checked') ? "1" : "0",
             week2: $("#week2").prop('checked') ? "1" : "0",
@@ -136,6 +132,11 @@ function getEPGRecSearchResult() {
             prgtime: $("#prgtime").val(), //時間帯 なし
             period: $("#period").val() //から 1時間
     };
+
+    if($("#type_gr").prop('checked')) { option.typeGR = "1"; }
+    if($("#type_bs").prop('checked')) { option.typeBS = "1"; }
+    if($("#type_cs").prop('checked')) { option.typeCS = "1"; }
+    if($("#type_ex").prop('checked')) { option.typeEX = "1"; }
 
     socketio.emit("getEPGRecSearch", socketid, option);
 }
