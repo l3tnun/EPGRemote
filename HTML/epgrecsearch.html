@@ -14,13 +14,14 @@
     <script src="/jquery.growl/js/jquery.growl.js"></script>
     <script src="/js/new_socketio.js"></script>
     <script src="/js/reconnect_socketio.js"></script>
+    <script src="/js/epgrec_search_command.js"></script>
 </head>
 <script>
 function scrollTopButton() {
     $('html,body').animate({ scrollTop: 0 }, 'swing');
 }
 
-var genrus = {}, subGenrus, stations = {};
+var genrus = {}, subGenrus, stations = {}, recModeDefaultId;
 var socketid = `${new Date().getTime()}:${Math.random().toString(36).slice(-8)}`;
 $(function () {
     socketio.emit("getEPGRecSearchSetting", socketid);
@@ -31,6 +32,7 @@ $(function () {
         data.genrus.forEach(function(genru) {
             genrus[genru.id] = genru.name_jp
             $("#genre").append($('<option>').html(`${genru.name_jp}`).val(`${genru.id}`));
+            $("#rec_genre").append($('<option>').html(`${genru.name_jp}`).val(`${genru.id}`));
         });
 
         data.channel.forEach(function(channel) {
@@ -38,10 +40,13 @@ $(function () {
             $("#station").append($('<option>').html(`${channel.name}`).val(`${channel.id}`));
         });
 
+        data.recMode.forEach(function(mode) {
+            $("#rec_mode").append($('<option>').html(`${mode.name}`).val(`${mode.id}`));
+        });
+
+        recModeDefaultId = data.recModeDefaultId;
         subGenrus = data.subGenrus;
 
-        //console.log(data.recMode);
-        //console.log(data.recModeDefaultId);
     });
 });
 
@@ -196,7 +201,51 @@ function openInfoDialog(id) {
     $("#infoDialog").popup('open');
 }
 
+function getTimeValue(topStr, time) {
+    var array = time.split(":");
+    var year = Number(topStr.substr(0, 4));
+    var month = Number(topStr.substr(4, 2));
+    var day = Number(topStr.substr(6, 2));
+    return { year: year, month: month, day: day, hour: Number(array[0]), minute: Number(array[1]), second: Number(array[2]) }
+}
+
+function setDetailDialog() {
+    station = searchResultKeyId[programId];
+    var startTime = getTimeValue(station.prg_top, station.starttime.slice(0, -1));
+    var endTime = getTimeValue(station.prg_top, station.endtime);
+
+    $("#detail_rec_start_year").val(startTime.year);
+    $("#detail_rec_start_month").val(startTime.month);
+    $("#detail_rec_start_day").val(startTime.day);
+    $("#detail_rec_start_hour").val(startTime.hour);
+    $("#detail_rec_start_minute").val(startTime.minute);
+    $("#detail_rec_start_second").val(startTime.second);
+
+    $("#detail_rec_end_year").val(endTime.year);
+    $("#detail_rec_end_month").val(endTime.month);
+    $("#detail_rec_end_day").val(endTime.day);
+    $("#detail_rec_end_hour").val(endTime.hour);
+    $("#detail_rec_end_minute").val(endTime.minute);
+    $("#detail_rec_end_second").val(endTime.second);
+
+    $("#detail_program_id_checkbox").prop("checked", true);
+    $("#detail_rec_delete_file").prop("checked", false);
+    $("#detail_rec_discontinuity").prop("checked", false);
+
+    $("#rec_genre").val(station.genre_id);
+    $("#rec_genre").selectmenu('refresh',true);
+
+    $("#rec_mode").val(recModeDefaultId);
+    $("#rec_mode").selectmenu('refresh',true);
+
+    $('#detail_rec_station_name').text(station.type + ":" + station.station_name_str)
+    $('#detail_rec_title').val(station.title);
+    $('#detail_rec_description').val(station.description);
+    $('#detail_channel_id').text(station.channel_id);
+}
+
 function openDetailRecDialog() {
+    setDetailDialog();
     $("#infoDialog").popup('close');
     $("#detailRecDialog").popup('open');
     if($(window).width() < 450) {
@@ -400,7 +449,9 @@ select {
     <textarea id="detail_rec_title" name="description" rows="3" cols="48"></textarea>
     <textarea id="detail_rec_description" name="title" rows="3" cols="48"></textarea>
 
-    <a href="javascript:customRec($('#detail_rec_prgID')[0].innerHTML);" target="_self" class="detaile_rec_button" style="color: white;">予約する</a>
+    <a href="javascript:customRec();" target="_self" class="detaile_rec_button" style="color: white;">予約する</a>
+
+    <p id="detail_channel_id" style="display: none;">channel_id</p>
 </div>
 
 <div data-role="header">

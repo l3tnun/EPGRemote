@@ -109,6 +109,11 @@ function getEPGRecSearch(option, callback) {
         json.forEach(function(program) {
             if(program.station_name == 1) { return; }
             program["station_name_str"] = program.station_name.match(/\>.+?\</)[0].substr(1).slice(0, -1);
+            var genreStartIndex = program.keyword.indexOf("category_id=");
+            program["genre_id"] = Number(program.keyword.substr(genreStartIndex , 16).replace(/[^0-9^\.]/g,""));
+
+            var channelStartIndex = program.keyword.indexOf("station=");
+            program["channel_id"] = Number(program.keyword.substr(channelStartIndex , 12).replace(/[^0-9^\.]/g,""));
             resultArray.push(program);
         });
         callback(resultArray);
