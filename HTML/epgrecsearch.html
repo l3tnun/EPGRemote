@@ -174,6 +174,23 @@ function openInfoDialog(id) {
     $("#programDialogTime").text(`${searchResultKeyId[id].date} ${searchResultKeyId[id].starttime}${searchResultKeyId[id].endtime}(${searchResultKeyId[id].duration})`);
     $("#programDialogDescription").text(searchResultKeyId[id].description);
 
+    console.log(searchResultKeyId[id].rec == 0)
+    if(searchResultKeyId[id].rec == 0) {
+        $("#reced_buton").hide();
+        $("#no_reced_button").show();
+    } else {
+        $("#reced_buton").show();
+        $("#no_reced_button").hide();
+    }
+
+    if(searchResultKeyId[id].autorec == 1) {
+        $("#no_reced_autorec").text("自動禁止");
+        $("#reced_autorec").text("自動禁止");
+    } else {
+        $("#no_reced_autorec").text("自動許可");
+        $("#reced_autorec").text("自動許可");
+    }
+
     $("#infoDialog").popup('open');
 }
 
@@ -226,6 +243,34 @@ select {
 .ui-page-theme-a .ui-body-inherit {
     text-shadow: none;
 }
+
+.infoDialogButton {
+    background: #0078AE none repeat scroll 0% 0%;
+    color: white;
+    text-shadow: none;
+    padding: 11px 10px;
+    text-align: center;
+    line-height: 36px;
+    margin: 0px 2px;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.infoDialogCancelButton {
+    background: #0078AE none repeat scroll 0% 0%;
+    color: #FFF;
+    text-shadow: none;
+    padding: 11px 22px;
+    text-align: center;
+    line-height: 36px;
+    margin: 0px 10px;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.ui-page-theme-a a, html .ui-body-a a, .ui-page-theme-a a:hover, html .ui-body-a a:hover, .ui-page-theme-a a:active, html .ui-body-a a:active {
+    color: white;
+}
 </style>
 <body>
 <!--topにスクロールするボタン-->
@@ -237,6 +282,17 @@ select {
     <p id="programDialogChannelName" style="font-size: 13px;">channel name</p>
     <p id="programDialogTime" style="font-size: 13px;">time</p>
     <p id="programDialogDescription">description</p>
+
+    <div id="no_reced_button" class="ui-grid-b">
+        <div class="ui-block-a"><a href="#" class="infoDialogButton">詳細予約</a></div>
+        <div class="ui-block-b"><a href="#" class="infoDialogButton">簡易予約</a></div>
+        <div class="ui-block-c"><a id="no_reced_autorec" href="#" class="infoDialogButton">自動禁止</a></div>
+    </div>
+
+    <div id="reced_buton" class="ui-grid-a">
+        <div class="ui-block-a"><a href="#" class="infoDialogCancelButton">予約削除</a></div>
+        <div class="ui-block-b"><a id="reced_autorec" href="#" class="infoDialogCancelButton">自動禁止</a></div>
+    </div>
 </div>
 
 <div data-role="header">
