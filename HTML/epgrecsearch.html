@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="/jquery/jquery.mobile.min.css" />
     <link rel="stylesheet" href="/jquery.growl/css/jquery.growl.css" />
     <link rel="stylesheet" href="/css/topbutton.css" />
-    <link rel="stylesheet" href="/css/epgrec_layout.css" />
     <script src="/jquery/jquery.min.js"></script>
     <script src="/jquery/jquery.mobile.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
@@ -17,6 +16,10 @@
     <script src="/js/epgrec_search_command.js"></script>
 </head>
 <script>
+function scrollTopButton() {
+    $('html,body').animate({ scrollTop: 0 }, 'swing');
+}
+
 function scrollTopButton() {
     $('html,body').animate({ scrollTop: 0 }, 'swing');
 }
@@ -373,6 +376,9 @@ select {
     font-size: 18px;
 }
 
+.ui-select {
+    width: 200px;
+}
 
 </style>
 <body>
