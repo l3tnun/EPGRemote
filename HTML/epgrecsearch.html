@@ -244,13 +244,23 @@ function setDetailDialog() {
     $('#detail_channel_id').text(station.channel_id);
 }
 
+var detailDialogLeftPosition = -1;
+var detailDialogHeight = -1;
 function openDetailRecDialog() {
     setDetailDialog();
     $("#infoDialog").popup('close');
+    if(detailDialogHeight != -1) {
+        $("#detailRecDialog-popup").height(detailDialogHeight);
+    }
     $("#detailRecDialog").popup('open');
     if($(window).width() < 450) {
         $("#detailRecDialog").css("transform", "scale(" + $(window).width() / 450 + ")");
-        $("#detailRecDialog").css("left", "-" + ($("#detailRecDialog").offset().left - 8) + "px");
+        if(detailDialogLeftPosition == -1) {
+            detailDialogLeftPosition = $("#detailRecDialog").offset().left - 8;
+            detailDialogHeight = $("#detailRecDialog-popup").height();
+        }
+        $("#detailRecDialog").css("left", "-" + detailDialogLeftPosition + "px");
+        $("#detailRecDialog-popup").height(0);
     } else {
         $("#detailRecDialog").css("transform", "scale(1.0)");
     }
