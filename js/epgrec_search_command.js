@@ -114,6 +114,26 @@ socketio.on("resultEPGRecSearchResult", function(data) {
     }
 
     $("#add_keyword_content").css("display", "block");
+
+    //自動予約設定 初期化
+    $("#kw_enable").prop('checked', true);
+    $("#overlap").prop('checked', false);
+    $("#rest_alert").prop('checked', false);
+    $("#criterion_enab").prop('checked', false);
+    $("#discontinuity").prop('checked', false);
+    $("#auto_del").prop('checked', false);
+    $("#detail_rec_priority").val('10');
+    $("#sft_start").val('');
+    $("#sft_end").val('');
+    $("#directory").val('');
+    $("#filename").val('');
+    $("#transdir0").val('');
+    $("#transdir1").val('');
+    $("#transdir2").val('');
+    $("#k_autorec_mode").val(recModeDefaultId);
+    $("#trans_mode0").val('0');
+    $("#trans_mode1").val('0');
+    $("#trans_mode2").val('0');
 });
 
 /*ダイアログ閉じる*/

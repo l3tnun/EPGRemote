@@ -113,8 +113,9 @@ function start(server) {
                     return;
                 }
 
+                var config = util.getConfig();
                 sqlModel.getChannelAndGenru( function(sqlReslut) {
-                    io.sockets.emit("resultEPGRecProgramList", {"socketid" : socketid, "json" : json , "hourheight" : util.getConfig()["epgrecConfig"]["hourheight"], "genrus" : sqlReslut[0], "channel" : sqlReslut[1], "recMode" : util.getConfig()["epgrecConfig"]["recMode"], "recModeDefaultId" : util.getConfig()["epgrecConfig"]["recModeDefaultId"] });
+                    io.sockets.emit("resultEPGRecProgramList", {"socketid" : socketid, "json" : json , "hourheight" : config.epgrecConfig.hourheight, "genrus" : sqlReslut[0], "channel" : sqlReslut[1], "recMode" : config.epgrecConfig.recMode, "recModeDefaultId" : config.epgrecConfig.recModeDefaultId});
                 });
 
             });
@@ -173,7 +174,8 @@ function start(server) {
         socket.on("getEPGRecSearchSetting", function (socketid) {
             log.access.debug(`getEPGRecSearchSetting ${socketid}`);
                 sqlModel.getChannelAndGenru( function(sqlReslut) {
-                    io.sockets.emit("resultEPGRecSearchSetting", {"socketid" : socketid, "genrus" : sqlReslut[0], "subGenrus" : subGenreModel.getAllSubGenre(), "channel" : sqlReslut[1], "recMode" : util.getConfig()["epgrecConfig"]["recMode"], "recModeDefaultId" : util.getConfig()["epgrecConfig"]["recModeDefaultId"] });
+                    var config = util.getConfig();
+                    io.sockets.emit("resultEPGRecSearchSetting", {"socketid" : socketid, "genrus" : sqlReslut[0], "subGenrus" : subGenreModel.getAllSubGenre(), "channel" : sqlReslut[1], "recMode" : config.epgrecConfig.recMode, "recModeDefaultId" : config.epgrecConfig.recModeDefaultId, "startTranscodeId" : config.epgrecConfig.startTranscodeId });
                 });
         });
 

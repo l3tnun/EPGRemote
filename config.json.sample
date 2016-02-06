@@ -15,6 +15,7 @@
                         { "id" :"3", "name" : "H264-HD" },
                         { "id" :"4", "name" : "H264-SD" }
                     ],
+        "startTranscodeId" : "3",
         "recModeDefaultId" : "3"
     },
 

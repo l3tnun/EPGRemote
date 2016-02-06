@@ -22,8 +22,24 @@ $(function () {
             $("#station").append($('<option>').html(`${channel.name}`).val(`${channel.id}`));
         });
 
+        var startTranscodeId = data.startTranscodeId;
+        var i = 0;
         data.recMode.forEach(function(mode) {
             $("#rec_mode").append($('<option>').html(`${mode.name}`).val(`${mode.id}`));
+            $("#k_autorec_mode").append($('<option>').html(`${mode.name}`).val(`${mode.id}`));
+
+            if(i == 0) {
+                $("#trans_mode0").append($('<option>').html("未指定").val("0"));
+                $("#trans_mode1").append($('<option>').html("未指定").val("0"));
+                $("#trans_mode2").append($('<option>').html("未指定").val("0"));
+            }
+
+            if(i >= startTranscodeId) {
+                $("#trans_mode0").append($('<option>').html(`${mode.name}`).val(`${mode.id}`));
+                $("#trans_mode1").append($('<option>').html(`${mode.name}`).val(`${mode.id}`));
+                $("#trans_mode2").append($('<option>').html(`${mode.name}`).val(`${mode.id}`));
+            }
+            i += 1;
         });
 
         recModeDefaultId = data.recModeDefaultId;
