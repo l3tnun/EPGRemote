@@ -245,6 +245,25 @@ function countKeywordTable(callback) {
     });
 }
 
+function getKeywordTableByIDAndTransexpandTable(id, callback) {
+    var jsonConfig = util.getConfig();
+    var sql = `select * from ${ jsonConfig["EpgrecRecordName"] }keywordTbl where id=${id}; select * from ${ jsonConfig["EpgrecRecordName"] }transexpandTbl where key_id=${id} order by type_no`;
+
+    var connection = createSqlConnection();
+
+    connection.query(sql, function(err, results) {
+        if (err) {
+            log.system.error('sql getKeywordTableByID error is : ', err );
+            callback('');
+            return;
+        }
+
+        log.system.debug("sql getKeywordTableByID data");
+        callback(results);
+        connection.destroy();
+    });
+}
+
 exports.getNowEpgData = getNowEpgData;
 exports.getChannelAndGenru = getChannelAndGenru;
 exports.getRecordedList = getRecordedList;
@@ -256,4 +275,5 @@ exports.getRecordedId = getRecordedId;
 exports.getReservationTable = getReservationTable;
 exports.getKeywordTable = getKeywordTable;
 exports.countKeywordTable = countKeywordTable;
+exports.getKeywordTableByIDAndTransexpandTable = getKeywordTableByIDAndTransexpandTable;
 

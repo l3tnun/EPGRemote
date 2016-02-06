@@ -192,6 +192,18 @@ function start(server) {
             });
         });
 
+        /*キーワード編集のためのオプションを取得*/
+        socket.on("getKeywordTableByIDAndTransexpandTable", function (socketid, id) {
+            log.access.debug(`getKeywordTableByID ${socketid}`);
+            sqlModel.getKeywordTableByIDAndTransexpandTable(id, function(sqlReslut) {
+                var TransexpandTable = [];
+                sqlReslut[1].forEach( function(table) {
+                    table.dir = table.dir.toString('UTF-8');
+                    TransexpandTable.push(table);
+                });
+                io.sockets.emit("resultKeywordTableByIDAndTransexpandTable", {"socketid" : socketid, "KeywordTable" : sqlReslut[0], "TransexpandTable" : TransexpandTable });
+            });
+        });
     });
 
 }

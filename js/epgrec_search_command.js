@@ -8,11 +8,15 @@ function notifyGrowl(title, id) {
 /*検索*/
 function checkedSearchOption() {
     //検索語句
-    if(!$("#use_regexp").prop('checked') && !$("#collate_ci").prop('checked') && !$("#enable_title").prop('checked') && !$("#enable_disc").prop('checked') || $("#collate_ci").prop('checked')) {
+    if(!$("#use_regexp").prop('checked') && !$("#collate_ci").prop('checked') && !$("#enable_title").prop('checked') && !$("#enable_disc").prop('checked') || !$("#use_regexp").prop('checked') && $("#collate_ci").prop('checked') && !$("#enable_title").prop('checked') && !$("#enable_disc").prop('checked')) {
         $("#enable_title").prop('checked', true);
         $("#enable_disc").prop('checked', true);
     } else if($("#use_regexp").prop('checked')) {
-        $("#collate_ci").prop('checked', false)
+        $("#collate_ci").prop('checked', false);
+        if(!$("#enable_title").prop('checked') && !$("#enable_disc").prop('checked')) {
+            $("#enable_title").prop('checked', true);
+            $("#enable_disc").prop('checked', true);
+        }
     }
 
     //曜日
@@ -38,6 +42,10 @@ function checkedSearchOption() {
 function getEPGRecSearchResult() {
     if($("#search").val() == "") {
         $.growl.error({ message: "検索語句が入力されていません" });
+        $("#add_keyword_content").css("display", "none");
+        $("search_listview").css("display", "none");
+        $("#search_listview").empty();
+        $("#search_listview").listview('refresh');
         return;
     }
 
@@ -70,11 +78,16 @@ function getEPGRecSearchResult() {
     if($("#week6").prop('checked')) { option.week6 = "1"; }
     if($("#first_genre").prop('checked')) { option.first_genre = "1"; }
 
+    var query = getUrlQuery();
+    if(typeof query.keyword_id != "undefined") {
+        option.keyword_id = query.keyword_id;
+    }
+
     socketio.emit("getEPGRecSearch", socketid, option);
 }
 
 //検索結果の取得
-var searchResult, searchResultKeyId;
+var searchResult, searchResultKeyId, initSearchOption = true;
 socketio.on("resultEPGRecSearchResult", function(data) {
     if(socketid != data.socketid) { return; }
 
@@ -114,8 +127,10 @@ socketio.on("resultEPGRecSearchResult", function(data) {
     }
 
     $("#add_keyword_content").css("display", "block");
+    $("search_listview").css("display", "block");
 
     //自動予約設定 初期化
+    if(!initSearchOption) { return; }
     $("#kw_enable").prop('checked', true);
     $("#overlap").prop('checked', false);
     $("#rest_alert").prop('checked', false);

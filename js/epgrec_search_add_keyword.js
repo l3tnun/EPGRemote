@@ -14,7 +14,6 @@ function getWeekOfDay() {
 function addKeyword() {
     var option  = {
         add_keyword: "1",
-        keyword_id:"0",
         k_use_regexp: $("#use_regexp").prop('checked') ? "1" : "" ,
         k_collate_ci: $("#collate_ci").prop('checked') ? "1" : "" ,
         k_ena_title: $("#enable_title").prop('checked') ? "1" : "" ,
@@ -54,11 +53,24 @@ function addKeyword() {
     if($("#discontinuity").prop('checked')) { option.k_discontinuity = "1"; }
     if($("#auto_del").prop('checked')) { option.k_auto_del = "1"; }
 
+    var query = getUrlQuery();
+    if(typeof query.keyword_id != "undefined") {
+        option.keyword_id = query.keyword_id;
+    } else {
+        option.keyword_id = "0";
+    }
+
     socketio.emit("addEPGRecKeyword", socketid, option);
 }
 
 socketio.on("resultAddEPGRecKeyword", function(data) {
     if(data.socketid != socketid) { return; }
+
+    var query = getUrlQuery();
+    if(typeof query.keyword_id != "undefined") {
+        location.href = "/epgrec_keyword_table";
+        return;
+    }
 
     if(data.json.length > data.count[0]["count(*)"]) {
         $.growl({ title: '', message: "キーワードの追加ができました"});

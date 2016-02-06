@@ -20,6 +20,7 @@ function httpGet(url, callback, name) {
     }).on('error', function(e){
         log.system.error('failed get ' + name)
         log.system.error(e.message); //エラー時
+        callback('');
     });
 }
 

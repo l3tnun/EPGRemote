@@ -2,7 +2,9 @@ function scrollTopButton() {
     $('html,body').animate({ scrollTop: 0 }, 'swing');
 }
 
+var urlQuery = null;
 function getUrlQuery() {
+    if(urlQuery != null) { return urlQuery; }
     var url = window.location.search;
     var query = {};
     array  = url.slice(1).split('&');
@@ -23,8 +25,78 @@ function setQuery() {
     if(typeof query.search != "undefined") {
         $("#search").val(decodeURIComponent(query.search));
         getEPGRecSearchResult();
+    } else if(typeof query.keyword_id != "undefined") {
+        $("#addKeywordButton").text("登録キーワードを更新する");
+        socketio.emit("getKeywordTableByIDAndTransexpandTable", socketid, query.keyword_id);
     }
 }
+
+socketio.on("resultKeywordTableByIDAndTransexpandTable", function(data) {
+    if(socketid != data.socketid) { return; }
+
+    if(data.KeywordTable.length == 0) {
+        $.growl.error({ message: "キーワードは登録されていません" });
+        return;
+    }
+
+    var keywordTable = data.KeywordTable[0];
+    $("#search").val(keywordTable.keyword);
+    $("#station").val(keywordTable.channel_id);
+    $("#genre").val(keywordTable.category_id);
+    changeSubGenre();
+    $("#sub_genre").val(keywordTable.sub_genre);
+    $("#prgtime").val(keywordTable.prgtime);
+    $("#period").val(keywordTable.period);
+    $("#type_gr").prop("checked", (keywordTable.typeGR == 1));
+    $("#type_bs").prop("checked", (keywordTable.typeBS == 1));
+    $("#type_cs").prop("checked", (keywordTable.typeCS == 1));
+    $("#type_ex").prop("checked", (keywordTable.typeEX == 1));
+    $("#use_regexp").prop("checked", (keywordTable.use_regexp == 1));
+    $("#collate_ci").prop("checked", (keywordTable.collate_ci == 1));
+    $("#enable_title").prop("checked", (keywordTable.ena_title == 1));
+    $("#enable_disc").prop("checked", (keywordTable.ena_desc == 1));
+    $("#first_genre").prop("checked", (keywordTable.first_genre == 1));
+
+    var weekofdays = keywordTable.weekofdays;
+    if((weekofdays | 0x1) == weekofdays) { $("#week0").prop("checked", true); }
+    if((weekofdays | 0x2) == weekofdays) { $("#week1").prop("checked", true); }
+    if((weekofdays | 0x4) == weekofdays) { $("#week2").prop("checked", true); }
+    if((weekofdays | 0x8) == weekofdays) { $("#week3").prop("checked", true); }
+    if((weekofdays | 0x10) == weekofdays) { $("#week4").prop("checked", true); }
+    if((weekofdays | 0x20) == weekofdays) { $("#week5").prop("checked", true); }
+    if((weekofdays | 0x40) == weekofdays) { $("#week6").prop("checked", true); }
+
+
+    $("#k_autorec_mode").prop("checked", (keywordTable.autorec_mode == 1));
+    $("#priority").val(keywordTable.priority);
+    $("#split_time").val(keywordTable.split_time / 60);
+    $("#sft_start").val(keywordTable.sft_start / 60);
+    $("#directory").val(keywordTable.directory);
+    $("#filename").val(keywordTable.filename_format);
+    $("#kw_enable").prop("checked", (keywordTable.kw_enable == 1));
+    $("#overlap").prop("checked", (keywordTable.overlap == 1));
+    $("#discontinuity").prop("checked", (keywordTable.discontinuity == 1));
+    $("#criterion_enab").prop("checked", (keywordTable.criterion_dura == 1));
+    $("#rest_alert").prop("checked", (keywordTable.rest_alert == 1));
+
+    if(keywordTable.duration_chg == 1) {
+        $("#sft_end").val("@" + (keywordTable.sft_end / 60));
+    } else {
+        $("#sft_end").val(keywordTable.sft_end / 60);
+    }
+
+    if(data.TransexpandTable.length != 0) {
+        var ts_delete;
+        data.TransexpandTable.forEach(function(transexpand) {
+            $("#trans_mode" + transexpand.type_no).val(transexpand.mode);
+            $("#transdir" + transexpand.type_no).val(transexpand.dir);
+            if(transexpand.ts_del == 1) { $("#auto_del").prop("checked", true); }
+        });
+    }
+
+    initSearchOption = false;
+    getEPGRecSearchResult();
+});
 
 /*検索オプションの設定を取得*/
 var genrus = {}, subGenrus, stations = {}, recModeDefaultId;
