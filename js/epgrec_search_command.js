@@ -100,6 +100,7 @@ socketio.on("resultEPGRecSearchResult", function(data) {
         liStr += `<p class="wordbreak">${program.description}</p>`;
         liStr += `</a></li>\n`;
     });
+    liStr += '<li data-role="list-divider">自動予約設定</li>'
 
     $("#search_listview").empty();
     $("#search_listview").append(liStr);
@@ -111,6 +112,8 @@ socketio.on("resultEPGRecSearchResult", function(data) {
     } else {
         $.growl({ title: '' , message: Object.keys(searchResultKeyId).length + "件ヒットしました" });
     }
+
+    $("#add_keyword_content").css("display", "block");
 });
 
 /*ダイアログ閉じる*/

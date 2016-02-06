@@ -239,6 +239,74 @@
     <!--検索結果 list view-->
     <ul id = "search_listview" data-role="listview">
     </ul>
+    </div>
 
+    <!--自動予約設定-->
+    <div role="main" class="ui-content" id="add_keyword_content" style="display: none;">
+    <div class="inline">
+        <label data-role="none" style="font-size: 14px;">
+        <input data-role="none" id="kw_enable" type="checkbox" checked="checked"/>自動予約</label>
+        <label data-role="none" style="font-size: 14px;">
+        <input data-role="none" id="overlap" type="checkbox"/>多重予約</label>
+        <label data-role="none" style="font-size: 14px;">
+        <input data-role="none" id="rest_alert" type="checkbox"/>無該当警告</label>
+        <label data-role="none" style="font-size: 14px;">
+        <input data-role="none" id="criterion_enab" type="checkbox"/>時間量変動警告</label>
+        <label data-role="none" style="font-size: 14px;">
+        <input data-role="none" id="discontinuity" type="checkbox"/>隣接禁止</label>
+    </div>
+
+    <div class="ui-grid-a">
+        <div class="ui-block-a">
+        <label>開始時刻シフト<input name="sft_start" value="0" size="8" style="width:auto;" type="text"></label>
+        </div>
+        <div class="ui-block-b">
+        <label>終了時刻シフト<input name="sft_end" value="0" size="8" style="width:auto;" type="text"></label>
+        </div>
+    </div>
+
+    <div class="inline"><label>録画モード</label>
+    <select data-role="none" id="autorec_mode" style="width:auto;">
+        <option selected="" value="24">なし</option>
+    </select>
+
+    <span>優先度</span>
+    <input data-role="none" id="detail_rec_priority" type="number" value="10" style="width: 45px;"/>
+    </div>
+
+    <div>
+        <label>保存ディレクトリー /video/<input name="directory" value="" size="80" style="width:auto;" type="text"></label>
+        <label>録画ファイル名の形式<input name="filename" value="" size="80" style="width:auto;" type="text"></label>
+    </div>
+
+    <hr size="1">
+    <span>トランスコード設定</span>
+
+    <div class="inline"><label>設定1: モード</label>
+    <select data-role="none" id="trans_mode0" style="width:auto;">
+        <option selected="" value="24">なし</option>
+    </select></div>
+    <input name="transdir0" value="" size="80" style="width:auto;" type="text">
+
+    <div class="inline"><label>設定2: モード</label>
+    <select data-role="none" id="trans_mode1" style="width:auto;">
+        <option selected="" value="24">なし</option>
+    </select></div>
+    <input name="transdir1" value="" size="80" style="width:auto;" type="text">
+
+
+    <div class="inline"><label>設定3: モード</label>
+    <select data-role="none" id="trans_mode2" style="width:auto;">
+        <option selected="" value="24">なし</option>
+    </select></div>
+    <input name="transdir2" value="" size="80" style="width:auto;" type="text">
+
+    <div class="inline">
+        <label data-role="none" style="font-size: 14px;">
+        <input data-role="none" id="auto_del" type="checkbox" checked="checked"/>元ファイルの自動削除</label>
+    </div>
+
+    <a id="addKeywordButton" href="#" class="ui-btn" style="margin-bottom: 35px;">自動録画キーワードに追加</a>
+    </div>
 </body>
 </html>
