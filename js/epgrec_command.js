@@ -271,8 +271,16 @@ function programSearch(id) {
         }
     }
 
+    keyword = keyword.replace(/&(gt|lt|#039|quot|amp);/ig, function($0, $1) {
+        if (/^gt$/i.test($1))   return ">";
+        if (/^lt$/i.test($1))   return "<";
+        if (/^#039$/.test($1))  return "'";
+        if (/^quot$/i.test($1)) return "\"";
+        if (/^amp$/i.test($1))  return "&";
+    });
+
     socketio.emit("getEpgRecHostName");
-    socketio.on("epgRecHostNameResult", function (data){
+    socketio.on("epgRecHostNameResult", function (data) {
         urlStr = ""
         if(data.value.slice(-1) != "/") {
             urlStr = data.value + "/" + keyword;
