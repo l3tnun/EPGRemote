@@ -82,7 +82,7 @@ socketio.on("resultEPGRecSearchResult", function(data) {
     searchResultKeyId = {};
 
     //search_listview
-    var liStr = ""
+    var liStr = '<li data-role="list-divider">検索結果</li>';
     data.json.forEach(function(program) {
         if(program.station_name == 1) { return; }
 
