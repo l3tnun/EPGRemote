@@ -279,16 +279,7 @@ function programSearch(id) {
         if (/^amp$/i.test($1))  return "&";
     });
 
-    socketio.emit("getEpgRecHostName");
-    socketio.on("epgRecHostNameResult", function (data) {
-        urlStr = ""
-        if(data.value.slice(-1) != "/") {
-            urlStr = data.value + "/" + keyword;
-        } else {
-            urlStr = data.value + keyword;
-        }
-        location.href = "http://" + urlStr;
-    });
+    location.href = keyword.replace("programTable.php", "/epgrec_search");
     $('#progDialog').popup('close');
 }
 

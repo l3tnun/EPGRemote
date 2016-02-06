@@ -2,6 +2,30 @@ function scrollTopButton() {
     $('html,body').animate({ scrollTop: 0 }, 'swing');
 }
 
+function getUrlQuery() {
+    var url = window.location.search;
+    var query = {};
+    array  = url.slice(1).split('&');
+    for (var i = 0; i < array.length; i++) {
+        vars = array[i].split('=');
+        query[vars[0]] = vars[1];
+    }
+
+    return query;
+}
+
+function setQuery() {
+    var query = getUrlQuery();
+
+    if(typeof query.station != "undefined") { $("#station").val(query.station); }
+    if(typeof query.category_id != "undefined") { $("#genre").val(query.category_id); changeSubGenre(); }
+    if(typeof query.sub_genre != "undefined") { $("#sub_genre").val(query.sub_genre); }
+    if(typeof query.search != "undefined") {
+        $("#search").val(decodeURIComponent(query.search));
+        getEPGRecSearchResult();
+    }
+}
+
 /*検索オプションの設定を取得*/
 var genrus = {}, subGenrus, stations = {}, recModeDefaultId;
 var socketid = `${new Date().getTime()}:${Math.random().toString(36).slice(-8)}`;
@@ -45,19 +69,25 @@ $(function () {
         recModeDefaultId = data.recModeDefaultId;
         subGenrus = data.subGenrus;
 
+        setQuery();
     });
 });
+
+function changeSubGenre() {
+    $('#sub_genre').empty();
+    $('#sub_genre').append($('<option>').html("すべて").val("16"));
+    var i = 0;
+    subGenrus[$('#genre option:selected').val() - 1].forEach(function(sub) {
+        $('#sub_genre').append($('<option>').html(sub).val(i));
+        i += 1;
+    });
+    $('#sub_genre').append($('<option>').html("その他").val(15));
+}
 
 $(function($) {
     //ジャンルが変更された時にサブジャンルを書き換える
     $('#genre').change(function() {
-        $('#sub_genre').empty();
-        $('#sub_genre').append($('<option>').html("すべて").val("16"));
-        var i = 0;
-        subGenrus[$('#genre option:selected').val() - 1].forEach(function(sub) {
-            $('#sub_genre').append($('<option>').html(sub).val(i));
-            i += 1;
-        });
+        changeSubGenre();
     });
 
     //Enter キーが押された時
