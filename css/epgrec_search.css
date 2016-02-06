@@ -1,0 +1,107 @@
+.inline label{
+  display: inline-block;
+}
+
+input[type="checkbox"] {
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+    margin-right: 3px;
+}
+
+select {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+    width: 100%;
+    background:#EEE;
+    background-size:20px 10px;
+    background-position: right center;
+    height: 40px;
+    line-height: 40px;
+    font-size: 15px;
+    vertical-align: middle;
+    border:1px solid #CCC;
+    margin-bottom:5px;
+}
+
+.ui-listview .wordbreak {
+    overflow: visible;
+    white-space: normal;
+}
+
+.ui-listview > li > a.ui-btn:active.recorded, .ui-listview > li > a.ui-btn.recorded {
+    background: #F55 !important;
+    color: #FEE !important;
+    text-shadow: none;
+}
+
+.ui-listview > li > a.ui-btn:active.freeze, .ui-listview > li > a.ui-btn.freeze {
+    background: #AAA;
+    color: black;
+    text-shadow: none;
+}
+
+.ui-page-theme-a .ui-body-inherit {
+    text-shadow: none;
+}
+
+.infoDialogButton {
+    background: #0078AE none repeat scroll 0% 0%;
+    color: white;
+    text-shadow: none;
+    padding: 11px 10px;
+    text-align: center;
+    line-height: 36px;
+    margin: 0px 2px;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.infoDialogCancelButton {
+    background: #0078AE none repeat scroll 0% 0%;
+    color: #FFF;
+    text-shadow: none;
+    padding: 11px 22px;
+    text-align: center;
+    line-height: 36px;
+    margin: 0px 10px;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.ui-page-theme-a a, html .ui-body-a a, .ui-page-theme-a a:hover, html .ui-body-a a:hover, .ui-page-theme-a a:active, html .ui-body-a a:active {
+    color: white;
+}
+
+<!--予約詳細-->
+#detail_rec_station_name {
+    text-align: left;
+    color: #444;
+    font-size: 1.2em;
+}
+
+.detail_time > span {
+    margin-top: 18px;
+    padding-right: 3px;
+}
+
+.detail_time > .ui-input-text > input{
+    height:38px;
+    width: 30px;
+}
+
+.detaile_rec_button {
+    display: block;
+    background: #0078AE none repeat scroll 0% 0%;
+    text-decoration: none;
+    width: 110px;
+    text-align: center;
+    padding: 14px 4px;
+    margin: 0 auto;
+    font-size: 18px;
+}
+
+.ui-select {
+    width: 200px;
+}
+

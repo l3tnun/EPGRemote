@@ -1,9 +1,119 @@
+/*通知*/
 function notifyGrowl(title, id) {
     if(typeof searchResultKeyId[id] == "undefined") { return; }
     var station = searchResultKeyId[id];
     $.growl({ title: title, message: station.station_name_str + " " + station.starttime + " " + station.endtime + "(" +  station.duration + ") " + station.title });
 }
 
+/*検索*/
+function checkedSearchOption() {
+    //検索語句
+    if(!$("#use_regexp").prop('checked') && !$("#collate_ci").prop('checked') && !$("#enable_title").prop('checked') && !$("#enable_disc").prop('checked') || $("#collate_ci").prop('checked')) {
+        $("#enable_title").prop('checked', true);
+        $("#enable_disc").prop('checked', true);
+    } else if($("#use_regexp").prop('checked')) {
+        $("#collate_ci").prop('checked', false)
+    }
+
+    //曜日
+    if(!$("#week0").prop('checked') && !$("#week1").prop('checked') && !$("#week2").prop('checked') && !$("#week3").prop('checked') && !$("#week4").prop('checked') && !$("#week5").prop('checked') && !$("#week6").prop('checked')) {
+        $("#week0").prop('checked', true);
+        $("#week1").prop('checked', true);
+        $("#week2").prop('checked', true);
+        $("#week3").prop('checked', true);
+        $("#week4").prop('checked', true);
+        $("#week5").prop('checked', true);
+        $("#week6").prop('checked', true);
+    }
+
+    //放送波
+    if(!$("#type_gr").prop('checked') && !$("#type_bs").prop('checked') && !$("#type_cs").prop('checked') && !$("#type_ex").prop('checked') ) {
+        $("#type_gr").prop('checked', true);
+        $("#type_bs").prop('checked', true);
+        $("#type_cs").prop('checked', true);
+        $("#type_ex").prop('checked', true);
+    }
+}
+
+function getEPGRecSearchResult() {
+    if($("#search").val() == "") {
+        $.growl.error({ message: "検索語句が入力されていません" });
+        return;
+    }
+
+    checkedSearchOption();
+
+    var option  = {
+            do_search: "1",
+            search: $("#search").val(),
+            station: $("#station").val(),
+            category_id: $("#genre").val(),
+            sub_genre: $("#sub_genre").val(),
+            prgtime: $("#prgtime").val(),
+            period: $("#period").val()
+    };
+
+    if($("#use_regexp").prop('checked')) { option.use_regexp = "1"; }
+    if($("#collate_ci").prop('checked')) { option.collate_ci = "1"; }
+    if($("#enable_title").prop('checked')) { option.enable_title = "1"; }
+    if($("#enable_disc").prop('checked')) { option.enable_disc = "1"; }
+    if($("#type_gr").prop('checked')) { option.typeGR = "1"; }
+    if($("#type_bs").prop('checked')) { option.typeBS = "1"; }
+    if($("#type_cs").prop('checked')) { option.typeCS = "1"; }
+    if($("#type_ex").prop('checked')) { option.typeEX = "1"; }
+    if($("#week0").prop('checked')) { option.week0 = "1"; }
+    if($("#week1").prop('checked')) { option.week1 = "1"; }
+    if($("#week2").prop('checked')) { option.week2 = "1"; }
+    if($("#week3").prop('checked')) { option.week3 = "1"; }
+    if($("#week4").prop('checked')) { option.week4 = "1"; }
+    if($("#week5").prop('checked')) { option.week5 = "1"; }
+    if($("#week6").prop('checked')) { option.week6 = "1"; }
+    if($("#first_genre").prop('checked')) { option.first_genre = "1"; }
+
+    socketio.emit("getEPGRecSearch", socketid, option);
+}
+
+//検索結果の取得
+var searchResult, searchResultKeyId;
+socketio.on("resultEPGRecSearchResult", function(data) {
+    if(socketid != data.socketid) { return; }
+
+    searchResult = data.json;
+    searchResultKeyId = {};
+
+    //search_listview
+    var liStr = ""
+    data.json.forEach(function(program) {
+        if(program.station_name == 1) { return; }
+
+        searchResultKeyId[program.id] = program;
+
+        var classStr = 'class="';
+        if(program.rec == 1) { classStr += 'recorded '; }
+        if(program.autorec == 0) { classStr += 'freeze '; }
+        classStr += '"';
+
+        liStr += `<li><a id="prgID_${program.id}" ${classStr} href="javascript:openInfoDialog(${program.id})" target="_self"">`
+        liStr += `<h3 class="wordbreak">${program.title}</h3>`;
+        liStr += `<p>${program.type}:${program.station_name_str}</p>`;
+        liStr += `<p class="wordbreak">${program.date} ${program.starttime}${program.endtime}(${program.duration})</p>`;
+        liStr += `<p class="wordbreak">${program.description}</p>`;
+        liStr += `</a></li>\n`;
+    });
+
+    $("#search_listview").empty();
+    $("#search_listview").append(liStr);
+    $("#search_listview").listview('refresh');
+
+    $('html,body').animate({ scrollTop: $("#search_listview").offset().top }, 'swing');
+    if(Object.keys(searchResultKeyId).length == 0){
+        $.growl.error({ message: "検索結果がありません" });
+    } else {
+        $.growl({ title: '' , message: Object.keys(searchResultKeyId).length + "件ヒットしました" });
+    }
+});
+
+/*ダイアログ閉じる*/
 function closeDialogs(id) {
     if(id == programId) {
         $('#infoDialog').popup('close');
@@ -16,6 +126,7 @@ function closeDialogs(id) {
     return false;
 }
 
+/*簡易予約*/
 function rec() {
     socketio.emit("getRec", programId);
 }
@@ -45,6 +156,7 @@ socketio.on("recResult", function (data) {
     }
 });
 
+/*詳細予約*/
 function customRec() {
     var program_id = 0;
     if($('#detail_program_id_checkbox').attr('checked')) { program_id = programId; }
@@ -100,6 +212,7 @@ socketio.on("resultCustomRec", function (data){
     }
 });
 
+/*予約キャンセル*/
 function cancelRec() {
     socketio.emit("getCancelRec", programId);
 }
@@ -123,6 +236,7 @@ socketio.on("cancelRecResult", function (data) {
     }
 });
 
+/*自動予約*/
 function toggleAutoRec() {
     socketio.emit("getToggleAutoRec", programId, searchResultKeyId[programId].autorec);
 }
