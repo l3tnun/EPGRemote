@@ -73,7 +73,6 @@ $(function($) {
 /*番組情報ダイアログ*/
 var programId;
 function openInfoDialog(id) {
-    console.log(searchResultKeyId[id]);
     $("#programDialogTitle").text(searchResultKeyId[id].title);
     $("#programDialogChannelName").text(searchResultKeyId[id].station_name_str);
     $("#programDialogTime").text(`${searchResultKeyId[id].date} ${searchResultKeyId[id].starttime}${searchResultKeyId[id].endtime}(${searchResultKeyId[id].duration})`);
@@ -164,7 +163,5 @@ function openDetailRecDialog() {
     } else {
         $("#detailRecDialog").css("transform", "scale(1.0)");
     }
-
-    console.log($("#detailRecDialog").offset());
 }
 

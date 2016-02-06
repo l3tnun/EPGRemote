@@ -185,6 +185,17 @@ function start(server) {
                                                 io.sockets.emit("resultEPGRecSearchResult", {"socketid" : socketid, "json" : result});
                                             });
         });
+
+        /*自動録画キーワード追加部分*/
+        socket.on("addEPGRecKeyword", function (socketid, option) {
+            log.access.debug(`getEPGRecSearchResult ${socketid}`);
+            sqlModel.countKeywordTable( function(sqlReslut) {
+                epgrecManager.addEPGRecKeyword(option, function(result) {
+                                                    io.sockets.emit("resultAddEPGRecKeyword", {"socketid" : socketid, "count" : sqlReslut, "json" : JSON.parse(result)});
+                                                });
+            });
+        });
+
     });
 
 }

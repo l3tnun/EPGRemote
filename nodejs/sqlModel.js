@@ -226,6 +226,25 @@ function getKeywordTable(limit, queryNum, callback) {
     });
 }
 
+function countKeywordTable(callback) {
+    var jsonConfig = util.getConfig();
+    var sql = `select count(*) from ${ jsonConfig["EpgrecRecordName"] }keywordTbl`;
+
+    var connection = createSqlConnection();
+
+    connection.query(sql, function(err, results) {
+        if (err) {
+            log.system.error('sql countKeywordTable error is : ', err );
+            callback('');
+            return;
+        }
+
+        log.system.debug("sql countKeywordTable data");
+        callback(results);
+        connection.destroy();
+    });
+}
+
 exports.getNowEpgData = getNowEpgData;
 exports.getChannelAndGenru = getChannelAndGenru;
 exports.getRecordedList = getRecordedList;
@@ -236,4 +255,5 @@ exports.getTranscodeId = getTranscodeId;
 exports.getRecordedId = getRecordedId;
 exports.getReservationTable = getReservationTable;
 exports.getKeywordTable = getKeywordTable;
+exports.countKeywordTable = countKeywordTable;
 

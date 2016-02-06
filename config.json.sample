@@ -5,6 +5,8 @@
     "epgrecConfig" : {
         "host" : "192.168.xx.xx:xxxx",
         "index.php" : "index2.php",
+        "programTable.php" : "programTable2.php",
+        "keywordTable.php" : "keywordTable2.php",
         "hourheight" : 180,
         "videoPath" : "/var/www/epgrec/video",
         "thumbsPath" : "/var/www/epgrec/thumbs",

@@ -4,7 +4,7 @@ var http = require('http');
 var request = require('request');
 
 function httpGet(url, callback, name) {
-    log.system.info('get ' + name + ' rec');
+    log.system.info('get ' + name);
 
     http.get(url, function(res){
         var body = '';
@@ -24,7 +24,7 @@ function httpGet(url, callback, name) {
 }
 
 function httpPost(url, callback, option, name) {
-    log.system.info('post ' + name + ' rec');
+    log.system.info('post ' + name);
 
     request.post(
         url,
@@ -101,7 +101,7 @@ function getDeleteKeywordResult(id, callback) {
 
 function getEPGRecSearch(option, callback) {
     var epgrecConfig = util.getConfig()["epgrecConfig"];
-    var url = `http://${epgrecConfig["host"]}/programTable2.php`;
+    var url = `http://${epgrecConfig["host"]}/${epgrecConfig["programTable.php"]}`;
 
     httpPost(url, function(result) {
         var resultArray = [];
@@ -120,6 +120,13 @@ function getEPGRecSearch(option, callback) {
     }, option, "get getEPGRecSearch");
 }
 
+function addEPGRecKeyword(option, callback) {
+    var epgrecConfig = util.getConfig()["epgrecConfig"];
+    var url = `http://${epgrecConfig["host"]}/${epgrecConfig["keywordTable.php"]}`;
+
+    httpPost(url, callback, option, "get addEPGRecKeyword");
+}
+
 exports.getCustomRecResult = getCustomRecResult;
 exports.getProgram = getProgram;
 exports.getRecResult = getRecResult;
@@ -129,4 +136,5 @@ exports.deleteVideoFile = deleteVideoFile;
 exports.getCancelReservationResult = getCancelReservationResult;
 exports.getDeleteKeywordResult = getDeleteKeywordResult;
 exports.getEPGRecSearch = getEPGRecSearch;
+exports. addEPGRecKeyword = addEPGRecKeyword;
 
