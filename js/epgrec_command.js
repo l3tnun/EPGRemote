@@ -279,7 +279,12 @@ function programSearch(id) {
         if (/^amp$/i.test($1))  return "&";
     });
 
-    location.href = keyword.replace("programTable.php", "/epgrec_search");
     $('#progDialog').popup('close');
+    var searchUrl = keyword.replace("programTable.php", "/epgrec_search");
+    setTimeout(`jumpSearch("${searchUrl}")`, 250);
+}
+
+function jumpSearch(searchUrl) {
+    location.href = searchUrl;
 }
 
