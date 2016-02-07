@@ -55,7 +55,7 @@ $ npm install -g mysql log4js socketio request
 * HLSでリアルタイム視聴を行う場合、ffmpeg と recpt1 等が必要です
 * 必須ではありませんが、EPGRec UNA とのチューナーの取り合いを回避するため、BonDriverProxy + recbond のインストールを推奨します。
 
-* 録画済み一覧から動画を再生する場合は、EPGrec UNA のエンコード機能とサムネイル作成機能を ON にしておくことを推奨します
+* 録画済み一覧から動画を再生する場合は、EPGRec UNA のエンコード機能とサムネイル作成機能を ON にしておくことを推奨します
 * エンコードなしで ts ファイルを直接再生も可能ですがスマートフォン側にそれなりの性能が必要になります。
 
 * 番組表 Web UIを使用する際には EPGRec UNA のindex.php 内の $programs の内容が必要になります。$programs を Json で返すようにしてください。
@@ -95,7 +95,7 @@ $ cp programTable.php programTable2.php
     $smarty->display('programTable.html');
 }
 catch( exception $e ) {
-»---exit( $e->getMessage() );
+    exit( $e->getMessage() );
 }
 ?>
 ````
@@ -107,7 +107,7 @@ catch( exception $e ) {
     print_r (json_encode($programs));
 }
 catch( exception $e ) {
-»---exit( $e->getMessage() );
+    exit( $e->getMessage() );
 }
 ?>
 ````
