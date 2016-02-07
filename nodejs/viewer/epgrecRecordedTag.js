@@ -12,7 +12,7 @@ module.exports = function(response, keywords, keywordCnt, pageNum) {
 
     var htmlfile = readFile("./HTML/epgrecrecordedtag.html");
     htmlfile = htmlfile.replace("@@@TAGLIST@@@", tagListStr);
-    htmlfile = htmlfile.replace(/@@@PAGENEXT@@@/g, `<input id="page_next" style="display: none;" value="${(pageNum * 15 > keywordCnt)}"/>`);
+    htmlfile = htmlfile.replace(/@@@PAGENEXT@@@/g, `<input id="page_next" style="display: none;" value="${(pageNum * 15 - keywordCnt == 0)}"/>`);
     responseFile(response, htmlfile);
 }
 

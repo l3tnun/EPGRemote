@@ -16,7 +16,7 @@ module.exports = function(response, programs, programCnt, pageNum) {
 
     var htmlfile = readFile("./HTML/epgrecrecorded.html");
     htmlfile = htmlfile.replace(/@@@PROGRAM@@@/g, programStr);
-    htmlfile = htmlfile.replace(/@@@PAGENEXT@@@/g, `<input id="page_next" style="display: none;" value="${(pageNum * 15 > programCnt)}"/>`);
+    htmlfile = htmlfile.replace(/@@@PAGENEXT@@@/g, `<input id="page_next" style="display: none;" value="${(pageNum * 15 - programCnt == 0)}"/>`);
     responseFile(response, htmlfile);
 }
 

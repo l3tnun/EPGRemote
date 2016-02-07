@@ -50,6 +50,7 @@ module.exports = function(response, parsedUrl, request, postData) {
             keywords.push(keyword);
         });
 
+        if(typeof parsedUrl.query.num == "undefined") { parsedUrl.query.num = 1; }
         viewerEpgrecKeywordTable(response, keywords, results[3][0]["count(*)"], parsedUrl.query.num);
     });
 
