@@ -149,7 +149,9 @@ function changeSubGenre() {
     $('#sub_genre').empty();
     $('#sub_genre').append($('<option>').html("すべて").val("16"));
     var i = 0;
-    subGenrus[$('#genre option:selected').val() - 1].forEach(function(sub) {
+    var subGenrusIndex = $('#genre option:selected').val();
+    if(subGenrusIndex > 0) { subGenrusIndex -= 1; }
+    subGenrus[subGenrusIndex].forEach(function(sub) {
         $('#sub_genre').append($('<option>').html(sub).val(i));
         i += 1;
     });
