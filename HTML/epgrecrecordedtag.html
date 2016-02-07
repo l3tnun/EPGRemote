@@ -29,7 +29,7 @@
         if($('#tag_list').children().length == 0) {
             $(".pagination").css("display", "none");
             return;
-        } else if($('#tag_list').children().length < 15) {
+        } else if($('#tag_list').children().length < 15 || $("#page_next").val() == "true") {
             $(".pagination_next").css("visibility", "hidden");
         }
 
@@ -81,5 +81,6 @@
         <a class="pagination_next" herf="#" target="_self">></a>
     </div>
 </div>
+@@@PAGENEXT@@@
 </body>
 </html>

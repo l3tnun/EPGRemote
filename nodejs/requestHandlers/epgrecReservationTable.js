@@ -31,7 +31,7 @@ module.exports = function(response, parsedUrl, request, postData) {
             programs.push(program);
         });
 
-        viewerEpgrecReservationTable(response, programs);
+        viewerEpgrecReservationTable(response, programs, results[2][0]["count(*)"], parsedUrl.query.num);
     });
 }
 

@@ -45,7 +45,7 @@ module.exports = function(response, parsedUrl) {
             }
         }
 
-        viewerEpgrecRecordedTag(response, tags);
+        viewerEpgrecRecordedTag(response, tags, tagList[key].cnt, parsedUrl.query.num);
     });
 }
 

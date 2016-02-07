@@ -50,7 +50,7 @@ module.exports = function(response, parsedUrl, request, postData) {
             keywords.push(keyword);
         });
 
-        viewerEpgrecKeywordTable(response, keywords);
+        viewerEpgrecKeywordTable(response, keywords, results[3][0]["count(*)"], parsedUrl.query.num);
     });
 
 }

@@ -64,7 +64,7 @@ module.exports = function(response, parsedUrl, request, postData) {
             programs.push(program);
         });
 
-        viewerEpgrecRecorded(response, programs);
+        viewerEpgrecRecorded(response, programs, results[3][0]["count(*)"], parsedUrl.query.num);
     });
 }
 
