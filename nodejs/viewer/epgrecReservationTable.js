@@ -12,7 +12,7 @@ module.exports = function(response, programs) {
         programStr += `<p class="wordbreak">${program.description}</p>`
         var edit_link;
         if(program.autorec != 0) {
-            edit_link = `http://${util.getConfig()["epgrecConfig"].host}/programTable.php?keyword_id=${program.autorec}`;
+            edit_link = `/epgrec_search?keyword_id=${program.autorec}`;
         }
         programStr += `</a><a id="actionId${actionId}" href="#" programId="${program.id}" programTitle="${program.title}" programInfo="${program.channelName} ${program.time}" programTime="${program.time}" programDescription="${program.description}" programKeyword="${edit_link}" class="openActionMenu"></a></li>`
         actionId += 1;
