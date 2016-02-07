@@ -204,7 +204,7 @@ function openInfoDialog(id) {
 
 
 /*詳細ダイアログ*/
-function getTimeValue(topStr, time) {
+function getStartTimeValue(topStr, time) {
     var array = time.split(":");
     var year = Number(topStr.substr(0, 4));
     var month = Number(topStr.substr(4, 2));
@@ -212,10 +212,22 @@ function getTimeValue(topStr, time) {
     return { year: year, month: month, day: day, hour: Number(array[0]), minute: Number(array[1]), second: Number(array[2]) }
 }
 
+function getEndTimeValue(topStr, time, duration) {
+    var array = time.split(":");
+    var year = Number(topStr.substr(0, 4));
+    var month = Number(topStr.substr(4, 2));
+    var day = Number(topStr.substr(6, 2));
+    var durationArray = duration.split(":");
+    var startTime = new Date(new Date(year, month - 1, day, Number(array[0]), Number(array[1]), Number(array[2])).getTime()
+                + Number(durationArray[0]) * 60 * 60 * 1000 + Number(durationArray[1]) * 60 * 1000 + Number(durationArray[0]) * 1000);
+
+    return { year: startTime.getFullYear(), month: startTime.getMonth() + 1, day: startTime.getDate(), hour: startTime.getHours(), minute: startTime.getMinutes(), second: startTime.getSeconds() }
+}
+
 function setDetailDialog() {
     station = searchResultKeyId[programId];
-    var startTime = getTimeValue(station.prg_top, station.starttime.slice(0, -1));
-    var endTime = getTimeValue(station.prg_top, station.endtime);
+    var startTime = getStartTimeValue(station.prg_top, station.starttime.slice(0, -1));
+    var endTime = getEndTimeValue(station.prg_top, station.starttime.slice(0, -1), station.duration);
 
     $("#detail_rec_start_year").val(startTime.year);
     $("#detail_rec_start_month").val(startTime.month);
