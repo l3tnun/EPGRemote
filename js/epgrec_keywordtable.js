@@ -32,6 +32,7 @@ function openKeywordInfo(keywordStr) {
     $("#keywordDialogTime").text("時間: " + keyword.time);
     $("#keywordDialogPriority").text("優先度: " + keyword.priority);
     $("#keywordDialogDiscontinuity").text("隣接禁止: " + (keyword.discontinuity ? "◯" : "X"));
+    $("#keywordAutoRecMode").text(keyword.autorec_mode);
     $("#keywordDialogSftStart").text("時刻シフト(開始): " + keyword.sft_start);
     $("#keywordDialogSftEnd").text("時刻シフト(終了): " + keyword.sft_end);
     $("#keywordDialogEdit").attr('href', keyword.editLink);
