@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>番組検索</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no,">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/jquery/jquery.mobile.min.css" />
+    <link rel="stylesheet" href="/jquery.growl/css/jquery.growl.css" />
+    <link rel="stylesheet" href="/css/topbutton.css" />
+    <link rel="stylesheet" href="/css/epgrec_search.css" />
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/jquery/jquery.mobile.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/jquery.growl/js/jquery.growl.js"></script>
+    <script src="/js/new_socketio.js"></script>
+    <script src="/js/reconnect_socketio.js"></script>
+    <script src="/js/epgrec_search_command.js"></script>
+    <script src="/js/epgrec_search_layout.js"></script>
+    <script src="/js/epgrec_search_add_keyword.js"></script>
+</head>
+
+<body>
+<!--topにスクロールするボタン-->
+<a class="scroll_top_button" style="color: white;" herf="#" onclick="javascript:scrollTopButton()">▲</a>
+
+<!--番組情報ダイアログ-->
+<div data-role="popup" id="infoDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width: 260px;">
+    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">close</a>
+    <p id="programDialogTitle" style="font-weight: bold;">title</p>
+    <p id="programDialogChannelName" style="font-size: 13px;">channel name</p>
+    <p id="programDialogTime" style="font-size: 13px;">time</p>
+    <p id="programDialogDescription">description</p>
+
+    <div id="no_reced_button" class="ui-grid-b">
+        <div class="ui-block-a"><a href="javascript:openDetailRecDialog()" class="infoDialogButton">詳細予約</a></div>
+        <div class="ui-block-b"><a href="javascript:rec()" class="infoDialogButton">簡易予約</a></div>
+        <div class="ui-block-c"><a id="no_reced_autorec" href="javascript:toggleAutoRec()" class="infoDialogButton">自動禁止</a></div>
+    </div>
+
+    <div id="reced_buton" class="ui-grid-a">
+        <div class="ui-block-a"><a href="javascript:cancelRec()" class="infoDialogCancelButton">予約削除</a></div>
+        <div class="ui-block-b"><a id="reced_autorec" href="javascript:toggleAutoRec()" class="infoDialogCancelButton">自動禁止</a></div>
+    </div>
+</div>
+
+<!-- 詳細予約ダイアログ-->
+<div data-role="popup" id="detailRecDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width:400px; height: auto;">
+    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">close</a>
+
+    <div style="display:inline-flex" class="detail_time">
+        <span>開始時刻</span>
+        <input style="width:50px;" id="detail_rec_start_year" type="number" size="4" min=2016 max=2100/>
+        <span>年</span>
+        <input id="detail_rec_start_month" type="number" size="2" min=1 max=12/>
+        <span>月</span>
+        <input id="detail_rec_start_day" type="number" size="2" min=1 max=31/>
+        <span>日</span>
+        <input id="detail_rec_start_hour" type="number" size="2" min=0 max=23/>
+        <span>時</span>
+        <input id="detail_rec_start_minute" type="number" size="2" min=0 max=59/>
+        <span>分</span>
+        <input id="detail_rec_start_second" type="number" size="2" min=0 max=59/>
+        <span>秒</span>
+    </div>
+
+    <div style="display:inline-flex" class="detail_time">
+        <span>終了時刻</span>
+        <input style="width:50px;" id="detail_rec_end_year" type="number" size="4" min=2016 max=2100/>
+        <span>年</span>
+        <input id="detail_rec_end_month" type="number" size="2" min=1 max=12/>
+        <span>月</span>
+        <input id="detail_rec_end_day" type="number" size="2" min=1 max=31/>
+        <span>日</span>
+        <input id="detail_rec_end_hour" type="number" size="2" min=0 max=23/>
+        <span>時</span>
+        <input id="detail_rec_end_minute" type="number" size="2" min=0 max=59/>
+        <span>分</span>
+        <input id="detail_rec_end_second" type="number" size="2" min=0 max=59/>
+        <span>秒</span>
+    </div>
+
+    <div style="display:inline-flex" class="detail_time">
+        <span style="padding-right: 10px;">優先度</span>
+        <input id="detail_rec_priority" type="number" value="10"/>
+        <span style="padding-left: 10px;">ID保持</span>
+        <input id="detail_program_id_checkbox" type="checkbox" checked="checked"></input>
+        <span style="padding-left: 40px;">ts削除</span>
+        <input id="detail_rec_delete_file" type="checkbox"></input>
+        <span style="padding-left: 40px;">隣接禁止</span>
+        <input id="detail_rec_discontinuity" type="checkbox"></input>
+    </div>
+
+    <div style="display:inline-flex" class="detail_time">
+        <select id="rec_mode" style="padding-left: 10px;" name="rec_mode">
+        </select>
+
+        <select id="rec_genre" style="padding-left: 10px;" name="rec_genre">
+        </select>
+    </div>
+
+    <div id="detail_rec_station_name">station_name</div>
+
+    <textarea id="detail_rec_title" name="description" rows="3" cols="48"></textarea>
+    <textarea id="detail_rec_description" name="title" rows="3" cols="48"></textarea>
+
+    <a href="javascript:customRec();" target="_self" class="detaile_rec_button" style="color: white;">予約する</a>
+
+    <p id="detail_channel_id" style="display: none;">channel_id</p>
+</div>
+
+<div data-role="header">
+    <a href="/epgrec">BACK</a>
+    <h1>番組検索</h1>
+</div>
+<div role="main" class="ui-content">
+    <!--検索語句-->
+    <div class="inline" style="margin: -10px 0px;">
+        <label data-role="none" style="font-size: 14px;">
+        <input data-role="none" id="use_regexp" type="checkbox"/>正規表現</label>
+        <label data-role="none" style="font-size: 14px;">
+        <input data-role="none" id="collate_ci" type="checkbox"/>全半角</label>
+        <label data-role="none" style="font-size: 14px;">
+        <input data-role="none" id="enable_title" type="checkbox"/>タイトル</label>
+        <label data-role="none" style="font-size: 14px;">
+        <input data-role="none" id="enable_disc" type="checkbox"/>概要</label>
+    </div>
+
+    <!--検索ボックス-->
+    <input id="search" name="search" type="text" data-clear-btn="true"/>
+
+    <!--放送波-->
+    <div class="inline" style="margin: -2px 0px;">
+        <label data-role="none"><input data-role="none" id="type_gr" type="checkbox"/>GR</label>
+        <label data-role="none"><input data-role="none" id="type_bs" type="checkbox"/>BS</label>
+        <label data-role="none"><input data-role="none" id="type_cs" type="checkbox"/>CS</label>
+        <label data-role="none"><input data-role="none" id="type_ex" type="checkbox"/>EX</label>
+    </div>
+
+    <!--曜日-->
+    <div class="inline" style="margin: 3px 0px;">
+        <label data-role="none"><input data-role="none" id="week0" type="checkbox"/>月</label>
+        <label data-role="none"><input data-role="none" id="week1" type="checkbox"/>火</label>
+        <label data-role="none"><input data-role="none" id="week2" type="checkbox"/>水</label>
+        <label data-role="none"><input data-role="none" id="week3" type="checkbox"/>木</label>
+        <label data-role="none"><input data-role="none" id="week4" type="checkbox"/>金</label>
+        <label data-role="none"><input data-role="none" id="week5" type="checkbox"/>土</label>
+        <label data-role="none"><input data-role="none" id="week6" type="checkbox"/>日</label>
+    </div>
+
+    <!--放送局-->
+    <div class="inline" style="margin: 3px 0px;">
+    <label data-role="none">放送局</label>
+    <select data-role="none" id="station">
+        <option value="0">すべて</option>
+    </select>
+    </div>
+
+    <!--ジャンル-->
+    <div class="inline" style="margin: 3px 0px;">
+    <div class="ui-grid-a">
+        <div class="ui-block-a">
+            <label data-role="none">ジャンル
+            <input data-role="none" id="first_genre" type="checkbox"/> 全保持</label>
+            <select data-role="none" id="genre">
+                <option value="0">すべて</option>
+            </select>
+        </div>
+
+        <div class="ui-block-b">
+            <label data-role="none">サブジャンル<input data-role="none" type="checkbox" style="visibility: hidden;"/></label>
+            <select data-role="none" id="sub_genre">
+                <option value="16">すべて</option>
+            </select>
+        </div>
+    </div>
+
+    <!--時間-->
+    <div class="inline" style="margin: 3px 0px;">
+    <label data-role="none">
+    <select data-role="none" id="prgtime" name="prgtime" style="width:auto;">
+        <option value="0">0時</option>
+        <option value="1">1時</option>
+        <option value="2">2時</option>
+        <option value="3">3時</option>
+        <option value="4">4時</option>
+        <option value="5">5時</option>
+        <option value="6">6時</option>
+        <option value="7">7時</option>
+        <option value="8">8時</option>
+        <option value="9">9時</option>
+        <option value="10">10時</option>
+        <option value="11">11時</option>
+        <option value="12">12時</option>
+        <option value="13">13時</option>
+        <option value="14">14時</option>
+        <option value="15">15時</option>
+        <option value="16">16時</option>
+        <option value="17">17時</option>
+        <option value="18">18時</option>
+        <option value="19">19時</option>
+        <option value="20">20時</option>
+        <option value="21">21時</option>
+        <option value="22">22時</option>
+        <option value="23">23時</option>
+        <option selected="" value="24">なし</option>
+    </select>
+    時から
+    <select data-role="none" id="period" name="period" style="width:auto;">
+        <option value="1" selected="">1時間</option>
+        <option value="2">2時間</option>
+        <option value="3">3時間</option>
+        <option value="4">4時間</option>
+        <option value="5">5時間</option>
+        <option value="6">6時間</option>
+        <option value="7">7時間</option>
+        <option value="8">8時間</option>
+        <option value="9">9時間</option>
+        <option value="10">10時間</option>
+        <option value="11">11時間</option>
+        <option value="12">12時間</option>
+        <option value="13">13時間</option>
+        <option value="14">14時間</option>
+        <option value="15">15時間</option>
+        <option value="16">16時間</option>
+        <option value="17">17時間</option>
+        <option value="18">18時間</option>
+        <option value="19">19時間</option>
+        <option value="20">20時間</option>
+        <option value="21">21時間</option>
+        <option value="22">22時間</option>
+        <option value="23">23時間</option>
+    </select>
+    </label>
+    </div>
+
+    <!--検索ボタン-->
+    <a href="javascript:getEPGRecSearchResult()" class="ui-btn" style="margin-bottom: 35px;">検索</a>
+    </div>
+
+    <!--検索結果 list view-->
+    <ul id = "search_listview" data-role="listview">
+    </ul>
+    </div>
+
+    <!--自動予約設定-->
+    <div role="main" class="ui-content" id="add_keyword_content" style="display: none;">
+    <div class="inline">
+        <label data-role="none" style="font-size: 14px;">
+        <input data-role="none" id="kw_enable" type="checkbox" checked="checked"/>自動予約</label>
+        <label data-role="none" style="font-size: 14px;">
+        <input data-role="none" id="overlap" type="checkbox"/>多重予約</label>
+        <label data-role="none" style="font-size: 14px;">
+        <input data-role="none" id="rest_alert" type="checkbox"/>無該当警告</label>
+        <label data-role="none" style="font-size: 14px;">
+        <input data-role="none" id="criterion_enab" type="checkbox"/>時間量変動警告</label>
+        <label data-role="none" style="font-size: 14px;">
+        <input data-role="none" id="discontinuity" type="checkbox"/>隣接禁止</label>
+    </div>
+
+    <div class="ui-grid-a">
+        <div class="ui-block-a">
+        <label>開始時刻シフト<input id="sft_start" value="0" size="8" style="width:auto;" type="text"></label>
+        </div>
+        <div class="ui-block-b">
+        <label>終了時刻シフト<input id="sft_end" value="0" size="8" style="width:auto;" type="text"></label>
+        </div>
+    </div>
+
+    <div class="inline"><label>録画モード</label>
+    <select data-role="none" id="k_autorec_mode" style="width:auto;">
+    </select>
+
+    <span>優先度</span>
+    <input data-role="none" id="priority" type="number" value="10" style="width: 45px;"/>
+    </div>
+
+    <div>
+        <label>分割<input id="split_time" value="0" size="8" style="width:auto;" type="text"></label>
+        <label>保存ディレクトリー /video/<input id="directory" value="" size="80" style="width:auto;" type="text"></label>
+        <label>録画ファイル名の形式<input id="filename" value="" size="80" style="width:auto;" type="text"></label>
+    </div>
+
+    <hr size="1">
+    <span>トランスコード設定</span>
+
+    <div class="inline"><label>設定1: モード</label>
+    <select data-role="none" id="trans_mode0" style="width:auto;">
+    </select></div>
+    <input id="transdir0" value="" size="80" style="width:auto;" type="text">
+
+    <div class="inline"><label>設定2: モード</label>
+    <select data-role="none" id="trans_mode1" style="width:auto;">
+    </select></div>
+    <input id="transdir1" value="" size="80" style="width:auto;" type="text">
+
+
+    <div class="inline"><label>設定3: モード</label>
+    <select data-role="none" id="trans_mode2" style="width:auto;">
+    </select></div>
+    <input id="transdir2" value="" size="80" style="width:auto;" type="text">
+
+    <div class="inline">
+        <label data-role="none" style="font-size: 14px;">
+        <input data-role="none" id="auto_del" type="checkbox"/>元ファイルの自動削除</label>
+    </div>
+
+    <a id="addKeywordButton" href="javascript:addKeyword()" class="ui-btn" style="margin-bottom: 35px;">自動録画キーワードに追加</a>
+    </div>
+</body>
+</html>

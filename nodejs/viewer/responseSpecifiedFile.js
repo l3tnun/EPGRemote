@@ -18,7 +18,6 @@ module.exports = function(response, request, filename, fileTypeHash, mode) {
             var responseHeaders = {};
             if(typeof mode != "undefined" && mode == "download") {
                 log.access.info(`response ${filename} mode download`);
-                console.log(path.basename(filename));
                 responseHeaders['Content-Type'] = 'application/octet-stream';
                 responseHeaders['Content-disposition'] = "attachment; filename*=utf-8'ja'" + encodeURIComponent(filename) + ";"
             } else {

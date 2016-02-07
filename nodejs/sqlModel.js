@@ -49,7 +49,7 @@ function getNowEpgData(callback, hash) {
 
 function getChannelAndGenru(callback) {
     var jsonConfig = util.getConfig();
-    sql = `select id, name_jp from ${ jsonConfig["EpgrecRecordName"] }categoryTbl;select id, sid from ${ jsonConfig["EpgrecRecordName"] }channelTbl;`;
+    sql = `select id, name_jp from ${ jsonConfig["EpgrecRecordName"] }categoryTbl order by id; select id, sid, channel_disc, name from ${ jsonConfig["EpgrecRecordName"] }channelTbl order by sid`;
 
     var connection = createSqlConnection();
 
@@ -226,6 +226,44 @@ function getKeywordTable(limit, queryNum, callback) {
     });
 }
 
+function countKeywordTable(callback) {
+    var jsonConfig = util.getConfig();
+    var sql = `select count(*) from ${ jsonConfig["EpgrecRecordName"] }keywordTbl`;
+
+    var connection = createSqlConnection();
+
+    connection.query(sql, function(err, results) {
+        if (err) {
+            log.system.error('sql countKeywordTable error is : ', err );
+            callback('');
+            return;
+        }
+
+        log.system.debug("sql countKeywordTable data");
+        callback(results);
+        connection.destroy();
+    });
+}
+
+function getKeywordTableByIDAndTransexpandTable(id, callback) {
+    var jsonConfig = util.getConfig();
+    var sql = `select * from ${ jsonConfig["EpgrecRecordName"] }keywordTbl where id=${id}; select * from ${ jsonConfig["EpgrecRecordName"] }transexpandTbl where key_id=${id} order by type_no`;
+
+    var connection = createSqlConnection();
+
+    connection.query(sql, function(err, results) {
+        if (err) {
+            log.system.error('sql getKeywordTableByID error is : ', err );
+            callback('');
+            return;
+        }
+
+        log.system.debug("sql getKeywordTableByID data");
+        callback(results);
+        connection.destroy();
+    });
+}
+
 exports.getNowEpgData = getNowEpgData;
 exports.getChannelAndGenru = getChannelAndGenru;
 exports.getRecordedList = getRecordedList;
@@ -236,4 +274,6 @@ exports.getTranscodeId = getTranscodeId;
 exports.getRecordedId = getRecordedId;
 exports.getReservationTable = getReservationTable;
 exports.getKeywordTable = getKeywordTable;
+exports.countKeywordTable = countKeywordTable;
+exports.getKeywordTableByIDAndTransexpandTable = getKeywordTableByIDAndTransexpandTable;
 

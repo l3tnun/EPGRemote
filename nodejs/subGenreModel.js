@@ -1,4 +1,4 @@
-sub_genre_tbl = [
+var sub_genre_tbl = [
     [
     "定時・総合",
     "天気",
@@ -172,27 +172,17 @@ sub_genre_tbl = [
     ],
     []];
 
-    genre_tbl = [ "ニュース・報道",
-    "スポーツ",
-    "情報",
-    "ドラマ",
-    "音楽",
-    "バラエティ",
-    "映画",
-    "アニメ・特撮",
-    "ドキュメンタリー・教養",
-    "演劇",
-    "趣味・実用",
-    "福祉",
-    "予備",
-    "予備",
-    "拡張",
-    "その他"
-];
-
-module.exports = function(genre, sub_code) {
+function getSubGenre(genre, sub_code) {
     if( sub_code == 16 ) { return "すべて"; }
     else if( sub_code == 15 ) { return "その他"; }
     else if( genre > 0 ) { return sub_genre_tbl[genre-1][sub_code]; }
 }
+
+function getAllSubGenre() {
+    return sub_genre_tbl;
+}
+
+exports.getSubGenre = getSubGenre;
+exports.getAllSubGenre = getAllSubGenre;
+
 

@@ -13,7 +13,8 @@ EPGRec UNA 用の後方支援プログラムです。EPGRec UNA の番組情報�
      * 番組表一覧 (簡易予約、詳細予約、自動予約禁止に対応)
      * 録画済み一覧 (ts or EPGRec UNA でエンコード済み動画ファイル をスマートフォンの任意のアプリで再生する機能)
      * 録画予約一覧
-     * 自動録画キーワードの管理
+     * 番組検索、自動録画キーワードの作成、更新
+     * 自動録画キーワードの管理(自動録画キーワードの閲覧、削除)
 
 HLSでのリアルタイム視聴は CPU にとってかなり重たい処理となります。スペックに余裕があるマシンで動かしてください。
 
@@ -54,7 +55,7 @@ $ npm install -g mysql log4js socketio request
 * HLSでリアルタイム視聴を行う場合、ffmpeg と recpt1 等が必要です
 * 必須ではありませんが、EPGRec UNA とのチューナーの取り合いを回避するため、BonDriverProxy + recbond のインストールを推奨します。
 
-* 録画済み一覧から動画を再生する場合は、EPGrec UNA のエンコード機能とサムネイル作成機能を ON にしておくことを推奨します
+* 録画済み一覧から動画を再生する場合は、EPGRec UNA のエンコード機能とサムネイル作成機能を ON にしておくことを推奨します
 * エンコードなしで ts ファイルを直接再生も可能ですがスマートフォン側にそれなりの性能が必要になります。
 
 * 番組表 Web UIを使用する際には EPGRec UNA のindex.php 内の $programs の内容が必要になります。$programs を Json で返すようにしてください。
@@ -81,6 +82,56 @@ print_r (json_encode($programs));
 ````
 
 * http://Epgrec UNAアドレス/index2.php にアクセスして Json データが取得できることを確認してください。
+* 同様に番組検索に programTable.php の $programs の内容が、自動録画キーワードの追加、更新には keywordTable.php の $keywords の内容が必要になります。それぞれ Json で返すようにしてください。
+
+````
+$ cp programTable.php programTable2.php
+````
+* programTable2.php の最後の行を以下のように修正
+
+修正前
+
+````
+    $smarty->display('programTable.html');
+}
+catch( exception $e ) {
+    exit( $e->getMessage() );
+}
+?>
+````
+
+修正後
+
+````
+    //$smarty->display('programTable.html');
+    print_r (json_encode($programs));
+}
+catch( exception $e ) {
+    exit( $e->getMessage() );
+}
+?>
+````
+
+
+````
+$ cp keywordTable.php keywordTable2.php
+````
+* programTable2.php の最後の行を以下のように修正
+
+修正前
+
+````
+$smarty->display( 'keywordTable.html' );
+?>
+````
+
+修正後
+
+````
+//$smarty->display( 'keywordTable.html' );
+print_r (json_encode($keywords));
+?>
+````
 
 * config.json.sample, logConfig.json.sample をコピーして設定します。index.jsと同じ場所に置いてください
 * logConfig.json については log4js でログの出力を行うために書いてあります。filename の部分がログファイルの保存先なので適当に変えてください
@@ -101,6 +152,8 @@ config.json 設定
     "epgrecConfig" : {
         "host" : "192.168.xx.xx:xxxx", //EPGRec UNAが動いてるホストの IP
         "index.php" : "index2.php",     //番組表データ取得のための php ファイルの名前 
+        "programTable.php" : "programTable2.php", //番組検索結果取得のための php ファイル名
+        "keywordTable.php" : "keywordTable2.php", //自動録画キーワードの追加, 更新の結果を取得するための php ファイル名
         "hourheight" : 180, //EPGRec UNA で設定した1時間あたりの高さ
         "videoPath" : "/var/www/epgrec/video", //EPGRec UNA の録画ファイルが保存されているディレクトリのパス
         "thumbsPath" : "/var/www/epgrec/thumbs", //EPGRec UNA の録画ファイルのサムネイルが保存されているディレクトリのパス
@@ -112,6 +165,8 @@ config.json 設定
                         { "id" :"3", "name" : "H264-HD" },
                         { "id" :"4", "name" : "H264-SD" }
                     ],
+        //EPGRec UNA 自動予約のトランスコードのプルダウン開始位置 この場合プルダウンには H264-HD, H264-SD の2つが表示される
+        "startTranscodeId" : "3",
         //EPGRec UNA の予約カスタマイズの録画モードのデフォルト値 この場合 H264-HD になる
         "recModeDefaultId" : "3"
     },
@@ -210,6 +265,7 @@ json ファイルは JSON.parse() でパースしているため、きちんと�
 * version 0.2.2 2016/02/01以降に番組表一覧が正常に表示出来なくなる問題を修正
 * version 0.2.3 自動録画キーワードの管理を追加
 * version 0.2.4 番組表での詳細予約を追加、Growl風の通知を追加
+* version 0.2.5 番組検索、自動録画キーワードの追加、編集機能の追加
 
 ## Licence
 

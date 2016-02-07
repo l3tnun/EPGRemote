@@ -132,6 +132,7 @@ function closeDialogs(id) {
 function notifyGrowl(title, id) {
     if(typeof $("#" + id) == "undefined") { return; }
     var stationInfo = getStationInfo(id);
+    if(typeof stationInfo == "undefined" || typeof stationInfo.pr_station_name == "undefined") { return; }
     $.growl({ title: title, message: stationInfo.pr_station_name + " " + stationInfo.pr_starttime + " " + stationInfo.pr_title });
 }
 
@@ -270,16 +271,20 @@ function programSearch(id) {
         }
     }
 
-    socketio.emit("getEpgRecHostName");
-    socketio.on("epgRecHostNameResult", function (data){
-        urlStr = ""
-        if(data.value.slice(-1) != "/") {
-            urlStr = data.value + "/" + keyword;
-        } else {
-            urlStr = data.value + keyword;
-        }
-        location.href = "http://" + urlStr;
+    keyword = keyword.replace(/&(gt|lt|#039|quot|amp);/ig, function($0, $1) {
+        if (/^gt$/i.test($1))   return ">";
+        if (/^lt$/i.test($1))   return "<";
+        if (/^#039$/.test($1))  return "'";
+        if (/^quot$/i.test($1)) return "\"";
+        if (/^amp$/i.test($1))  return "&";
     });
+
     $('#progDialog').popup('close');
+    var searchUrl = keyword.replace("programTable.php", "/epgrec_search");
+    setTimeout(`jumpSearch("${searchUrl}")`, 250);
+}
+
+function jumpSearch(searchUrl) {
+    location.href = searchUrl;
 }
 
