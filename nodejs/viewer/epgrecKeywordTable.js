@@ -6,9 +6,11 @@ module.exports = function(response, keywords, keywordCnt, pageNum) {
     var actionId = 0;
     var keywordStr = ""
     keywords.forEach(function(keyword) {
+        var styleStr = ""
+        if(keyword.kw_enable == 0) { styleStr = 'style=background-color:#AAA;';}
         keyword.editLink = `/epgrec_search?keyword_id=${keyword.id}`;
         var keywordInfoLink = '"javascript:openKeywordInfo(\'' + JSON.stringify(keyword).replace(/"/g, "\\'") + '\')"';
-        keywordStr += `<li><a href=${keywordInfoLink} target="_self">`
+        keywordStr += `<li><a ${styleStr} href=${keywordInfoLink} target="_self">`
         keywordStr += `<h3 class="wordbreak">${keyword.keyword}</h3>`
         keywordStr += `</a></li>`
         actionId += 1;

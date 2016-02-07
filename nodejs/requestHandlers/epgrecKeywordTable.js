@@ -4,6 +4,7 @@ var sqlModel = require(__dirname + "/../sqlModel");
 var log = require(__dirname + "/../logger").getLogger();
 var notFound = require(__dirname + "/notFound");
 var subGenreModel = require(__dirname + "/../subGenreModel");
+var util = require(__dirname + "/../util");
 
 module.exports = function(response, parsedUrl, request, postData) {
     log.access.info("Request handler 'epgrec keyword table' was called.");
@@ -24,6 +25,8 @@ module.exports = function(response, parsedUrl, request, postData) {
             categoryName[result.id] = result.name_jp;
         });
         categoryName[0] = "すべて";
+
+        var recMode = util.getConfig().epgrecConfig.recMode;
 
         //録画一覧
         var keywords = []
@@ -46,7 +49,7 @@ module.exports = function(response, parsedUrl, request, postData) {
             keyword.sft_start = getSft(result.sft_start);
             keyword.sft_end = getSft(result.sft_end);
             keyword.discontinuity = result.discontinuity //隣接禁止
-            keyword.autorec_mode = result.autorec_mode //録画モード
+            keyword.autorec_mode = recMode[result.autorec_mode].name //録画モード
             keywords.push(keyword);
         });
 
