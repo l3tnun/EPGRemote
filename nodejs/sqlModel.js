@@ -81,7 +81,7 @@ function getRecordedList(limit, queryNum, searchSQLQuery, query, callback) {
     }
 
     var jsonConfig = util.getConfig();
-    var sql = `select * from ${ jsonConfig["EpgrecRecordName"] }channelTbl; select * from ${ jsonConfig["EpgrecRecordName"] }transcodeTbl; select * from ${ jsonConfig["EpgrecRecordName"] }reserveTbl where starttime <= now() ${ option } order by starttime desc limit ${ limit } offset ${ getOffset(queryNum, limit) };`;
+    var sql = `select * from ${ jsonConfig["EpgrecRecordName"] }channelTbl; select * from ${ jsonConfig["EpgrecRecordName"] }transcodeTbl; select * from ${ jsonConfig["EpgrecRecordName"] }reserveTbl where starttime <= now() ${ option } order by starttime desc limit ${ limit } offset ${ getOffset(queryNum, limit) }; select count(*) from ${ jsonConfig["EpgrecRecordName"] }reserveTbl where starttime <= now() ${ option } order by starttime desc`;
 
     var connection = createSqlConnection();
 
@@ -123,12 +123,12 @@ function getRecordedChannelList(callback) {
 
     connection.query(sql, function(err, results) {
         if (err) {
-            log.system.error('sql getRecordedList error is : ', err );
+            log.system.error('sql getRecordedChannelList error is : ', err );
             callback('');
             return;
         }
 
-        log.system.debug("sql getRecordedList data");
+        log.system.debug("sql getRecordedChannelList data");
         callback(results);
         connection.destroy();
     });
@@ -136,17 +136,17 @@ function getRecordedChannelList(callback) {
 
 function getRecordedCategoryList(callback) {
     var jsonConfig = util.getConfig();
-    var sql = `select * from ${jsonConfig["EpgrecRecordName"]}categoryTbl; select * from ${jsonConfig["EpgrecRecordName"]}reserveTbl where starttime <= now() order by starttime desc`;
+    var sql = `select * from ${jsonConfig["EpgrecRecordName"]}categoryTbl; select * from ${jsonConfig["EpgrecRecordName"]}reserveTbl where starttime <= now() order by starttime desc;`;
     var connection = createSqlConnection();
 
     connection.query(sql, function(err, results) {
         if (err) {
-            log.system.error('sql getRecordedList error is : ', err );
+            log.system.error('sql getRecordedCategoryList error is : ', err );
             callback('');
             return;
         }
 
-        log.system.debug("sql getRecordedList data");
+        log.system.debug("sql getRecordedCategoryList data");
         callback(results);
         connection.destroy();
     });
@@ -190,7 +190,7 @@ function getRecordedId(rec_id, callback) {
 
 function getReservationTable(limit, queryNum, callback) {
     var jsonConfig = util.getConfig();
-    var sql = `select * from ${ jsonConfig["EpgrecRecordName"] }channelTbl; select * from ${ jsonConfig["EpgrecRecordName"] }reserveTbl where endtime >= now() order by starttime limit ${ limit } offset ${ getOffset(queryNum, limit) };`;
+    var sql = `select * from ${ jsonConfig["EpgrecRecordName"] }channelTbl; select * from ${ jsonConfig["EpgrecRecordName"] }reserveTbl where endtime >= now() order by starttime limit ${ limit } offset ${ getOffset(queryNum, limit) }; select count(*) from ${ jsonConfig["EpgrecRecordName"] }reserveTbl where endtime >= now() order by starttime`;
 
     var connection = createSqlConnection();
 
@@ -209,18 +209,18 @@ function getReservationTable(limit, queryNum, callback) {
 
 function getKeywordTable(limit, queryNum, callback) {
     var jsonConfig = util.getConfig();
-    var sql = `select * from ${ jsonConfig["EpgrecRecordName"] }channelTbl; select * from ${ jsonConfig["EpgrecRecordName"] }categoryTbl; select * from ${ jsonConfig["EpgrecRecordName"] }keywordTbl order by id limit ${ limit } offset ${ getOffset(queryNum, limit) };`;
+    var sql = `select * from ${ jsonConfig["EpgrecRecordName"] }channelTbl; select * from ${ jsonConfig["EpgrecRecordName"] }categoryTbl; select * from ${ jsonConfig["EpgrecRecordName"] }keywordTbl order by id limit ${ limit } offset ${ getOffset(queryNum, limit) }; select count(*) from ${ jsonConfig["EpgrecRecordName"] }keywordTbl;`;
 
     var connection = createSqlConnection();
 
     connection.query(sql, function(err, results) {
         if (err) {
-            log.system.error('sql getReservationTable error is : ', err );
+            log.system.error('sql getKeywordTable error is : ', err );
             callback('');
             return;
         }
 
-        log.system.debug("sql getReservationTable data");
+        log.system.debug("sql getKeywordTable data");
         callback(results);
         connection.destroy();
     });

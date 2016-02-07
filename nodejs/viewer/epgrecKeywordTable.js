@@ -2,7 +2,7 @@ var readFile = require(__dirname + "/readFile");
 var responseFile = require(__dirname + "/responseFile");
 var util = require(__dirname + "/../util");
 
-module.exports = function(response, keywords) {
+module.exports = function(response, keywords, keywordCnt, pageNum) {
     var actionId = 0;
     var keywordStr = ""
     keywords.forEach(function(keyword) {
@@ -14,8 +14,11 @@ module.exports = function(response, keywords) {
         actionId += 1;
     });
 
+    if(typeof pageNum == "undefined" || pageNum <= 0) { pageNum = 1; }
+
     var htmlfile = readFile("./HTML/epgreckeywordtable.html");
     htmlfile = htmlfile.replace(/@@@KEYWORD@@@/g, keywordStr);
+    htmlfile = htmlfile.replace(/@@@PAGENEXT@@@/g, `<input id="page_next" style="display: none;" value="${(pageNum * 15 - keywordCnt == 0)}"/>`);
     responseFile(response, htmlfile);
 }
 

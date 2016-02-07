@@ -2,7 +2,7 @@ var readFile = require(__dirname + "/readFile");
 var responseFile = require(__dirname + "/responseFile");
 var util = require(__dirname + "/../util");
 
-module.exports = function(response, programs) {
+module.exports = function(response, programs, programCnt, pageNum) {
     var actionId = 0;
     var programStr = ""
     programs.forEach(function(program) {
@@ -20,6 +20,7 @@ module.exports = function(response, programs) {
 
     var htmlfile = readFile("./HTML/epgrecreservationtable.html");
     htmlfile = htmlfile.replace(/@@@PROGRAM@@@/g, programStr);
+    htmlfile = htmlfile.replace(/@@@PAGENEXT@@@/g, `<input id="page_next" style="display: none;" value="${(pageNum * 15 - programCnt == 0)}"/>`);
     responseFile(response, htmlfile);
 }
 

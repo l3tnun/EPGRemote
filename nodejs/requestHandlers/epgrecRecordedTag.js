@@ -45,7 +45,8 @@ module.exports = function(response, parsedUrl) {
             }
         }
 
-        viewerEpgrecRecordedTag(response, tags);
+        if(typeof parsedUrl.query.num == "undefined") { parsedUrl.query.num = 1; }
+        viewerEpgrecRecordedTag(response, tags, tagList[key].cnt, parsedUrl.query.num);
     });
 }
 
