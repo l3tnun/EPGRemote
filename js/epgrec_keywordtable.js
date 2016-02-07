@@ -45,7 +45,7 @@ $(window).load(function() {
     if($('#program_list').children().length == 0) {
         $(".pagination").css("display", "none");
         return;
-    } else if($('#program_list').children().length < 15) {
+    } else if($('#program_list').children().length <= 15) {
         $(".pagination_next").css("visibility", "hidden");
     }
 
