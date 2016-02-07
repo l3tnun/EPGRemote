@@ -3,7 +3,7 @@ var viewerEpgrecKeywordTable = require(__dirname + "/../viewer/epgrecKeywordTabl
 var sqlModel = require(__dirname + "/../sqlModel");
 var log = require(__dirname + "/../logger").getLogger();
 var notFound = require(__dirname + "/notFound");
-var getSubGenre = require(__dirname + "/../getSubGenre");
+var subGenreModel = require(__dirname + "/../subGenreModel");
 
 module.exports = function(response, parsedUrl, request, postData) {
     log.access.info("Request handler 'epgrec keyword table' was called.");
@@ -35,7 +35,7 @@ module.exports = function(response, parsedUrl, request, postData) {
             keyword.kw_enable = result.kw_enable;
             keyword.channelName = `${channelName[result.channel_id]}`;
             keyword.categoryName = `${categoryName[result.category_id]}`;
-            keyword.subGenre = `${getSubGenre(result.category_id, result.sub_genre)}`;
+            keyword.subGenre = `${subGenreModel.getSubGenre(result.category_id, result.sub_genre)}`;
             keyword.typeGR = result.typeGR;
             keyword.typeBS = result.typeBS;
             keyword.typeCS = result.typeCS;

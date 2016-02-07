@@ -4,7 +4,7 @@ var http = require('http');
 var request = require('request');
 
 function httpGet(url, callback, name) {
-    log.system.info('get ' + name + ' rec');
+    log.system.info('get ' + name);
 
     http.get(url, function(res){
         var body = '';
@@ -20,11 +20,12 @@ function httpGet(url, callback, name) {
     }).on('error', function(e){
         log.system.error('failed get ' + name)
         log.system.error(e.message); //エラー時
+        callback('');
     });
 }
 
 function httpPost(url, callback, option, name) {
-    log.system.info('post ' + name + ' rec');
+    log.system.info('post ' + name);
 
     request.post(
         url,
@@ -99,6 +100,34 @@ function getDeleteKeywordResult(id, callback) {
     httpGet(url, callback, 'delete keyword result ' + id);
 }
 
+function getEPGRecSearch(option, callback) {
+    var epgrecConfig = util.getConfig()["epgrecConfig"];
+    var url = `http://${epgrecConfig["host"]}/${epgrecConfig["programTable.php"]}`;
+
+    httpPost(url, function(result) {
+        var resultArray = [];
+        var json = JSON.parse(result);
+        json.forEach(function(program) {
+            if(program.station_name == 1) { return; }
+            program["station_name_str"] = program.station_name.match(/\>.+?\</)[0].substr(1).slice(0, -1);
+            var genreStartIndex = program.keyword.indexOf("category_id=");
+            program["genre_id"] = Number(program.keyword.substr(genreStartIndex , 16).replace(/[^0-9^\.]/g,""));
+
+            var channelStartIndex = program.keyword.indexOf("station=");
+            program["channel_id"] = Number(program.keyword.substr(channelStartIndex , 12).replace(/[^0-9^\.]/g,""));
+            resultArray.push(program);
+        });
+        callback(resultArray);
+    }, option, "get getEPGRecSearch");
+}
+
+function addEPGRecKeyword(option, callback) {
+    var epgrecConfig = util.getConfig()["epgrecConfig"];
+    var url = `http://${epgrecConfig["host"]}/${epgrecConfig["keywordTable.php"]}`;
+
+    httpPost(url, callback, option, "get addEPGRecKeyword");
+}
+
 exports.getCustomRecResult = getCustomRecResult;
 exports.getProgram = getProgram;
 exports.getRecResult = getRecResult;
@@ -107,4 +136,6 @@ exports.getToggleAutoRec = getToggleAutoRec;
 exports.deleteVideoFile = deleteVideoFile;
 exports.getCancelReservationResult = getCancelReservationResult;
 exports.getDeleteKeywordResult = getDeleteKeywordResult;
+exports.getEPGRecSearch = getEPGRecSearch;
+exports. addEPGRecKeyword = addEPGRecKeyword;
 
