@@ -4,6 +4,7 @@ var log = require(__dirname + "/../logger").getLogger();
 var createSqlConnection = require(__dirname + "/createSqlConnection.js");
 
 module.exports = function(callback) {
+    log.system.info('call sql getRecordedCategoryList');
     var jsonConfig = util.getConfig();
     var sql = `select * from ${jsonConfig["EpgrecRecordName"]}categoryTbl; select * from ${jsonConfig["EpgrecRecordName"]}reserveTbl where starttime <= now() order by starttime desc;`;
     var connection = createSqlConnection();

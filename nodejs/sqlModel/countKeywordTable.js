@@ -4,6 +4,7 @@ var log = require(__dirname + "/../logger").getLogger();
 var createSqlConnection = require(__dirname + "/createSqlConnection.js");
 
 module.exports = function(callback) {
+    log.system.info('call sql countKeywordTable');
     var jsonConfig = util.getConfig();
     var sql = `select count(*) from ${ jsonConfig["EpgrecRecordName"] }keywordTbl`;
 

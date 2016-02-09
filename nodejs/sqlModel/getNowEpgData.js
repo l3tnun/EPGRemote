@@ -4,6 +4,7 @@ var log = require(__dirname + "/../logger").getLogger();
 var createSqlConnection = require(__dirname + "/createSqlConnection.js");
 
 module.exports = function(callback, hash) {
+    log.system.info('call sql getNowEpgData');
     var otherCondition = "";
     if(typeof hash != "undefined") {
         if(typeof hash["type"] != "undefined") {

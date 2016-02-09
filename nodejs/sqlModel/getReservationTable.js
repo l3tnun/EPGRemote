@@ -5,6 +5,7 @@ var createSqlConnection = require(__dirname + "/createSqlConnection.js");
 var getOffset = require(__dirname + "/getOffset");
 
 module.exports = function(limit, queryNum, callback) {
+    log.system.info('call sql getReservationTable');
     var jsonConfig = util.getConfig();
     var sql = `select * from ${ jsonConfig["EpgrecRecordName"] }channelTbl; select * from ${ jsonConfig["EpgrecRecordName"] }reserveTbl where endtime >= now() order by starttime limit ${ limit } offset ${ getOffset(queryNum, limit) }; select count(*) from ${ jsonConfig["EpgrecRecordName"] }reserveTbl where endtime >= now() order by starttime`;
 
