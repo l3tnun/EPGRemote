@@ -2,6 +2,40 @@ function scrollTopButton() {
     $('html,body').animate({ scrollTop: 0 }, 'swing');
 }
 
+function getQuery() {
+    var url = window.location.search;
+    query = {};
+    array  = url.slice(1).split('&');
+    for (var i = 0; i < array.length; i++) {
+        vars = array[i].split('=');
+        query[vars[0]] = vars[1];
+    }
+
+    return query;
+}
+
+function getQueryParameter(query) {
+    var parameterList = ["keyword", "channel"];
+
+    var parameters = ""
+    parameterList.forEach(function(parameter) {
+        if(typeof query[parameter] != "undefined") { parameters += "&" + parameter + "=" + query[parameter]; }
+    });
+
+    return parameters;
+}
+
+//検索処理
+$(function($) {
+    //Enter キーが押された時
+    $('#search').keypress(function(key) {
+        if(key.which == 13 && $("#search").val() != '') {
+            var parameters = getQueryParameter(getQuery());
+            location.href = window.location.pathname + "?search=" + $("#search").val() + parameters
+        }
+    });
+});
+
 //video削除処理
 socketio.on("resultDeleteVideoFile", function(result) {
     if(result.match(/^error/i)){
@@ -71,14 +105,7 @@ $(window).load(function() {
         $(".pagination_next").css("visibility", "hidden");
     }
 
-    var url = window.location.search;
-    query = {};
-    array  = url.slice(1).split('&');
-    for (var i = 0; i < array.length; i++) {
-        vars = array[i].split('=');
-        query[vars[0]] = vars[1];
-    }
-
+    var query = getQuery();
     var parameters = getQueryParameter(query);
     var pathname = window.location.pathname;
 
@@ -90,17 +117,6 @@ $(window).load(function() {
         $(".pagination_name").text("ページ" + query.num);
         $(".pagination_next").attr("href", pathname + "?num=" + (Number(query.num) + 1) + parameters)
         $(".pagination_prev").attr("href", pathname + "?num=" + (Number(query.num) - 1) + parameters)
-    }
-
-    function getQueryParameter(query) {
-        var parameterList = ["keyword", "channel"];
-
-        var parameters = ""
-        parameterList.forEach(function(parameter) {
-            if(typeof query[parameter] != "undefined") { parameters += "&" + parameter + "=" + query[parameter]; }
-        });
-
-        return parameters;
     }
 });
 
