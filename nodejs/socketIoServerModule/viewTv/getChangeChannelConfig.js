@@ -4,7 +4,7 @@ var tunerManager = require(__dirname + "/../../tunerManager");
 module.exports = function(io, socket) {
     //チャンネル変更の設定を取得
     socket.on("getChangeChannelConfig", function (socketId, streamNumber, type) {
-        log.access.debug(`client get channel config ${type}`);
+        log.access.info(`socketio 'getChangeChannelConfig' was called ${type}`);
         var tunerId = tunerManager.getLockedTunerId(streamNumber);
 
         var tunerList;

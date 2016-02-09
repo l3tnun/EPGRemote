@@ -5,6 +5,7 @@ var createSqlConnection = require(__dirname + "/createSqlConnection.js");
 var getOffset = require(__dirname + "/getOffset");
 
 module.exports = function(limit, queryNum, callback) {
+    log.system.info('call sql getKeywordTable');
     var jsonConfig = util.getConfig();
     var sql = `select * from ${ jsonConfig["EpgrecRecordName"] }channelTbl; select * from ${ jsonConfig["EpgrecRecordName"] }categoryTbl; select * from ${ jsonConfig["EpgrecRecordName"] }keywordTbl order by id limit ${ limit } offset ${ getOffset(queryNum, limit) }; select count(*) from ${ jsonConfig["EpgrecRecordName"] }keywordTbl;`;
 

@@ -5,6 +5,7 @@ var createSqlConnection = require(__dirname + "/createSqlConnection.js");
 var getOffset = require(__dirname + "/getOffset");
 
 module.exports = function(limit, queryNum, searchSQLQuery, query, callback) {
+    log.system.info('call sql getRecordedList');
     var option = "";
     for (var key in query) { if(typeof query[key] != "undefined") { option += `and ${key} = ${query[key]}`; } }
     if(typeof searchSQLQuery != "undefined" && searchSQLQuery.length != 0) {

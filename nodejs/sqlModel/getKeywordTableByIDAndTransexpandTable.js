@@ -4,6 +4,7 @@ var log = require(__dirname + "/../logger").getLogger();
 var createSqlConnection = require(__dirname + "/createSqlConnection.js");
 
 module.exports = function(id, callback) {
+    log.system.info('call sql getKeywordTableByID');
     var jsonConfig = util.getConfig();
     var sql = `select * from ${ jsonConfig["EpgrecRecordName"] }keywordTbl where id=${id}; select * from ${ jsonConfig["EpgrecRecordName"] }transexpandTbl where key_id=${id} order by type_no`;
 

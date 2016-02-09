@@ -4,6 +4,7 @@ var log = require(__dirname + "/../logger").getLogger();
 var createSqlConnection = require(__dirname + "/createSqlConnection.js");
 
 module.exports = function(callback) {
+    log.system.info('call sql getChannelAndGenru');
     var jsonConfig = util.getConfig();
     sql = `select id, name_jp from ${ jsonConfig["EpgrecRecordName"] }categoryTbl order by id; select id, sid, channel_disc, name from ${ jsonConfig["EpgrecRecordName"] }channelTbl order by sid`;
 

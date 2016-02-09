@@ -31,19 +31,23 @@ function getActiveTuner(type, id) {
     for(var i = 0; i < json.length; i++) {
         if((json[i]["types"].indexOf(type) >= 0 && typeof id != "undefined" && json[i]["id"] == id) ||json[i]["types"].indexOf(type) >= 0 && !(json[i]["id"] in tunerStatusHash)) {
             result.push(json[i]);
+            log.stream.info("set active tuner ");
         }
     }
 
+    log.stream.info("return active tuner");
     return result;
 }
 
 function getLockedTunerId(streamNumber) {
     for (var key in tunerStatusHash) {
         if(tunerStatusHash[key] == streamNumber) {
+            log.stream.info("No. " + streamNumber + " is Locked Tuner.");
             return key;
         }
     }
 
+    log.stream.info("No ." + streamNumber + " is not Locked Tuner.");
     return;
 }
 
@@ -51,7 +55,9 @@ function getTunerComand(id, sid, channel) {
     json = util.getConfig()["tuners"];
     for(var i = 0; i < json.length; i++) {
         if(json[i]["id"] == id) {
-            return json[i]["command"].replace("<sid>", sid).replace("<channel>", channel);
+            var cmd = json[i]["command"].replace("<sid>", sid).replace("<channel>", channel);
+            log.stream.info("return tuner command " + cmd);
+            return cmd;
         }
     }
 

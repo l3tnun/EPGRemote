@@ -1,7 +1,9 @@
+var log = require(__dirname + "/../logger").getLogger();
 var readFile = require(__dirname + "/readFile");
 var responseFile = require(__dirname + "/responseFile");
 
 module.exports = function(response, programs, programCnt, pageNum) {
+    log.access.info("viewer 'epgrecRecorded' was called.");
     var actionId = 0;
     var programStr = ""
     programs.forEach(function(program) {

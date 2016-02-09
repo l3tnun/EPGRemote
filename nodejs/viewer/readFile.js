@@ -4,6 +4,7 @@ var util = require(__dirname + "/../util");
 var log = require(__dirname + "/../logger").getLogger();
 
 module.exports = function(filepath) {
+    log.access.info(`viewer readfile filepath`);
     fullFilePath = path.join(util.getRootPath(), filepath);
     if(fs.existsSync(fullFilePath)) {
         return fs.readFileSync(fullFilePath, 'utf-8');

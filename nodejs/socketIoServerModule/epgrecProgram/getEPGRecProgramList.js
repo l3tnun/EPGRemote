@@ -6,7 +6,7 @@ var sqlModel = require(__dirname + "/../../sqlModel");
 module.exports = function(io, socket) {
     //番組表取得
     socket.on("getEPGRecProgramList", function (socketid, type, length, time) {
-        log.access.debug(`getEPGRecProgramList ${socketid} ${type} ${length} ${time}`);
+        log.access.info(`socketio 'getEPGRecProgramList' was called. ${socketid} ${type} ${length} ${time}`);
         epgrecManager.getProgram(type, length + 1, time, function(body) {
             var json;
             try {
