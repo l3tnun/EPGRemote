@@ -4,7 +4,7 @@ var http = require('http');
 var request = require('request');
 
 function httpGet(url, callback, name) {
-    log.system.info('get ' + name);
+    log.system.info('http get ' + name);
 
     http.get(url, function(res){
         var body = '';
@@ -18,21 +18,21 @@ function httpGet(url, callback, name) {
             callback(body);
         });
     }).on('error', function(e){
-        log.system.error('failed get ' + name)
+        log.system.error('failed http get ' + name)
         log.system.error(e.message); //エラー時
         callback('');
     });
 }
 
 function httpPost(url, callback, option, name) {
-    log.system.info('post ' + name);
+    log.system.info('http post ' + name);
 
     request.post(
         url,
         { form: option },
         function (error, response, body) {
             if (error) {
-                log.system.error('failed post ' + name);
+                log.system.error('failed http post ' + name);
                 log.system.error(error);
             }
             callback(body);
@@ -51,28 +51,28 @@ function getProgram(type, length, time, callback) {
     var epgrecConfig = util.getConfig()["epgrecConfig"];
     var url = `http://${epgrecConfig["host"]}/${epgrecConfig["index.php"]}?type=${type}&length=${length}&time=${time}`;
 
-    httpGet(url, callback, 'get EPGRec program');
+    httpGet(url, callback, 'get EPGRec program ' + type);
 }
 
 function getRecResult(id, callback) {
     var epgrecConfig = util.getConfig()["epgrecConfig"];
     var url = `http://${epgrecConfig["host"]}/simpleReservation.php?program_id=${id}`;
 
-    httpGet(url, callback, 'EPGRec simple');
+    httpGet(url, callback, 'get EPGRec rec simple ' + id);
 }
 
 function getCancelRecResult(id, callback) {
     var epgrecConfig = util.getConfig()["epgrecConfig"];
     var url = `http://${epgrecConfig["host"]}/cancelReservation.php?program_id=${id}`;
 
-    httpGet(url, callback, 'get EPGRec cancel rec');
+    httpGet(url, callback, 'get EPGRec cancel rec ' + id);
 }
 
 function getToggleAutoRec(id, autorec, callback) {
     var epgrecConfig = util.getConfig()["epgrecConfig"];
     var url = `http://${epgrecConfig["host"]}/toggleAutorec.php?program_id=${id}&bef_auto=${autorec}`;
 
-    httpGet(url, callback, 'get EPGRec auto rec');
+    httpGet(url, callback, 'get EPGRec auto rec ' + id);
 }
 
 function deleteVideoFile(rec_id, checkbox, callback) {
