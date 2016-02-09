@@ -35,24 +35,25 @@ function getEmptyStreamNumber() {
 }
 
 function addStreamHash(streamNumber, channelName, channel, sid, ffmpegChild, recChild) {
+    log.stream.info("add stream hash No." + streamNumber + " channel: " + channelName);
     streamHashs[streamNumber] =  { "channelName" : channelName, "channel" : channel, "sid" : sid, "ffmpegChild" : ffmpegChild, "recChild" : recChild };
 }
 
 function childProcessExit(name, streamNumber, code, signal) {
     if(!changeChannelHash[streamNumber]) {
-        log.stream.debug(name + ' ' + streamNumber + " code:" + code + " signal:" + signal);
+        log.stream.error(name + ' ' + streamNumber + " code:" + code + " signal:" + signal);
         stopStream(streamNumber, (code != null));
     } else {
-        log.stream.debug("change " + name + ' ' + streamNumber + " code:" + code + " signal:" + signal);
+        log.stream.info("change " + name + ' ' + streamNumber + " code:" + code + " signal:" + signal);
     }
 }
 
 function childProcessPipeError(name, streamNumber, err) {
     if(!changeChannelHash[streamNumber]) {
-        log.stream.debug(name + ' ' + streamNumber + ' stream pipe error ' + err);
+        log.stream.error(name + ' ' + streamNumber + ' stream pipe error ' + err);
         stopStream(streamNumber, false);
     } else {
-        log.stream.debug("change " + name + ' ' + streamNumber + " err:" + err);
+        log.stream.info("change " + name + ' ' + streamNumber + " err:" + err);
     }
 }
 
@@ -62,6 +63,7 @@ function setChildErrorProcessing(child, name, streamNumber) {
 }
 
 function runCommand(streamNumber, videoConfig, channelName, channel, sid, tunerId) {
+    log.stream.info("run stream No." + streamNumber);
     //delete ts files
     streamFileManager.deleteAllFiles(streamNumber);
 
