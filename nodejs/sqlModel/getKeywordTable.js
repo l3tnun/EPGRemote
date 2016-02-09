@@ -2,7 +2,7 @@ var mysql = require('mysql');
 var util = require(__dirname + "/../util");
 var log = require(__dirname + "/../logger").getLogger();
 var createSqlConnection = require(__dirname + "/createSqlConnection.js");
-var getOffset = require(__dirname + "/getOffset.js");
+var getOffset = require(__dirname + "/getOffset");
 
 module.exports = function(limit, queryNum, callback) {
     var jsonConfig = util.getConfig();
