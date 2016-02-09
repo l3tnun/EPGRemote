@@ -197,7 +197,7 @@ socketio.on("recResult", function (data) {
 /*詳細予約*/
 function customRec() {
     var program_id = 0;
-    if($('#detail_program_id_checkbox').attr('checked')) { program_id = programId; }
+    if($('#detail_program_id_checkbox').prop('checked')) { program_id = programId; }
     var option = {
                     syear: $('#detail_rec_start_year').val(),
                     smonth: $('#detail_rec_start_month').val(),
@@ -217,9 +217,9 @@ function customRec() {
                     description: $('#detail_rec_description').val(),
                     category_id: $('#rec_genre').val(),
                     program_id: program_id,
-                    discontinuity: ($('#detail_rec_discontinuity').attr('checked') ? "1" : "0"),
+                    discontinuity: ($('#detail_rec_discontinuity').prop('checked') ? "1" : "0"),
                     priority: $('#detail_rec_priority').val(),
-                    ts_del: ($('#detail_rec_delete_file').attr('checked') ? "1" : "0")
+                    ts_del: ($('#detail_rec_delete_file').prop('checked') ? "1" : "0")
                  };
 
     socketio.emit("getCustomRec", programId, option);
