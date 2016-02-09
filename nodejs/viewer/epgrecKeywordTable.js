@@ -1,8 +1,10 @@
+var log = require(__dirname + "/../logger").getLogger();
 var readFile = require(__dirname + "/readFile");
 var responseFile = require(__dirname + "/responseFile");
 var util = require(__dirname + "/../util");
 
 module.exports = function(response, keywords, keywordCnt, pageNum) {
+    log.access.info("viewer 'epgrecKeywordTable' was called.");
     var actionId = 0;
     var keywordStr = ""
     keywords.forEach(function(keyword) {

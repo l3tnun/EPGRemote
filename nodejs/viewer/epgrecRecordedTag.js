@@ -1,7 +1,9 @@
+var log = require(__dirname + "/../logger").getLogger();
 var readFile = require(__dirname + "/readFile");
 var responseFile = require(__dirname + "/responseFile");
 
 module.exports = function(response, keywords, keywordCnt, pageNum) {
+    log.access.info("viewer 'epgrecRecordedTag' was called.");
     var tagListStr = ""
     keywords.forEach(function(keyword) {
         if(keyword.cnt == 0) { return; }

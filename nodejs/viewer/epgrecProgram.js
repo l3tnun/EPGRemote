@@ -4,6 +4,7 @@ var notFound = require(__dirname + "/notFound");
 var responseFile = require(__dirname + "/responseFile");
 
 module.exports = function(response, length, time, type) {
+    log.access.info("viewer 'epgrecProgram' was called.");
     //time
     var hour = Number(time.substr(8, 2));
     var timeStr = ""

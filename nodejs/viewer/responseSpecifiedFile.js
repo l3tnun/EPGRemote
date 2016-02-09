@@ -5,6 +5,7 @@ var log = require(__dirname + "/../logger").getLogger();
 var notFound = require(__dirname + "/notFound");
 
 module.exports = function(response, request, filename, fileTypeHash, mode) {
+    log.access.info("viewer 'responseSpecifiedFile' was called.");
     var configJson = util.getConfig();
 
     fs.exists(filename, function (exists) {
