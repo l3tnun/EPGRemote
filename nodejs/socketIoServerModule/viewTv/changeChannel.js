@@ -6,7 +6,7 @@ var tunerManager = require(__dirname + "/../../tunerManager");
 module.exports = function(io, socket, setStopStreamCallback) {
     //チャンネル変更
     socket.on("changeChannel", function (streamNumber, name, sid, channel, tunerId, videoSizeId) {
-        log.access.debug(`client change channel ${streamNumber} ${name} ${sid} ${channel} ${tunerId} ${videoSizeId}`);
+        log.access.info(`socketio 'changeChannel' was called ${streamNumber} ${name} ${sid} ${channel} ${tunerId} ${videoSizeId}`);
         var configJson = util.getConfig();
 
         var videoConfig = tunerManager.getVideoConfig(videoSizeId);

@@ -5,7 +5,7 @@ var sqlModel = require(__dirname + "/../../sqlModel");
 module.exports = function(io, socket) {
     //番組情報(1局のみ)を取得
     socket.on("getTvProgram", function (streamNumber) {
-        log.access.debug(`client get tv program ${streamNumber}`);
+        log.access.info(`socketio 'getTvProgram' was called ${streamNumber}`);
 
         //streamNumberからチャンネル情報を取得
         var streamHash = streamManager.getStreamStatus();

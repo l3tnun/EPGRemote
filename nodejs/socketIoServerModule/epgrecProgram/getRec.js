@@ -4,6 +4,7 @@ var epgrecManager = require(__dirname + '/../../epgrecManager');
 module.exports = function(io, socket) {
     //簡易予約
     socket.on("getRec", function (id) {
+        log.access.info("socketio 'getRec' was called.");
         epgrecManager.getRecResult(id, function(result) {
                                             io.sockets.emit("recResult", {value : result, "id" : id});
                                         });

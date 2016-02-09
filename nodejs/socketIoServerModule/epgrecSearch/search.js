@@ -4,7 +4,7 @@ var epgrecManager = require(__dirname + '/../../epgrecManager');
 module.exports = function(io, socket) {
     //検索部分
     socket.on("getEPGRecSearch", function (socketid, option) {
-        log.access.debug(`getEPGRecSearchResult ${socketid}`);
+        log.access.info(`socketio 'getEPGRecSearchResult' was called ${socketid}`);
         epgrecManager.getEPGRecSearch(option, function(result) {
                                             io.sockets.emit("resultEPGRecSearchResult", {"socketid" : socketid, "json" : result});
                                         });
