@@ -26,6 +26,9 @@ Node.js + HTML + CSS + Jquery を書くのはこれが初めてです。温か�
 ## 2016年1月の終わりごろにこれを見た方 or 更新した人へ
 master ブランチが壊れていてまともに動かなかったと思います。ごめんさい。今は直っています。
 
+## 2016年2月10日以降にupdateした方へ
+ffmpeg のオプションに "-hls\_wrap" が追加されました。今までストリームファイルの削除は EPGRemote 側で行っていましたが、このオプションで自動でファイルの削除（と言うより使い回し？）をしてくれるので EPGRemote 側 ではファイルの削除を行いません。ですので、"-hls\_wrap" をconfig.json の ffmpeg の部分に必ず書いてください。
+
 ## スクリーンショット
 <img src="https://github.com/l3tnun/EPGRemote/wiki/images/Readme/hls_program_list.PNG" width="250px">
 <img src="https://github.com/l3tnun/EPGRemote/wiki/images/Readme/epgrec_program_list1.PNG" width="250px">
@@ -193,8 +196,9 @@ config.json 設定
      
      //ffmpeg の設定 フルパスで書く
      //-vcodec, -acodecなどは各自の環境に合わせて書く
+     //-hls_wrap このオプションがないと tsファイルが増殖します
      "ffmpeg": {
-        "command" : "/ffmpeg_path/ffmpeg -re -dual_mono_mode <audioMode> -i pipe:0 -f hls -hls_time 3 -hls_list_size 17 -hls_allow_cache 1 -hls_segment_filename  <streamFilesDir>/stream<streamNum>-%09d.ts -threads auto -acodec libfdk_aac -ar 48000 -ab <ab> -ac 2 -vcodec libx264 -s <size> -aspect 16:9 -vb <vb> -fpre <ffpreset> <streamFilesDir>/stream<streamNum>.m3u8"
+        "command" : "/ffmpeg_path/ffmpeg -re -dual_mono_mode <audioMode> -i pipe:0 -f hls -hls_time 3 -hls_list_size 4 -hls_wrap 4 -hls_allow_cache 1 -hls_segment_filename  <streamFilesDir>/stream<streamNum>-%09d.ts -threads auto -acodec libfdk_aac -ar 48000 -ab <ab> -ac 2 -vcodec libx264 -s <size> -aspect 16:9 -vb <vb> -fpre <ffpreset> <streamFilesDir>/stream<streamNum>.m3u8"
     },
     
     //ffmpegで使用する ffpreset ファイルのフルパス index.js と同じ場所にある
@@ -268,6 +272,7 @@ json ファイルは JSON.parse() でパースしているため、きちんと�
 * version 0.2.5 番組検索、自動録画キーワードの追加、編集機能の追加
 * version 0.2.6 バグ修正、微小な調整
 * version 0.2.7 バグ修正、コードの整理
+* version 0.2.8 config.json.sample の ffmpeg のオプションを変更
 
 ## Licence
 
