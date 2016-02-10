@@ -77,7 +77,7 @@ function runCommand(streamNumber, videoConfig, channelName, channel, sid, tunerI
     setChildErrorProcessing(ffmpegChild, "ffmpegChild", streamNumber);
     setChildErrorProcessing(recChild, "recChild", streamNumber);
 
-    streamFileManager.startDeleteTsFiles(streamNumber);
+    //streamFileManager.startDeleteTsFiles(streamNumber);
     addStreamHash(streamNumber, channelName, channel, sid, ffmpegChild, recChild);
 }
 
@@ -110,7 +110,7 @@ function stopStream(streamNumber, code) {
       return;
     }
 
-    streamFileManager.stopDelteTsFiles(streamNumber);
+    //streamFileManager.stopDelteTsFiles(streamNumber);
     var ffmpegChild = streamHashs[streamNumber]["ffmpegChild"];
     var recChild = streamHashs[streamNumber]["recChild"];
     ffmpegChild.stdout.removeAllListeners('data');
