@@ -107,16 +107,11 @@ if(screen.width < 600) {
 }
 
 //時刻線
-var oldDate, basScroll = 0;
+var oldDate;
 function moveTableNowBas() {
     var nowDate = new Date().getTime();
-    var basPosition = (((nowDate - oldDate) / (1000 * 60)) * 3) - basScroll + $("#header").height() + $('#station_name_id').height();
-
-    if($("#header").height() + $('#station_name_id').height() > basPosition) {
-        $('#tableNowBas').css('top', '-10px');
-    } else {
-        $('#tableNowBas').css('top', basPosition + 'px');
-    }
+    var basPosition = (((nowDate - oldDate) / (1000 * 60)) * 3) + 2;
+    $('#tableNowBas').css('top', basPosition + 'px');
 }
 
 function timerNowBars() {
@@ -145,8 +140,6 @@ jQuery(function($) {
     $('#tv_program_id').scroll(function(){
         $('#station_name_id').scrollLeft($('#tv_program_id').scrollLeft());
         $('#tv_time_id').scrollTop($('#tv_program_id').scrollTop());
-        basScroll = $('#tv_program_id').scrollTop();
-        moveTableNowBas();
     });
 
 });
