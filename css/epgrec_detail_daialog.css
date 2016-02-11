@@ -1,0 +1,63 @@
+#detail_rec_station_name {
+    text-align: left;
+    color: #444;
+    font-size: 1.2em;
+}
+
+.detail_time > span {
+    margin-top: 18px;
+    padding-right: 3px;
+}
+
+.detail_time > .ui-input-text > input.detail_year {
+    width: 50px;
+}
+
+.detail_time > .ui-input-text > input{
+    height:38px;
+    width: 30px;
+}
+
+.ui-select {
+    width: 200px;
+}
+
+.ui-input-text.ui-textinput-autogrow {
+    max-height: 100px;
+    height: 40px;
+    width: 400px;
+}
+
+@media screen and (min-width: 600px) {
+    .detail_time > .ui-input-text > input.detail_year {
+        width: 68px;
+    }
+
+    .detail_time > .ui-input-text > input{
+        height:38px;
+        width: 48px;
+    }
+
+    .ui-select {
+        width: 245px;
+    }
+
+    .ui-input-text.ui-textinput-autogrow {
+        max-height: 100px;
+        height: 40px;
+        width: 100%;
+    }
+}
+
+
+.detaile_rec_button {
+    display: block;
+    background: #0078AE none repeat scroll 0% 0%;
+    text-decoration: none;
+    width: 110px;
+    text-align: center;
+    padding: 14px 4px;
+    margin: 0 auto;
+    font-size: 18px;
+}
+

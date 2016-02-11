@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/css/epgrec_tv_skeleton_layout.css" />
     <link rel="stylesheet" href="/css/category.css" />
     <link rel="stylesheet" href="/css/epgrec_layout.css" />
+    <link rel="stylesheet" href="/css/epgrec_detail_daialog.css" />
     <script src="/jquery/jquery.min.js"></script>
     <script src="/jquery/jquery.mobile.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
@@ -49,9 +50,8 @@
 <!--予約ダイアログ-->
 <a id='lnkDialog' href="#progDialog" data-rel="popup" data-position-to="window" data-transition="pop" style='display:none;'></a>
 
-<div data-role="popup" id="progDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width:400px;">
+<div data-role="popup" id="progDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width: 400px;">
     <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">close</a>
-    <div style="overflow: scroll; height: 340; width: 400px;">
         <div id="info_title">title</div>
         <br>
         <div id="info_station_name">station_name</div>
@@ -60,14 +60,13 @@
         <div id="info_description">description</div>
         <br>
         <div id="info_prgID">prg_ID</div>
-    </div>
-    <div id="info_simple_rec_element" style="height: 50px; width: 400px; margin:1em 0 1em 0;text-align:center;">
+    <div id="info_simple_rec_element" style="height: 50px; width: auto; margin: 0em -6px; text-align:center;">
         <a href="#" onclick="javascript:openDetailRec($('#info_prgID')[0].innerHTML);" target="_self" class="info_button" style="color: white;">詳細予約</a>
         <a href="#" onclick="javascript:rec($('#info_prgID')[0].innerHTML);" target="_self" class="info_button" style="color: white;">簡易予約</a>
         <a href="#" onclick="javascript:toggleAutoRec($('#info_prgID')[0].innerHTML);" target="_self" class="info_button" style="color: white;">自動禁止</a>
         <a href="#" onclick="javascript:programSearch($('#info_prgID')[0].innerHTML);" target="_blank" class="info_button" style="color: white;">番組検索</a>
     </div>
-    <div id="info_simple_rec_cancel_element" style="height: 50px; width: 400px; margin:1em 0 1em 0;text-align:center;">
+    <div id="info_simple_rec_cancel_element" style="height: 50px; width: auto; margin:1em 0 1em 0;text-align:center;">
         <a href="#" onclick="javascript:cancelRec($('#info_prgID')[0].innerHTML);" target="_self" class="info_cancel_button" style="color: white;">予約削除</a>
         <a href="#" onclick="javascript:toggleAutoRec($('#info_prgID')[0].innerHTML);" target="_self" class="info_cancel_button" style="color: white;">自動禁止</a>
         <a href="#" onclick="javascript:programSearch($('#info_prgID')[0].innerHTML);" target="_blank" class="info_cancel_button" style="color: white;">番組検索</a>
@@ -77,12 +76,13 @@
 <!-- 詳細予約ダイアログ-->
 <a id='lnkDetailRecDialog' href="#progDetailRecDialog" data-rel="popup" data-position-to="window" data-transition="pop" style='display:none;'></a>
 
-<div data-role="popup" id="progDetailRecDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width:400px; height: auto;">
+<div data-role="popup" id="progDetailRecDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width:auto; height: auto;">
     <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">close</a>
 
+    <div style="text-align: center;">
     <div style="display:inline-flex" class="detail_time">
         <span>開始時刻</span>
-        <input style="width:50px;" id="detail_rec_start_year" type="number" size="4" min=2016 max=2100/>
+        <input class="detail_year" id="detail_rec_start_year" type="number" size="4" min=2016 max=2100/>
         <span>年</span>
         <input id="detail_rec_start_month" type="number" size="2" min=1 max=12/>
         <span>月</span>
@@ -95,10 +95,12 @@
         <input id="detail_rec_start_second" type="number" size="2" min=0 max=59/>
         <span>秒</span>
     </div>
+    </div>
 
+    <div style="text-align: center;">
     <div style="display:inline-flex" class="detail_time">
         <span>終了時刻</span>
-        <input style="width:50px;" id="detail_rec_end_year" type="number" size="4" min=2016 max=2100/>
+        <input class="detail_year" id="detail_rec_end_year" type="number" size="4" min=2016 max=2100/>
         <span>年</span>
         <input id="detail_rec_end_month" type="number" size="2" min=1 max=12/>
         <span>月</span>
@@ -111,7 +113,9 @@
         <input id="detail_rec_end_second" type="number" size="2" min=0 max=59/>
         <span>秒</span>
     </div>
+    </div>
 
+    <div style="text-align: center;">
     <div style="display:inline-flex" class="detail_time">
         <span style="padding-right: 10px;">優先度</span>
         <input id="detail_rec_priority" type="number" value="10"/>
@@ -121,14 +125,18 @@
         <input id="detail_rec_delete_file" type="checkbox"></input>
         <span style="padding-left: 40px;">隣接禁止</span>
         <input id="detail_rec_discontinuity" type="checkbox"></input>
+        <span style="padding-left: 40px;"></span>
+    </div>
     </div>
 
+    <div style="text-align: center;">
     <div style="display:inline-flex" class="detail_time">
         <select id="rec_mode" style="padding-left: 10px;" name="rec_mode">
         </select>
 
         <select id="rec_genre" style="padding-left: 10px;" name="rec_genre">
         </select>
+    </div>
     </div>
 
     <div id="detail_rec_station_name">station_name</div>
@@ -143,11 +151,11 @@
 </div>
 
 <!--メニューダイアログ-->
-<div data-role="popup" id="progMenuDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width:400px; height: 260px;">
+<div data-role="popup" id="progMenuDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width:auto; height: 260px;">
     <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">close</a>
     <p>時間</p>
     <div style="overflow: scroll;">
-        <div style="width: 480px; height: 50px;">
+        <div style="width: auto; height: 50px;">
         @@@MENUTIME@@@
         </div>
     </div>
@@ -169,7 +177,7 @@
 <!--Jump viewTv ダイアログ-->
 <a id='jumpViewTvDialogButton' href="#jumpViewTvDialog" data-rel="popup" data-position-to="window" data-transition="pop" style='display:none;'></a>
 
-<div data-role="popup" id="jumpViewTvDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width:400px; height: 100%;">
+<div data-role="popup" id="jumpViewTvDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width:auto; height: 100%;">
     <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">close</a>
 
     <div id="jumpDialogChannelName">channel name</div>
