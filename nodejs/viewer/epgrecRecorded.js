@@ -7,12 +7,12 @@ module.exports = function(response, programs, programCnt, pageNum) {
     var actionId = 0;
     var programStr = ""
     programs.forEach(function(program) {
-        programStr += `<li data-icon="action"><a href="${program.videLink}" target="_self">`
+        programStr += `<li data-icon="action"><a href="${program.videoLink}" target="_self">`
         programStr += `<img src="${program.thumbs}">`
         programStr += `<h3>${program.title}</h3>`
-        programStr += `<p>${program.info}</p>`
+        programStr += `<p>${program.info} ${program.channel_name}</p>`
         programStr += `<p>${program.description}</p>`
-        programStr += `</a><a id="actionId${actionId}" href="#" programId="${program.id}" programTitle="${program.title}" downloadLink="${program.downloadLink}" programInfo="${program.info}" programDescription="${program.description}" programThumbs="${program.thumbs}" class="openActionMenu"></a></li>`
+        programStr += `</a><a id="actionId${actionId}" href="#" programId="${program.id}" programTitle="${program.title}" downloadLink="${program.downloadLink}" programInfo="${program.info}" programChannelName="${program.channel_name}" programDescription="${program.description}" programThumbs="${program.thumbs}" class="openActionMenu"></a></li>`
         actionId += 1;
     });
 
