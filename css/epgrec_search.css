@@ -73,35 +73,7 @@ select {
     color: white;
 }
 
-<!--予約詳細-->
-#detail_rec_station_name {
-    text-align: left;
-    color: #444;
-    font-size: 1.2em;
-}
-
-.detail_time > span {
-    margin-top: 18px;
-    padding-right: 3px;
-}
-
-.detail_time > .ui-input-text > input{
-    height:38px;
-    width: 30px;
-}
-
-.detaile_rec_button {
-    display: block;
-    background: #0078AE none repeat scroll 0% 0%;
-    text-decoration: none;
-    width: 110px;
-    text-align: center;
-    padding: 14px 4px;
-    margin: 0 auto;
-    font-size: 18px;
-}
-
-.ui-select {
-    width: 200px;
+.ui-body-a, .ui-page-theme-a {
+    text-shadow: none;
 }
 

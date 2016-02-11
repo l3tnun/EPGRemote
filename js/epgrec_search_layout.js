@@ -269,6 +269,7 @@ function openDetailRecDialog() {
     }
     $("#detailRecDialog").popup('open');
     if($(window).width() < 450) {
+        $("#detailRecDialog").css("width", "400px");
         $("#detailRecDialog").css("transform", "scale(" + $(window).width() / 450 + ")");
         if(detailDialogLeftPosition == -1) {
             detailDialogLeftPosition = $("#detailRecDialog").offset().left - 8;
