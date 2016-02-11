@@ -49,7 +49,8 @@ function deleteVideo(rec_id) {
     socketio.emit("requestDeleteVideoFile", rec_id, $('#delete_file')[0].checked);
 }
 
-function openVideoNotFoundDialog() {
+function openVideoNotFoundDialog(errorStr) {
+    $("#videoNotFoundDialogStr").text(errorStr);
     $("#videoNotFoundDialog").popup('open');
 }
 
@@ -72,9 +73,10 @@ function openDeleteDialog(id, title) {
     $("#deleteDialog").popup('open');
 }
 
-function openProgramInfo(title, info, thumbs, description) {
+function openProgramInfo(title, info, channleName, thumbs, description) {
     $("#programDialogTitle").text(title);
     $("#programDialogInfo").text(info);
+    $("#programDialogChannelName").text(channleName);
     $("#programDialogThumbs").attr("src", thumbs);
     $("#programDialogDescription").text(description);
 
@@ -88,10 +90,11 @@ $(window).load(function() {
         var id = element.target.id;
         var title = $('#'+ id).attr('programTitle');
         var info = $('#'+ id).attr('programInfo');
+        var channelName = $('#'+ id).attr('programChannelName');
         var thumbs = $('#'+ id).attr('programThumbs');
         var description = $('#'+ id).attr('programDescription');
         var programId = $('#'+ id).attr('programId')
-        $("#actionProgram").attr('href', `javascript:openProgramInfo("${title}", "${info}", "${thumbs}", "${description}")`);
+        $("#actionProgram").attr('href', `javascript:openProgramInfo("${title}", "${info}", "${channelName}", "${thumbs}", "${description}")`);
         $("#actionDownload").attr('href', $('#'+ id).attr('downloadLink'));
         $("#actionDelete").attr('href','javascript:openDeleteDialog(' + programId + ',"' + title + '")');
         $('#actionMenu').popup('open', { x: element.pageX, y: element.pageY });
