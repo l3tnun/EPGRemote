@@ -47,8 +47,10 @@
         height: 40px;
         width: 100%;
     }
+    #detailRecDialog {
+        width: auto;
+    }
 }
-
 
 .detaile_rec_button {
     display: block;
