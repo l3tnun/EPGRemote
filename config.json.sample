@@ -2,6 +2,8 @@
     "serverIP" : "192.168.xx.xx",
     "serverPort" : "8888",
 
+    "useHLS" : true,
+
     "epgrecConfig" : {
         "host" : "192.168.xx.xx:xxxx",
         "index.php" : "index2.php",

@@ -148,6 +148,8 @@ config.json 設定
 	"serverIP" : "192.168.xx.xx", //サーバのIPアドレス
     "serverPort" : "8888", //Webからアクセスするときに使用するポート番号
     
+    "useHLS" : true, //リアルタイム配信を使うかどうか true で有効 false で無効になる
+    
     //EPGRec UNAの設定
     "epgrecConfig" : {
         "host" : "192.168.xx.xx:xxxx", //EPGRec UNAが動いてるホストの IP
@@ -258,18 +260,19 @@ json ファイルは JSON.parse() でパースしているため、きちんと�
 * Firefox, Chrome は HLS に対応していないので Flash のプラグインを追加して対応できそう
 
 ## 更新履歴
-* version 0.1.0 初版
-* version 0.1.1 EPGRec番組表の軽量化 
-* version 0.2.0 EPGRec UNA でトランスコード済みのファイルを視聴できるようにした(HSL配信ではありません)
-* version 0.2.1 録画予約一覧を追加
-* version 0.2.2 2016/02/01以降に番組表一覧が正常に表示出来なくなる問題を修正
-* version 0.2.3 自動録画キーワードの管理を追加
-* version 0.2.4 番組表での詳細予約を追加、Growl風の通知を追加
-* version 0.2.5 番組検索、自動録画キーワードの追加、編集機能の追加
-* version 0.2.6 バグ修正、微小な調整
-* version 0.2.7 バグ修正、コードの整理
-* version 0.2.8 config.json.sample の ffmpeg のオプションを変更
-* version 0.2.9 レイアウトの修正
+* version 0.1.0  初版
+* version 0.1.1  EPGRec番組表の軽量化 
+* version 0.2.0  EPGRec UNA でトランスコード済みのファイルを視聴できるようにした(HSL配信ではありません)
+* version 0.2.1  録画予約一覧を追加
+* version 0.2.2  2016/02/01以降に番組表一覧が正常に表示出来なくなる問題を修正
+* version 0.2.3  自動録画キーワードの管理を追加
+* version 0.2.4  番組表での詳細予約を追加、Growl風の通知を追加
+* version 0.2.5  番組検索、自動録画キーワードの追加、編集機能の追加
+* version 0.2.6  バグ修正、微小な調整
+* version 0.2.7  バグ修正、コードの整理
+* version 0.2.8  config.json.sample の ffmpeg のオプションを変更
+* version 0.2.9  レイアウトの修正
+* version 0.2.10 リアルタイム視聴 on off のオプションを追加
 
 ## Licence
 

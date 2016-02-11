@@ -1,6 +1,7 @@
 var path = require('path');
 var requestHandlers = require(__dirname + "/requestHandlers/");
 var log = require(__dirname + "/logger").getLogger();
+var util = require(__dirname + "/util");
 
 var handle = {}
 handle["/"] = requestHandlers.topPage;
@@ -15,6 +16,8 @@ handle["/epgrec_recorded/tag"] = requestHandlers.epgrecRecordedTag;
 handle["/epgrec_reservation_table"] = requestHandlers.epgrecReservationTable;
 handle["/epgrec_keyword_table"] = requestHandlers.epgrecKeywordTable;
 handle["/epgrec_search"] = requestHandlers.epgrecSearch;
+
+if(util.getConfig()["useHLS"] == false) { handle["/"] = requestHandlers.epgrec; }
 
 var fileTypeHash = {
     ".css"  : "text/css",
