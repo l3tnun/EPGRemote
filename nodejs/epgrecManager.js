@@ -122,7 +122,6 @@ function addEPGRecKeyword(option, callback) {
 }
 
 exports.getCustomRecResult = getCustomRecResult;
-exports.getProgram = getProgram;
 exports.getRecResult = getRecResult;
 exports.getCancelRecResult = getCancelRecResult;
 exports.getToggleAutoRec = getToggleAutoRec;
