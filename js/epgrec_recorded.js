@@ -2,18 +2,6 @@ function scrollTopButton() {
     $('html,body').animate({ scrollTop: 0 }, 'swing');
 }
 
-function getQuery() {
-    var url = window.location.search;
-    query = {};
-    array  = url.slice(1).split('&');
-    for (var i = 0; i < array.length; i++) {
-        vars = array[i].split('=');
-        query[vars[0]] = vars[1];
-    }
-
-    return query;
-}
-
 function getQueryParameter(query) {
     var parameterList = ["keyword", "channel"];
 

@@ -58,31 +58,7 @@ $ npm install -g mysql log4js socketio request
 * 録画済み一覧から動画を再生する場合は、EPGRec UNA のエンコード機能とサムネイル作成機能を ON にしておくことを推奨します
 * エンコードなしで ts ファイルを直接再生も可能ですがスマートフォン側にそれなりの性能が必要になります。
 
-* 番組表 Web UIを使用する際には EPGRec UNA のindex.php 内の $programs の内容が必要になります。$programs を Json で返すようにしてください。
-
-````
-$ cd 'EPGRec UNA のディレクトリ'
-$ cp index.php index2.php
-````
-* index2.php の最後の行を以下のように修正
-
-修正前
-
-````
-$smarty->display('index.html');
-?>
-````
-
-修正後
-
-````
-//$smarty->display('index.html');
-print_r (json_encode($programs));
-?>
-````
-
-* http://Epgrec UNAアドレス/index2.php にアクセスして Json データが取得できることを確認してください。
-* 同様に番組検索に programTable.php の $programs の内容が、自動録画キーワードの追加、更新には keywordTable.php の $keywords の内容が必要になります。それぞれ Json で返すようにしてください。
+* 番組検索を行うには programTable.php の $programs の内容が、自動録画キーワードの追加、更新には keywordTable.php の $keywords の内容が必要になります。それぞれ Json で返すようにしてください。
 
 ````
 $ cp programTable.php programTable2.php
@@ -153,7 +129,6 @@ config.json 設定
     //EPGRec UNAの設定
     "epgrecConfig" : {
         "host" : "192.168.xx.xx:xxxx", //EPGRec UNAが動いてるホストの IP
-        "index.php" : "index2.php",     //番組表データ取得のための php ファイルの名前 
         "programTable.php" : "programTable2.php", //番組検索結果取得のための php ファイル名
         "keywordTable.php" : "keywordTable2.php", //自動録画キーワードの追加, 更新の結果を取得するための php ファイル名
         "hourheight" : 180, //EPGRec UNA で設定した1時間あたりの高さ
@@ -273,6 +248,7 @@ json ファイルは JSON.parse() でパースしているため、きちんと�
 * version 0.2.8  config.json.sample の ffmpeg のオプションを変更
 * version 0.2.9  レイアウトの修正
 * version 0.2.10 リアルタイム視聴 on off のオプションを追加
+* version 0.3.0  番組表データを DB から直接読み取るように変更 (index.php から読み取るのを廃止)
 
 ## Licence
 
