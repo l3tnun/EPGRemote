@@ -31,17 +31,13 @@ var programHash = {}, channelHash = {};
 socketio.on("resultEPGRecProgramList", function (data) {
     if(data.socketid != socketid) { return; }
 
-    var genruStr = ""
     data.genrus.forEach(function(genru) {
-        genruStr += $('<option>').html(`${genru.name_jp}`).val(`${genru.id}`);
+        $('#rec_genre').append($('<option>').html(`${genru.name_jp}`).val(`${genru.id}`));
     });
-    $('#rec_genre').append(genruStr);
 
-    var recModeStr = ""
     data.recMode.forEach(function(mode) {
-        recModeStr += $('<option>').html(`${mode.name}`).val(`${mode.id}`);
+        $('#rec_mode').append($('<option>').html(`${mode.name}`).val(`${mode.id}`));
     });
-    $('#rec_mode').append(recModeStr);
 
     recModeDefaultId = data.recModeDefaultId;
 
