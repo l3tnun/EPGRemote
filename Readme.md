@@ -249,6 +249,7 @@ json ファイルは JSON.parse() でパースしているため、きちんと�
 * version 0.2.9  レイアウトの修正
 * version 0.2.10 リアルタイム視聴 on off のオプションを追加
 * version 0.3.0  番組表データを DB から直接読み取るように変更 (index.php から読み取るのを廃止)
+* version 0.3.1  番組表の表示高速化
 
 ## Licence
 
