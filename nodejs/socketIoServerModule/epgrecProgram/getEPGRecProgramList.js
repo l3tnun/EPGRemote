@@ -20,63 +20,47 @@ module.exports = function(io, socket) {
                 programs[program.channel_id].push(program);
             });
 
+            io.sockets.emit("resultEPGRecProgramList", { socketid: socketid, recMode: config.epgrecConfig.recMode, recModeDefaultId: config.epgrecConfig.recModeDefaultId, genrus: sqlResult[0], recordedPrograms: recordedPrograms });
+
             var maxTimeHeight = 180 * length;
-            var programHash = {}, channelHash = {};
-            var stationNameCnt = 0;
-            var programStr = "";
-            var stationNameStr = "";
             var topTime = new Date(`${time.substr(0,4)}-${time.substr(4,2)}-${time.substr(6,2)}T${time.substr(8,2)}:00:00+0900`);
             var endTime = new Date(topTime.getTime() + (length * 1000 * 60 * 60) );
+            var stationNameCnt = 0;
+            var heightCount = 0;
+
             sqlResult[1].forEach(function(channel) {
                 if(typeof programs[channel.id] == "undefined" ) { return; }
                 stationNameCnt += 1;
-                stationNameStr += `<a href="javascript:jumpViewTv('${channel.sid}', '${channel.channel}', '${channel.name}')" class="station_name" style="color: white;">${channel.name}</a>`;
 
-                programStr += '<div class="station">\n';
-                programStr += `<div style="height:0px;">\n`
-                programStr += `<div class="" style="visibility: hidden;">dummy</div>\n`
-                programStr += `</div>\n`;
-
-                var heightCount = 0;
+                var stationNameHash = {id: channel.id, sid: channel.sid, channel: channel.channel, name: channel.name }
+                var programArray = []
                 programs[channel.id].forEach(function(program) {
                     if(heightCount == 0 && new Date(program.starttime) > topTime) {
                         var emptyHeight = (new Date(program.starttime).getTime() - topTime.getTime()) / 1000 / 60 * 3;
-                        programStr += `<div id="prgID_${-1}" style="height:${emptyHeight}px;" class="tv_program_freeze">\n`;
-                        programStr += `<div class="pr_title"></div>\n`;
-                        programStr += `</div>\n`;
+                        var dummyProgram = {id: -1, height: emptyHeight};
                         heightCount += emptyHeight;
+                        programArray.push(dummyProgram);
                     }
 
-                    var classNameStr = `tv_program ctg_${program.category_id} `
-                    if(program.rec) { classNameStr += "tv_program_reced "; }
-                    if(program.autorec == 0) { classNameStr += "tv_program_freeze "; }
                     var height = getProgramHeight(program, topTime, endTime);
-                    programStr += `<div id="prgID_${program.id}" style="height:${height}px;" class="${classNameStr}">\n`;
-                    programStr += `<div class="pr_title">${program.title}</div>\n`;
-                    programStr += `<div class="pr_starttime">${getTimeStr(program.starttime)}</div>\n`;
-                    programStr += `<div class="pr_description">${program.description}</div>\n`;
-                    programStr += `</div>\n`;
-
-                    programHash[program.id] = program;
+                    program.height = height;
+                    programArray.push(program);
                     heightCount += height;
                 });
 
                 if(maxTimeHeight > heightCount) {
                     var emptyHeight = maxTimeHeight - heightCount;
-                    programStr += `<div id="prgID_${-1}" style="height:${emptyHeight}px;" class="tv_program_freeze">\n`;
-                    programStr += `<div class="pr_title"></div>\n`;
-                    programStr += `</div>\n`;
+                    var dummyProgram = {id: -1, height: emptyHeight};
+                    programArray.push(dummyProgram);
                 }
-                programStr += `</div>\n`;
 
-                channelHash[channel.id] = channel;
+                io.sockets.emit("HashOfEPGProgramData", { socketid: socketid, stationNameHash: stationNameHash, programArray: programArray, time: time, length: length, type: type });
             });
 
-            io.sockets.emit("resultEPGRecProgramList", { socketid: socketid, hourheight: config.epgrecConfig.hourheight, recMode: config.epgrecConfig.recMode, recModeDefaultId: config.epgrecConfig.recModeDefaultId, genrus: sqlResult[0], htmlVars: {programHash: programHash, channelHash: channelHash, stationNameCnt: stationNameCnt, programStr: programStr, stationNameStr: stationNameStr}, queryTime: time, queryLength: length });
+            io.sockets.emit("finishEPGProgramDataSend", { socketid: socketid, stationNameCnt: stationNameCnt } );
         });
     });
 }
-
 
 function getProgramHeight(program, topTime, endTime) {
     var programStart = new Date(program.starttime);
@@ -86,9 +70,3 @@ function getProgramHeight(program, topTime, endTime) {
 
     return height = (endDate.getTime() - startDate.getTime()) / 1000 / 60 * 3;
 }
-
-function getTimeStr(str) {
-    var d = new Date(str);
-    return `${("0" + d.getHours()).slice(-2)}:${("0" + d.getMinutes()).slice(-2)}:${("0" + d.getSeconds()).slice(-2)}`;
-}
-

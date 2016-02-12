@@ -27,7 +27,6 @@ $(function(){
     socketio.emit("getEPGRecProgramList", socketid, type, length, time);
 });
 
-var programHash = {}, channelHash = {};
 socketio.on("resultEPGRecProgramList", function (data) {
     if(data.socketid != socketid) { return; }
 
@@ -40,20 +39,67 @@ socketio.on("resultEPGRecProgramList", function (data) {
     });
 
     recModeDefaultId = data.recModeDefaultId;
+});
 
-    $("#station_name_content").append(data.htmlVars.stationNameStr);
-    $("#tv_program_content").append(data.htmlVars.programStr);
+var programHash = {}, channelHash = {};
+socketio.on("HashOfEPGProgramData", function (data) {
+    if(data.socketid != socketid) { return; }
 
-    $("#station_name_content").css("width", (data.htmlVars.stationNameCnt * 140) + "px");
-    $("#tv_program_content").css("width", (data.htmlVars.stationNameCnt * 140) + "px");
+    var channel = data.stationNameHash;
+    var programStr = "";
+    var stationNameStr = "";
+
+    stationNameStr += `<a href="javascript:jumpViewTv('${channel.sid}', '${channel.channel}', '${channel.name}')" class="station_name" style="color: white;">${channel.name}</a>`;
+
+    //dummy
+    programStr += '<div class="station">\n';
+    programStr += `<div style="height:0px;">\n`
+    programStr += `<div class="" style="visibility: hidden;">dummy</div>\n`
+    programStr += `</div>\n`;
+
+    data.programArray.forEach(function(program) {
+        if(program.id == -1) {
+            programStr += `<div id="prgID_${-1}" style="height:${program.height}px;" class="tv_program_freeze">\n`;
+            programStr += `<div class="pr_title"></div>\n`;
+            programStr += `</div>\n`;
+            return;
+        }
+
+        var classNameStr = `tv_program ctg_${program.category_id} `
+        if(program.rec) { classNameStr += "tv_program_reced "; }
+        if(program.autorec == 0) { classNameStr += "tv_program_freeze "; }
+        programStr += `<div id="prgID_${program.id}" style="height:${program.height}px;" class="${classNameStr}">\n`;
+        programStr += `<div class="pr_title">${program.title}</div>\n`;
+        programStr += `<div class="pr_starttime">${getTimeStr(program.starttime)}</div>\n`;
+        programStr += `<div class="pr_description">${program.description}</div>\n`;
+        programStr += `</div>\n`;
+
+        programHash[program.id] = program;
+    });
+
+    programStr += `</div>\n`;
+
+    channelHash[channel.id] = channel;
+
+    $("#station_name_content").append(stationNameStr);
+    $("#tv_program_content").append(programStr);
+});
+
+socketio.on("finishEPGProgramDataSend", function (data) {
+    if(data.socketid != socketid) { return; }
+
+    $("#station_name_content").css("width", (data.stationNameCnt * 140) + "px");
+    $("#tv_program_content").css("width", (data.stationNameCnt * 140) + "px");
+
     setTvProgramClickDiaalog();
-
-    programHash = data.htmlVars.programHash;
-    channelHash = data.htmlVars.channelHash;
-
     moveTableNowBas();
     timerNowBars();
 });
+
+function getTimeStr(str) {
+    var d = new Date(str);
+    return `${("0" + d.getHours()).slice(-2)}:${("0" + d.getMinutes()).slice(-2)}:${("0" + d.getSeconds()).slice(-2)}`;
+}
 
 function closeDialogs(id) {
     if(id == $("#info_prgID").text() || id == $("#detail_rec_prgID").text()) {
