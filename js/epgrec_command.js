@@ -70,11 +70,16 @@ function closeDialogs(id) {
     return false;
 }
 
+function getTimeStr(str) {
+    var d = new Date(str);
+    return `${("0" + d.getHours()).slice(-2)}:${("0" + d.getMinutes()).slice(-2)}:${("0" + d.getSeconds()).slice(-2)}`;
+}
+
 function notifyGrowl(title, id) {
     if(typeof $("#" + id) == "undefined") { return; }
-    var stationInfo = getStationInfo(id);
-    if(typeof stationInfo == "undefined" || typeof stationInfo.pr_station_name == "undefined") { return; }
-    $.growl({ title: title, message: stationInfo.pr_station_name + " " + stationInfo.pr_starttime + " " + stationInfo.pr_title });
+    var stationInfo = programHash[id.replace("prgID_", "")];
+    if(typeof stationInfo == "undefined") { return; }
+    $.growl({ title: title, message: channelHash[stationInfo.channel_id].name + " " + getTimeStr(stationInfo.starttime) + " " + stationInfo.title });
 }
 
 function rec(id) {
