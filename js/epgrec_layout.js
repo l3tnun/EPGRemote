@@ -9,9 +9,14 @@ function getStationInfo(id) {
     return stationInfo;
 }
 
+function getTimeStr(str) {
+    var d = new Date(str);
+    return `${("0" + d.getHours()).slice(-2)}:${("0" + d.getMinutes()).slice(-2)}:${("0" + d.getSeconds()).slice(-2)}`;
+}
+
 function setTvProgramClickDiaalog() {
     $(".tv_program").click(function(element) {
-        var stationInfo = getStationInfo(element.currentTarget.id);
+        var stationInfo = programHash[(element.currentTarget.id).replace("prgID_", "")];
 
         //予約済みの場合
         var showElement;
@@ -33,16 +38,12 @@ function setTvProgramClickDiaalog() {
             showElement.children()[autorecIndex].innerHTML = "自動禁止";
         }
 
-        $('#info_title').text(stationInfo["pr_title"]);
-        $('#info_station_name').text(stationInfo["pr_station_name"]);
-        if(typeof stationInfo["pr_next_time"] == "undefined") {
-            $('#info_time').text(stationInfo["pr_start"] + " ~ ");
-        } else {
-            $('#info_time').text(stationInfo["pr_start"] + " ~ " + stationInfo["pr_next_time"]);
-        }
-        $('#info_description').text(stationInfo["pr_description"]);
+        $('#info_title').text(stationInfo.title);
+        $('#info_station_name').text(channelHash[stationInfo.channel_id].name);
+        $('#info_time').text(getTimeStr(stationInfo.starttime) + " ~ " + getTimeStr(stationInfo.endtime));
+        $('#info_description').text(stationInfo.description);
         $('#info_prgID').text(element.currentTarget.id.split('_')[1]);
-        if(stationInfo["pr_title"] == "NULL") { return; }
+        if(stationInfo.title == "NULL") { return; }
         $("#lnkDialog").click();
     });
 }

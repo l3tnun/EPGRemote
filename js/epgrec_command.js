@@ -70,11 +70,6 @@ function closeDialogs(id) {
     return false;
 }
 
-function getTimeStr(str) {
-    var d = new Date(str);
-    return `${("0" + d.getHours()).slice(-2)}:${("0" + d.getMinutes()).slice(-2)}:${("0" + d.getSeconds()).slice(-2)}`;
-}
-
 function notifyGrowl(title, id) {
     if(typeof $("#" + id) == "undefined") { return; }
     var stationInfo = programHash[id.replace("prgID_", "")];
