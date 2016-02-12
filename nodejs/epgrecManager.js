@@ -47,13 +47,6 @@ function getCustomRecResult(rec_id, option, callback) {
     httpPost(url, callback, option, "get getCustomRecResult");
 }
 
-function getProgram(type, length, time, callback) {
-    var epgrecConfig = util.getConfig()["epgrecConfig"];
-    var url = `http://${epgrecConfig["host"]}/${epgrecConfig["index.php"]}?type=${type}&length=${length}&time=${time}`;
-
-    httpGet(url, callback, 'get EPGRec program ' + type);
-}
-
 function getRecResult(id, callback) {
     var epgrecConfig = util.getConfig()["epgrecConfig"];
     var url = `http://${epgrecConfig["host"]}/simpleReservation.php?program_id=${id}`;

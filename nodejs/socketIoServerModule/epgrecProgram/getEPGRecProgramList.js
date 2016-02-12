@@ -1,6 +1,5 @@
 var log = require(__dirname + "/../../logger").getLogger();
 var util = require(__dirname + '/../../util');
-var epgrecManager = require(__dirname + '/../../epgrecManager');
 var sqlModel = require(__dirname + "/../../sqlModel");
 
 module.exports = function(io, socket) {
