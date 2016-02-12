@@ -111,6 +111,9 @@ var oldDate;
 function moveTableNowBas() {
     var nowDate = new Date().getTime();
     var basPosition = (((nowDate - oldDate) / (1000 * 60)) * 3) + 2;
+    var queryLength = getQuery().length;
+    if(typeof queryLength == "undefined") { queryLength = 18; }
+    if(basPosition > queryLength * 180 || basPosition < 0) { basPosition = 0; }
     $('#tableNowBas').css('top', basPosition + 'px');
 }
 
@@ -143,18 +146,6 @@ jQuery(function($) {
     });
 
 });
-
-function getQuery() {
-    var paramms = location.href.split("?")[1].split("&");
-    var query = {};
-
-    for(var i = 0; i < paramms.length; i++) {
-        var para = paramms[i].split("=");
-        query[para[0]] = para[1];
-    }
-
-    return query;
-}
 
 //番組表のサイズ
 $(document).ready(function () {

@@ -10,6 +10,7 @@ module.exports = {
     getReservationTable: require(__dirname + '/getReservationTable'),
     getKeywordTable: require(__dirname + '/getKeywordTable'),
     countKeywordTable: require(__dirname + '/countKeywordTable'),
-    getKeywordTableByIDAndTransexpandTable: require(__dirname + '/getKeywordTableByIDAndTransexpandTable')
+    getKeywordTableByIDAndTransexpandTable: require(__dirname + '/getKeywordTableByIDAndTransexpandTable'),
+    getEPGRecProgramList: require(__dirname + '/getEPGRecProgramList')
 }
 

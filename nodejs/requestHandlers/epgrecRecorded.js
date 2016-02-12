@@ -48,7 +48,6 @@ module.exports = function(response, parsedUrl, request) {
             program.thumbs = `/thumbs/${path.basename(result.path.toString('UTF-8'))}.jpg`;
             if(typeof videoPaths[result.id] == "undefined" || videoPaths[result.id].video_status != 2) {
                 var errorStr;
-                console.log(videoPaths[result.id])
                 if(typeof videoPaths[result.id] == "undefined") { errorStr = "変換済みの動画がありません" }
                 else { errorStr = getVideoStatus(videoPaths[result.id].video_status)}
                 program.videoLink = `javascript:openVideoNotFoundDialog('${errorStr}')`;

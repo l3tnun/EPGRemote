@@ -8,7 +8,7 @@ module.exports = function(response, length, time, type) {
     //time
     var hour = Number(time.substr(8, 2));
     var timeStr = ""
-    for(var i = 0; i < length + 1; i++) {
+    for(var i = 0; i < length; i++) {
         if(hour + i > 23) {
             timeStr += `<div class="time">${hour + i - 24}</div>\n`
         } else {
