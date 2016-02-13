@@ -131,7 +131,6 @@ config.json 設定
         "host" : "192.168.xx.xx:xxxx", //EPGRec UNAが動いてるホストの IP
         "programTable.php" : "programTable2.php", //番組検索結果取得のための php ファイル名
         "keywordTable.php" : "keywordTable2.php", //自動録画キーワードの追加, 更新の結果を取得するための php ファイル名
-        "hourheight" : 180, //EPGRec UNA で設定した1時間あたりの高さ
         "videoPath" : "/var/www/epgrec/video", //EPGRec UNA の録画ファイルが保存されているディレクトリのパス
         "thumbsPath" : "/var/www/epgrec/thumbs", //EPGRec UNA の録画ファイルのサムネイルが保存されているディレクトリのパス
         //EPGRec UNA の予約カスタマイズの録画モード id は 0から順につけてください
