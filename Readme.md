@@ -121,7 +121,6 @@ config.json 設定
 
 ````
 {
-	"serverIP" : "192.168.xx.xx", //サーバのIPアドレス
     "serverPort" : "8888", //Webからアクセスするときに使用するポート番号
     
     "useHLS" : true, //リアルタイム配信を使うかどうか true で有効 false で無効になる

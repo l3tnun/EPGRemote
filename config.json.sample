@@ -1,5 +1,4 @@
 {
-    "serverIP" : "192.168.xx.xx",
     "serverPort" : "8888",
 
     "useHLS" : true,
