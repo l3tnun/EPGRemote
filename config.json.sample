@@ -1,5 +1,4 @@
 {
-    "serverIP" : "192.168.xx.xx",
     "serverPort" : "8888",
 
     "useHLS" : true,
@@ -99,7 +98,7 @@
 
     "RecordedFileExtension" : "mp4",
 
-    "RecordedStreamingiOSURL" : "vlc-x-callback://x-callback-url/stream?url=http://ADDRESS",
+    "RecordedStreamingiOSURL" : "infuse://x-callback-url/play?url=http://ADDRESS",
     "RecordedDownloadiOSURL" : "vlc-x-callback://x-callback-url/download?url=http://ADDRESS&filename=FILENAME"
 }
 

@@ -15,6 +15,7 @@
     <script src="/jquery.growl/js/jquery.growl.js"></script>
     <script src="/js/getQuery.js"></script>
     <script src="/js/epgrec_recorded.js"></script>
+    <script src="/js/epgrec_recorded_video.js"></script>
     <style>
     .ui-listview > .ui-li-has-thumb > .ui-btn {
         padding-left: 5.25em;
@@ -60,6 +61,14 @@
     <p id="programDialogChannelName" style="font-size: 13px;">info</p>
     <img id="programDialogThumbs" style="margin: 12px auto; display: block; width: 100%; height: 100%;"></img>
     <p id="programDialogDescription">description</p>
+</div>
+
+<!--ビデオリンクのダイアログ-->
+<div data-role="popup" id="multipleVideoDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width: 260px;">
+    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">close</a>
+    <p style="font-weight: bold;">ビデオリンク</p>
+    <div id="videoLinkContent">
+    </div>
 </div>
 
 <!--メニュー-->

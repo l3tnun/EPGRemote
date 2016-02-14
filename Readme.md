@@ -121,7 +121,6 @@ config.json 設定
 
 ````
 {
-	"serverIP" : "192.168.xx.xx", //サーバのIPアドレス
     "serverPort" : "8888", //Webからアクセスするときに使用するポート番号
     
     "useHLS" : true, //リアルタイム配信を使うかどうか true で有効 false で無効になる
@@ -196,8 +195,8 @@ config.json 設定
     //EPGRec UNA　でエンコードしていない場合は "ts" と書けばスマホの VLC 等で ts ファイルが再生できます
     "RecordedFileExtension" : "mp4",
 
-    //ios の録画済み一覧の URL Scheme の設定　↓の場合だと VLC が起動するようになっている
-    "RecordedStreamingiOSURL" : "vlc-x-callback://x-callback-url/stream?url=http://ADDRESS",
+    //ios の録画済み一覧の URL Scheme の設定　↓の場合だと 視聴には infuse が DL では VLC が起動するようになっている
+    "RecordedStreamingiOSURL" : "infuse://x-callback-url/play?url=http://ADDRESS",
     "RecordedDownloadiOSURL" : "vlc-x-callback://x-callback-url/download?url=http://ADDRESS&filename=FILENAME"
 
 ````
@@ -215,6 +214,18 @@ json ファイルは JSON.parse() でパースしているため、きちんと�
 ログファイルの保存場所や streamFilePath のディレクトリが作成されていないと落ちます。
 
 サービス化については forever 等で各自で行ってください。
+
+## iOS での録画済みファイル再生 ＆ ダウンロードについて
+config.json.sample では視聴には infuse を ダウンロードには VLC を使用するように書かれています。
+
+開発当初は視聴、ダウンロードともに VLC だったのですが、以下の問題があり infuse に変更しました。
+
+* VLC でネットワークストリームを再生すると HWデコーダが機能しない模様
+* ts, トランスコード済みファイルともに再生成功率が低い or 再生できないことが多い
+
+infuse では特に問題はなく、またインターレース解除も行っているようなので、無料機能の範囲で問題ないのではないでしょうか。(infuse は一部機能が有料)
+
+VLC でダウンロードしたファイルを再生する場合は上記の問題は発生しないです。
 
 ##開発環境
 * サーバ
@@ -249,6 +260,7 @@ json ファイルは JSON.parse() でパースしているため、きちんと�
 * version 0.2.10 リアルタイム視聴 on off のオプションを追加
 * version 0.3.0  番組表データを DB から直接読み取るように変更 (index.php から読み取るのを廃止)
 * version 0.3.1  番組表の表示高速化
+* version 0.3.1  録画済み一覧での複数ファイルに対応
 
 ## Licence
 
