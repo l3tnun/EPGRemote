@@ -3,10 +3,10 @@ var util = require(__dirname + "/../util");
 var log = require(__dirname + "/../logger").getLogger();
 var createSqlConnection = require(__dirname + "/createSqlConnection.js");
 
-module.exports = function(rec_id, callback) {
+module.exports = function(id, callback) {
     log.system.info('call sql getTranscodeId');
     var jsonConfig = util.getConfig();
-    var sql = `select * from ${ jsonConfig["EpgrecRecordName"] }transcodeTbl where rec_id = ${rec_id};`;
+    var sql = `select * from ${ jsonConfig["EpgrecRecordName"] }transcodeTbl where id = ${id};`;
     var connection = createSqlConnection();
 
     connection.query(sql, function(err, results) {

@@ -12,18 +12,19 @@ module.exports = function(response, request, parsedUrl, fileTypeHash) {
     var uri = parsedUrl.pathname;
     var filename;
 
-    if(uri.match(/videoid/) && path.extname(parsedUrl.pathname) == "." + configJson.RecordedFileExtension) {
-        var rec_id = path.basename(uri).replace("videoid", "").split(".")[0];
-
-        if(configJson.RecordedFileExtension == "ts") {
-            sqlModel.getRecordedId(rec_id, function(result) {
+    if(uri.match(/videoid/)) {
+        var array = path.basename(uri).replace("videoid-", "").split("-");
+        var id = array[0];
+        var type = array[1];
+        if(type == "ts") {
+            sqlModel.getReservationTableId(id, function(result) {
                 if(result == '' || result.length == 0) { notFound(response); return; }
 
                 filename = path.join(configJson.epgrecConfig.videoPath, result[0].path.toString('UTF-8'));
                 viewerResponseSpecifiedFile(response, request, filename, fileTypeHash, parsedUrl.query.mode);
             });
         } else {
-            sqlModel.getTranscodeId(rec_id, function(result) {
+            sqlModel.getTranscodeId(id, function(result) {
                 if(result == '' || result.length == 0) { notFound(response); return; }
 
                 filename = result[0].path.toString('UTF-8');

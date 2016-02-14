@@ -4,22 +4,29 @@ function getVideoList(id) {
     socketio.emit("requestVideoLink", socketid, id);
 }
 
-socketio.on("resultDeleteVideoLink", function(id, videoPaths) {
+socketio.on("resultDeleteVideoLink", function(id, videoPaths, iosStreamingURL, iosDownloadURL) {
     if(socketid != id) { return; }
 
     if(videoPaths.length == 0) {
         openVideoNotFoundDialog('動画ファイルがありません');
     } else {
-        openMultipleVideo(videoPaths);
+        openMultipleVideo(videoPaths, iosStreamingURL, iosDownloadURL);
     }
 });
 
-function openMultipleVideo(videoPaths) {
+function openMultipleVideo(videoPaths, iosStreamingURL, iosDownloadURL) {
     $("#videoLinkContent").empty();
     videoPaths.forEach(function(videoPath) {
         var linkStr;
         if(videoPath.video_status == 2) {
-            linkStr = `<a href="${videoPath.path}" target="_self" class="ui-btn">${videoPath.mode}</a>`;
+            var ua = navigator.userAgent.toLowerCase();
+            if(ua.indexOf('ipad') != -1 || ua.indexOf('ipod') != -1 || ua.indexOf('iphone') != -1) {
+                var host = window.location;
+                var address = `${host.host}/video/videoid-${videoPath.id}-${videoPath.type}`;
+                linkStr = `<a href="${iosStreamingURL.replace("ADDRESS", address)}" target="_self" class="ui-btn">${videoPath.mode}</a>`;
+            } else {
+                linkStr = `<a href="${videoPath.path}" target="_self" class="ui-btn">${videoPath.mode}</a>`;
+            }
         } else {
             linkStr = `<a href="#" class="ui-btn">${videoPath.mode} : ${getVideoStatus(videoPath.video_status)}</a>`
         }

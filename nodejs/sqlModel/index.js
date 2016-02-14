@@ -9,6 +9,7 @@ module.exports = {
     getTranscodeId: require(__dirname + '/getTranscodeId'),
     getRecordedId: require(__dirname + '/getRecordedId'),
     getReservationTable: require(__dirname + '/getReservationTable'),
+    getReservationTableId: require(__dirname + '/getReservationTableId'),
     getKeywordTable: require(__dirname + '/getKeywordTable'),
     countKeywordTable: require(__dirname + '/countKeywordTable'),
     getKeywordTableByIDAndTransexpandTable: require(__dirname + '/getKeywordTableByIDAndTransexpandTable'),

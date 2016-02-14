@@ -16,7 +16,6 @@ module.exports = function(limit, queryNum, searchSQLQuery, query, callback) {
 
     var jsonConfig = util.getConfig();
     var sql = `select * from ${ jsonConfig["EpgrecRecordName"] }channelTbl;`
-    sql +=    `select * from ${ jsonConfig["EpgrecRecordName"] }transcodeTbl;`
     sql +=    `select * from ${ jsonConfig["EpgrecRecordName"] }reserveTbl where starttime <= now() ${ option } order by starttime desc limit ${ limit } offset ${ getOffset(queryNum, limit) };`
     sql +=    `select count(*) from ${ jsonConfig["EpgrecRecordName"] }reserveTbl where starttime <= now() ${ option } order by starttime desc`;
 

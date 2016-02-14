@@ -13,18 +13,19 @@ module.exports = function(io, socket) {
             var videoPaths = [], videoTsDel = false;
             results[0].forEach(function(result) {
                 var videoPath = result.path.toString('UTF-8').replace(configJson.epgrecConfig.videoPath, "");
-                videoPaths.push({ "video_status" : result["status"], "filename" : path.basename(videoPath), "path" : path.join("/video", videoPath), mode: result.name });
+                videoPaths.push({ id: result.id, type: "non_ts", video_status: result["status"], filename: path.basename(videoPath), path: path.join("/video", videoPath), mode: result.name });
                 if(result.ts_del == 0) { videoTsDel = true; }
             });
 
             //tsファイルのパスを追加
             results[1].forEach(function(result) {
                 if(videoTsDel == true || videoPaths.length == 0) {
-                    videoPaths.push({ "video_status" : 2, "filename" : result.title + ".ts", "path" : path.join("/video", result.path.toString('utf-8')), mode: "ts" });
+                    videoPaths.push({ id: result.id, type: "ts", video_status: 2, filename: result.title + ".ts", path: path.join("/video", result.path.toString('utf-8')), mode: "ts" });
                 }
             });
 
-            io.sockets.emit("resultDeleteVideoLink", socketid, videoPaths);
+            io.sockets.emit("resultDeleteVideoLink", socketid, videoPaths, configJson.RecordedStreamingiOSURL, configJson.RecordedDownloadiOSURL);
         });
     });
 }
+

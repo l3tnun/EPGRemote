@@ -1,6 +1,4 @@
 var path = require('path');
-var url = require("url");
-var util = require(__dirname + "/../util");
 var viewerEpgrecRecorded = require(__dirname + "/../viewer/epgrecRecorded");
 var sqlModel = require(__dirname + "/../sqlModel");
 var log = require(__dirname + "/../logger").getLogger();
@@ -8,7 +6,6 @@ var notFound = require(__dirname + "/notFound");
 
 module.exports = function(response, parsedUrl, request) {
     log.access.info("Request handler 'epgrec recorded' was called.");
-    var configJson = util.getConfig();
     var ua = JSON.stringify(request.headers['user-agent']).toLocaleLowerCase();
     var searchSQLQuery;
 
@@ -28,16 +25,10 @@ module.exports = function(response, parsedUrl, request) {
 
         //録画一覧
         var programs = []
-        results[2].forEach(function(result) {
+        results[1].forEach(function(result) {
             program = {}
             program.id = result.id
             program.thumbs = `/thumbs/${path.basename(result.path.toString('UTF-8'))}.jpg`;
-
-            /*} else if(ua.indexOf('ipad') != -1 || ua.indexOf('ipod') != -1 || ua.indexOf('iphone') != -1) {
-                var address = `${configJson.serverIP}:${configJson.serverPort}/video/videoid${result.id}.${configJson.RecordedFileExtension}`;
-                program.videoLink = configJson.RecordedStreamingiOSURL.replace("ADDRESS", address);
-                program.downloadLink = configJson.RecordedDownloadiOSURL.replace("ADDRESS", address).replace("FILENAME", path.basename(videoPaths[result.id].path));*/
-
             program.title = result.title;
             program.info = `${getDateStr(result.starttime)}${getTimeStr(result.starttime)}~${getTimeStr(result.endtime)}(${getDuration(result.starttime, result.endtime)})`;
             program.channel_name = `${channelName[result.channel_id]}`;
@@ -46,7 +37,7 @@ module.exports = function(response, parsedUrl, request) {
         });
 
         if(typeof parsedUrl.query.num == "undefined") { parsedUrl.query.num = 1; }
-        viewerEpgrecRecorded(response, programs, results[3][0]["count(*)"], parsedUrl.query.num);
+        viewerEpgrecRecorded(response, programs, results[2][0]["count(*)"], parsedUrl.query.num);
     });
 }
 
