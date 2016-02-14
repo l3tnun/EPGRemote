@@ -2,6 +2,7 @@ module.exports = {
     getNowEpgData: require(__dirname + '/getNowEpgData'),
     getChannelAndGenru: require(__dirname + '/getChannelAndGenru'),
     getRecordedList: require(__dirname + '/getRecordedList'),
+    getRecordedIdVideoPathList: require(__dirname + '/getRecordedIdVideoPathList'),
     getRecordedKeywordList: require(__dirname + '/getRecordedKeywordList'),
     getRecordedCategoryList: require(__dirname + '/getRecordedCategoryList'),
     getRecordedChannelList: require(__dirname + '/getRecordedChannelList'),
