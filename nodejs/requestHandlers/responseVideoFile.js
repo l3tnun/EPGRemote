@@ -16,7 +16,7 @@ module.exports = function(response, request, parsedUrl, fileTypeHash) {
         var array = path.basename(uri).replace("videoid-", "").split("-");
         var id = array[0];
         var type = array[1];
-        if(type == "ts") {
+        if(type == "ts.ts") {
             sqlModel.getReservationTableId(id, function(result) {
                 if(result == '' || result.length == 0) { notFound(response); return; }
 

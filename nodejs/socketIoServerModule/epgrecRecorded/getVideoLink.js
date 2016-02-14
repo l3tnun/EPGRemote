@@ -7,7 +7,7 @@ module.exports = function(io, socket) {
     var configJson = util.getConfig();
 
     //video file 削除部分
-    socket.on("requestVideoLink", function (socketid, rec_id) {
+    socket.on("requestVideoLink", function (socketid, rec_id, mode) {
         log.access.info("socketio 'requestVideoLink' was called.");
         sqlModel.getRecordedIdVideoPathList(rec_id, function(results) {
             var videoPaths = [], videoTsDel = false;
@@ -24,7 +24,7 @@ module.exports = function(io, socket) {
                 }
             });
 
-            io.sockets.emit("resultDeleteVideoLink", socketid, videoPaths, configJson.RecordedStreamingiOSURL, configJson.RecordedDownloadiOSURL);
+            io.sockets.emit("resultDeleteVideoLink", socketid, mode, videoPaths, configJson.RecordedStreamingiOSURL, configJson.RecordedDownloadiOSURL);
         });
     });
 }
