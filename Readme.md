@@ -189,11 +189,6 @@ config.json 設定
     
     //EPGRec UNAで設定したテーブル接頭辞
     "EpgrecRecordName" : "Recorder_",
-    
-    //録画済み一覧で再生する際に使用する動画の拡張子
-    //EPGRec UNA でエンコードしたファイルの拡張子を書いてください
-    //EPGRec UNA　でエンコードしていない場合は "ts" と書けばスマホの VLC 等で ts ファイルが再生できます
-    "RecordedFileExtension" : "mp4",
 
     //ios の録画済み一覧の URL Scheme の設定　↓の場合だと 視聴には infuse が DL では VLC が起動するようになっている
     "RecordedStreamingiOSURL" : "infuse://x-callback-url/play?url=http://ADDRESS",

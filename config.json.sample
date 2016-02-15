@@ -96,8 +96,6 @@
 
     "EpgrecRecordName" : "Recorder_",
 
-    "RecordedFileExtension" : "mp4",
-
     "RecordedStreamingiOSURL" : "infuse://x-callback-url/play?url=http://ADDRESS",
     "RecordedDownloadiOSURL" : "vlc-x-callback://x-callback-url/download?url=http://ADDRESS&filename=FILENAME"
 }
