@@ -95,7 +95,7 @@ function notifyChangeChannel() {
 
 //チャンネル変更のためのチューナーリスト取得
 function resultChangeChannelList(data) {
-    if(data.socketId == socketid) {
+    if(data.socketid == socketid) {
         //ダイアログの準備
         var tunerSelectStr = "";
         var tunerIndex = 0;

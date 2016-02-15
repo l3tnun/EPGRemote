@@ -1,5 +1,5 @@
 var tmpSid, tmpChannel, tmpName;
-var socketId = `${new Date().getTime()}:${Math.random().toString(36).slice(-8)}`; //他の端末と被らない適当な値を生成する
+var socketid = `${new Date().getTime()}:${Math.random().toString(36).slice(-8)}`; //他の端末と被らない適当な値を生成する
 
 socketio.on("resultJumpChannelList", function (data) { resultJumpChannelList(data) }); //viewtvへ飛ぶためのチューナーリスト
 
@@ -13,7 +13,7 @@ function notifyJumpChannel() {
 
 //チューナーリストを取得
 function resultJumpChannelList(data) {
-    if(data.socketId != socketId) { return; }
+    if(data.socketid != socketid) { return; }
 
     if(data.tunerList.length == 0) {
         $.growl.error({ message: "チューナーの空きがありません" });
@@ -52,7 +52,7 @@ function resultJumpChannelList(data) {
 
 //チューナ情報取得を依頼
 function notifyReceiveChangeChannelConfig(type) {
-    socketio.emit("getJumpChannelConfig", socketId, type);
+    socketio.emit("getJumpChannelConfig", socketid, type);
 }
 
 function jumpViewTv(sid, channel, name) {
