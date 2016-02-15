@@ -94,6 +94,9 @@ socketio.on("finishEPGProgramDataSend", function (data) {
     setTvProgramClickDiaalog();
     moveTableNowBas();
     timerNowBars();
+    var scrollsize = window.innerWidth - $(window).outerWidth(true);
+    var contentHeight = Number($("#tv_program_content").css("height").replace("px", "")) - Number($("#station_name_id").css("height").replace("px", "")) - scrollsize;
+    $("#tv_program_content").css("height", contentHeight + "px");
 });
 
 function getTimeStr(str) {
