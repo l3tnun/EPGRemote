@@ -1,14 +1,8 @@
 //番組情報取得関係
-var socketid;
 var timeLength=0;
 var recModeDefaultId=0;
 
-function updateSocketid() {
-    socketid = `${new Date().getTime()}:${Math.random().toString(36).slice(-8)}`;
-}
-
 $(function(){
-    updateSocketid();
     var url = window.location.search;
 
     var query = getQuery();

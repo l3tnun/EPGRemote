@@ -1,5 +1,3 @@
-var socketid = `${new Date().getTime()}:${Math.random().toString(36).slice(-8)}`;
-
 function getVideoList(id, mode) {
     socketio.emit("requestVideoLink", socketid, id, mode);
 }

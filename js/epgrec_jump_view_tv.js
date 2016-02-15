@@ -1,5 +1,4 @@
 var tmpSid, tmpChannel, tmpName;
-var socketid = `${new Date().getTime()}:${Math.random().toString(36).slice(-8)}`; //他の端末と被らない適当な値を生成する
 
 socketio.on("resultJumpChannelList", function (data) { resultJumpChannelList(data) }); //viewtvへ飛ぶためのチューナーリスト
 

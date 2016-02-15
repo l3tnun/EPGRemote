@@ -100,7 +100,6 @@ socketio.on("resultKeywordTableByIDAndTransexpandTable", function(data) {
 
 /*検索オプションの設定を取得*/
 var genrus = {}, subGenrus, stations = {}, recModeDefaultId;
-var socketid = `${new Date().getTime()}:${Math.random().toString(36).slice(-8)}`;
 $(function () {
     socketio.emit("getEPGRecSearchSetting", socketid);
 
