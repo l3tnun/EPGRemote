@@ -1,8 +1,11 @@
+var connectStatus = true;
 socketio.on('connect',function() {
-    socketio.headbeatTimeout = 1000;
+    if(connectStatus == false) { location.reload(true); }
 });
 
-socketio.on('reconnecting',function(){
-    socketio.connect();
+socketio.on('disconnect', function() {
+    $('#busy').css("visibility", "visible");
+    $.growl.error({ message: "接続が切断されました。" });
+    connectStatus = false;
 });
 

@@ -257,6 +257,7 @@ VLC でダウンロードしたファイルを再生する場合は上記の問�
 * version 0.3.1  番組表の表示高速化
 * version 0.3.2  録画済み一覧での複数ファイルに対応
 * version 0.3.3  config.json.sample の微調整
+* version 0.3.4  socket.io 切断時のリロード処理を追加
 
 ## Licence
 
