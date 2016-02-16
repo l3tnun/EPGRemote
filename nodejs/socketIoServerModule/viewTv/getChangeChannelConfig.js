@@ -3,7 +3,7 @@ var tunerManager = require(__dirname + "/../../tunerManager");
 
 module.exports = function(io, socket) {
     //チャンネル変更の設定を取得
-    socket.on("getChangeChannelConfig", function (socketId, streamNumber, type) {
+    socket.on("getChangeChannelConfig", function (socketid, streamNumber, type) {
         log.access.info(`socketio 'getChangeChannelConfig' was called ${type}`);
         var tunerId = tunerManager.getLockedTunerId(streamNumber);
 
@@ -16,7 +16,7 @@ module.exports = function(io, socket) {
         }
         var videoConfig = tunerManager.getVideoSize();
 
-        io.sockets.emit("resultChangeChannelList", {socketId: socketId, tunerId: tunerId, tunerList: tunerList, videoConfig: videoConfig});
+        io.sockets.emit("resultChangeChannelList", {socketid: socketid, tunerId: tunerId, tunerList: tunerList, videoConfig: videoConfig});
     });
 }
 

@@ -169,7 +169,7 @@ config.json 設定
      //ffmpeg の設定 フルパスで書く
      //-vcodec, -acodecなどは各自の環境に合わせて書く
      "ffmpeg": {
-        "command" : "/ffmpeg_path/ffmpeg -re -dual_mono_mode <audioMode> -i pipe:0 -f hls -hls_time 3 -hls_list_size 4 -hls_wrap 4 -hls_allow_cache 1 -hls_segment_filename  <streamFilesDir>/stream<streamNum>-%09d.ts -threads auto -acodec libfdk_aac -ar 48000 -ab <ab> -ac 2 -vcodec libx264 -s <size> -aspect 16:9 -vb <vb> -fpre <ffpreset> <streamFilesDir>/stream<streamNum>.m3u8"
+        "command" : "/ffmpeg_path/ffmpeg -re -dual_mono_mode <audioMode> -i pipe:0 -f hls -hls_time 3 -hls_list_size 6 -hls_allow_cache 1 -hls_segment_filename  <streamFilesDir>/stream<streamNum>-%09d.ts -threads auto -acodec libfdk_aac -ar 48000 -ab <ab> -ac 2 -vcodec libx264 -s <size> -aspect 16:9 -vb <vb> -fpre <ffpreset> <streamFilesDir>/stream<streamNum>.m3u8"
     },
     
     //ffmpegで使用する ffpreset ファイルのフルパス index.js と同じ場所にある
@@ -241,7 +241,7 @@ VLC でダウンロードしたファイルを再生する場合は上記の問�
 
 ## 更新履歴
 * version 0.1.0  初版
-* version 0.1.1  EPGRec番組表の軽量化 
+* version 0.1.1  EPGRec番組表の軽量化
 * version 0.2.0  EPGRec UNA でトランスコード済みのファイルを視聴できるようにした(HSL配信ではありません)
 * version 0.2.1  録画予約一覧を追加
 * version 0.2.2  2016/02/01以降に番組表一覧が正常に表示出来なくなる問題を修正
@@ -256,6 +256,7 @@ VLC でダウンロードしたファイルを再生する場合は上記の問�
 * version 0.3.0  番組表データを DB から直接読み取るように変更 (index.php から読み取るのを廃止)
 * version 0.3.1  番組表の表示高速化
 * version 0.3.2  録画済み一覧での複数ファイルに対応
+* version 0.3.3  config.json.sample の微調整
 
 ## Licence
 

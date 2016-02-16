@@ -12,7 +12,7 @@ $(document).ready(function(){
     }
 });
 
-var socketid, tmptmpTunerId, tmpSid, tmpChannel, tmpName;
+var tmptmpTunerId, tmpSid, tmpChannel, tmpName;
 var tmpStreamHash;
 
 socketio.on("enableStream", function (data) { loading(data.streamNumber, data.streamHash) });
@@ -95,7 +95,7 @@ function notifyChangeChannel() {
 
 //チャンネル変更のためのチューナーリスト取得
 function resultChangeChannelList(data) {
-    if(data.socketId == socketid) {
+    if(data.socketid == socketid) {
         //ダイアログの準備
         var tunerSelectStr = "";
         var tunerIndex = 0;
@@ -215,8 +215,6 @@ $(function () {
         $('.tab', $(this).closest('.tabs')).removeClass('active');
         $(this).closest('.tab').addClass('active');
 
-        //他の端末と被らない適当な値を生成する
-        socketid = `${new Date().getTime()}:${Math.random().toString(36).slice(-8)}`;
         socketio.emit("getTvProgramList", type, socketid);
         setTimeout("getTvProgram()", 500);
     });
