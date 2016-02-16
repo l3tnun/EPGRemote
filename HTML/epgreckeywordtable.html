@@ -6,13 +6,15 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="/jquery/jquery.mobile.min.css" />
     <link rel="stylesheet" href="/jquery.growl/css/jquery.growl.css" />
+    <link rel="stylesheet" href="/css/busy.css"/>
     <link rel="stylesheet" href="/css/topbutton.css" />
     <link rel="stylesheet" href="/css/pagination.css" />
     <script src="/jquery/jquery.min.js"></script>
     <script src="/jquery/jquery.mobile.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
     <script src="/jquery.growl/js/jquery.growl.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
     <script src="/js/new_socketio.js"></script>
+    <script src="/js/reconnect_socketio.js"></script>
     <script src="/js/epgrec_keywordtable.js"></script>
     <style>
     .ui-listview .wordbreak {
@@ -45,6 +47,7 @@
     </style>
 </head>
 <body>
+<div id="busy"></div>
 <!--topにスクロールするボタン-->
 <a class="scroll_top_button" style="color: white;" herf="#" onclick="javascript:scrollTopButton()">▲</a>
 
