@@ -7,6 +7,7 @@ var moduleEpgrecRecordedSetup = require(__dirname + "/socketIoServerModule/epgre
 var moduleEpgrecReservationtableSetup = require(__dirname + "/socketIoServerModule/epgrecReservationtable/setup");
 var moduleEpgrecKeywordtableSetup = require(__dirname + "/socketIoServerModule/epgrecKeywordtable/setup");
 var moduleEpgrecSearchSetup = require(__dirname + "/socketIoServerModule/epgrecSearch/setup");
+var moduleLiveStreamSetup = require(__dirname + "/socketIoServerModule/liveStream/setup");
 
 var io;
 var stopStreamCallback;
@@ -36,6 +37,8 @@ function start(server) {
         moduleEpgrecKeywordtableSetup(io, socket);
         /*epgrec_search 部分*/
         moduleEpgrecSearchSetup(io, socket);
+        /*ライブ視聴共用部分*/
+        moduleLiveStreamSetup(io, socket);
     });
 }
 
