@@ -97,6 +97,6 @@ function getFormatedDate(strDate) {
     return ("0"+date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
 }
 
-socketio.on("reloadTunerSetting", function (data) {
+socketio.on("changeStreamStatus", function (data) {
     socketio.emit("getJumpChannelConfig", socketid, getType());
 });

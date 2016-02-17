@@ -222,7 +222,7 @@ $(function () {
 });
 
 //チューナー設定のリロード
-socketio.on("reloadTunerSetting", function (data) {
+socketio.on("changeStreamStatus", function (data) {
     if($("#progChangeChannelDialog-popup").attr('class').indexOf("ui-popup-active") != -1) {
         socketio.emit("getChangeChannelConfig", socketid, getStreamNumber(), $("#dialogType").val());
     }

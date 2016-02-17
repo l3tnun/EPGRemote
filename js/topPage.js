@@ -21,7 +21,7 @@ socketio.on('resultJumpChannelList',function(data) {
     $("#channelList").listview('refresh');
 });
 
-socketio.on("reloadTunerSetting", function (data) {
+socketio.on("changeStreamStatus", function (data) {
     updateStreamStatus();
 });
 

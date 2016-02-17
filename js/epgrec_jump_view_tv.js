@@ -74,7 +74,7 @@ $("#jumpViewTvDialog").on( "popupafterclose", function( event, ui ) {
 });
 
 //チューナー設定のリロード
-socketio.on("reloadTunerSetting", function (data) {
+socketio.on("changeStreamStatus", function (data) {
     if($("#jumpViewTvDialog-popup").attr('class').indexOf("ui-popup-active") != -1) {
         socketio.emit("getJumpChannelConfig", socketid, getQuery().type);
     }
