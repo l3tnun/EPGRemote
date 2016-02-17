@@ -240,24 +240,25 @@ VLC でダウンロードしたファイルを再生する場合は上記の問�
 * Firefox, Chrome は HLS に対応していないので Flash のプラグインを追加して対応できそう
 
 ## 更新履歴
-* version 0.1.0  初版
-* version 0.1.1  EPGRec番組表の軽量化
-* version 0.2.0  EPGRec UNA でトランスコード済みのファイルを視聴できるようにした(HSL配信ではありません)
-* version 0.2.1  録画予約一覧を追加
-* version 0.2.2  2016/02/01以降に番組表一覧が正常に表示出来なくなる問題を修正
-* version 0.2.3  自動録画キーワードの管理を追加
-* version 0.2.4  番組表での詳細予約を追加、Growl風の通知を追加
-* version 0.2.5  番組検索、自動録画キーワードの追加、編集機能の追加
-* version 0.2.6  バグ修正、微小な調整
-* version 0.2.7  バグ修正、コードの整理
-* version 0.2.8  config.json.sample の ffmpeg のオプションを変更
-* version 0.2.9  レイアウトの修正
-* version 0.2.10 リアルタイム視聴 on off のオプションを追加
-* version 0.3.0  番組表データを DB から直接読み取るように変更 (index.php から読み取るのを廃止)
-* version 0.3.1  番組表の表示高速化
-* version 0.3.2  録画済み一覧での複数ファイルに対応
-* version 0.3.3  config.json.sample の微調整
-* version 0.3.4  socket.io 切断時のリロード処理を追加
+* version 0.1.0 &nbsp;&nbsp; 初版
+* version 0.1.1 &nbsp;&nbsp; EPGRec番組表の軽量化
+* version 0.2.0 &nbsp;&nbsp; EPGRec UNA でトランスコード済みのファイルを視聴できるようにした(HSL配信ではありません)
+* version 0.2.1 &nbsp;&nbsp; 録画予約一覧を追加
+* version 0.2.2 &nbsp;&nbsp; 2016/02/01以降に番組表一覧が正常に表示出来なくなる問題を修正
+* version 0.2.3 &nbsp;&nbsp; 自動録画キーワードの管理を追加
+* version 0.2.4 &nbsp;&nbsp; 番組表での詳細予約を追加、Growl風の通知を追加
+* version 0.2.5 &nbsp;&nbsp; 番組検索、自動録画キーワードの追加、編集機能の追加
+* version 0.2.6 &nbsp;&nbsp; バグ修正、微小な調整
+* version 0.2.7 &nbsp;&nbsp; バグ修正、コードの整理
+* version 0.2.8 &nbsp;&nbsp; config.json.sample の ffmpeg のオプションを変更
+* version 0.2.9 &nbsp;&nbsp; レイアウトの修正
+* version 0.2.10&nbsp;&nbsp;リアルタイム視聴 on off のオプションを追加
+* version 0.3.0 &nbsp;&nbsp; 番組表データを DB から直接読み取るように変更 (index.php から読み取るのを廃止)
+* version 0.3.1 &nbsp;&nbsp; 番組表の表示高速化
+* version 0.3.2 &nbsp;&nbsp; 録画済み一覧での複数ファイルに対応
+* version 0.3.3 &nbsp;&nbsp; config.json.sample の微調整
+* version 0.3.4 &nbsp;&nbsp; socket.io 切断時のリロード処理を追加
+* version 0.3.5 &nbsp;&nbsp; bfcache を一部ページで無効化
 
 ## Licence
 
