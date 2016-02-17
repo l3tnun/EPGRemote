@@ -32,6 +32,7 @@ module.exports = function(response, parsedUrl, request, postData) {
 
         io.setStopStreamCallback(streamManager.stopStream);
         if(tunerManager.lockTuner(parsedPostQuery.tuner, streamNumber)) {
+            io.reloadTunerSetting();
             viewerViewTv(response, streamNumber);
             streamManager.startStream(streamNumber, parsedPostQuery.channelName , videoConfig, parsedPostQuery.channel, parsedPostQuery.sid, parsedPostQuery.tuner);
             streamManager.streamNotifyEnable(streamNumber);

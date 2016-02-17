@@ -13,6 +13,15 @@ function postData(sid, channel, channelName) {
     }
 }
 
+function getType() {
+    var query = getQuery();
+
+    if(query.GR) { return "GR"}
+    if(query.BS) { return "BS"}
+    if(query.CS) { return "CS"}
+    if(query.EX) { return "EX"}
+}
+
 jQuery(function($) {
     var nav = $('#pulldown'),
     offset = nav.offset();
@@ -27,14 +36,7 @@ jQuery(function($) {
         }
     });
 
-    var query = getQuery();
-    var type;
-
-    if(query.GR) { type = "GR"}
-    if(query.BS) { type = "BS"}
-    if(query.CS) { type = "CS"}
-    if(query.EX) { type = "EX"}
-
+    var type = getType();
     if(typeof type == "undefined") { return; }
     socketio.emit("getJumpChannelConfig", socketid, type); //チューナー、ビデオサイズ取得
     socketio.emit("getTvProgramList", type, socketid); //番組リスト取得
@@ -94,3 +96,7 @@ function getFormatedDate(strDate) {
     var date = new Date(strDate);
     return ("0"+date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
 }
+
+socketio.on("reloadTunerSetting", function (data) {
+    socketio.emit("getJumpChannelConfig", socketid, getType());
+});

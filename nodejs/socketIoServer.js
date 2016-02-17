@@ -21,12 +21,16 @@ function setStopStreamCallback(callback) {
     stopStreamCallback = callback;
 }
 
+function reloadTunerSetting() {
+    io.sockets.emit("reloadTunerSetting");
+}
+
 function start(server) {
     io = socketio.listen(server);
     log.system.info("Socket.io Server has started.");
     io.sockets.on("connection", function (socket) {
         /*viewtv 部分*/
-        moduleViewTvSetup(io, socket, stopStreamCallback, setStopStreamCallback);
+        moduleViewTvSetup(io, socket, stopStreamCallback, setStopStreamCallback, reloadTunerSetting);
         /*EPGRec Program 部分*/
         moduleEpgrecProgramSetup(io, socket);
         /*epgrec_recorded 部分*/
@@ -63,6 +67,7 @@ function notifyStreamErrorStop(streamNumber) {
 }
 
 exports.setStopStreamCallback = setStopStreamCallback;
+exports.reloadTunerSetting = reloadTunerSetting;
 exports.start = start;
 exports.notifyStreamStatus = notifyStreamStatus;
 exports.notifyStreamErrorStop = notifyStreamErrorStop;
