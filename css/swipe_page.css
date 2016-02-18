@@ -1,0 +1,38 @@
+#arrow-container {
+    display: none;
+    height: 100%;
+    margin-top: -60px;
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+}
+
+#arrow-container.swiping {
+    display: block;
+}
+
+#left-arrow {
+    background-image: url("/image/swipe-arrow/left.png");
+    border-radius: 0 60px 60px 0;
+    left: -60px;
+}
+
+#right-arrow {
+    background-image: url("/image/swipe-arrow/right.png");
+    border-radius: 60px 0 0 60px;
+    right: -60px;
+}
+
+#left-arrow, #right-arrow {
+    background-color: rgb(34, 136, 187);
+    background-position: center center;
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 120px;
+    line-height: 120px;
+    position: absolute;
+    text-align: center;
+    width: 60px;
+}
+
