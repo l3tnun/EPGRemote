@@ -67,7 +67,7 @@ socketio.on("resultKeywordTableByIDAndTransexpandTable", function(data) {
     if((weekofdays | 0x40) == weekofdays) { $("#week6").prop("checked", true); }
 
 
-    $("#k_autorec_mode").prop("checked", (keywordTable.autorec_mode == 1));
+    $("#k_autorec_mode").val(keywordTable.autorec_mode);
     $("#priority").val(keywordTable.priority);
     $("#split_time").val(keywordTable.split_time / 60);
     $("#sft_start").val(keywordTable.sft_start / 60);
