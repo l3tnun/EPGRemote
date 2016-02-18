@@ -270,6 +270,6 @@ function makeKeywordUrl( title, type, channel_id, genre, sub_genre ){
     if( typeof keyword[0] == "undefined" || keyword[0].length == 0 || keyword[0] == "" ) { keyword[0] = out_title; }
     keyword[0] = keyword[0].replace(" ", "%");
 
-    return `/epgrec_search?search=${keyword[0]}&type=${type}&station=${channel_id}&category_id=${genre}&sub_genre=${sub_genre}`;
+    return `/epgrec_search?search=${encodeURIComponent(keyword[0])}&type=${type}&station=${channel_id}&category_id=${genre}&sub_genre=${sub_genre}`;
 }
 
