@@ -22,6 +22,14 @@ function getType() {
     if(query.EX) { return "EX"}
 }
 
+function getTvProgramList(type) {
+    socketio.emit("getTvProgramList", type, socketid); //番組リスト取得
+}
+
+function getJumpChannelConfig(type) {
+    socketio.emit("getJumpChannelConfig", socketid, type); //チューナー、ビデオサイズ取得
+}
+
 jQuery(function($) {
     var nav = $('#pulldown'),
     offset = nav.offset();
@@ -38,8 +46,8 @@ jQuery(function($) {
 
     var type = getType();
     if(typeof type == "undefined") { return; }
-    socketio.emit("getJumpChannelConfig", socketid, type); //チューナー、ビデオサイズ取得
-    socketio.emit("getTvProgramList", type, socketid); //番組リスト取得
+    getJumpChannelConfig(type);
+    getTvProgramList(type);
 });
 
 //チューナー、ビデオサイズ取得
@@ -86,6 +94,7 @@ socketio.on("resultTvProgramList", function (data) {
                 minTimer = subDate
             }
         }
+        setTimeout("getTvProgramList(getType())", minTimer + 1000)
     }
 
     $(programStr).appendTo($("#program_list"));
@@ -98,5 +107,5 @@ function getFormatedDate(strDate) {
 }
 
 socketio.on("changeStreamStatus", function (data) {
-    socketio.emit("getJumpChannelConfig", socketid, getType());
+    getJumpChannelConfig(getType());
 });
