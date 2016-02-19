@@ -16,6 +16,7 @@ function resultJumpChannelList(data) {
 
     if(data.tunerList.length == 0) {
         $.growl.error({ message: "チューナーの空きがありません" });
+        $("#jumpViewTvDialog").popup('close');
         return;
     }
 
@@ -69,14 +70,10 @@ function jumpViewTv(sid, channel, name) {
     notifyReceiveChangeChannelConfig(query["type"]);
 }
 
-$("#jumpViewTvDialog").on( "popupafterclose", function( event, ui ) {
-    console.log('Popup closed');
-});
-
 //チューナー設定のリロード
 socketio.on("changeStreamStatus", function (data) {
     if($("#jumpViewTvDialog-popup").attr('class').indexOf("ui-popup-active") != -1) {
-        socketio.emit("getJumpChannelConfig", socketid, getQuery().type);
+        notifyReceiveChangeChannelConfig(getQuery().type);
     }
 });
 
