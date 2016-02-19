@@ -287,7 +287,14 @@ function makeKeywordUrl( title, type, channel_id, genre, sub_genre ){
     return `/epgrec_search?search=${encodeURIComponent(keyword[0])}&type=${type}&station=${channel_id}&category_id=${genre}&sub_genre=${sub_genre}`;
 }
 
-//自動予約キーワード
+//自動予約キーワード追加、更新
 socketio.on("resultAddEPGRecKeyword", function(data) {
     location.reload();
 });
+
+//自動予約キーワード削除
+socketio.on("resultDeleteKeyword", function(result) {
+    if(!result.match(/^error/i)) { location.reload(); };
+});
+
+
