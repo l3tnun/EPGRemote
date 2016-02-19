@@ -65,7 +65,11 @@ function addKeyword() {
 
 //自動予約キーワード追加、更新
 socketio.on("resultAddEPGRecKeyword", function(data) {
-    if(data.socketid != socketid) { return; }
+    if(data.socketid != socketid) {
+        if(typeof getUrlQuery().keyword_id != "undefined") { location.reload(); }
+        else { getEPGRecSearchResult(); }
+        return;
+    }
 
     var query = getUrlQuery();
     if(typeof query.keyword_id != "undefined" || data.json.length > data.count[0]["count(*)"]) {
@@ -78,8 +82,7 @@ socketio.on("resultAddEPGRecKeyword", function(data) {
 //自動予約キーワード削除
 socketio.on("resultDeleteKeyword", function(data) {
     if(!data.match(/^error/i)) {
-        var query = getUrlQuery();
-        if(typeof query.keyword_id != "undefined") { location.reload(); }
+        if(typeof getUrlQuery().keyword_id != "undefined") { location.reload(); }
         else { getEPGRecSearchResult(); }
     }
 });
