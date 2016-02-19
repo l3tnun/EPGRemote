@@ -63,19 +63,27 @@ function addKeyword() {
     socketio.emit("addEPGRecKeyword", socketid, option);
 }
 
+//自動予約キーワード追加、更新
 socketio.on("resultAddEPGRecKeyword", function(data) {
-    if(data.socketid != socketid) { return; }
-
-    var query = getUrlQuery();
-    if(typeof query.keyword_id != "undefined") {
-        location.href = "/epgrec_keyword_table";
+    if(data.socketid != socketid) {
+        if(typeof getUrlQuery().keyword_id != "undefined") { location.reload(); }
+        else { getEPGRecSearchResult(); }
         return;
     }
 
-    if(data.json.length > data.count[0]["count(*)"]) {
-        $.growl({ title: '', message: "キーワードの追加ができました"});
+    var query = getUrlQuery();
+    if(typeof query.keyword_id != "undefined" || data.json.length > data.count[0]["count(*)"]) {
+        location.href = "/epgrec_keyword_table";
     } else {
         $.growl.error({ message: "正常にキーワードの追加ができなかったようです" });
+    }
+});
+
+//自動予約キーワード削除
+socketio.on("resultDeleteKeyword", function(data) {
+    if(!data.match(/^error/i)) {
+        if(typeof getUrlQuery().keyword_id != "undefined") { location.reload(); }
+        else { getEPGRecSearchResult(); }
     }
 });
 

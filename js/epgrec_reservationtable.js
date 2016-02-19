@@ -15,6 +15,10 @@ socketio.on("resultCustomRec", function (data){ changeRecStatus(data); });
 socketio.on("cancelRecResult", function (data){ changeRecStatus(data); });
 //自動予約許可、禁止
 socketio.on("autoRecResult", function (data){ changeRecStatus(data); });
+//自動予約キーワード追加、更新
+socketio.on("resultAddEPGRecKeyword", function(data) { location.reload(); });
+//自動予約キーワード削除
+socketio.on("resultDeleteKeyword", function(data) { if(!data.match(/^error/i)) { location.reload(); } });
 
 //予約削除処理
 socketio.on("resultCancelReservation", function(data) {

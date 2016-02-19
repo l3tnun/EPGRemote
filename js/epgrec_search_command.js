@@ -300,7 +300,7 @@ socketio.on("autoRecResult", function (data){
 });
 
 /*予約一覧から予約削除*/
- socketio.on("resultCancelReservation", function(data) {
+socketio.on("resultCancelReservation", function(data) {
     if(!data.result.match(/^error/i) && typeof searchResultKeyId[data.rec_id] != "undefined") {
         $('#prgID_' + data.rec_id).removeClass('recorded');
         notifyGrowl("予約削除", 'prgID_' + data.rec_id);

@@ -2,6 +2,10 @@ function scrollTopButton() {
     $('html,body').animate({ scrollTop: 0 }, 'swing');
 }
 
+//自動予約キーワード追加、更新
+socketio.on("resultAddEPGRecKeyword", function(data) { location.reload(); });
+
+//自動予約キーワード削除
 socketio.on("resultDeleteKeyword", function(result) {
     if(result.match(/^error/i)){
         $.growl.error({ message: "result" });
