@@ -22,6 +22,7 @@ function setStopStreamCallback(callback) {
 }
 
 function changeStreamStatus() {
+    log.access.info("changeStreamStatus");
     io.sockets.emit("changeStreamStatus");
 }
 
@@ -30,7 +31,7 @@ function start(server) {
     log.system.info("Socket.io Server has started.");
     io.sockets.on("connection", function (socket) {
         /*viewtv 部分*/
-        moduleViewTvSetup(io, socket, stopStreamCallback, setStopStreamCallback, changeStreamStatus);
+        moduleViewTvSetup(io, socket, stopStreamCallback, setStopStreamCallback);
         /*EPGRec Program 部分*/
         moduleEpgrecProgramSetup(io, socket);
         /*epgrec_recorded 部分*/
@@ -59,11 +60,11 @@ function notifyStreamStatus(streamNumber) {
 
 function notifyStreamStop(streamNumber) {
     io.sockets.emit("stopStream", {value: streamNumber} );
-    log.access.debug(`notify stop stream ${streamNumber}`);
+    log.access.info(`notify stop stream ${streamNumber}`);
 }
 function notifyStreamErrorStop(streamNumber) {
     io.sockets.emit("errorStream", {value: streamNumber});
-    log.access.debug(`notify error stream ${streamNumber}`);
+    log.access.info(`notify error stream ${streamNumber}`);
 }
 
 exports.setStopStreamCallback = setStopStreamCallback;
