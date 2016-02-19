@@ -25,7 +25,7 @@
 }
 
 #left-arrow, #right-arrow {
-    background-color: rgb(34, 136, 187);
+    background-color: #FFA07A;
     background-position: center center;
     background-repeat: no-repeat;
     display: inline-block;

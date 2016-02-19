@@ -15,19 +15,25 @@ jQuery(function($) {
     }).bind('touchend', function(){
         if (!touchStart){ return; }
 
-        var move = $("#arrow-slider")[0].style.transform.replace("px", "").match(/\((.+)\)/)[1].split(",")[0]
+        var move = getArrowMove();
         if(move > 0 && move > 55) {
-            console.log("back");
+            swipeBackPage();
         } else if(move < 0 && move < -55) {
-            console.log("next");
+            swipeNextPage();
         }
         resetArrow();
     });
 
+    function getArrowMove() {
+        return $("#arrow-slider")[0].style.transform.replace("px", "").match(/\((.+)\)/)[1].split(",")[0]
+    }
+
     function setArrow() {
         var moveY = Math.abs(endY - startY);
         moveX = (endX - startX);
-        if(Math.abs(moveX) > 1 && moveY < 10) {
+        if(Math.abs(getArrowMove()) > 10 || Math.abs(moveX) > 1 && moveY < 5) {
+            if(0 > moveX) { moveX += 5; }
+            else if(0 < moveX) { moveX -= 5; }
             if(0 > moveX && -60 > moveX) { moveX = -60; }
             if(0 < moveX &&  60 < moveX) { moveX = 60; }
             $("#arrow-container").addClass("swiping");

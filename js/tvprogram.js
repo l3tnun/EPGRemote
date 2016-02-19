@@ -23,7 +23,7 @@ function getType() {
 }
 
 function getTvProgramList(type) {
-    socketio.emit("getTvProgramList", type, socketid); //番組リスト取得
+    socketio.emit("getTvProgramList", socketid, type, nextTimeCount); //番組リスト取得
 }
 
 function getJumpChannelConfig(type) {
@@ -109,3 +109,15 @@ function getFormatedDate(strDate) {
 socketio.on("changeStreamStatus", function (data) {
     getJumpChannelConfig(getType());
 });
+
+var nextTimeCount = 0;
+function swipeBackPage() {
+    nextTimeCount = 0;
+    getTvProgramList(getType());
+}
+
+function swipeNextPage() {
+    nextTimeCount += 10;
+    getTvProgramList(getType());
+}
+
