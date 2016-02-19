@@ -14,6 +14,7 @@ $(document).ready(function(){
 
 var tmptmpTunerId, tmpSid, tmpChannel, tmpName;
 var tmpStreamHash;
+var timer;
 
 socketio.on("enableStream", function (data) { loading(data.streamNumber, data.streamHash) });
 socketio.on("errorStream", function (data) { errorStream(data.value) });
@@ -144,7 +145,6 @@ function notifyReceiveChangeChannelConfig(type, sid, channel, name) {
     $("#linkChangeChannelDialog").click(); //ダイアログオープン
 }
 
-
 /*番組情報関係*/
 //番組情報の更新
 function resultTvProgram(data) {
@@ -155,8 +155,8 @@ function resultTvProgram(data) {
         var endtime = data.sqlResult[0]["endtime"];
         var description = data.sqlResult[0]["description"];
 
-        var timer = new Date(endtime).getTime() - new Date().getTime();
-        setTimeout("getTvProgram()", 1000 + timer);
+        var time = new Date(endtime).getTime() - new Date().getTime();
+        setTimeout("getTvProgram()", 1000 + time);
 
         $(".program_info_content").css('display', 'block');
         $("#program_info_station_name").text(name);
@@ -170,7 +170,6 @@ function resultTvProgram(data) {
 function getTvProgram() {
     socketio.emit("getTvProgram", getStreamNumber());
 }
-
 
 /*番組表関係*/
 //番組表のリスト更新
@@ -199,26 +198,32 @@ function resultTvProgramList(data) {
                 minTimer = subDate
             }
         }
-        var type = "#" + data.value[0]["type"] + "_tab";
-        setTimeout('$("' + type + '").click();', minTimer + 1000);
+        timer = setTimeout('getTvProgramList()', minTimer + 1000);
     }
 
     $(programStr).appendTo($("#program_list"));
     $('#program_list').listview('refresh');
 }
 
+var tabType;
+function getTvProgramList() {
+    socketio.emit("getTvProgramList", socketid, tabType, nextTimeCount);
+}
+
 //タブ
 $(function () {
     $(".tabs a").on('click', function(element) {
-        var type = element.target.id.substr(0, 2);
+        tabType = element.target.id.substr(0, 2);
+        nextTimeCount = 0;
 
         $('.tab', $(this).closest('.tabs')).removeClass('active');
         $(this).closest('.tab').addClass('active');
 
-        socketio.emit("getTvProgramList", socketid, type);
-        setTimeout("getTvProgram()", 500);
+        clearInterval(timer);
+        getTvProgramList();
     });
     $("#GR_tab").click();
+    setTimeout("getTvProgram()", 500);
 });
 
 //チューナー設定のリロード
@@ -227,6 +232,20 @@ socketio.on("changeStreamStatus", function (data) {
         socketio.emit("getChangeChannelConfig", socketid, getStreamNumber(), $("#dialogType").val());
     }
 });
+
+/*スワイプ関係*/
+var nextTimeCount = 0;
+function swipeBackPage() {
+    nextTimeCount = 0;
+    clearInterval(timer);
+    getTvProgramList();
+}
+
+function swipeNextPage() {
+    nextTimeCount += 10;
+    clearInterval(timer);
+    getTvProgramList();
+}
 
 /*util*/
 function getFormatedDate(strDate) {
