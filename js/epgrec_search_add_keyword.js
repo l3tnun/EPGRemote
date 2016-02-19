@@ -63,19 +63,20 @@ function addKeyword() {
     socketio.emit("addEPGRecKeyword", socketid, option);
 }
 
+//自動予約キーワード追加、更新
 socketio.on("resultAddEPGRecKeyword", function(data) {
     if(data.socketid != socketid) { return; }
 
     var query = getUrlQuery();
-    if(typeof query.keyword_id != "undefined") {
+    if(typeof query.keyword_id != "undefined" || data.json.length > data.count[0]["count(*)"]) {
         location.href = "/epgrec_keyword_table";
-        return;
-    }
-
-    if(data.json.length > data.count[0]["count(*)"]) {
-        $.growl({ title: '', message: "キーワードの追加ができました"});
     } else {
         $.growl.error({ message: "正常にキーワードの追加ができなかったようです" });
     }
+});
+
+//自動予約キーワード削除
+socketio.on("resultDeleteKeyword", function(data) {
+    if(!data.match(/^error/i)) { location.reload(); }
 });
 
