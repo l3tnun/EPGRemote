@@ -261,6 +261,7 @@ VLC でダウンロードしたファイルを再生する場合は上記の問�
 * version 0.3.5 &nbsp;&nbsp; bfcache を一部ページで無効化
 * version 0.3.6 &nbsp;&nbsp; 番組リストのスワイプ操作で、現在時刻+10分後のデータが取得できるようになった
 * version 0.3.7 &nbsp;&nbsp; 録画予約一覧からの通知強化
+* version 0.3.8 &nbsp;&nbsp; 自動予約キーワードからの通知強化
 
 ## Licence
 
