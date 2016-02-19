@@ -77,6 +77,10 @@ socketio.on("resultAddEPGRecKeyword", function(data) {
 
 //自動予約キーワード削除
 socketio.on("resultDeleteKeyword", function(data) {
-    if(!data.match(/^error/i)) { location.reload(); }
+    if(!data.match(/^error/i)) {
+        var query = getUrlQuery();
+        if(typeof query.keyword_id != "undefined") { location.reload(); }
+        else { getEPGRecSearchResult(); }
+    }
 });
 
