@@ -210,12 +210,12 @@ function resultTvProgramList(data) {
 //タブ
 $(function () {
     $(".tabs a").on('click', function(element) {
-        type = element.target.id.substr(0, 2);
+        var type = element.target.id.substr(0, 2);
 
         $('.tab', $(this).closest('.tabs')).removeClass('active');
         $(this).closest('.tab').addClass('active');
 
-        socketio.emit("getTvProgramList", type, socketid);
+        socketio.emit("getTvProgramList", socketid, type);
         setTimeout("getTvProgram()", 500);
     });
     $("#GR_tab").click();

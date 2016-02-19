@@ -68,6 +68,7 @@ socketio.on("resultJumpChannelList", function (data) {
 });
 
 //番組リスト取得
+var timer;
 socketio.on("resultTvProgramList", function (data) {
     if(data.id != socketid) { return; }
 
@@ -94,7 +95,7 @@ socketio.on("resultTvProgramList", function (data) {
                 minTimer = subDate
             }
         }
-        setTimeout("getTvProgramList(getType())", minTimer + 1000)
+        timer = setTimeout("getTvProgramList(getType())", minTimer + 1000)
     }
 
     $(programStr).appendTo($("#program_list"));
@@ -113,11 +114,13 @@ socketio.on("changeStreamStatus", function (data) {
 var nextTimeCount = 0;
 function swipeBackPage() {
     nextTimeCount = 0;
+    clearInterval(timer);
     getTvProgramList(getType());
 }
 
 function swipeNextPage() {
     nextTimeCount += 10;
+    clearInterval(timer);
     getTvProgramList(getType());
 }
 
