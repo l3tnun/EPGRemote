@@ -287,3 +287,7 @@ function makeKeywordUrl( title, type, channel_id, genre, sub_genre ){
     return `/epgrec_search?search=${encodeURIComponent(keyword[0])}&type=${type}&station=${channel_id}&category_id=${genre}&sub_genre=${sub_genre}`;
 }
 
+//自動予約キーワード
+socketio.on("resultAddEPGRecKeyword", function(data) {
+    location.reload();
+});
