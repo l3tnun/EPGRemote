@@ -5,7 +5,7 @@ module.exports = function(io, socket, stopStreamCallback) {
     socket.on("clientStopStream", function (streamNumber) {
         log.access.info(`socketio 'clientStopStream' was called ${streamNumber}`);
         stopStreamCallback(streamNumber);
-        io.sockets.emit("stopStream");
+        io.sockets.emit("stopStream", streamNumber);
     });
 }
 

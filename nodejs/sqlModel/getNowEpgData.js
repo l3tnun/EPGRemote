@@ -5,6 +5,7 @@ var createSqlConnection = require(__dirname + "/createSqlConnection.js");
 
 module.exports = function(callback, hash) {
     log.system.info('call sql getNowEpgData');
+    var time = "";
     var otherCondition = "";
     if(typeof hash != "undefined") {
         if(typeof hash["type"] != "undefined") {
@@ -13,10 +14,13 @@ module.exports = function(callback, hash) {
         if(typeof hash["channel"] != "undefined") {
             otherCondition += ` and channel = '${hash["channel"]}'`;
         }
+        if(typeof hash["time"] != "undefined" && hash["time"] > 0) {
+            time = " + INTERVAL " + (hash["time"] * 60) + " SECOND";
+        }
     }
 
     var jsonConfig = util.getConfig();
-    var sql = `select name, ${jsonConfig["EpgrecRecordName"]}channelTbl.type, sid, ${jsonConfig["EpgrecRecordName"]}channelTbl.channel, ${jsonConfig["EpgrecRecordName"]}channelTbl.channel_disc, title, starttime, endtime, description from ${jsonConfig["EpgrecRecordName"]}channelTbl inner join (select * from ${jsonConfig["EpgrecRecordName"]}programTbl where starttime <= now() and endtime >= now() ${otherCondition}) as programTbl on ${jsonConfig["EpgrecRecordName"]}channelTbl.channel_disc = programTbl.channel_disc order by sid;`;
+    var sql = `select name, ${jsonConfig["EpgrecRecordName"]}channelTbl.type, sid, ${jsonConfig["EpgrecRecordName"]}channelTbl.channel, ${jsonConfig["EpgrecRecordName"]}channelTbl.channel_disc, title, starttime, endtime, description from ${jsonConfig["EpgrecRecordName"]}channelTbl inner join (select * from ${jsonConfig["EpgrecRecordName"]}programTbl where starttime <= (now() ${time}) and endtime >= (now() ${time}) ${otherCondition}) as programTbl on ${jsonConfig["EpgrecRecordName"]}channelTbl.channel_disc = programTbl.channel_disc order by sid;`;
 
     var connection = createSqlConnection();
     connection.query(sql, function(err, results) {

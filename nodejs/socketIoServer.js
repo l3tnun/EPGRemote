@@ -7,6 +7,7 @@ var moduleEpgrecRecordedSetup = require(__dirname + "/socketIoServerModule/epgre
 var moduleEpgrecReservationtableSetup = require(__dirname + "/socketIoServerModule/epgrecReservationtable/setup");
 var moduleEpgrecKeywordtableSetup = require(__dirname + "/socketIoServerModule/epgrecKeywordtable/setup");
 var moduleEpgrecSearchSetup = require(__dirname + "/socketIoServerModule/epgrecSearch/setup");
+var moduleLiveStreamSetup = require(__dirname + "/socketIoServerModule/liveStream/setup");
 
 var io;
 var stopStreamCallback;
@@ -18,6 +19,11 @@ streamManager.setErrorExitCallback(notifyStreamErrorStop);
 
 function setStopStreamCallback(callback) {
     stopStreamCallback = callback;
+}
+
+function changeStreamStatus() {
+    log.access.info("changeStreamStatus");
+    io.sockets.emit("changeStreamStatus");
 }
 
 function start(server) {
@@ -36,6 +42,8 @@ function start(server) {
         moduleEpgrecKeywordtableSetup(io, socket);
         /*epgrec_search 部分*/
         moduleEpgrecSearchSetup(io, socket);
+        /*ライブ視聴共用部分*/
+        moduleLiveStreamSetup(io, socket);
     });
 }
 
@@ -52,14 +60,15 @@ function notifyStreamStatus(streamNumber) {
 
 function notifyStreamStop(streamNumber) {
     io.sockets.emit("stopStream", {value: streamNumber} );
-    log.access.debug(`notify stop stream ${streamNumber}`);
+    log.access.info(`notify stop stream ${streamNumber}`);
 }
 function notifyStreamErrorStop(streamNumber) {
     io.sockets.emit("errorStream", {value: streamNumber});
-    log.access.debug(`notify error stream ${streamNumber}`);
+    log.access.info(`notify error stream ${streamNumber}`);
 }
 
 exports.setStopStreamCallback = setStopStreamCallback;
+exports.changeStreamStatus = changeStreamStatus;
 exports.start = start;
 exports.notifyStreamStatus = notifyStreamStatus;
 exports.notifyStreamErrorStop = notifyStreamErrorStop;

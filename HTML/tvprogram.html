@@ -4,61 +4,46 @@
     <title>番組表</title>
     <meta name="viewport" content="width=device-width">
     <meta charset="utf-8">
-    <link rel="stylesheet" href="/css/tvprogram.css" />
     <link rel="stylesheet" href="/jquery/jquery.mobile.min.css" />
+    <link rel="stylesheet" href="/jquery.growl/css/jquery.growl.css" />
+    <link rel="stylesheet" href="/css/busy.css"/>
+    <link rel="stylesheet" href="/css/tvprogram.css" />
     <link rel="stylesheet" href="/css/topbutton.css" />
+    <link rel="stylesheet" href="/css/swipe_page.css" />
     <script src="/jquery/jquery.min.js"></script>
     <script src="/jquery/jquery.mobile.min.js"></script>
-    <script type="text/javascript">
-        function scrollTopButton() {
-            $('html,body').animate({ scrollTop: 0 }, 'swing');
-        }
-
-        function postData(sid, channel, channelName) {
-            document.getElementById("sid").innerHTML='<input type="hidden" name="sid" value='+ sid + ' id = "sid">'
-            document.getElementById("channel").innerHTML='<input type="hidden" name="channel" value=' + channel + ' id = "channel">'
-            document.getElementById("channelName").innerHTML='<input type="hidden" name="channelName" value=' + channelName + ' id = "channelName">'
-            if(document.getElementById("tuner").options.length == 0) {
-                window.alert('チューナーの空きがありません');
-            } else {
-                document.form.submit()
-            }
-        }
-
-        jQuery(function($) {
-            var nav = $('#pulldown'),
-            offset = nav.offset();
-
-            $(window).scroll(function () {
-                if($(window).scrollTop() > offset.top) {
-                    nav.addClass('fixed');
-                    document.getElementById('empty').innerHTML = '<div id="empty" style="padding-top:' + nav.height() + 'px;"/>';
-                } else {
-                    nav.removeClass('fixed');
-                    document.getElementById('empty').innerHTML = '<div id="empty" style="padding-top:0px;"/>';
-                }
-            });
-        });
-    </script>
+    <script src="/jquery.growl/js/jquery.growl.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/new_socketio.js"></script>
+    <script src="/js/reconnect_socketio.js"></script>
+    <script src="/js/getQuery.js"></script>
+    <script src="/js/tvprogram.js"></script>
+    <script src="/js/swipe_page.js"></script>
 </head>
 <body>
+<div id="busy"></div>
 <!--topにスクロールするボタン-->
  <a class="scroll_top_button" style="color: white;" herf="#" onclick="javascript:scrollTopButton()">▲</a>
 
+<div id="arrow-container">
+    <div id="arrow-slider" style="opacity: 1; transform: translate3d(0px, 0px, 0px);">
+        <div id="left-arrow"></div>
+        <div id="right-arrow"></div>
+    </div>
+</div>
+
 <div data-role="header">
-    <a href="/">TOP</a>
+    <a href="/" target="_self">TOP</a>
     <h1>番組表</h1>
 </div>
 <div id="pulldown" class="nav">
 <div class="ui-grid-a">
      <div class="ui-block-a">
         <select name="tuner" id="tuner" form="form">
-            @@@TUNNER@@@
         </select>
     </div>
     <div class="ui-block-b">
-        <select name="size" form="form">
-            @@@VIDEOCONFIG@@@
+        <select name="size" id="videoConfig" form="form">
         </select>
     </div>
 </div>
@@ -67,8 +52,7 @@
 <div id="empty"></div>
 
 <div role="main" class="ui-content">
-    <ul data-role="listview">
-        @@@TVPROGRAM@@@
+    <ul id="program_list" data-role="listview">
     </ul>
 
     <form name="form" form action="/viewtv" method="post" id="form">
@@ -77,5 +61,7 @@
         <input type="hidden" id = "channelName">
     </form>
 </div>
+
 </body>
 </html>
+

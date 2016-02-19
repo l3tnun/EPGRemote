@@ -26,6 +26,7 @@ var fileTypeHash = {
     ".mp4"  : "video/mp4",
     ".m3u8" : "video/MP2T",
     ".jpg"  : "image/jpg",
+    ".png"  : "image/png",
     ".gif"  : "image/gif"
 }
 

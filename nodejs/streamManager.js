@@ -5,6 +5,8 @@ var streamFileManager = require(__dirname + "/streamFileManager");
 var ffmpegManager = require(__dirname + "/ffmpegManager");
 var recManager = require(__dirname + "/recManager");
 var tunerManager = require(__dirname + "/tunerManager");
+var io = require(__dirname + "/socketIoServer");
+
 var exitCallback, errorExitCallback, notifyEnableCallback;
 var streamHashs = {};
 var changeChannelHash = {}; //チャンネル変更の時に停止させてもsocketioに通知がいかないようにするため
@@ -37,6 +39,13 @@ function getEmptyStreamNumber() {
 function addStreamHash(streamNumber, channelName, channel, sid, ffmpegChild, recChild) {
     log.stream.info("add stream hash No." + streamNumber + " channel: " + channelName);
     streamHashs[streamNumber] =  { "channelName" : channelName, "channel" : channel, "sid" : sid, "ffmpegChild" : ffmpegChild, "recChild" : recChild };
+    io.changeStreamStatus();
+}
+
+
+function deleteStream(streamNumber) {
+    delete streamHashs[streamNumber];
+    io.changeStreamStatus();
 }
 
 function childProcessExit(name, streamNumber, code, signal) {
@@ -123,8 +132,9 @@ function stopStream(streamNumber, code) {
     streamFileManager.deleteAllFiles(streamNumber);
 
     if(changeChannelHash[streamNumber] == false) {
-        delete streamHashs[streamNumber];
+        deleteStream(streamNumber);
         log.stream.info(`stop stream No.${streamNumber}`);
+        io.changeStreamStatus();
 
         tunerManager.unlockTuner(streamNumber);
         if(code) {

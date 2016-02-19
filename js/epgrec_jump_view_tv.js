@@ -26,7 +26,7 @@ function resultJumpChannelList(data) {
     }
 
     var videoConfigStr = "";
-    for(var i=0; i < data.videoConfig.length; i++) {
+    for(var i = 0; i < data.videoConfig.length; i++) {
         videoConfigStr += `<option value="${data.videoConfig[i].id}">${data.videoConfig[i].size}</option>`;
     }
 
@@ -68,4 +68,15 @@ function jumpViewTv(sid, channel, name) {
     tmpName = name;
     notifyReceiveChangeChannelConfig(query["type"]);
 }
+
+$("#jumpViewTvDialog").on( "popupafterclose", function( event, ui ) {
+    console.log('Popup closed');
+});
+
+//チューナー設定のリロード
+socketio.on("changeStreamStatus", function (data) {
+    if($("#jumpViewTvDialog-popup").attr('class').indexOf("ui-popup-active") != -1) {
+        socketio.emit("getJumpChannelConfig", socketid, getQuery().type);
+    }
+});
 
