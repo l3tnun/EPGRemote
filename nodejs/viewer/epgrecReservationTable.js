@@ -16,7 +16,7 @@ module.exports = function(response, programs, programCnt, pageNum) {
         if(program.autorec != 0) {
             edit_link = `/epgrec_search?keyword_id=${program.autorec}`;
         }
-        programStr += `</a><a id="actionId${actionId}" href="#" programId="${program.id}" programTitle="${program.title}" programInfo="${program.channelName} ${program.time}" programTime="${program.time}" programDescription="${program.description}" programKeyword="${edit_link}" class="openActionMenu"></a></li>`
+        programStr += `</a><a id="actionId${actionId}" href="#" programId="${program.id}" programRecId="${program.program_id}" programTitle="${program.title}" programInfo="${program.channelName} ${program.time}" programTime="${program.time}" programDescription="${program.description}" programKeyword="${edit_link}" class="openActionMenu"></a></li>`
         actionId += 1;
     });
 

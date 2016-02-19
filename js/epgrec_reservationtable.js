@@ -2,20 +2,34 @@ function scrollTopButton() {
     $('html,body').animate({ scrollTop: 0 }, 'swing');
 }
 
+//他のページからの予約追加、削除時の処理
+function changeRecStatus(data) {
+    if( data.value.match(/error/i) == null ) { location.reload(); }
+}
+
+//簡易予約
+socketio.on("recResult", function (data) { changeRecStatus(data); });
+//詳細予約
+socketio.on("resultCustomRec", function (data){ changeRecStatus(data); });
+//予約キャンセル
+socketio.on("cancelRecResult", function (data){ changeRecStatus(data); });
+//自動予約許可、禁止
+socketio.on("autoRecResult", function (data){ changeRecStatus(data); });
+
 //予約削除処理
-socketio.on("resultCancelReservation", function(result) {
-    if(result.match(/^error/i)){
-        $.growl.error({ message: result });
+socketio.on("resultCancelReservation", function(data) {
+    if(data.result.match(/^error/i)){
+        $.growl.error({ message: data.result });
     } else {
         location.reload();
     }
 });
 
-function deleteVideo(rec_id) {
-    socketio.emit("requestCancelReservation", rec_id, $('#check_autorec')[0].checked);
+function deleteVideo(id, rec_id) {
+    socketio.emit("requestCancelReservation", id, $('#check_autorec')[0].checked, rec_id);
 }
 
-function openDeleteDialog(id, title) {
+function openDeleteDialog(id, title, recId) {
     $("#deleteDialog").empty();
     $("#deleteDialog").append('<div style="font-weight: bold; ">' + title + " を削除しますか?" + '</div>');
     var checkbox = '<div style="text-align:center; margin: 10px;"><input id="check_autorec" style="margin-right: 15px;" name="autorec_check" value="1" type="checkbox">自動予約禁止</div>'
@@ -23,7 +37,7 @@ function openDeleteDialog(id, title) {
     $("#deleteDialog").append(checkbox);
     var button = '<div class="ui-grid-a">';
     button += '<div class="ui-block-a"><a data-rel="back" href="#" class="ui-btn ui-corner-all">戻る</a></div>'
-    button += '<div class="ui-block-b"><a id="deleteButton" href="javascript:deleteVideo(' + id  + ')' + '" class="ui-btn ui-btn-b ui-corner-all">削除</a></div></div>';
+    button += '<div class="ui-block-b"><a id="deleteButton" href="javascript:deleteVideo(' + id  + ',' + recId + ')' + '" class="ui-btn ui-btn-b ui-corner-all">削除</a></div></div>';
     $("#deleteDialog").append(button);
     $('#actionMenu').popup('close');
     $("#deleteDialog").popup('open');
@@ -49,6 +63,7 @@ $(window).load(function() {
         var description = $('#'+ id).attr('programDescription');
         var programId = $('#'+ id).attr('programId');
         var keyword = $('#'+ id).attr('programKeyword');
+        var recId = $('#'+ id).attr('programRecId');
 
         if(keyword == "undefined") {
             $("#actionEdit").css("display", "none");
@@ -56,7 +71,7 @@ $(window).load(function() {
             $("#actionEdit").css("display", "block");
             $("#actionEdit").attr("href", keyword);
         }
-        $("#actionDelete").attr('href','javascript:openDeleteDialog(' + programId + ',"' + title + '")');
+        $("#actionDelete").attr('href','javascript:openDeleteDialog(' + programId + ',"' + title + '",' + recId + ')');
         $('#actionMenu').popup('open', { x: element.pageX, y: element.pageY });
     });
 

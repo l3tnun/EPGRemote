@@ -214,9 +214,23 @@ socketio.on("cancelRecResult", function (data){
             location.reload();
         } else {
             $('#prgID_' + data.id).removeClass('tv_program_reced');
-                notifyGrowl("予約キャンセル", 'prgID_' + data.id)
+            notifyGrowl("予約キャンセル", 'prgID_' + data.id);
             closeDialogs(data.id);
         }
+    }
+});
+
+//予約一覧から予約削除
+socketio.on("resultCancelReservation", function(data) {
+    if(!data.result.match(/^error/i)) {
+        $('#prgID_' + data.rec_id).removeClass('tv_program_reced');
+        notifyGrowl("予約キャンセル", 'prgID_' + data.rec_id);
+        if(data.checkbox) {
+            $('#prgID_' + data.rec_id).addClass('tv_program_freeze');
+        } else {
+            $('#prgID_' + data.rec_id).removeClass('tv_program_freeze');
+        }
+        closeDialogs(data.rec_id);
     }
 });
 

@@ -170,6 +170,8 @@ function rec() {
 }
 
 socketio.on("recResult", function (data) {
+    if(typeof searchResultKeyId[data.id] == "undefined") { return; }
+
     var recv = data.value.match(/error/i);
     if( recv != null ) {
         if(closeDialogs(data.id)) {
@@ -226,6 +228,8 @@ function customRec() {
 }
 
 socketio.on("resultCustomRec", function (data){
+    if(typeof searchResultKeyId[data.id] == "undefined") { return; }
+
     var recv = data.value.match(/error/i);
     if( recv != null ) {
         if(closeDialogs(data.id)) {
@@ -256,6 +260,8 @@ function cancelRec() {
 }
 
 socketio.on("cancelRecResult", function (data) {
+    if(typeof searchResultKeyId[data.id] == "undefined") { return; }
+
     var recv = data.value.match(/error/i);
     if( recv != null ) {
         if(closeDialogs(data.id)) {
@@ -280,6 +286,7 @@ function toggleAutoRec() {
 }
 
 socketio.on("autoRecResult", function (data){
+    if(typeof searchResultKeyId[programId] == "undefined") { return; }
     if(data.autorec) {
         $('#prgID_' + data.id).addClass('freeze');
         searchResultKeyId[programId].autorec = 0;
@@ -290,5 +297,22 @@ socketio.on("autoRecResult", function (data){
         notifyGrowl("自動予約許可", data.id);
     }
     closeDialogs(data.id);
+});
+
+/*予約一覧から予約削除*/
+ socketio.on("resultCancelReservation", function(data) {
+    if(!data.result.match(/^error/i) && typeof searchResultKeyId[data.rec_id] != "undefined") {
+        $('#prgID_' + data.rec_id).removeClass('recorded');
+        notifyGrowl("予約削除", 'prgID_' + data.rec_id);
+        searchResultKeyId[data.rec_id].rec = 0;
+        if(data.checkbox) {
+            $('#prgID_' + data.rec_id).addClass('freeze');
+            searchResultKeyId[data.rec_id].autorec = 0;
+        } else {
+            $('#prgID_' + data.rec_id).removeClass('freeze');
+            searchResultKeyId[data.rec_id].autorec = 1;
+        }
+        closeDialogs(data.rec_id);
+    }
 });
 
