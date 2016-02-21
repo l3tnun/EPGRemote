@@ -6,18 +6,21 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="/jquery/jquery.mobile.min.css" />
     <link rel="stylesheet" href="/jquery.growl/css/jquery.growl.css" />
+    <link rel="stylesheet" href="/jquery.circliful/css/jquery.circliful.css" />
     <link rel="stylesheet" href="/css/busy.css"/>
     <link rel="stylesheet" href="/css/topbutton.css" />
     <link rel="stylesheet" href="/css/pagination.css" />
     <script src="/jquery/jquery.min.js"></script>
     <script src="/jquery/jquery.mobile.min.js"></script>
     <script src="/jquery.growl/js/jquery.growl.js"></script>
+    <script src="/jquery.circliful/js/jquery.circliful.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/new_socketio.js"></script>
     <script src="/js/reconnect_socketio.js"></script>
     <script src="/js/getQuery.js"></script>
     <script src="/js/epgrec_recorded.js"></script>
     <script src="/js/epgrec_recorded_video.js"></script>
+    <script src="/js/diskInfo.js"></script>
     <style>
     .ui-listview > .ui-li-has-thumb > .ui-btn {
         padding-left: 5.25em;
@@ -42,6 +45,8 @@
 </head>
 <body>
 <div id="busy"></div>
+<div data-role="popup" id="aboutDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content"></div>
+
 <!--topにスクロールするボタン-->
 <a class="scroll_top_button" style="color: white;" herf="#" onclick="javascript:scrollTopButton()">▲</a>
 
@@ -80,6 +85,7 @@
         <li><a class="ui-btn ui-btn-icon-left ui-icon-home" href="./epgrec_recorded" target="_self">録画済み一覧</a></li>
         <li><a class="ui-btn ui-btn-icon-left ui-icon-tag" href="./epgrec_recorded/tag" target="_self">Tag</a></li>
         <li><a class="ui-btn ui-btn-icon-left ui-icon-search" href="javascript:openSearch()" target="_self">検索</a></li>
+        <li><a class="ui-btn ui-btn-icon-left ui-icon-info" href="javascript:$('#pullDownMenu').popup('close'); openAboutDialog()" target="_self">DiskInfo</a></li>
     </ul>
 </div>
 
