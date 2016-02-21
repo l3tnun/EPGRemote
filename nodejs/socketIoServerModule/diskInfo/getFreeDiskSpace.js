@@ -11,6 +11,7 @@ module.exports = function(io, socket) {
         exec(`df -BG ${videoPath} | awk -v OFS=, 'NR == 2 {print $2, $4;}'`, function (error, stdout, stderr) {
             if(stdout) {
                 var data = stdout.split(',');
+                if(data.length != 2) { log.access.error("disk info exec stdout error: " + stdout); return; }
                 var total = data[0].replace(/[^0-9^\.]/g,"");
                 var part = data[1].replace(/[^0-9^\.]/g,"");
                 io.sockets.emit("resultFreeDiskSpace", {socketid: socketid, total: total , part: part });
