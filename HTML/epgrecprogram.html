@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="/jquery/jquery.mobile.min.css" />
     <link rel="stylesheet" href="/jquery.growl/css/jquery.growl.css" />
+    <link rel="stylesheet" href="/jquery.circliful/css/jquery.circliful.css" />
     <link rel="stylesheet" href="/css/epgrec_tv_skeleton_layout.css" />
     <link rel="stylesheet" href="/css/busy.css"/>
     <link rel="stylesheet" href="/css/category.css" />
@@ -15,6 +16,7 @@
     <script src="/jquery/jquery.mobile.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/jquery.growl/js/jquery.growl.js"></script>
+    <script src="/jquery.circliful/js/jquery.circliful.min.js"></script>
     <script src="/js/new_socketio.js"></script>
     <script src="/js/reconnect_socketio.js"></script>
     <script src="/js/getQuery.js"></script>
@@ -22,6 +24,7 @@
     <script src="/js/epgrec_command.js"></script>
     <script src="/js/epgrec_jump_view_tv.js"></script>
     <script src="/js/fixPopupInput.js"></script>
+    <script src="/js/diskInfo.js"></script>
     <style>
         .tv_program_section { }
         .tv_time_section { }
@@ -47,6 +50,8 @@
 </head>
 <body>
 <div id="busy"></div>
+<div data-role="popup" id="aboutDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content"></div>
+
 <!--topにスクロールするボタン-->
 <a class="scroll_top_button" style="color: white;" herf="#" onclick="javascript:scrollTopButton()">▲</a>
 
@@ -196,8 +201,11 @@
 <!--header-->
 <div id="header" data-role="header">
     <a href="epgrec" target="_self">BACK</a>
-    <a href="#progMenuDialog" class="ui-btn-right" data-rel="popup" data-icon="bars" data-iconpos="notext" data-position-to="window" data-transition="pop">&nbsp;</a>
     <h1>@@@TITLE@@@</h1>
+    <div data-role="controlgroup" data-type="horizontal" class="ui-btn-right" style="top: 0px;">
+    <a href="javascript:openAboutDialog()" data-role="button" data-icon="info" data-iconpos="notext" data-inline="true">&nbsp</a>
+    <a href="#progMenuDialog" data-role="button" data-icon="bars" data-iconpos="notext" data-inline="true" data-rel="popup" data-iconpos="notext" data-position-to="window" data-transition="pop">&nbsp</a>
+    </div>
 </div>
 <div style="padding: 0px" role="main" class="ui-content">
 
