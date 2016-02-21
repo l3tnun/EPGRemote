@@ -19,17 +19,23 @@
     <script src="/js/getQuery.js"></script>
     <script src="/js/tvprogram.js"></script>
     <script src="/js/swipe_page.js"></script>
+    <script src="/js/topbutton.js"></script>
 </head>
 <body>
 <div id="busy"></div>
 <!--topにスクロールするボタン-->
- <a class="scroll_top_button" style="color: white;" herf="#" onclick="javascript:scrollTopButton()">▲</a>
+<a id="scroll_top_button" class="scroll_top_button" style="color: white;" herf="#" onclick="javascript:scrollTopButton()">▲</a>
 
 <div id="arrow-container">
     <div id="arrow-slider" style="opacity: 1; transform: translate3d(0px, 0px, 0px);">
         <div id="left-arrow"></div>
         <div id="right-arrow"></div>
     </div>
+</div>
+
+<div id="SwipeButton">
+<a href="javascript:swipeBackPage()" class="buttonInsteadOfSwipe">現在時刻</a>
+<a href="javascript:swipeNextPage()" class="buttonInsteadOfSwipe">10分後</a>
 </div>
 
 <div data-role="header">
@@ -61,7 +67,7 @@
         <input type="hidden" id = "channelName">
     </form>
 </div>
-
+<p style="height: 30px;">
 </body>
 </html>
 

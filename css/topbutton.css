@@ -8,8 +8,11 @@
     font-size: 26px;
     border-radius: 50%;
     position: fixed;
-    right: 32px;
-    bottom: 52px;
+    right: 10px;
+    bottom: 5px;
     z-index: 100;
 }
 
+.ios_top_button_postion {
+    bottom: 52px;
+}

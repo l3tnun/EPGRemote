@@ -1,4 +1,5 @@
 jQuery(function($) {
+    if(screen.width < 600) { $("#SwipeButton").css("display", "none"); }
     $("#arrow-container").css("top", ($(window).height() / 2) + "px");
 
     var touchStart = false;

@@ -36,3 +36,25 @@
     width: 60px;
 }
 
+#SwipeButton {
+    left: 0px;
+    bottom: 0px;
+    position: fixed;
+    z-index: 100;
+}
+
+.buttonInsteadOfSwipe {
+    width: auto;
+    height: 30px;
+    line-height: 30px;
+    background-color:rgba(0,0,0,0.45);
+    z-index: 100;
+    padding: 12px;
+    text-decoration: none;
+}
+
+.ui-page-theme-a a:hover, .ui-page-theme-a a {
+    color: white;
+    text-shadow: none;
+}
+
