@@ -264,6 +264,7 @@ VLC でダウンロードしたファイルを再生する場合は上記の問�
 * version 0.3.8 &nbsp;&nbsp; 自動予約キーワードからの通知強化
 * version 0.3.9 &nbsp;&nbsp; ディスク空き容量を表示するダイアログを追加
 * version 0.3.10&nbsp;&nbsp; PC でも番組リストの現在時刻+10分後のデータが取得できるようになった
+* version 0.3.11&nbsp;&nbsp; バグ修正
 
 ## Licence
 
