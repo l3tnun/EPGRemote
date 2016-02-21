@@ -19,12 +19,13 @@
     <script src="/js/epgrec_search_command.js"></script>
     <script src="/js/epgrec_search_layout.js"></script>
     <script src="/js/epgrec_search_add_keyword.js"></script>
+    <script src="/js/topbutton.js"></script>
 </head>
 
 <body>
 <div id="busy"></div>
 <!--topにスクロールするボタン-->
-<a class="scroll_top_button" style="color: white;" herf="#" onclick="javascript:scrollTopButton()">▲</a>
+<a id="scroll_top_button" class="scroll_top_button" style="color: white;" herf="#" onclick="javascript:scrollTopButton()">▲</a>
 
 <!--番組情報ダイアログ-->
 <div data-role="popup" id="infoDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content" style="width: 260px;">
