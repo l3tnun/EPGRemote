@@ -93,6 +93,7 @@ function openDetailRec(prgID) {
 //スマホの時の表示倍率設定
 if(screen.width < 600) {
     $("meta[name='viewport']").attr('content', 'width=width=device-width,initial-scale=0.70, user-scalable=no');
+    $("#header").css("transform", "scale(1.4, 1.4)");
 }
 
 //時刻線
