@@ -16,6 +16,7 @@ handle["/epgrec_recorded/tag"] = requestHandlers.epgrecRecordedTag;
 handle["/epgrec_reservation_table"] = requestHandlers.epgrecReservationTable;
 handle["/epgrec_keyword_table"] = requestHandlers.epgrecKeywordTable;
 handle["/epgrec_search"] = requestHandlers.epgrecSearch;
+handle["/epgrec_log"] = requestHandlers.epgrecLog;
 
 if(util.getConfig()["useHLS"] == false) { handle["/"] = requestHandlers.epgrec; }
 

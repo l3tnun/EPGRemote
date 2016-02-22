@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>EPGRemote</title>
+    <title>ログ表示</title>
     <meta name="viewport" content="width=device-width">
     <meta charset="utf-8">
     <link rel="stylesheet" href="/jquery/jquery.mobile.min.css" />
@@ -16,29 +16,31 @@
     <script src="/js/new_socketio.js"></script>
     <script src="/js/reconnect_socketio.js"></script>
     <script src="/js/diskInfo.js"></script>
+    <script src="/js/epgrec_log.js"></script>
 </head>
 <body>
 <div id="busy"></div>
-
 <div data-role="popup" id="aboutDialog" data-overlay-theme="b" data-theme="a" data-history="false" class="ui-content"></div>
 
 <div data-role="header">
-    <a href="/" target="_self">TOP</a>
-    <h1>EPGRec Mobile</h1>
+    <h1>ログ表示</h1>
     <a href="javascript:openAboutDialog()" class="ui-btn ui-btn-icon-notext ui-icon-info ui-corner-all ui-btn-right"></a>
 </div>
+<div role="main" class="ui-field-contain">
+    <fieldset data-role="controlgroup" data-type="horizontal">
+        <input id="info" type="checkbox" name="info" value="info"/>
+        <label for="info">情報</label>
+        <input id="warning" type="checkbox" name="warning" value="warning"/>
+        <label for="warning">警告</label>
+        <input id="error" type="checkbox" name="error" value="error"/>
+        <label for="error">エラー</label>
+        <input id="debug" type="checkbox" name="debug" value="debug"/>
+        <label for="debug">デバック</label>
+    </fieldset>
+</div>
 <div role="main" class="ui-content">
-    <!--リストを準備-->
     <ul data-role="listview">
-        <li><a href="/epgrec_program?type=GR" TARGET="_self">番組表(地上波)</a></li>
-        <li><a href="/epgrec_program?type=BS" TARGET="_self" >番組表(BS)</a></li>
-        <li><a href="/epgrec_program?type=CS" TARGET="_self" >番組表(CS)</a></li>
-        <li><a href="/epgrec_program?type=EX" TARGET="_self" >番組表(スカパーHD)</a></li>
-        <li><a href="/epgrec_recorded" TARGET="_self" >録画済み一覧</a></li>
-        <li><a href="/epgrec_reservation_table" TARGET="_self" >録画予約一覧</a></li>
-        <li><a href="/epgrec_search" TARGET="_self" >番組検索</a></li>
-        <li><a href="/epgrec_keyword_table" TARGET="_self" >自動録画キーワードの管理</a></li>
-        <li><a href="/epgrec_log" TARGET="_self" >ログ表示</a></li>
+    <li>aaa</li>
     </ul>
 </div>
 </body>
