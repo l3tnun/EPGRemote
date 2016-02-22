@@ -34,8 +34,10 @@ function addZero(str) { return ('0' + str).slice(-2); }
 
 function replaceMessage(message) {
     if(message.indexOf("programTable.php") != -1) {
-        return message.replace("programTable.php","epgrec_search");
+        message = message.replace("programTable.php","epgrec_search");
+        message = message.replace(" href"," target='_self' href");
     }
+    message = message.replace("index.php","epgrec_program");
     if(message.indexOf("recordedTable.php") != -1) {
         return message.replace("recordedTable.php","epgrec_recorded").replace("key", "keyword");
     }
