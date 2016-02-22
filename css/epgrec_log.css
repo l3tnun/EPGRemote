@@ -1,3 +1,7 @@
+.ui-field-contain {
+    border-bottom-style: none;
+}
+
 .ui-listview .wordbreak {
     overflow: visible;
     white-space: normal;
