@@ -13,6 +13,7 @@ module.exports = {
     getKeywordTable: require(__dirname + '/getKeywordTable'),
     countKeywordTable: require(__dirname + '/countKeywordTable'),
     getKeywordTableByIDAndTransexpandTable: require(__dirname + '/getKeywordTableByIDAndTransexpandTable'),
-    getEPGRecProgramList: require(__dirname + '/getEPGRecProgramList')
+    getEPGRecProgramList: require(__dirname + '/getEPGRecProgramList'),
+    getEPGRecLog: require(__dirname + '/getEPGRecLog')
 }
 

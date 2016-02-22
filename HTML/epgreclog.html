@@ -28,19 +28,18 @@
 </div>
 <div role="main" class="ui-field-contain">
     <fieldset data-role="controlgroup" data-type="horizontal">
-        <input id="info" type="checkbox" name="info" value="info"/>
+        <input id="info" class="logCheckbox" type="checkbox" name="info" value="info"/>
         <label for="info">情報</label>
-        <input id="warning" type="checkbox" name="warning" value="warning"/>
+        <input id="warning" class="logCheckbox" type="checkbox" name="warning" value="warning"/>
         <label for="warning">警告</label>
-        <input id="error" type="checkbox" name="error" value="error"/>
+        <input id="error" class="logCheckbox" type="checkbox" name="error" value="error"/>
         <label for="error">エラー</label>
-        <input id="debug" type="checkbox" name="debug" value="debug"/>
+        <input id="debug" class="logCheckbox" type="checkbox" name="debug" value="debug"/>
         <label for="debug">デバック</label>
     </fieldset>
 </div>
 <div role="main" class="ui-content">
-    <ul data-role="listview">
-    <li>aaa</li>
+    <ul id="content" data-role="listview">
     </ul>
 </div>
 </body>
