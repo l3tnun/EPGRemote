@@ -9,7 +9,7 @@ $(function() {
         if(data.results == "") { $("#content").empty(); return; }
         var listStr = "";
         data.results.forEach(function(result) {
-            listStr += `<li class="logBackground${result.level.level}"><p>${result.logtime} ${result.level.str}</p>`;
+            listStr += `<li class="logBackground${result.level.level}"><p class="wordbreak">${result.logtime} ${result.level.str}</p>`;
             listStr += `<p class="wordbreak">${result.message}</p></li>`;
         });
 

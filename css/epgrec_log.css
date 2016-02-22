@@ -1,6 +1,7 @@
 .ui-listview .wordbreak {
     overflow: visible;
     white-space: normal;
+    font-weight: 600;
 }
 
 .ui-listview .logBackground0 {

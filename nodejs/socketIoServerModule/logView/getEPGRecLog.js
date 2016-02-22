@@ -37,7 +37,9 @@ function replaceMessage(message) {
         message = message.replace("programTable.php","epgrec_search");
         message = message.replace(" href"," target='_self' href");
     }
+
     message = message.replace("index.php","epgrec_program");
+
     if(message.indexOf("recordedTable.php") != -1) {
         return message.replace("recordedTable.php","epgrec_recorded").replace("key", "keyword");
     }
