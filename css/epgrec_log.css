@@ -1,0 +1,27 @@
+.ui-listview .wordbreak {
+    overflow: visible;
+    white-space: normal;
+}
+
+.ui-listview .logBackground0 {
+    text-shadow: none;
+}
+
+.ui-listview .logBackground1 {
+    background: yellow;
+    text-shadow: none;
+}
+
+
+.ui-listview .logBackground2 {
+    background: red;
+    text-shadow: none;
+    color: white;
+}
+
+
+.ui-listview .logBackground3 {
+    background: blue;
+    text-shadow: none;
+    color: white;
+}

@@ -16,7 +16,7 @@ module.exports = function(opionArray, callback) {
 
     if(options == "") { callback(''); return; }
 
-    var sql = `select * from ${ jsonConfig["EpgrecRecordName"] }logTbl where ${options} order by logtime limit 300;`;
+    var sql = `select * from ${ jsonConfig["EpgrecRecordName"] }logTbl where ${options} order by id desc limit 300;`;
     var connection = createSqlConnection();
 
     connection.query(sql, function(err, results) {
