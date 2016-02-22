@@ -12,5 +12,6 @@ module.exports = {
     epgrecRecordedTag : require(__dirname + '/epgrecRecordedTag'),
     epgrecReservationTable : require(__dirname + '/epgrecReservationTable'),
     epgrecKeywordTable : require(__dirname + '/epgrecKeywordTable'),
+    epgrecLog : require(__dirname + '/epgrecLog'),
     epgrecSearch : require(__dirname + '/epgrecSearch')
 }

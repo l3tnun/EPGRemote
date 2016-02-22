@@ -9,6 +9,7 @@ var moduleEpgrecKeywordtableSetup = require(__dirname + "/socketIoServerModule/e
 var moduleEpgrecSearchSetup = require(__dirname + "/socketIoServerModule/epgrecSearch/setup");
 var moduleLiveStreamSetup = require(__dirname + "/socketIoServerModule/liveStream/setup");
 var moduleDiskInfoSetup = require(__dirname + "/socketIoServerModule/diskInfo/setup");
+var moduleLogViewSetup = require(__dirname + "/socketIoServerModule/logView/setup");
 
 var io;
 var stopStreamCallback;
@@ -47,6 +48,8 @@ function start(server) {
         moduleLiveStreamSetup(io, socket);
         /*ディスク空き容量*/
         moduleDiskInfoSetup(io, socket);
+        /*ログ取得*/
+        moduleLogViewSetup(io, socket);
     });
 }
 
