@@ -11,6 +11,7 @@ function jumpViewTv(sid, channel, name) {
     $("#sid").html('<input type="hidden" name="sid" value='+ sid + ' id="sid">');
     $("#channel").html('<input type="hidden" name="channel" value=' + channel + ' id="channel">');
     $("#channelName").html('<input type="hidden" name="channelName" value=' + name + ' id="channelName">');
+    $("#jumpDialogChannelName").text(name);
 
     notifyReceiveChangeChannelConfig(query["type"]);
 
@@ -47,9 +48,6 @@ function notifyJumpChannel() {
         for(var i = 0; i < data.videoConfig.length; i++) {
             videoConfigStr += `<option value="${data.videoConfig[i].id}">${data.videoConfig[i].size}</option>`;
         }
-
-        //チャンネル名書き換え
-        $("#jumpDialogChannelName").text(tmpName);
 
         //video selectを更新
         $("#jumpVideoSize").empty();
