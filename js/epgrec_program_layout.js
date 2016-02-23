@@ -79,12 +79,10 @@ function initEpgrecProgramLayout() {
 
 //ダイアログオープン(HTML から呼ばれる)
 function openDetailRec(prgID) {
-    function openTimerDialog() { $("#progDetailRecDialog").popup('open'); }
-
     var stationInfo = programHash[prgID];
 
     $("#progDialog").popup('close');
-    setTimeout("openTimerDialog()", 250);
+    setTimeout(function() { $("#progDetailRecDialog").popup('open'); }, 250);
     $('#detail_rec_station_name').text(channelHash[stationInfo.channel_id].name);
 
     var startTime = getTimeValue(stationInfo.starttime);
