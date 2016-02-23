@@ -1,38 +1,9 @@
-function scrollTopButton() {
-    $('html,body').animate({ scrollTop: 0 }, 'swing');
-}
-
-//他のページからの予約追加、削除時の処理
-function changeRecStatus(data) {
-    if( data.value.match(/error/i) == null ) { location.reload(); }
-}
-
-//簡易予約
-socketio.on("recResult", function (data) { changeRecStatus(data); });
-//詳細予約
-socketio.on("resultCustomRec", function (data){ changeRecStatus(data); });
-//予約キャンセル
-socketio.on("cancelRecResult", function (data){ changeRecStatus(data); });
-//自動予約許可、禁止
-socketio.on("autoRecResult", function (data){ changeRecStatus(data); });
-//自動予約キーワード追加、更新
-socketio.on("resultAddEPGRecKeyword", function(data) { location.reload(); });
-//自動予約キーワード削除
-socketio.on("resultDeleteKeyword", function(data) { if(!data.match(/^error/i)) { location.reload(); } });
-
-//予約削除処理
-socketio.on("resultCancelReservation", function(data) {
-    if(data.result.match(/^error/i)){
-        $.growl.error({ message: data.result });
-    } else {
-        location.reload();
-    }
-});
-
+/*HTML から呼ばれる部分*/
 function deleteVideo(id, rec_id) {
     socketio.emit("requestCancelReservation", id, $('#check_autorec')[0].checked, rec_id);
 }
 
+//削除確認ダイアログ
 function openDeleteDialog(id, title, recId) {
     $("#deleteDialog").empty();
     $("#deleteDialog").append('<div style="font-weight: bold; ">' + title + " を削除しますか?" + '</div>');
@@ -47,7 +18,7 @@ function openDeleteDialog(id, title, recId) {
     $("#deleteDialog").popup('open');
 }
 
-//プログラム詳細
+//プログラム詳細ダイアログ
 function openProgramInfo(title, channelName, time, description) {
     $("#programDialogTitle").text(title);
     $("#programDialogChannelName").text(channelName);
@@ -57,6 +28,36 @@ function openProgramInfo(title, channelName, time, description) {
     $('#actionMenu').popup('close');
     $("#programInfoDialog").popup('open');
 }
+
+/*socketio 受信関係*/
+(function () {
+    //他のページからの予約追加、削除時の処理
+    function changeRecStatus(data) {
+        if( data.value.match(/error/i) == null ) { location.reload(); }
+    }
+
+    //簡易予約
+    socketio.on("recResult", function (data) { changeRecStatus(data); });
+    //詳細予約
+    socketio.on("resultCustomRec", function (data){ changeRecStatus(data); });
+    //予約キャンセル
+    socketio.on("cancelRecResult", function (data){ changeRecStatus(data); });
+    //自動予約許可、禁止
+    socketio.on("autoRecResult", function (data){ changeRecStatus(data); });
+    //自動予約キーワード追加、更新
+    socketio.on("resultAddEPGRecKeyword", function(data) { location.reload(); });
+    //自動予約キーワード削除
+    socketio.on("resultDeleteKeyword", function(data) { if(!data.match(/^error/i)) { location.reload(); } });
+
+    //予約削除処理
+    socketio.on("resultCancelReservation", function(data) {
+        if(data.result.match(/^error/i)){
+            $.growl.error({ message: data.result });
+        } else {
+            location.reload();
+        }
+    });
+}());
 
 $(window).load(function() {
     //アクションメニュー
