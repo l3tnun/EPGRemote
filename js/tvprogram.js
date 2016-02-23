@@ -1,7 +1,19 @@
-function scrollTopButton() {
-    $('html,body').animate({ scrollTop: 0 }, 'swing');
+/*swipe_page.js から呼ばれる*/
+var tvProgramSwipeCount = 0;
+var tvProgramUpdateTimer;
+function swipeBackPage() {
+    tvProgramSwipeCount = 0;
+    clearInterval(tvProgramUpdateTimer);
+    getTvProgramList();
 }
 
+function swipeNextPage() {
+    tvProgramSwipeCount += 10;
+    clearInterval(tvProgramUpdateTimer);
+    getTvProgramList();
+}
+
+/*HTMLから呼ばれる*/
 function postData(sid, channel, channelName) {
     document.getElementById("sid").innerHTML='<input type="hidden" name="sid" value='+ sid + ' id = "sid">'
     document.getElementById("channel").innerHTML='<input type="hidden" name="channel" value=' + channel + ' id = "channel">'
@@ -22,14 +34,15 @@ function getType() {
     if(query.EX) { return "EX"}
 }
 
-function getTvProgramList(type) {
-    socketio.emit("getTvProgramList", socketid, type, nextTimeCount); //番組リスト取得
+function getTvProgramList() {
+    socketio.emit("getTvProgramList", socketid, getType(), tvProgramSwipeCount); //番組リスト取得
 }
 
-function getJumpChannelConfig(type) {
-    socketio.emit("getJumpChannelConfig", socketid, type); //チューナー、ビデオサイズ取得
+function getJumpChannelConfig() {
+    socketio.emit("getJumpChannelConfig", socketid, getType()); //チューナー、ビデオサイズ取得
 }
 
+//プルダウン
 jQuery(function($) {
     var nav = $('#pulldown'),
     offset = nav.offset();
@@ -44,83 +57,78 @@ jQuery(function($) {
         }
     });
 
-    var type = getType();
-    if(typeof type == "undefined") { return; }
-    getJumpChannelConfig(type);
-    getTvProgramList(type);
+    if(typeof getType() == "undefined") { return; }
+    getJumpChannelConfig();
+    getTvProgramList();
 });
 
-//チューナー、ビデオサイズ取得
-socketio.on("resultJumpChannelList", function (data) {
-    if(data.socketid != socketid || typeof data.tunerList == "undefined" || typeof data.videoConfig == "undefined") { return; }
+//socketio 受信
+$(function() {
+    //チューナー、ビデオサイズ取得
+    socketio.on("resultJumpChannelList", function (data) {
+        if(data.socketid != socketid || typeof data.tunerList == "undefined" || typeof data.videoConfig == "undefined") { return; }
 
-    $("#tuner").empty();
-    data.tunerList.forEach(function(tuner) {
-        $("#tuner").append($('<option>').html(tuner.name).val(tuner.id))
+        $("#tuner").empty();
+        data.tunerList.forEach(function(tuner) {
+            $("#tuner").append($('<option>').html(tuner.name).val(tuner.id))
+        });
+        $('#tuner').selectmenu("refresh", true);
+
+        $("#videoConfig").empty();
+        data.videoConfig.forEach(function(video) {
+            $("#videoConfig").append($('<option>').html(video.size).val(video.id))
+        });
+        $('#videoConfig').selectmenu("refresh", true);
     });
-    $('#tuner').selectmenu("refresh", true);
 
-    $("#videoConfig").empty();
-    data.videoConfig.forEach(function(video) {
-        $("#videoConfig").append($('<option>').html(video.size).val(video.id))
-    });
-    $('#videoConfig').selectmenu("refresh", true);
-});
+    //番組リスト取得
+    socketio.on("resultTvProgramList", function (data) {
+        if(data.id != socketid) { return; }
 
-//番組リスト取得
-var timer;
-socketio.on("resultTvProgramList", function (data) {
-    if(data.id != socketid) { return; }
+        //listの中身を削除
+        $('#program_list').empty();
 
-    //listの中身を削除
-    $('#program_list').empty();
+        var programStr = "";
+        if(data.value.length == 0) {
+            programStr += "<li>番組表情報が取得できませんでした。</li>"
+        } else {
+            var minTimer = 6048000000;
+            var nowDate = new Date().getTime();
+            for(var i = 0; i < data.value.length; i++) {
+                var result = data.value[i];
+                programStr += `<li><a href="javascript:postData('${result.sid}', '${result.channel}', '${result.name}')" TARGET="_self">`
+                programStr += `<h3>${result.name}</h3>`
+                programStr += `<p>${getFormatedDate(result.starttime)} ~ ${getFormatedDate(result.endtime)}</p>`
+                programStr += `<p>${result.title}</p>`
+                programStr += `<p class="wordbreak">${result.description}</p>`
+                programStr += `</a></li>\n`;
 
-    var programStr = "";
-    if(data.value.length == 0) {
-        programStr += "<li>番組表情報が取得できませんでした。</li>"
-    } else {
-        var minTimer = 6048000000;
-        var nowDate = new Date().getTime();
-        for(var i = 0; i < data.value.length; i++) {
-            var result = data.value[i];
-            programStr += `<li><a href="javascript:postData('${result.sid}', '${result.channel}', '${result.name}')" TARGET="_self">`
-            programStr += `<h3>${result.name}</h3>`
-            programStr += `<p>${getFormatedDate(result.starttime)} ~ ${getFormatedDate(result.endtime)}</p>`
-            programStr += `<p>${result.title}</p>`
-            programStr += `<p class="wordbreak">${result.description}</p>`
-            programStr += `</a></li>\n`;
-
-            var subDate = new Date(result.endtime).getTime() - nowDate;
-            if(minTimer > subDate) {
-                minTimer = subDate
+                var subDate = new Date(result.endtime).getTime() - nowDate;
+                if(minTimer > subDate) {
+                    minTimer = subDate
+                }
             }
+            tvProgramUpdateTimer = setTimeout("getTvProgramList()", minTimer + 1000)
         }
-        timer = setTimeout("getTvProgramList(getType())", minTimer + 1000)
+
+        $(programStr).appendTo($("#program_list"));
+        $('#program_list').listview('refresh');
+    });
+
+    function getFormatedDate(strDate) {
+        var date = new Date(strDate);
+        return ("0"+date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
     }
 
-    $(programStr).appendTo($("#program_list"));
-    $('#program_list').listview('refresh');
+    socketio.on("changeStreamStatus", function (data) {
+        getJumpChannelConfig();
+    });
 });
 
-function getFormatedDate(strDate) {
-    var date = new Date(strDate);
-    return ("0"+date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
-}
-
-socketio.on("changeStreamStatus", function (data) {
-    getJumpChannelConfig(getType());
+//上にスクロール
+$(function() {
+    $(".scroll_top_button").on('click',function() {
+        $('html,body').animate({ scrollTop: 0 }, 'swing');
+    });
 });
-
-var nextTimeCount = 0;
-function swipeBackPage() {
-    nextTimeCount = 0;
-    clearInterval(timer);
-    getTvProgramList(getType());
-}
-
-function swipeNextPage() {
-    nextTimeCount += 10;
-    clearInterval(timer);
-    getTvProgramList(getType());
-}
 
