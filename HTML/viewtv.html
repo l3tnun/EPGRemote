@@ -91,10 +91,12 @@
 </div>
 
 <form name="new_stream_form" form action="/viewtv" method="post" id="new_stream_form">
-    <input type="hidden" id = "sid">
-    <input type="hidden" id = "channel">
+    <input type="hidden" id = "sid" name = "sid">
+    <input type="hidden" id = "channel" name = "channel">
     <input type="hidden" id = "channelName">
 </form>
+
+<input type="hidden" id = "tunerId">
 
 <input type="hidden" id="streamNumber" name="streamNumber" value="@@@STREAMNUMBER@@@">
 <input type="hidden" id="dialogType" name="streamNumber" value="">
