@@ -1,4 +1,4 @@
-$(function() {
+(function() {
     var connectStatus = true;
     var movePage = false;
 
