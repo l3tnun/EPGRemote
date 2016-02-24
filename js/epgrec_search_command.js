@@ -78,7 +78,7 @@ function getEPGRecSearchResult() {
     if($("#week6").prop('checked')) { option.week6 = "1"; }
     if($("#first_genre").prop('checked')) { option.first_genre = "1"; }
 
-    var query = getUrlQuery();
+    var query = getQuery();
     if(typeof query.keyword_id != "undefined") {
         option.keyword_id = query.keyword_id;
     }
