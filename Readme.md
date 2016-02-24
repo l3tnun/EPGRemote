@@ -268,6 +268,7 @@ VLC でダウンロードしたファイルを再生する場合は上記の問�
 * version 0.3.11&nbsp;&nbsp; バグ修正
 * version 0.3.12&nbsp;&nbsp; epgrec UNA のログ表示機能を追加
 * version 0.3.13&nbsp;&nbsp; コードの整理(主にクライアント側のJavascript) & 細かなバグ修正
+* version 0.3.14&nbsp;&nbsp; 録画済み一覧の検索のバグ修正 & 全角半角を同一視するようにした
 
 ## Licence
 
