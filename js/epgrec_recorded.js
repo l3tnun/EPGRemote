@@ -101,7 +101,7 @@ $(window).load(function() {
 });
 
 function getQueryParameter(query) {
-    var parameterList = ["keyword", "channel"];
+    var parameterList = ["keyword", "category", "channel", "search"];
 
     var parameters = ""
     parameterList.forEach(function(parameter) {
