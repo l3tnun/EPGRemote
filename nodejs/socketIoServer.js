@@ -65,11 +65,11 @@ function notifyStreamStatus(streamNumber) {
 }
 
 function notifyStreamStop(streamNumber) {
-    io.sockets.emit("stopStream", {value: streamNumber} );
+    io.sockets.emit("stopStream", streamNumber );
     log.access.info(`notify stop stream ${streamNumber}`);
 }
 function notifyStreamErrorStop(streamNumber) {
-    io.sockets.emit("errorStream", {value: streamNumber});
+    io.sockets.emit("errorStream", streamNumber);
     log.access.info(`notify error stream ${streamNumber}`);
 }
 
