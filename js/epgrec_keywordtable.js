@@ -25,9 +25,11 @@ function openKeywordInfo(keywordStr) {
     $('#actionMenu').popup('close');
     $("#keywordInfoDialog").popup('open');
 
-    function deleteKeyword(id) {
-        socketio.emit("requestDeleteKeyword", id);
-    }
+
+}
+
+function deleteKeyword(id) {
+    socketio.emit("requestDeleteKeyword", id);
 }
 
 /*socketio 受信関係*/
