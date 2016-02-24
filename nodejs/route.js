@@ -32,6 +32,8 @@ var fileTypeHash = {
 }
 
 function route(parsedUrl, response, request, postData) {
+    log.access.info("Access IP is " + request.connection.remoteAddress);
+    log.access.info("Access UA is " + request.headers['user-agent']);
     log.access.info("About to route a request for " + parsedUrl.pathname);
     if(typeof handle[parsedUrl.pathname] == 'function') {
         return handle[parsedUrl.pathname](response, parsedUrl, request, postData);

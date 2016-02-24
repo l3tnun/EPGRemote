@@ -1,38 +1,4 @@
-function scrollTopButton() {
-    $('html,body').animate({ scrollTop: 0 }, 'swing');
-}
-
-function getQueryParameter(query) {
-    var parameterList = ["keyword", "channel"];
-
-    var parameters = ""
-    parameterList.forEach(function(parameter) {
-        if(typeof query[parameter] != "undefined") { parameters += "&" + parameter + "=" + query[parameter]; }
-    });
-
-    return parameters;
-}
-
-//検索処理
-$(function($) {
-    //Enter キーが押された時
-    $('#search').keypress(function(key) {
-        if(key.which == 13 && $("#search").val() != '') {
-            var parameters = getQueryParameter(getQuery());
-            location.href = window.location.pathname + "?search=" + $("#search").val() + parameters
-        }
-    });
-});
-
-//video削除処理
-socketio.on("resultDeleteVideoFile", function(result) {
-    if(result.match(/^error/i)){
-        $.growl.error({ message: result });
-    } else {
-        location.reload();
-    }
-});
-
+/*HTML から呼ばれる部分*/
 function deleteVideo(rec_id) {
     socketio.emit("requestDeleteVideoFile", rec_id, $('#delete_file')[0].checked);
 }
@@ -71,6 +37,29 @@ function openProgramInfo(title, info, channleName, thumbs, description) {
     $('#actionMenu').popup('close');
     $("#programInfoDialog").popup('open');
 }
+
+/*socketio 受信関係*/
+(function () {
+    //video削除処理
+    socketio.on("resultDeleteVideoFile", function(result) {
+        if(result.match(/^error/i)){
+            $.growl.error({ message: result });
+        } else {
+            location.reload();
+        }
+    });
+}());
+
+//検索処理
+$(function($) {
+    //Enter キーが押された時
+    $('#search').keypress(function(key) {
+        if(key.which == 13 && $("#search").val() != '') {
+            var parameters = getQueryParameter(getQuery());
+            location.href = window.location.pathname + "?search=" + $("#search").val() + parameters
+        }
+    });
+});
 
 $(window).load(function() {
     //アクションメニュー
@@ -111,3 +100,13 @@ $(window).load(function() {
     }
 });
 
+function getQueryParameter(query) {
+    var parameterList = ["keyword", "category", "channel", "search"];
+
+    var parameters = ""
+    parameterList.forEach(function(parameter) {
+        if(typeof query[parameter] != "undefined") { parameters += "&" + parameter + "=" + query[parameter]; }
+    });
+
+    return parameters;
+}

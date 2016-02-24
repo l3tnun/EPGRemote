@@ -1,23 +1,4 @@
-function scrollTopButton() {
-    $('html,body').animate({ scrollTop: 0 }, 'swing');
-}
-
-//自動予約キーワード追加、更新
-socketio.on("resultAddEPGRecKeyword", function(data) { location.reload(); });
-
-//自動予約キーワード削除
-socketio.on("resultDeleteKeyword", function(result) {
-    if(result.match(/^error/i)){
-        $.growl.error({ message: "result" });
-    } else {
-        location.reload();
-    }
-});
-
-function deleteKeyword(id) {
-    socketio.emit("requestDeleteKeyword", id);
-}
-
+/*HTML から呼ばれる部分*/
 //キーワード詳細
 function openKeywordInfo(keywordStr) {
     keyword = JSON.parse(keywordStr.replace(/'/g, '"'));
@@ -43,7 +24,28 @@ function openKeywordInfo(keywordStr) {
     $("#keywordDialogDelete").attr('href', "javascript:deleteKeyword(" + keyword.id +");");
     $('#actionMenu').popup('close');
     $("#keywordInfoDialog").popup('open');
+
+
 }
+
+function deleteKeyword(id) {
+    socketio.emit("requestDeleteKeyword", id);
+}
+
+/*socketio 受信関係*/
+(function () {
+    //自動予約キーワード追加、更新
+    socketio.on("resultAddEPGRecKeyword", function(data) { location.reload(); });
+
+    //自動予約キーワード削除
+    socketio.on("resultDeleteKeyword", function(result) {
+        if(result.match(/^error/i)){
+            $.growl.error({ message: "result" });
+        } else {
+            location.reload();
+        }
+    });
+})();
 
 $(window).load(function() {
     //pagination処理

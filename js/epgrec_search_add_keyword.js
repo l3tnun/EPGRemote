@@ -1,16 +1,3 @@
-function getWeekOfDay() {
-    var weekofday = 0;
-    if($("#week0").prop('checked')) { weekofday += 0x1; }
-    if($("#week1").prop('checked')) { weekofday += 0x2; }
-    if($("#week2").prop('checked')) { weekofday += 0x4; }
-    if($("#week3").prop('checked')) { weekofday += 0x8; }
-    if($("#week4").prop('checked')) { weekofday += 0x10; }
-    if($("#week5").prop('checked')) { weekofday += 0x20; }
-    if($("#week6").prop('checked')) { weekofday += 0x40; }
-
-    return weekofday;
-}
-
 function addKeyword() {
     var option  = {
         add_keyword: "1",
@@ -53,7 +40,7 @@ function addKeyword() {
     if($("#discontinuity").prop('checked')) { option.k_discontinuity = "1"; }
     if($("#auto_del").prop('checked')) { option.k_auto_del = "1"; }
 
-    var query = getUrlQuery();
+    var query = getQuery();
     if(typeof query.keyword_id != "undefined") {
         option.keyword_id = query.keyword_id;
     } else {
@@ -61,29 +48,45 @@ function addKeyword() {
     }
 
     socketio.emit("addEPGRecKeyword", socketid, option);
+
+    function getWeekOfDay() {
+        var weekofday = 0;
+        if($("#week0").prop('checked')) { weekofday += 0x1; }
+        if($("#week1").prop('checked')) { weekofday += 0x2; }
+        if($("#week2").prop('checked')) { weekofday += 0x4; }
+        if($("#week3").prop('checked')) { weekofday += 0x8; }
+        if($("#week4").prop('checked')) { weekofday += 0x10; }
+        if($("#week5").prop('checked')) { weekofday += 0x20; }
+        if($("#week6").prop('checked')) { weekofday += 0x40; }
+
+        return weekofday;
+    }
 }
 
-//自動予約キーワード追加、更新
-socketio.on("resultAddEPGRecKeyword", function(data) {
-    if(data.socketid != socketid) {
-        if(typeof getUrlQuery().keyword_id != "undefined") { location.reload(); }
-        else { getEPGRecSearchResult(); }
-        return;
-    }
+/*socketio 受信関係*/
+(function () {
+    //自動予約キーワード追加、更新
+    socketio.on("resultAddEPGRecKeyword", function(data) {
+        if(data.socketid != socketid) {
+            if(typeof getQuery().keyword_id != "undefined") { location.reload(); }
+            else { getEPGRecSearchResult(); }
+            return;
+        }
 
-    var query = getUrlQuery();
-    if(typeof query.keyword_id != "undefined" || data.json.length > data.count[0]["count(*)"]) {
-        location.href = "/epgrec_keyword_table";
-    } else {
-        $.growl.error({ message: "正常にキーワードの追加ができなかったようです" });
-    }
-});
+        var query = getQuery();
+        if(typeof query.keyword_id != "undefined" || data.json.length > data.count[0]["count(*)"]) {
+            location.href = "/epgrec_keyword_table";
+        } else {
+            $.growl.error({ message: "正常にキーワードの追加ができなかったようです" });
+        }
+    });
 
-//自動予約キーワード削除
-socketio.on("resultDeleteKeyword", function(data) {
-    if(!data.match(/^error/i)) {
-        if(typeof getUrlQuery().keyword_id != "undefined") { location.reload(); }
-        else { getEPGRecSearchResult(); }
-    }
-});
+    //自動予約キーワード削除
+    socketio.on("resultDeleteKeyword", function(data) {
+        if(!data.match(/^error/i)) {
+            if(typeof getQuery().keyword_id != "undefined") { location.reload(); }
+            else { getEPGRecSearchResult(); }
+        }
+    });
+})();
 

@@ -1,4 +1,10 @@
-function scrollTopButton() { $('html,body').animate({ scrollTop: 0 }, 'swing'); }
+//上にスクロール
+$(function() {
+    $(".scroll_top_button").on('click',function() {
+        $('html,body').animate({ scrollTop: 0 }, 'swing');
+    });
+});
+
 $(function() {
     checkCheckbox();
     $('.logCheckbox').on('change', function () { checkCheckbox(); });
