@@ -55,8 +55,8 @@ $(function($) {
     //Enter キーが押された時
     $('#search').keypress(function(key) {
         if(key.which == 13 && $("#search").val() != '') {
-            var parameters = getQueryParameter(getQuery());
-            location.href = window.location.pathname + "?search=" + $("#search").val() + parameters
+            var parameters = getQueryParameter(getQuery(), true);
+            location.href = window.location.pathname.split("?")[0] + "?search=" + $("#search").val() + parameters;
         }
     });
 });
@@ -86,7 +86,7 @@ $(window).load(function() {
     }
 
     var query = getQuery();
-    var parameters = getQueryParameter(query);
+    var parameters = getQueryParameter(query, false);
     var pathname = window.location.pathname;
 
     if(typeof query.num == "undefined" || query.num < 2) {
@@ -100,11 +100,12 @@ $(window).load(function() {
     }
 });
 
-function getQueryParameter(query) {
+function getQueryParameter(query, noSearch) {
     var parameterList = ["keyword", "category", "channel", "search"];
 
     var parameters = ""
     parameterList.forEach(function(parameter) {
+        if(noSearch == true && parameter == "search") { return; }
         if(typeof query[parameter] != "undefined") { parameters += "&" + parameter + "=" + query[parameter]; }
     });
 

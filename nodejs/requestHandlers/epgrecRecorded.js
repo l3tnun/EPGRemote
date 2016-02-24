@@ -6,11 +6,10 @@ var notFound = require(__dirname + "/notFound");
 
 module.exports = function(response, parsedUrl, request) {
     log.access.info("Request handler 'epgrec recorded' was called.");
-    var ua = JSON.stringify(request.headers['user-agent']).toLocaleLowerCase();
     var searchSQLQuery;
 
     //検索クエリの組み立て
-    if(typeof parsedUrl.query.search != "undefined" && parsedUrl.query.search != '') {
+    if(typeof parsedUrl.query.search != "undefined" && typeof parsedUrl.query.search == "string" && parsedUrl.query.search != '') {
         searchSQLQuery = parsedUrl.query.search.replace(/　/g, " ").trim().replace(/^\s+|\s+$/g,'').replace(/ +/g,' ');
     }
 

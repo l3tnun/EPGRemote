@@ -9,9 +9,7 @@ module.exports = function(limit, queryNum, searchSQLQuery, query, callback) {
     var option = "";
     for (var key in query) { if(typeof query[key] != "undefined") { option += `and ${key} = ${query[key]}`; } }
     if(typeof searchSQLQuery != "undefined" && searchSQLQuery.length != 0) {
-        var titleOption = '(title like "%' + searchSQLQuery.replace(/\s+/g, "%) and (title like %")  + '%")';
-        var description = '(description like "%' + searchSQLQuery.replace(/\s+/g, "%) and (description like %")  + '%")';
-        option += ` and (${titleOption} or ${description}) `;
+        option += ` and (${getLikeOptionStr("title", searchSQLQuery)} or ${getLikeOptionStr("description", searchSQLQuery)}) `;
     }
 
     var jsonConfig = util.getConfig();
@@ -32,5 +30,11 @@ module.exports = function(limit, queryNum, searchSQLQuery, query, callback) {
         callback(results);
         connection.destroy();
     });
+}
+
+function getLikeOptionStr(field, searchSQLQuery) {
+    return `(${field} collate utf8_unicode_ci like "%`
+    + searchSQLQuery.replace(/\s+/g, `%") and (${field} collate utf8_unicode_ci like "%`)
+    + `%")`;
 }
 
