@@ -267,6 +267,7 @@ VLC でダウンロードしたファイルを再生する場合は上記の問�
 * version 0.3.10&nbsp;&nbsp; PC でも番組リストの現在時刻+10分後のデータが取得できるようになった
 * version 0.3.11&nbsp;&nbsp; バグ修正
 * version 0.3.12&nbsp;&nbsp; epgrec UNA のログ表示機能を追加
+* version 0.3.13&nbsp;&nbsp; コードの整理(主にクライアント側のJavascript) & 細かなバグ修正
 
 ## Licence
 
