@@ -126,7 +126,7 @@ function programSearch(id) {
         var programStr = "";
         var stationNameStr = "";
 
-        stationNameStr += `<a href="javascript:jumpViewTv('${channel.sid}', '${channel.channel}', '${channel.name}')" class="station_name" style="color: white;">${channel.name}</a>`;
+        stationNameStr += `<a href="javascript:jumpViewTv('${channel.sid}', '${channel.channel}', '${channel.name}', '${channel.channel_disc}')" class="station_name" style="color: white;">${channel.name}</a>`;
 
         //dummy
         programStr += '<div class="station">\n';

@@ -38,7 +38,7 @@ module.exports = function(io, socket) {
                     if(typeof programs[channel.id + `${i}`] == "undefined" || programs[channel.id + `${i}`].length == 1 && programs[channel.id + `${i}`][0].eid == -1) { return; }
                     stationNameCnt += 1;
 
-                    var stationNameHash = {id: channel.id, sid: channel.sid, channel: channel.channel, name: channel.name }
+                    var stationNameHash = {id: channel.id, sid: channel.sid, channel: channel.channel, name: channel.name, channel_disc: channel.channel_disc }
                     if(ch != null) {
                         titleStr = channel.name;
                         stationNameHash.name = `${("0" + topTime.getDate()).slice(-2)}日 (${getDay(topTime)})`;
