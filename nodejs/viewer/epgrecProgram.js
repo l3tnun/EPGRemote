@@ -46,6 +46,7 @@ module.exports = function(response, length, time, type, ch) {
     //menueBroadcastWave
     var menueBroadcastWave = "";
     var broadcastWave = ['GR', 'BS', 'CS', 'EX'];
+    if(typeof ch != "undefined") { length = 18; }
     for(var i = 0; i < broadcastWave.length; i++) {
         menueBroadcastWave += `<a href="/epgrec_program?type=${broadcastWave[i]}&length=${length}&time=${time}" data-ajax="false" onclick="javascript:$('#progMenuDialog').popup('close');" class="menu_hour_button" style="color: white;">${broadcastWave[i]}</a>\n`;
     }

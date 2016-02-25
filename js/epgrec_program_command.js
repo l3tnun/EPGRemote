@@ -172,6 +172,14 @@ function programSearch(id) {
         var scrollsize = window.innerWidth - $(window).outerWidth(true);
         var contentHeight = Number($("#tv_program_content").css("height").replace("px", "")) - Number($("#station_name_id").css("height").replace("px", "")) - scrollsize;
         $("#tv_program_content").css("height", contentHeight + "px");
+
+        //jump dialog のチャンネル名書き換え
+        if(typeof getQuery().ch == "undefined") { return; }
+        var titleStr = $("#header_title").text().replace(" ", "[" + data.titleStr + "]");
+        $("#header_title").text(titleStr);
+        $("title").text(titleStr);
+        $("#channelName").html('<input type="hidden" name="channelName" value=' + data.titleStr + ' id="channelName">');
+        $("#jumpDialogChannelName").text(data.titleStr);
     });
 
     /*socketio受信関係*/

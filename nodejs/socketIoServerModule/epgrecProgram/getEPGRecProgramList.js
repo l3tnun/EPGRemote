@@ -30,7 +30,7 @@ module.exports = function(io, socket) {
             var maxTimeHeight = 180 * length;
             var topTime = new Date(`${time.substr(0,4)}-${time.substr(4,2)}-${time.substr(6,2)}T${time.substr(8,2)}:00:00+0900`);
             var endTime = new Date(topTime.getTime() + (length * 1000 * 60 * 60) );
-            var stationNameCnt = 0;
+            var stationNameCnt = 0, titleStr;
 
             for(var i = 0; i < getMaxProgramTbl; i++) {
                 var heightCount = 0;
@@ -39,7 +39,10 @@ module.exports = function(io, socket) {
                     stationNameCnt += 1;
 
                     var stationNameHash = {id: channel.id, sid: channel.sid, channel: channel.channel, name: channel.name }
-                    if(ch != null) { stationNameHash.name = `${("0" + topTime.getDate()).slice(-2)}日 (${getDay(topTime)})`; }
+                    if(ch != null) {
+                        titleStr = channel.name;
+                        stationNameHash.name = `${("0" + topTime.getDate()).slice(-2)}日 (${getDay(topTime)})`;
+                    }
                     var programArray = []
                     programs[channel.id + `${i}`].forEach(function(program) {
                         if(heightCount == 0 && new Date(program.starttime) > topTime) {
@@ -67,7 +70,7 @@ module.exports = function(io, socket) {
                 endTime = new Date(endTime.getTime() + (1000 * 60 * 60 * 24));
             }
 
-            io.sockets.emit("finishEPGProgramDataSend", { socketid: socketid, stationNameCnt: stationNameCnt } );
+            io.sockets.emit("finishEPGProgramDataSend", { socketid: socketid, stationNameCnt: stationNameCnt, titleStr: titleStr } );
         });
     });
 }

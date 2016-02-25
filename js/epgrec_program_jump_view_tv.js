@@ -10,8 +10,10 @@ function jumpViewTv(sid, channel, name) {
 
     $("#sid").html('<input type="hidden" name="sid" value='+ sid + ' id="sid">');
     $("#channel").html('<input type="hidden" name="channel" value=' + channel + ' id="channel">');
-    $("#channelName").html('<input type="hidden" name="channelName" value=' + name + ' id="channelName">');
-    $("#jumpDialogChannelName").text(name);
+    if(typeof query.ch == "undefined") {
+        $("#channelName").html('<input type="hidden" name="channelName" value=' + name + ' id="channelName">');
+        $("#jumpDialogChannelName").text(name);
+    }
 
     notifyReceiveChangeChannelConfig(query["type"]);
 
