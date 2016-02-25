@@ -271,6 +271,7 @@ VLC でダウンロードしたファイルを再生する場合は上記の問�
 * version 0.3.14&nbsp;&nbsp; 録画済み一覧の検索のバグ修正 & 全角半角を同一視するようにした
 * version 0.3.15&nbsp;&nbsp; 番組検索のバグ修正
 * version 0.3.16&nbsp;&nbsp; 番組表の修正
+* version 0.3.17&nbsp;&nbsp; バグ修正
 
 ## Licence
 
