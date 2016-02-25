@@ -47,7 +47,7 @@ function cancelRec(id) {
 //自動予約許可、禁止
 function toggleAutoRec(id) {
     var autorec;
-    if($("#prgID_" + id)[0].className.split(" ").indexOf("tv_program_freeze") >= 0) {
+    if($(`[id=prgID_${id}]`)[0].className.split(" ").indexOf("tv_program_freeze") >= 0) {
         autorec = 0;
     } else {
         autorec = 1;
@@ -192,7 +192,7 @@ function programSearch(id) {
                 location.reload();
             } else {
                 if( r_id ) {
-                    $('#prgID_' + r_id).addClass('tv_program_reced'); //赤枠追加
+                    $(`[id=prgID_${r_id}]`).addClass('tv_program_reced'); //赤枠追加
                     notifyGrowl("簡易予約", 'prgID_' + data.id)
                 }
                 closeDialogs(data.id);
@@ -217,7 +217,7 @@ function programSearch(id) {
                 location.reload();
             } else {
                 if( r_id ) {
-                    $('#prgID_' + r_id).addClass('tv_program_reced'); //赤枠追加
+                    $(`[id=prgID_${r_id}]`).addClass('tv_program_reced'); //赤枠追加
                     notifyGrowl("詳細予約", 'prgID_' + data.id)
                 }
                 closeDialogs(data.id);
@@ -237,7 +237,7 @@ function programSearch(id) {
             if( reload ) {
                 location.reload();
             } else {
-                $('#prgID_' + data.id).removeClass('tv_program_reced');
+                $(`[id=prgID_${data.id}]`).removeClass('tv_program_reced');
                 notifyGrowl("予約キャンセル", 'prgID_' + data.id);
                 closeDialogs(data.id);
             }
@@ -247,10 +247,10 @@ function programSearch(id) {
     //自動予約
     socketio.on("autoRecResult", function (data){
         if(data.autorec) {
-        $   ('#prgID_' + data.id).addClass('tv_program_freeze');
+        $   (`[id=prgID_${data.id}]`).addClass('tv_program_freeze');
             notifyGrowl("自動予約禁止", 'prgID_' + data.id)
         } else {
-            $('#prgID_' + data.id).removeClass('tv_program_freeze');
+            $(`[id=prgID_${data.id}]`).removeClass('tv_program_freeze');
             notifyGrowl("自動予約許可", 'prgID_' + data.id)
         }
         closeDialogs(data.id);
@@ -259,12 +259,12 @@ function programSearch(id) {
     //予約一覧から予約削除
     socketio.on("resultCancelReservation", function(data) {
         if(!data.result.match(/^error/i)) {
-            $('#prgID_' + data.rec_id).removeClass('tv_program_reced');
+            $(`[id=prgID_${data.rec_id}]`).removeClass('tv_program_reced');
             notifyGrowl("予約キャンセル", 'prgID_' + data.rec_id);
             if(data.checkbox) {
-                $('#prgID_' + data.rec_id).addClass('tv_program_freeze');
+                $(`[id=prgID_${data.rec_id}]`).addClass('tv_program_freeze');
             } else {
-                $('#prgID_' + data.rec_id).removeClass('tv_program_freeze');
+                $(`[id=prgID_${data.rec_id}]`).removeClass('tv_program_freeze');
             }
             closeDialogs(data.rec_id);
         }
