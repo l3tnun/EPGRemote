@@ -1,5 +1,5 @@
 /*HTMLから呼ばれる部分*/
-function jumpViewTv(sid, channel, name) {
+function jumpViewTv(sid, channel, name, channel_disc) {
     var query = document.location.search.substring(1);
     var parameters = query.split('&');
     var query = {};
@@ -10,8 +10,15 @@ function jumpViewTv(sid, channel, name) {
 
     $("#sid").html('<input type="hidden" name="sid" value='+ sid + ' id="sid">');
     $("#channel").html('<input type="hidden" name="channel" value=' + channel + ' id="channel">');
-    $("#channelName").html('<input type="hidden" name="channelName" value=' + name + ' id="channelName">');
-    $("#jumpDialogChannelName").text(name);
+    if(typeof query.ch == "undefined") {
+        $("#channelName").html('<input type="hidden" name="channelName" value=' + name + ' id="channelName">');
+        $("#jumpDialogChannelName").text(name);
+        var url =`/epgrec_program?type=${query.type}&ch=${channel_disc}`;
+        if(typeof query.time != "undefined") { url += `&time=${query.time}`; };
+        $("#single_station_button").attr("href", url);
+    } else {
+        $("#single_station_button").css("display", "none");
+    }
 
     notifyReceiveChangeChannelConfig(query["type"]);
 

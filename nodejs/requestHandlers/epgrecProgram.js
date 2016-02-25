@@ -6,6 +6,7 @@ module.exports = function(response, parsedUrl) {
     var type = parsedUrl.query.type;
     var length = parsedUrl.query.length;
     var time = parsedUrl.query.time;
+    var ch = parsedUrl.query.ch;
 
     if(typeof type == "undefined") { type = "GR"; }
     if(typeof length == "undefined") { length = 18; }
@@ -13,7 +14,7 @@ module.exports = function(response, parsedUrl) {
         var date = new Date();
         time = `${date.getFullYear()}${('0'+(date.getMonth()+1)).slice(-2)}${('0' + date.getDate()).slice(-2)}${('0' + date.getHours()).slice(-2)}`;
     }
-
-    viewerEpgrecProgram(response, length, time, type);
+    if(typeof ch != "undefined") { length = 24; }
+    viewerEpgrecProgram(response, length, time, type, ch);
 }
 

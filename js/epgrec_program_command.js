@@ -47,7 +47,7 @@ function cancelRec(id) {
 //自動予約許可、禁止
 function toggleAutoRec(id) {
     var autorec;
-    if($("#prgID_" + id)[0].className.split(" ").indexOf("tv_program_freeze") >= 0) {
+    if($(`[id=prgID_${id}]`)[0].className.split(" ").indexOf("tv_program_freeze") >= 0) {
         autorec = 0;
     } else {
         autorec = 1;
@@ -92,6 +92,9 @@ function programSearch(id) {
     var type = query.type;
     var length = query.length;
     var time = query.time;
+    var ch = query.ch;
+
+    if(typeof ch != "undefined") { length = 24; }
 
     if(typeof type == "undefined") { type = "GR"; }
     if(typeof length == "undefined") { length = 18; }
@@ -100,7 +103,7 @@ function programSearch(id) {
         time = `${date.getFullYear()}${('0'+(date.getMonth()+1)).slice(-2)}${('0' + date.getDate()).slice(-2)}${('0'+ date.getHours()).slice(-2)}`;
     }
 
-    socketio.emit("getEPGRecProgramList", socketid, type, length, time);
+    socketio.emit("getEPGRecProgramList", socketid, type, length, time, ch);
 
     socketio.on("resultEPGRecProgramList", function (data) {
         if(data.socketid != socketid) { return; }
@@ -123,7 +126,7 @@ function programSearch(id) {
         var programStr = "";
         var stationNameStr = "";
 
-        stationNameStr += `<a href="javascript:jumpViewTv('${channel.sid}', '${channel.channel}', '${channel.name}')" class="station_name" style="color: white;">${channel.name}</a>`;
+        stationNameStr += `<a href="javascript:jumpViewTv('${channel.sid}', '${channel.channel}', '${channel.name}', '${channel.channel_disc}')" class="station_name" style="color: white;">${channel.name}</a>`;
 
         //dummy
         programStr += '<div class="station">\n';
@@ -169,6 +172,14 @@ function programSearch(id) {
         var scrollsize = window.innerWidth - $(window).outerWidth(true);
         var contentHeight = Number($("#tv_program_content").css("height").replace("px", "")) - Number($("#station_name_id").css("height").replace("px", "")) - scrollsize;
         $("#tv_program_content").css("height", contentHeight + "px");
+
+        //jump dialog のチャンネル名書き換え
+        if(typeof getQuery().ch == "undefined") { return; }
+        var titleStr = $("#header_title").text().replace(" ", "[" + data.titleStr + "]");
+        $("#header_title").text(titleStr);
+        $("title").text(titleStr);
+        $("#channelName").html('<input type="hidden" name="channelName" value=' + data.titleStr + ' id="channelName">');
+        $("#jumpDialogChannelName").text(data.titleStr);
     });
 
     /*socketio受信関係*/
@@ -189,7 +200,7 @@ function programSearch(id) {
                 location.reload();
             } else {
                 if( r_id ) {
-                    $('#prgID_' + r_id).addClass('tv_program_reced'); //赤枠追加
+                    $(`[id=prgID_${r_id}]`).addClass('tv_program_reced'); //赤枠追加
                     notifyGrowl("簡易予約", 'prgID_' + data.id)
                 }
                 closeDialogs(data.id);
@@ -214,7 +225,7 @@ function programSearch(id) {
                 location.reload();
             } else {
                 if( r_id ) {
-                    $('#prgID_' + r_id).addClass('tv_program_reced'); //赤枠追加
+                    $(`[id=prgID_${r_id}]`).addClass('tv_program_reced'); //赤枠追加
                     notifyGrowl("詳細予約", 'prgID_' + data.id)
                 }
                 closeDialogs(data.id);
@@ -234,7 +245,7 @@ function programSearch(id) {
             if( reload ) {
                 location.reload();
             } else {
-                $('#prgID_' + data.id).removeClass('tv_program_reced');
+                $(`[id=prgID_${data.id}]`).removeClass('tv_program_reced');
                 notifyGrowl("予約キャンセル", 'prgID_' + data.id);
                 closeDialogs(data.id);
             }
@@ -244,10 +255,10 @@ function programSearch(id) {
     //自動予約
     socketio.on("autoRecResult", function (data){
         if(data.autorec) {
-        $   ('#prgID_' + data.id).addClass('tv_program_freeze');
+        $   (`[id=prgID_${data.id}]`).addClass('tv_program_freeze');
             notifyGrowl("自動予約禁止", 'prgID_' + data.id)
         } else {
-            $('#prgID_' + data.id).removeClass('tv_program_freeze');
+            $(`[id=prgID_${data.id}]`).removeClass('tv_program_freeze');
             notifyGrowl("自動予約許可", 'prgID_' + data.id)
         }
         closeDialogs(data.id);
@@ -256,12 +267,12 @@ function programSearch(id) {
     //予約一覧から予約削除
     socketio.on("resultCancelReservation", function(data) {
         if(!data.result.match(/^error/i)) {
-            $('#prgID_' + data.rec_id).removeClass('tv_program_reced');
+            $(`[id=prgID_${data.rec_id}]`).removeClass('tv_program_reced');
             notifyGrowl("予約キャンセル", 'prgID_' + data.rec_id);
             if(data.checkbox) {
-                $('#prgID_' + data.rec_id).addClass('tv_program_freeze');
+                $(`[id=prgID_${data.rec_id}]`).addClass('tv_program_freeze');
             } else {
-                $('#prgID_' + data.rec_id).removeClass('tv_program_freeze');
+                $(`[id=prgID_${data.rec_id}]`).removeClass('tv_program_freeze');
             }
             closeDialogs(data.rec_id);
         }

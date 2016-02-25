@@ -160,3 +160,7 @@ input[type="checkbox"] {
     transform: scale(1.5);
 }
 
+.ui-page-theme-a {
+    text-shadow: none;
+}
+
