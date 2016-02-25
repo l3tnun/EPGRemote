@@ -1,7 +1,7 @@
 EPGRemote
 ====
 
-EPGRec UNA の HLS View + 番組表簡易 Web UI (Node.js)
+EPGRec UNA の HLS View + スマートフォン用 Web UI (Node.js)
 
 ## これはなに？
 
@@ -9,8 +9,8 @@ EPGRec UNA 用の後方支援プログラムです。EPGRec UNA の番組情報�
 
 * 機能
  *  現在放送中の番組のリアルタイム配信(HLS)
- *  スマートフォン用の EPGRec UNA の 簡易 Web UI
-     * 番組表一覧 (簡易予約、詳細予約、自動予約禁止に対応)
+ *  スマートフォン用の EPGRec UNA の Web UI
+     * 番組表一覧 (簡易予約、詳細予約、自動予約禁止、単局表示に対応)
      * 録画済み一覧 (ts or EPGRec UNA でエンコード済み動画ファイル をスマートフォンの任意のアプリで再生する機能)
      * 録画予約一覧
      * 番組検索、自動録画キーワードの作成、更新
@@ -272,6 +272,7 @@ VLC でダウンロードしたファイルを再生する場合は上記の問�
 * version 0.3.15&nbsp;&nbsp; 番組検索のバグ修正
 * version 0.3.16&nbsp;&nbsp; 番組表の修正
 * version 0.3.17&nbsp;&nbsp; バグ修正
+* version 0.3.18&nbsp;&nbsp; 番組表での単局表示に対応
 
 ## Licence
 
