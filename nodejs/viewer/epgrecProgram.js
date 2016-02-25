@@ -3,7 +3,7 @@ var readFile = require(__dirname + "/readFile");
 var notFound = require(__dirname + "/notFound");
 var responseFile = require(__dirname + "/responseFile");
 
-module.exports = function(response, length, time, type) {
+module.exports = function(response, length, time, type, ch) {
     log.access.info("viewer 'epgrecProgram' was called.");
     //time
     var hour = Number(time.substr(8, 2));
@@ -23,17 +23,24 @@ module.exports = function(response, length, time, type) {
     var strHour = time.substr(8, 2);
     var titleStr = `${type} ${strYear}年${strMon}月${strDate}日${strHour}時〜`;
 
+    var urlOption = '', chUsrlOption = '';
+    if(typeof ch != "undefined") {
+        urlOption = `ch=${ch}`
+    } else {
+        urlOption = `type=${type}`;
+    }
+
     //menueTime
     var menuTime = "";
-    for(var i = 2; i <= 24; i+=2) {
-        menuTime += `<a href="/epgrec_program?type=${type}&length=${length}&time=${strYear + strMon + strDate + ("0" + i).slice(-2)}" data-ajax="false" onclick="javascript:$('#progMenuDialog').popup('close');" class="menu_hour_button" style="color: white;">${("0" + i).slice(-2)}</a>\n`;
+    for(var i = 0; i <= 22; i+=2) {
+        menuTime += `<a href="/epgrec_program?${urlOption}&length=${length}&time=${strYear + strMon + strDate + ("0" + i).slice(-2)}" data-ajax="false" onclick="javascript:$('#progMenuDialog').popup('close');" class="menu_hour_button" style="color: white;">${("0" + i).slice(-2)}</a>\n`;
     }
 
     //menueDate
-    var menuDate = `<a href="/epgrec_program?type=${type}&length=${length}" data-ajax="false" onclick="javascript:$('#progMenuDialog').popup('close');" class="menu_hour_button" style="color: white;">現在</a>\n`;
+    var menuDate = `<a href="/epgrec_program?${urlOption}&length=${length}" data-ajax="false" onclick="javascript:$('#progMenuDialog').popup('close');" class="menu_hour_button" style="color: white;">現在</a>\n`;
     for(var i = -1; i < 8; i++) {
         var strDate = getAddDate(strYear, strMon, strDate, i);
-        menuDate += `<a href="/epgrec_program?type=${type}&length=${length}&time=${strDate["year"]}${strDate["month"]}${strDate["date"]}${("0" + strHour).slice(-2)}" data-ajax="false" onclick="javascript:$('#progMenuDialog').popup('close');" class="menu_hour_button" style="color: white;">${strDate["date"]}(${strDate["day"]})</a>\n`;
+        menuDate += `<a href="/epgrec_program?${urlOption}&length=${length}&time=${strDate["year"]}${strDate["month"]}${strDate["date"]}${("0" + strHour).slice(-2)}" data-ajax="false" onclick="javascript:$('#progMenuDialog').popup('close');" class="menu_hour_button" style="color: white;">${strDate["date"]}(${strDate["day"]})</a>\n`;
     }
 
     //menueBroadcastWave

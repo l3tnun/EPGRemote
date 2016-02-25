@@ -92,6 +92,9 @@ function programSearch(id) {
     var type = query.type;
     var length = query.length;
     var time = query.time;
+    var ch = query.ch;
+
+    if(typeof ch != "undefined") { length = 24; }
 
     if(typeof type == "undefined") { type = "GR"; }
     if(typeof length == "undefined") { length = 18; }
@@ -100,7 +103,7 @@ function programSearch(id) {
         time = `${date.getFullYear()}${('0'+(date.getMonth()+1)).slice(-2)}${('0' + date.getDate()).slice(-2)}${('0'+ date.getHours()).slice(-2)}`;
     }
 
-    socketio.emit("getEPGRecProgramList", socketid, type, length, time);
+    socketio.emit("getEPGRecProgramList", socketid, type, length, time, ch);
 
     socketio.on("resultEPGRecProgramList", function (data) {
         if(data.socketid != socketid) { return; }
