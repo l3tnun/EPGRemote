@@ -29,7 +29,7 @@ module.exports = function(io, socket) {
             var heightCount = 0;
 
             sqlResult[1].forEach(function(channel) {
-                if(typeof programs[channel.id] == "undefined" ) { return; }
+                if(typeof programs[channel.id] == "undefined" || programs[channel.id].length == 1 && programs[channel.id][0].eid == -1) { return; }
                 stationNameCnt += 1;
 
                 var stationNameHash = {id: channel.id, sid: channel.sid, channel: channel.channel, name: channel.name }
