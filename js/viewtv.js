@@ -41,6 +41,8 @@ function notifyChangeChannel() {
 }
 
 /*viewtv.js内で呼ばれる部分*/
+var tabType;
+function getTvProgramList() { socketio.emit("getTvProgramList", socketid, tabType, nextTimeCount); }
 function getStreamNumber() {  return $("#streamNumber").val(); }
 
 $(document).ready(function(){
@@ -71,11 +73,6 @@ $(function () {
     //番組情報の取得をサーバに依頼する
     function getTvProgram() {
         socketio.emit("getTvProgram", getStreamNumber());
-    }
-
-    var tabType;
-    function getTvProgramList() {
-        socketio.emit("getTvProgramList", socketid, tabType, nextTimeCount);
     }
 
     /*socketio 受信関係*/
