@@ -35,15 +35,22 @@ function route(parsedUrl, response, request, postData) {
     log.access.info("Access IP is " + request.connection.remoteAddress);
     log.access.info("Access UA is " + request.headers['user-agent']);
     log.access.info("About to route a request for " + parsedUrl.pathname);
-    if(typeof handle[parsedUrl.pathname] == 'function') {
+    if(checkQuery(parsedUrl.query) == false) {
+        return requestHandlers.badRequest(response);
+    } else if(typeof handle[parsedUrl.pathname] == 'function') {
         return handle[parsedUrl.pathname](response, parsedUrl, request, postData);
     } else if(parsedUrl.pathname.split(path.sep)[1] == "video") {
         return requestHandlers.responseVideoFile(response, request, parsedUrl, fileTypeHash);
     } else if (path.extname(parsedUrl.pathname) in fileTypeHash) {
         return requestHandlers.responseSpecifiedFile(response, request, parsedUrl, fileTypeHash);
     } else {
-        return requestHandlers.notFound(response);
+        return requestHandlers.badRequest(response);
     }
+}
+
+function checkQuery(query) {
+    for(var key in query){ if(typeof query[key] != "string") { return false; } }
+    return true;
 }
 
 exports.route = route;
