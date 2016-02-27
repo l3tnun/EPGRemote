@@ -3,6 +3,8 @@
 
     "useHLS" : true,
 
+    "broadcast" :  { "GR" : true, "BS" : true, "CS" : true, "EX" : true },
+
     "epgrecConfig" : {
         "host" : "192.168.xx.xx:xxxx",
         "programTable.php" : "programTable2.php",
