@@ -121,10 +121,10 @@ function getEPGRecSearchResult() {
 
         //放送波
         if(!$("#type_gr").prop('checked') && !$("#type_bs").prop('checked') && !$("#type_cs").prop('checked') && !$("#type_ex").prop('checked') ) {
-            $("#type_gr").prop('checked', true);
-            $("#type_bs").prop('checked', true);
-            $("#type_cs").prop('checked', true);
-            $("#type_ex").prop('checked', true);
+            if($("#type_gr_label").css("display") != "none") { $("#type_gr").prop('checked', true); }
+            if($("#type_bs_label").css("display") != "none") { $("#type_bs").prop('checked', true); }
+            if($("#type_cs_label").css("display") != "none") { $("#type_cs").prop('checked', true); }
+            if($("#type_ex_label").css("display") != "none") { $("#type_ex").prop('checked', true); }
         }
     }
 }

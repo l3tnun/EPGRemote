@@ -1,4 +1,5 @@
 var log = require(__dirname + "/../logger").getLogger();
+var util = require(__dirname + "/../util");
 var readFile = require(__dirname + "/readFile");
 var notFound = require(__dirname + "/notFound");
 var responseFile = require(__dirname + "/responseFile");
@@ -45,7 +46,9 @@ module.exports = function(response, length, time, type, ch) {
 
     //menueBroadcastWave
     var menueBroadcastWave = "";
-    var broadcastWave = ['GR', 'BS', 'CS', 'EX'];
+    var broadcastWave = [];
+    var broadcast = util.getConfig()["broadcast"];
+    for (var key in broadcast) { if(broadcast[key] != false) { broadcastWave.push(key) } }
     if(typeof ch != "undefined") { length = 18; }
     for(var i = 0; i < broadcastWave.length; i++) {
         menueBroadcastWave += `<a href="/epgrec_program?type=${broadcastWave[i]}&length=${length}&time=${time}" data-ajax="false" onclick="javascript:$('#progMenuDialog').popup('close');" class="menu_hour_button" style="color: white;">${broadcastWave[i]}</a>\n`;
