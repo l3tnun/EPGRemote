@@ -45,7 +45,7 @@ function route(parsedUrl, response, request, postData) {
     } else if (path.extname(parsedUrl.pathname) in fileTypeHash) {
         return requestHandlers.responseSpecifiedFile(response, request, parsedUrl, fileTypeHash);
     } else {
-        return requestHandlers.badRequest(response);
+        return requestHandlers.notFound(response);
     }
 }
 
