@@ -67,7 +67,13 @@ $(function () {
         clearInterval(viewTvUpdateTvProgramTimer);
         getTvProgramList();
     });
-    $("#GR_tab").click();
+    var tabs = $("#tab").children();
+    for(var i = 0; i < tabs.length; i++) {
+        if(tabs[i].style.display != "none") {
+            $("#" + tabs[i].id).click();
+            break;
+        }
+    }
     setTimeout(function() { getTvProgram() }, 500);
 
     //番組情報の取得をサーバに依頼する
