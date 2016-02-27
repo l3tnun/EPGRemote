@@ -32,6 +32,7 @@ var fileTypeHash = {
 }
 
 function route(parsedUrl, response, request, postData) {
+    parsedUrl.pathname = getPathname(parsedUrl.pathname);
     log.access.info("Access IP is " + request.connection.remoteAddress);
     log.access.info("Access UA is " + request.headers['user-agent']);
     log.access.info("About to route a request for " + parsedUrl.pathname);
@@ -46,6 +47,13 @@ function route(parsedUrl, response, request, postData) {
     } else {
         return requestHandlers.badRequest(response);
     }
+}
+
+function getPathname(pathname) {
+    if(pathname.length > 1 && pathname.charAt(pathname.length - 1) == "/") {
+        return pathname.slice(0, -1);
+    }
+    return pathname;
 }
 
 function checkQuery(query) {
