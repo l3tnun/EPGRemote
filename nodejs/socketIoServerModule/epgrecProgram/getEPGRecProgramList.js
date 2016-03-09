@@ -27,7 +27,7 @@ module.exports = function(io, socket) {
 
             io.sockets.emit("resultEPGRecProgramList", { socketid: socketid, recMode: config.epgrecConfig.recMode, recModeDefaultId: config.epgrecConfig.recModeDefaultId, genrus: sqlResult[0], recordedPrograms: recordedPrograms });
 
-            var maxTimeHeight = 180 * length;
+            var maxTimeHeight = config["tvTimeLength"] * length;
             var topTime = new Date(`${time.substr(0,4)}-${time.substr(4,2)}-${time.substr(6,2)}T${time.substr(8,2)}:00:00+0900`);
             var endTime = new Date(topTime.getTime() + (length * 1000 * 60 * 60) );
             var stationNameCnt = 0, titleStr;
@@ -46,13 +46,13 @@ module.exports = function(io, socket) {
                     var programArray = []
                     programs[channel.id + `${i}`].forEach(function(program) {
                         if(heightCount == 0 && new Date(program.starttime) > topTime) {
-                            var emptyHeight = (new Date(program.starttime).getTime() - topTime.getTime()) / 1000 / 60 * 3;
+                            var emptyHeight = (new Date(program.starttime).getTime() - topTime.getTime()) / 1000 / 60 * (config["tvTimeLength"] / 60);
                             var dummyProgram = {id: -1, height: emptyHeight};
                             heightCount += emptyHeight;
                             programArray.push(dummyProgram);
                         }
 
-                        var height = getProgramHeight(program, topTime, endTime);
+                        var height = getProgramHeight(program, topTime, endTime, config["tvTimeLength"]);
                         program.height = height;
                         programArray.push(program);
                         heightCount += height;
@@ -75,13 +75,13 @@ module.exports = function(io, socket) {
     });
 }
 
-function getProgramHeight(program, topTime, endTime) {
+function getProgramHeight(program, topTime, endTime, tvTimeLength) {
     var programStart = new Date(program.starttime);
     var programEnd = new Date(program.endtime);
     var startDate = programStart < topTime ? topTime : programStart;
     var endDate = programEnd > endTime ? endTime : programEnd;
 
-    return height = (endDate.getTime() - startDate.getTime()) / 1000 / 60 * 3;
+    return height = (endDate.getTime() - startDate.getTime()) / 1000 / 60 * (tvTimeLength / 60);
 }
 
 var dayStr = ['日', '月', '火', '水', '木', '金', '土']

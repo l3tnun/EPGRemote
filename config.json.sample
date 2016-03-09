@@ -98,6 +98,8 @@
 
     "EpgrecRecordName" : "Recorder_",
 
+    "tvTimeLength" : "180",
+
     "RecordedStreamingiOSURL" : "infuse://x-callback-url/play?url=http://ADDRESS",
     "RecordedDownloadiOSURL" : "vlc-x-callback://x-callback-url/download?url=http://ADDRESS&filename=FILENAME"
 }

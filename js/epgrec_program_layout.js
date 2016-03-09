@@ -16,12 +16,13 @@ function initEpgrecProgramLayout() {
 
     //時刻線
     function moveTableNowBas() {
+        var timeHeight = $("#tv_time_id").children()[1].offsetHeight;
         var oldDate = getDateFromQuery();
         var nowDate = new Date().getTime();
-        var basPosition = (((nowDate - oldDate) / (1000 * 60)) * 3) + 2;
+        var basPosition = (((nowDate - oldDate) / (1000 * 60)) * (timeHeight / 60) ) + 2;
         var queryLength = getQuery().length;
-        if(typeof queryLength == "undefined") { queryLength = 18; }
-        if(basPosition > queryLength * 180 || basPosition < 0) { basPosition = 0; }
+        if(typeof queryLength == "undefined") { queryLength = $("#tv_time_id").children().length - 1; }
+        if(basPosition > queryLength * timeHeight || basPosition < 0) { basPosition = -100; }
         $('#tableNowBas').css('top', basPosition + 'px');
     }
 
