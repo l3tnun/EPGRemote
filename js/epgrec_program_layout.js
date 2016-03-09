@@ -14,14 +14,16 @@ function initEpgrecProgramLayout() {
         }
     }
 
+    function getTimeChildren() { return $("#tv_time_id").find('.time'); }
+
     //時刻線
     function moveTableNowBars() {
-        var timeHeight = $("#tv_time_id").children()[1].offsetHeight;
+        var timeHeight = getTimeChildren()[1].offsetHeight;
         var oldDate = getDateFromQuery();
         var nowDate = new Date().getTime();
         var basPosition = (((nowDate - oldDate) / (1000 * 60)) * (timeHeight / 60) ) + 2;
         var queryLength = getQuery().length;
-        if(typeof queryLength == "undefined") { queryLength = $("#tv_time_id").children().length - 1; }
+        if(typeof queryLength == "undefined") { queryLength = getTimeChildren().length - 1; }
         if(basPosition > queryLength * timeHeight || basPosition < 0) { basPosition = -100; }
         $('#tableNowBas').css('top', basPosition + 'px');
     }

@@ -11,6 +11,7 @@ module.exports = function(io, socket) {
 
         if(ch != null) { length = 24; }
         if(length == null) { length = config["tvTimeHourLength"]; }
+        if(length > 24) { length = 24; }
 
         var getMaxProgramTbl = 1;
         if(ch != null) { getMaxProgramTbl = 7; }

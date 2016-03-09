@@ -15,7 +15,7 @@ module.exports = function(response, parsedUrl) {
         var date = new Date();
         time = `${date.getFullYear()}${('0'+(date.getMonth()+1)).slice(-2)}${('0' + date.getDate()).slice(-2)}${('0' + date.getHours()).slice(-2)}`;
     }
-    if(typeof ch != "undefined") { length = 24; }
+    if(typeof ch != "undefined" || length > 24) { length = 24; }
     viewerEpgrecProgram(response, length, time, type, ch);
 }
 
