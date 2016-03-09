@@ -46,7 +46,7 @@ select {
 }
 
 .infoDialogButton {
-    background: #0078AE none repeat scroll 0% 0%;
+    background: #0689C5 none repeat scroll 0% 0%;
     color: white;
     text-shadow: none;
     padding: 11px 10px;
@@ -58,7 +58,7 @@ select {
 }
 
 .infoDialogCancelButton {
-    background: #0078AE none repeat scroll 0% 0%;
+    background: #0689C5 none repeat scroll 0% 0%;
     color: #FFF;
     text-shadow: none;
     padding: 11px 22px;
