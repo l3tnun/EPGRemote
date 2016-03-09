@@ -36,14 +36,14 @@ module.exports = function(response, length, time, type, ch) {
     //menueTime
     var menuTime = "";
     for(var i = 0; i <= 22; i+=2) {
-        menuTime += `<a href="/epgrec_program?${urlOption}&length=${length}&time=${strYear + strMon + strDate + ("0" + i).slice(-2)}" data-ajax="false" onclick="javascript:$('#progMenuDialog').popup('close');" class="menu_hour_button" style="color: white;">${("0" + i).slice(-2)}</a>\n`;
+        menuTime += `<a href="/epgrec_program?${urlOption}&time=${strYear + strMon + strDate + ("0" + i).slice(-2)}" data-ajax="false" onclick="javascript:$('#progMenuDialog').popup('close');" class="menu_hour_button" style="color: white;">${("0" + i).slice(-2)}</a>\n`;
     }
 
     //menueDate
-    var menuDate = `<a href="/epgrec_program?${urlOption}&length=${length}" data-ajax="false" onclick="javascript:$('#progMenuDialog').popup('close');" class="menu_hour_button" style="color: white;">現在</a>\n`;
+    var menuDate = `<a href="/epgrec_program?${urlOption}" data-ajax="false" onclick="javascript:$('#progMenuDialog').popup('close');" class="menu_hour_button" style="color: white;">現在</a>\n`;
     for(var i = -1; i < 8; i++) {
         var strDate = getAddDate(strYear, strMon, strDate, i);
-        menuDate += `<a href="/epgrec_program?${urlOption}&length=${length}&time=${strDate["year"]}${strDate["month"]}${strDate["date"]}${("0" + strHour).slice(-2)}" data-ajax="false" onclick="javascript:$('#progMenuDialog').popup('close');" class="menu_hour_button" style="color: white;">${strDate["date"]}(${strDate["day"]})</a>\n`;
+        menuDate += `<a href="/epgrec_program?${urlOption}&time=${strDate["year"]}${strDate["month"]}${strDate["date"]}${("0" + strHour).slice(-2)}" data-ajax="false" onclick="javascript:$('#progMenuDialog').popup('close');" class="menu_hour_button" style="color: white;">${strDate["date"]}(${strDate["day"]})</a>\n`;
     }
 
     //menueBroadcastWave
@@ -51,9 +51,9 @@ module.exports = function(response, length, time, type, ch) {
     var broadcastWave = [];
     var broadcast = util.getConfig()["broadcast"];
     for (var key in broadcast) { if(broadcast[key] != false) { broadcastWave.push(key) } }
-    if(typeof ch != "undefined") { length = 18; }
+    if(typeof ch != "undefined") { length = 24; }
     for(var i = 0; i < broadcastWave.length; i++) {
-        menueBroadcastWave += `<a href="/epgrec_program?type=${broadcastWave[i]}&length=${length}&time=${time}" data-ajax="false" onclick="javascript:$('#progMenuDialog').popup('close');" class="menu_hour_button" style="color: white;">${broadcastWave[i]}</a>\n`;
+        menueBroadcastWave += `<a href="/epgrec_program?type=${broadcastWave[i]}&time=${time}" data-ajax="false" onclick="javascript:$('#progMenuDialog').popup('close');" class="menu_hour_button" style="color: white;">${broadcastWave[i]}</a>\n`;
     }
 
     var htmlfile = readFile("./HTML/epgrecprogram.html");

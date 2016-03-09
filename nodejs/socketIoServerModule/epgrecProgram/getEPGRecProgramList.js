@@ -6,8 +6,12 @@ module.exports = function(io, socket) {
     //番組表取得
     socket.on("getEPGRecProgramList", function (socketid, type, length, time, ch) {
         log.access.info(`socketio 'getEPGRecProgramList' was called. ${socketid} ${type} ${length} ${time}`);
-
         var config = util.getConfig();
+        var stationWidth = config["tvStationNameWidth"];
+
+        if(ch != null) { length = 24; }
+        if(length == null) { length = config["tvTimeHourLength"]; }
+
         var getMaxProgramTbl = 1;
         if(ch != null) { getMaxProgramTbl = 7; }
 
@@ -64,7 +68,7 @@ module.exports = function(io, socket) {
                         programArray.push(dummyProgram);
                     }
 
-                    io.sockets.emit("HashOfEPGProgramData", { socketid: socketid, stationNameHash: stationNameHash, programArray: programArray, time: time, length: length, type: type });
+                    io.sockets.emit("HashOfEPGProgramData", { socketid: socketid, stationNameHash: stationNameHash, programArray: programArray, time: time, length: length, type: type, stationWidth: stationWidth });
                 });
                 topTime = new Date(topTime.getTime() + (1000 * 60 * 60 * 24));
                 endTime = new Date(endTime.getTime() + (1000 * 60 * 60 * 24));

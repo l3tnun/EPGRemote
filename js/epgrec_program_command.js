@@ -123,7 +123,7 @@ function programSearch(id) {
         var programStr = "";
         var stationNameStr = "";
 
-        stationNameStr += `<a href="javascript:jumpViewTv('${channel.sid}', '${channel.channel}', '${channel.name}', '${channel.channel_disc}')" class="station_name" style="color: white;">${channel.name}</a>`;
+        stationNameStr += `<a href="javascript:jumpViewTv('${channel.sid}', '${channel.channel}', '${channel.name}', '${channel.channel_disc}')" class="station_name" style="color: white; max-width: ${data.stationWidth}px; min-width: ${data.stationWidth}px;">${channel.name}</a>`;
 
         //dummy
         programStr += '<div class="station">\n';
@@ -142,7 +142,7 @@ function programSearch(id) {
             var classNameStr = `tv_program ctg_${program.category_id} `
             if(program.rec) { classNameStr += "tv_program_reced "; }
             if(program.autorec == 0) { classNameStr += "tv_program_freeze "; }
-            programStr += `<div id="prgID_${program.id}" style="height:${program.height}px;" class="${classNameStr}">\n`;
+            programStr += `<div id="prgID_${program.id}" style="height:${program.height}px; max-width: ${data.stationWidth}px; min-width: ${data.stationWidth}px;" class="${classNameStr}">\n`;
             programStr += `<div class="pr_title">${program.title}</div>\n`;
             programStr += `<div class="pr_starttime">${getTimeStr(program.starttime)}</div>\n`;
             programStr += `<div class="pr_description">${program.description}</div>\n`;
@@ -162,8 +162,9 @@ function programSearch(id) {
     socketio.on("finishEPGProgramDataSend", function (data) {
         if(data.socketid != socketid) { return; }
 
-        $("#station_name_content").css("width", (data.stationNameCnt * 140) + "px");
-        $("#tv_program_content").css("width", (data.stationNameCnt * 140) + "px");
+        stationNameHeight = $("#station_name_content").children()[0].offsetWidth;
+        $("#station_name_content").css("width", (data.stationNameCnt * stationNameHeight) + "px");
+        $("#tv_program_content").css("width", (data.stationNameCnt * stationNameHeight) + "px");
 
         initEpgrecProgramLayout();
         var scrollsize = window.innerWidth - $(window).outerWidth(true);

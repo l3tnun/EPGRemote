@@ -98,7 +98,11 @@
 
     "EpgrecRecordName" : "Recorder_",
 
-    "tvTimeLength" : "180",
+    "tvTimeLength" : 180,
+
+    "tvTimeHourLength" :  18,
+
+    "tvStationNameWidth" :  140,
 
     "RecordedStreamingiOSURL" : "infuse://x-callback-url/play?url=http://ADDRESS",
     "RecordedDownloadiOSURL" : "vlc-x-callback://x-callback-url/download?url=http://ADDRESS&filename=FILENAME"

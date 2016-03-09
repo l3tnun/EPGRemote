@@ -1,7 +1,4 @@
 .station {
-    width: 140px;
-    max-width: 140px;
-    min-width: 140px;
     display:table-cell;
     margin:0;
     padding:0;
@@ -9,9 +6,6 @@
 
 .station_name{
     display:table-cell;
-    width: 140px;
-    max-width: 140px;
-    min-width: 140px;
     height: 30px;
     line-height: 30px;
     color: #FFF;
@@ -29,8 +23,6 @@
 }
 
 .tv_program {
-    width: 140px
-    min-width: 140px;
     overflow: hidden;
     solid #FE2E2E;
     background: #fdfdfd;
@@ -38,7 +30,6 @@
     padding: 4px;
     border-top:2px solid #CCC;
     border-right:2px solid #CCC;
-    max-width: 140px;
     margin:0;
     padding:0;
 }
