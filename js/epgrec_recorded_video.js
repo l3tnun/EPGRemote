@@ -22,7 +22,7 @@ function getVideoList(id, mode) {
             if(videoPath.video_status == 2) {
                 var ua = navigator.userAgent.toLowerCase();
                 var address;
-                if(ua.indexOf('ipad') != -1 || ua.indexOf('ipod') != -1 || ua.indexOf('iphone') != -1) {
+                if((ua.indexOf('ipad') != -1 || ua.indexOf('ipod') != -1 || ua.indexOf('iphone') != -1) && iosStreamingURL != null && iosDownloadURL != null) {
                     var host = window.location;
                     if(mode == "stream") { address = iosStreamingURL.replace("ADDRESS", `${host.host}/video/videoid-${videoPath.id}-${videoPath.type}.ts`); }
                     else { address = iosDownloadURL.replace("ADDRESS", `${host.host}/video/videoid-${videoPath.id}-${videoPath.type}.ts`).replace("FILENAME", videoPath.filename); }
