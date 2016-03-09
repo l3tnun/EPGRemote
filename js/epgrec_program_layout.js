@@ -15,7 +15,7 @@ function initEpgrecProgramLayout() {
     }
 
     //時刻線
-    function moveTableNowBas() {
+    function moveTableNowBars() {
         var timeHeight = $("#tv_time_id").children()[1].offsetHeight;
         var oldDate = getDateFromQuery();
         var nowDate = new Date().getTime();
@@ -29,7 +29,7 @@ function initEpgrecProgramLayout() {
     //時刻線タイマー
     function timerNowBars() {
         var timerNum = 60000 - new Date().getSeconds() * 1000;
-        setTimeout( function() { moveTableNowBas() }, timerNum);
+        setTimeout( function() { moveTableNowBars() }, timerNum);
         setTimeout( function() { timerNowBars() }, timerNum);
     }
 
@@ -74,7 +74,7 @@ function initEpgrecProgramLayout() {
     }
 
     setTvProgramClickDiaalog();
-    moveTableNowBas();
+    moveTableNowBars();
     timerNowBars();
 }
 
