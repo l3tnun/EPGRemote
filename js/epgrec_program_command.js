@@ -94,10 +94,7 @@ function programSearch(id) {
     var time = query.time;
     var ch = query.ch;
 
-    if(typeof ch != "undefined") { length = 24; }
-
     if(typeof type == "undefined") { type = "GR"; }
-    if(typeof length == "undefined") { length = 18; }
     if(typeof time == "undefined" || !(time.length >= 9  && time.length <= 10)) {
         var date = new Date();
         time = `${date.getFullYear()}${('0'+(date.getMonth()+1)).slice(-2)}${('0' + date.getDate()).slice(-2)}${('0'+ date.getHours()).slice(-2)}`;
