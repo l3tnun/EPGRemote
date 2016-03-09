@@ -1,5 +1,5 @@
 //commandから呼び出される
-function initEpgrecProgramLayout() {
+function initEpgrecProgramLayout(tvTimeHourLength) {
     function getDateFromQuery() {
         var queryTime = getQuery()["time"];
         if(typeof queryTime == "undefined") {
@@ -17,13 +17,11 @@ function initEpgrecProgramLayout() {
     function getTimeChildren() { return $("#tv_time_id").find('.time'); }
 
     //時刻線
-    function moveTableNowBars() {
+    function moveTableNowBars(queryLength) {
         var timeHeight = getTimeChildren()[1].offsetHeight;
         var oldDate = getDateFromQuery();
         var nowDate = new Date().getTime();
         var basPosition = (((nowDate - oldDate) / (1000 * 60)) * (timeHeight / 60) ) + 2;
-        var queryLength = getQuery().length;
-        if(typeof queryLength == "undefined") { queryLength = getTimeChildren().length - 1; }
         if(basPosition > queryLength * timeHeight || basPosition < 0) { basPosition = -100; }
         $('#tableNowBas').css('top', basPosition + 'px');
     }
@@ -76,7 +74,7 @@ function initEpgrecProgramLayout() {
     }
 
     setTvProgramClickDiaalog();
-    moveTableNowBars();
+    moveTableNowBars(tvTimeHourLength);
     timerNowBars();
 }
 

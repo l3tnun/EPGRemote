@@ -6,13 +6,6 @@ var responseFile = require(__dirname + "/responseFile");
 
 module.exports = function(response, length, time, type, ch) {
     log.access.info("viewer 'epgrecProgram' was called.");
-    //time
-    var hour = Number(time.substr(8, 2));
-    var timeStr = ""
-    var tvTimeLength = util.getConfig()["tvTimeLength"];
-    for(var i = 0; i < length; i++) {
-        timeStr += `<div class="time" style="height: ${tvTimeLength}px;">${((i + hour) % 24)}</div>\n`
-    }
 
     //title
     var strYear = time.substr(0, 4);
@@ -27,6 +20,23 @@ module.exports = function(response, length, time, type, ch) {
     } else {
         urlOption = `type=${type}`;
     }
+
+    //time
+    var startHour = Number(time.substr(8, 2));
+    var endHour = startHour + Number(length) - 1;
+    var timeStr = ""
+    var tvTimeLength = util.getConfig()["tvTimeLength"];
+
+    timeStr += "<div>"
+    console.log(tvTimeLength * Number(strHour));
+    for(var i = 0; i < 2; i++) {
+        timeStr += `<div style="background-image: linear-gradient( 180deg, rgb(150, 0, 255) -1%, rgb(6, 0, 255) 10%, rgb(126, 186, 0) 28%, rgb(255, 174, 0) 45%, rgb(255, 114, 0) 60%, rgb(255, 64, 0) 77%, rgb(150, 0, 255) 90% ); position: relative; top: -${tvTimeLength * Number(strHour)}px">`
+        for(var j = 0; j < 24; j++) {
+            timeStr += `<div class="time" style="height: ${tvTimeLength}px;">${j}</div>\n`
+        }
+        timeStr += "</div>"
+    }
+    timeStr += "</div>"
 
     //menueTime
     var menuTime = "";

@@ -75,7 +75,7 @@ module.exports = function(io, socket) {
                 endTime = new Date(endTime.getTime() + (1000 * 60 * 60 * 24));
             }
 
-            io.sockets.emit("finishEPGProgramDataSend", { socketid: socketid, stationNameCnt: stationNameCnt, titleStr: titleStr } );
+            io.sockets.emit("finishEPGProgramDataSend", { socketid: socketid, stationNameCnt: stationNameCnt, titleStr: titleStr, length: length } );
         });
     });
 }

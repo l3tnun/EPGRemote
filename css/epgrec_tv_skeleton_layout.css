@@ -36,10 +36,9 @@
 
 .time {
     width:2em;
-    background: #4c4c4c;
     color: white;
     -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
-    border-top:2px solid #CCC;
+    border-top:2px solid white;
     border-right:2px solid #CCC;
     margin:0;
     padding:0;

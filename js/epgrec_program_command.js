@@ -166,7 +166,7 @@ function programSearch(id) {
         $("#station_name_content").css("width", (data.stationNameCnt * stationNameHeight) + "px");
         $("#tv_program_content").css("width", (data.stationNameCnt * stationNameHeight) + "px");
 
-        initEpgrecProgramLayout();
+        initEpgrecProgramLayout(data.length);
         var scrollsize = window.innerWidth - $(window).outerWidth(true);
         var contentHeight = Number($("#tv_program_content").css("height").replace("px", "")) - Number($("#station_name_id").css("height").replace("px", "")) - scrollsize;
         $("#tv_program_content").css("height", contentHeight + "px");
