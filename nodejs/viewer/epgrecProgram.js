@@ -10,8 +10,8 @@ module.exports = function(response, length, time, type, ch) {
     var hour = Number(time.substr(8, 2));
     var timeStr = ""
     var tvTimeLength = util.getConfig()["tvTimeLength"];
-    for(var i = hour; i < length + hour; i++) {
-        timeStr += `<div class="time" style="height: ${tvTimeLength}px;">${(i % 24)}</div>\n`
+    for(var i = 0; i < length; i++) {
+        timeStr += `<div class="time" style="height: ${tvTimeLength}px;">${((i + hour) % 24)}</div>\n`
     }
 
     //title
