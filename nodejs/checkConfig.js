@@ -13,30 +13,37 @@ function check(json) {
     simpleCheck(json, "RecordedDownloadiOSURL", "string", false);
 
     //broadcast
-    var broadcast = json.broadcast;
-    for(key in broadcast) {
-        if(typeof broadcast[key] == "undefined" || typeof broadcast[key] != "boolean") {
-            log.system.fatal("config.json: broadcast is type error.");
-            process.exit();
-        }
-    }
-    log.system.info("config.json: ok broadcast");
+    field = { GR: "boolean", BS: "boolean", CS: "boolean", EX: "boolean" }
+    checkHash(json, "broadcast", field, true);
 
     //video
     var field = { id: "string", size: "string", vb: "string", ab: "string", audioMode: "string" }
-    checkHashsInArray(json, "video", field);
+    checkHashsInArray(json, "video", field, json.useHLS);
 
     //tuners
     field = { id: "string", name: "string", types: "Array", command: "string" }
-    checkHashsInArray(json, "tuners", field);
+    checkHashsInArray(json, "tuners", field, json.useHLS);
 
     //ffmpeg
     field = { command: "string" }
-    checkHash(json, "ffmpeg", field);
+    checkHash(json, "ffmpeg", field, json.useHLS);
 
     //EpgrecDatabaseCpnfig
     field = { host: "string", user: "string", password: "string", database: "string", timeout: "number" }
-    checkHash(json, "EpgrecDatabaseCpnfig", field);
+    checkHash(json, "EpgrecDatabaseCpnfig", field, true);
+
+    //epgrecConfig
+    if(typeof json.epgrecConfig == "undefined") {
+        log.system.fatal("config.json: epgrecConfig is not found.");
+        process.exit();
+    }
+
+    //epgrecConfig.recMode
+    field = {id: "string", name: "string"}
+    checkHashsInArray(json.epgrecConfig, "recMode", field, true);
+
+    field = { host: "string", "programTable.php" : "string", "keywordTable.php" : "string", videoPath: "string", thumbsPath: "string", startTranscodeId: "string", recModeDefaultId: "string" }
+    checkHash(json, "epgrecConfig", field, true);
 }
 
 function simpleCheck(json, name, types, required) {
@@ -62,12 +69,16 @@ function simpleCheck(json, name, types, required) {
     process.exit();
 }
 
-function checkHashsInArray(json, name, field) {
+function checkHashsInArray(json, name, field, required) {
     var array = json[name];
 
-    if(array instanceof Array == false) {
-        log.system.fatal(`config.json: ${name} is type error.`);
-        process.exit();
+    if(typeof array == "undefined" || array instanceof Array == false || array.length == 0) {
+        if(required) {
+            log.system.fatal(`config.json: ${name} is type error.`);
+            process.exit();
+        } else {
+            return;
+        }
     }
 
     for(var i = 0; i < array.length; i++) {
@@ -89,11 +100,15 @@ function checkHashsInArray(json, name, field) {
     log.system.info(`config.json: ok ${name}`);
 }
 
-function checkHash(json, name, field) {
+function checkHash(json, name, field, required) {
     var hash = json[name];
     if(typeof hash == "undefined") {
-        log.system.fatal(`config.json: ${name} is not found.`);
-        process.exit();
+        if(required) {
+            log.system.fatal(`config.json: ${name} is not found.`);
+            process.exit();
+        } else {
+            return;
+        }
     }
 
     for(key in field) {
