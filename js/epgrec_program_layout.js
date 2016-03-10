@@ -1,5 +1,5 @@
 //commandから呼び出される
-function initEpgrecProgramLayout() {
+function initEpgrecProgramLayout(tvTimeHourLength) {
     function getDateFromQuery() {
         var queryTime = getQuery()["time"];
         if(typeof queryTime == "undefined") {
@@ -14,21 +14,22 @@ function initEpgrecProgramLayout() {
         }
     }
 
+    function getTimeChildren() { return $("#tv_time_id").find('.time'); }
+
     //時刻線
-    function moveTableNowBas() {
+    function moveTableNowBars(queryLength) {
+        var timeHeight = getTimeChildren()[1].offsetHeight;
         var oldDate = getDateFromQuery();
         var nowDate = new Date().getTime();
-        var basPosition = (((nowDate - oldDate) / (1000 * 60)) * 3) + 2;
-        var queryLength = getQuery().length;
-        if(typeof queryLength == "undefined") { queryLength = 18; }
-        if(basPosition > queryLength * 180 || basPosition < 0) { basPosition = 0; }
+        var basPosition = (((nowDate - oldDate) / (1000 * 60)) * (timeHeight / 60) ) + 2;
+        if(basPosition > queryLength * timeHeight || basPosition < 0) { basPosition = -100; }
         $('#tableNowBas').css('top', basPosition + 'px');
     }
 
     //時刻線タイマー
     function timerNowBars() {
         var timerNum = 60000 - new Date().getSeconds() * 1000;
-        setTimeout( function() { moveTableNowBas() }, timerNum);
+        setTimeout( function() { moveTableNowBars() }, timerNum);
         setTimeout( function() { timerNowBars() }, timerNum);
     }
 
@@ -73,7 +74,7 @@ function initEpgrecProgramLayout() {
     }
 
     setTvProgramClickDiaalog();
-    moveTableNowBas();
+    moveTableNowBars(tvTimeHourLength);
     timerNowBars();
 }
 

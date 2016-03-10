@@ -173,7 +173,7 @@ config.json 設定
      //ffmpeg の設定 フルパスで書く
      //-vcodec, -acodecなどは各自の環境に合わせて書く
      "ffmpeg": {
-        "command" : "/ffmpeg_path/ffmpeg -re -dual_mono_mode <audioMode> -i pipe:0 -f hls -hls_time 3 -hls_list_size 6 -hls_allow_cache 1 -hls_segment_filename  <streamFilesDir>/stream<streamNum>-%09d.ts -threads auto -acodec libfdk_aac -ar 48000 -ab <ab> -ac 2 -vcodec libx264 -s <size> -aspect 16:9 -vb <vb> -fpre <ffpreset> <streamFilesDir>/stream<streamNum>.m3u8"
+        "command" : "/ffmpeg_path/ffmpeg -re -dual_mono_mode <audioMode> -i pipe:0 -f hls -hls_time 3 -hls_list_size 17 -hls_allow_cache 1 -hls_segment_filename  <streamFilesDir>/stream<streamNum>-%09d.ts -threads auto -acodec libfdk_aac -ar 48000 -ab <ab> -ac 2 -vcodec libx264 -s <size> -aspect 16:9 -vb <vb> -fpre <ffpreset> <streamFilesDir>/stream<streamNum>.m3u8"
     },
     
     //ffmpegで使用する ffpreset ファイルのフルパス index.js と同じ場所にある
@@ -193,6 +193,15 @@ config.json 設定
     
     //EPGRec UNAで設定したテーブル接頭辞
     "EpgrecRecordName" : "Recorder_",
+
+    //番組表の1時間あたりの高さ
+    "tvTimeLength" : 180,
+
+    //番組表の1ページあたりの長さを時間で設定する
+    "tvTimeHourLength" :  18,
+
+    //番組表の1局あたりの幅
+    "tvStationNameWidth" :  140,
 
     //ios の録画済み一覧の URL Scheme の設定　↓の場合だと 視聴には infuse が DL では VLC が起動するようになっている
     "RecordedStreamingiOSURL" : "infuse://x-callback-url/play?url=http://ADDRESS",
@@ -278,6 +287,7 @@ VLC でダウンロードしたファイルを再生する場合は上記の問�
 * version 0.3.18&nbsp;&nbsp; 番組表での単局表示に対応
 * version 0.3.19&nbsp;&nbsp; 放送波の非表示設定を追加
 * version 0.3.20&nbsp;&nbsp; 動画 DL 時にファイル名がディレクトリパス付きになってしまう問題を修正
+* version 0.3.21&nbsp;&nbsp; 番組表 UI の改良
 
 ## Licence
 
