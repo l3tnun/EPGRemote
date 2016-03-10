@@ -14,9 +14,9 @@ module.exports = function(response, length, time, type, ch) {
     var strHour = time.substr(8, 2);
     var titleStr = `${type} ${strYear}年${strMon}月${strDate}日${strHour}時〜`;
 
-    var urlOption = '', chUsrlOption = '';
+    var urlOption = '';
     if(typeof ch != "undefined") {
-        urlOption = `ch=${ch}`
+        urlOption = `ch=${ch}&type=${type}`
     } else {
         urlOption = `type=${type}`;
     }
