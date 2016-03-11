@@ -37,7 +37,7 @@ module.exports = function(response, parsedUrl) {
         var i = 1;
         var tags = [];
         for (var key in tagList) {
-            if(tagList[key].cnt != 0) {
+            if(typeof tagList[key] != "undefined" && tagList[key].cnt != 0) {
                 if (i >= startNum && i <= endNum) {
                     tags.push({ "type" : type, "link" : key, "title" : tagList[key].name, "cnt" : tagList[key].cnt });
                 }
@@ -46,7 +46,10 @@ module.exports = function(response, parsedUrl) {
         }
 
         if(typeof parsedUrl.query.num == "undefined") { parsedUrl.query.num = 1; }
-        viewerEpgrecRecordedTag(response, tags, tagList[key].cnt, parsedUrl.query.num);
+        var cnt;
+        if(typeof tagList[key] == "undefined") { cnt = 0; }
+        else { cnt = tagList[key].cnt; }
+        viewerEpgrecRecordedTag(response, tags, cnt, parsedUrl.query.num);
     });
 }
 
