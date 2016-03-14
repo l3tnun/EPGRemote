@@ -291,6 +291,7 @@ VLC でダウンロードしたファイルを再生する場合は上記の問�
 * version 0.3.20&nbsp;&nbsp; 動画 DL 時にファイル名がディレクトリパス付きになってしまう問題を修正
 * version 0.3.21&nbsp;&nbsp; 番組表 UI の改良
 * version 0.3.22&nbsp;&nbsp; バグ修正
+* version 0.3.23&nbsp;&nbsp; 録画済み Tag の HTML 微調整
 
 ## Licence
 
