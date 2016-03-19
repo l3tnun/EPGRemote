@@ -1,17 +1,22 @@
 //commandから呼び出される
 function initEpgrecProgramLayout(tvTimeHourLength) {
+    var queryDate;
     function getDateFromQuery() {
+        if(typeof queryDate != "undefined") { return queryDate; }
+
         var queryTime = getQuery()["time"];
         if(typeof queryTime == "undefined") {
             var nowDate = new Date();
-            return nowDate.getTime() - (nowDate.getMinutes() * 1000 * 60) - (nowDate.getSeconds() * 1000);
+            queryDate = nowDate.getTime() - (nowDate.getMinutes() * 1000 * 60) - (nowDate.getSeconds() * 1000);
         } else {
             var year = queryTime.substr(0, 4);
             var month = queryTime.substr(4, 2);
             var date = queryTime.substr(6, 2);
             var hour = queryTime.substr(8, 2);
-            return new Date(year, month - 1, date, hour, 0);
+            queryDate = new Date(year, month - 1, date, hour, 0);
         }
+
+        return queryDate;
     }
 
     function getTimeChildren() { return $("#tv_time_id").find('.time'); }
