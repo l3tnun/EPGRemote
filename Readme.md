@@ -292,6 +292,7 @@ VLC でダウンロードしたファイルを再生する場合は上記の問�
 * version 0.3.21&nbsp;&nbsp; 番組表 UI の改良
 * version 0.3.22&nbsp;&nbsp; バグ修正
 * version 0.3.23&nbsp;&nbsp; 録画済み Tag の HTML 微調整
+* version 0.3.24&nbsp;&nbsp; 番組表の時刻線のバグを修正
 
 ## Licence
 
