@@ -237,6 +237,15 @@ config.json.sample では視聴には infuse を ダウンロードには VLC �
 
 VLC でダウンロードしたファイルを再生する場合は上記の問題は発生しないです。
 
+## Android 6.0 で番組表が重くて使い物にならなくなったという方へ
+手元にある複数の端末を Android 6.0 にアップデートしたところ、番組表が激重になり原因を調べました。
+
+色々調べたところ、設定のユーザー補助機能で "操作の監視" を行っているアプリが原因のようで、これらを OFF にすると問題は解消されました。
+
+具体的なアプリは LMT Launcher や Pie Control などが挙げられます。
+
+<img src="https://github.com/l3tnun/EPGRemote/wiki/images/Readme/android6.0_accessibility.png" width="250px">
+
 ##開発環境
 * サーバ
  * OS Debian 8.2
