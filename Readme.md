@@ -52,10 +52,10 @@ $ npm run build
 * EPGRemote で必要な php ファイルを epgrec UNA のディレクトリにコピーする(番組検索で使用します)
 
 ````
-cp php/epgremote /var/www/epgrec/
+cp -r php/epgremote /var/www/epgrec/
 ````
 
-* HLSでリアルタイム視聴を行う場合、ffmpeg と recpt1(BondriverProxyEx + recbond 推奨) 等が必要です
+* HLSでリアルタイム視聴を行う場合、ffmpeg と recpt1 (BondriverProxyEx + recbond 推奨) 等が必要です
 
 ### EPGRemote 設定
 ### config の設定
