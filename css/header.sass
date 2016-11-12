@@ -1,0 +1,45 @@
+.mdl-layout-title
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 74%;
+
+.mdl-layout__header .mdl-layout__drawer-button
+    line-height: 50px;
+
+@-moz-document url-prefix()
+    .mdl-layout-title
+        /*firefox だけタイトルの上が見切れる*/
+        line-height: 23px;
+
+@media (max-width: 1024px)
+    .mdl-layout__header-row
+        padding-left: 56px;
+    .mdl-layout__drawer-button > .material-icons
+        position: absolute;
+        top: calc(50% - 14px);
+        left: calc(50% - 12px);
+
+.header_menu_button
+    border-radius: 50%;
+    font-size: 24px;
+    height: 32px;
+    margin-left: 0;
+    margin-right: 0;
+    min-width: 32px;
+    width: 32px;
+    padding: 0;
+    overflow: hidden;
+    color: inherit;
+    line-height: normal;
+    position: relative;
+
+    .material-icons
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-12px,-12px);
+        transform: translate(-12px,-12px);
+        line-height: 24px;
+        width: 24px;
+

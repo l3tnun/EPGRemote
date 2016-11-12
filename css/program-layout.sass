@@ -1,0 +1,87 @@
+#station_frame
+    overflow: hidden;
+
+.station_title
+    font-weight: 600;
+    color: white; /*font color*/
+    background: #999; /*背景*/
+    display: table-cell; /*横並び*/
+    /*text を中央に*/
+    text-align: center;
+    vertical-align: middle;
+    /*線*/
+    box-sizing: border-box;
+    border-right: 2px solid #CCC;
+    overflow: hidden;
+    white-space: nowrap;
+
+#time_frame
+    overflow: hidden;
+    float: left;
+    margin-top: 2px;
+
+.time
+    font-weight: 600;
+    color: white; /*font color*/
+    background: #717171; /*背景*/
+    /*線*/
+    box-sizing: border-box;
+    border-bottom: 2px solid white;
+
+#tableNowBar
+    z-index: 1000;
+    position: relative;
+    background-color: red;
+    height: 2px;
+    overflow: hidden;
+    margin-top: 0px;
+    z-index: 0;
+
+.station
+    /*visibility: hidden;*/
+    display: table-cell; /*横並び*/
+
+.tv_program
+    overflow: hidden;
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+    padding: 4px;
+    border-top: 2px solid #CCC;
+    border-right: 2px solid #CCC;
+    margin: 0;
+    padding: 0;
+
+.pr_title
+    color: #111;
+    font-weight: bold;
+    line-height: 1.2em;
+
+.pr_starttime
+    text-align: left;
+    float: left;
+    font-size: 80%;
+    color: #444;
+    line-height: 1.2em;
+
+.pr_description
+    clear: left;
+    font-size: 80%;
+    color: #444;
+    line-height: 1.2em;
+
+/*自動予約禁止*/
+.tv_program_freeze
+    background-color: #AAA;
+
+/*予約済み枠*/
+.tv_program_reced
+    border: 4px solid red;
+
+.program_busy
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+    z-index: 20000;
+    background-color: rgba(0, 0, 0, 0.3);
+

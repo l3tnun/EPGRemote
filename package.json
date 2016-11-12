@@ -1,0 +1,75 @@
+{
+  "name": "epgremote",
+  "version": "0.0.1",
+  "description": "HLS(http live streaming) viewer and smartphone web UI for epgrec UNA.",
+  "main": "build-server/index.js",
+  "scripts": {
+    "start": "node build-server/index.js",
+    "dev-start": "node build-server/index.js --env development",
+    "clean": "gulp clean",
+    "build": "gulp build --env production",
+    "dev-build": "gulp build --env development",
+    "test": "gulp test",
+    "task": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/l3tnun/EPGRemote.git"
+  },
+  "keywords": [
+    "epgremote",
+    "dtv",
+    "tv"
+  ],
+  "author": "l3tnun",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/l3tnun/EPGRemote/issues"
+  },
+  "homepage": "https://github.com/l3tnun/EPGRemote#readme",
+  "engines": {
+    "node": ">=6.9.1"
+  },
+  "dependencies": {
+    "chart.js": "^2.3.0",
+    "hls.js": "^0.6.7",
+    "log4js": "^0.6.38",
+    "material-design-icons": "^3.0.1",
+    "material-design-lite": "^1.2.1",
+    "mithril": "^0.2.5",
+    "mysql": "^2.12.0",
+    "request": "^2.78.0",
+    "socket.io-client": "^1.5.1",
+    "socketio": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^3.4.34",
+    "@types/chart.js": "0.0.7",
+    "@types/log4js": "0.0.32",
+    "@types/material-design-lite": "^1.1.14",
+    "@types/minimist": "^1.1.29",
+    "@types/mithril": "0.0.31",
+    "@types/mocha": "^2.2.32",
+    "@types/mysql": "0.0.30",
+    "@types/node": "^6.0.46",
+    "@types/request": "0.0.32",
+    "@types/socket.io": "^1.4.27",
+    "@types/socket.io-client": "^1.4.28",
+    "chai": "^3.5.0",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.0.13",
+    "gulp-concat": "^2.6.0",
+    "gulp-mocha": "^3.0.1",
+    "gulp-sass": "^2.3.2",
+    "gulp-sourcemaps": "^2.2.0",
+    "gulp-typescript": "^3.1.2",
+    "gulp-util": "^3.0.7",
+    "gulp-webpack": "^1.5.0",
+    "minimist": "^1.2.0",
+    "mocha": "^3.1.2",
+    "ts-loader": "^1.0.0",
+    "typescript": "^2.0.7",
+    "webpack": "^1.13.3"
+  }
+}

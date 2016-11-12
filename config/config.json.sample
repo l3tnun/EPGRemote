@@ -1,0 +1,122 @@
+{
+    "serverPort" : "8888",
+
+    "enableLiveStream" : true,
+    "enableRecordedStream" : true,
+
+    "broadcast" :  { "GR" : true, "BS" : true, "CS" : true, "EX" : false },
+
+    "liveVideoSetting" : [
+        {
+            "id"      : 1,
+            "name"    : "1280x720(main)",
+            "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode main -i pipe:0 -f hls -hls_time 3 -hls_list_size 17 -hls_allow_cache 1 -hls_segment_filename  <streamFilesDir>/stream<streamNum>-%09d.ts -threads auto -acodec libfdk_aac -ar 48000 -ab 192k -ac 2 -vcodec libx264 -s 1280x720 -filter:v yadif -aspect 16:9 -vb 3000k -fpre /hoge/libx264-hls.ffpreset <streamFilesDir>/stream<streamNum>.m3u8"
+        },
+        {
+            "id"      : 2,
+            "name"    : "1280x720(sub)",
+            "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode sub -i pipe:0 -f hls -hls_time 3 -hls_list_size 17 -hls_allow_cache 1 -hls_segment_filename  <streamFilesDir>/stream<streamNum>-%09d.ts -threads auto -acodec libfdk_aac -ar 48000 -ab 192k -ac 2 -vcodec libx264 -s 1280x720 -filter:v yadif -aspect 16:9 -vb 3000k -fpre /hoge/libx264-hls.ffpreset <streamFilesDir>/stream<streamNum>.m3u8"
+        }
+    ],
+
+    "recordedVideoSetting" : [
+        {
+            "id"      : 1,
+            "name"    : "720x480(main)",
+            "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode main -i <input> -f hls -hls_time 3 -hls_list_size 0 -hls_allow_cache 1 -hls_segment_filename  <streamFilesDir>/stream<streamNum>-%09d.ts -threads auto -acodec libfdk_aac -ar 48000 -ab 128k -ac 2 -vcodec libx264 -s 720x480 -aspect 16:9 -vb 1500k -fpre /hoge/libx264-hls.ffpreset <streamFilesDir>/stream<streamNum>.m3u8"
+        },
+        {
+            "id"      : 2,
+            "name"    : "720x480(sub)",
+            "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode sub -i <input> -f hls -hls_time 3 -hls_list_size 0 -hls_allow_cache 1 -hls_segment_filename  <streamFilesDir>/stream<streamNum>-%09d.ts -threads auto -acodec libfdk_aac -ar 48000 -ab 128k -ac 2 -vcodec libx264 -s 720x480 -aspect 16:9 -vb 1500k -fpre /hoge/libx264-hls.ffpreset <streamFilesDir>/stream<streamNum>.m3u8"
+        }
+    ],
+
+    "tuners": [
+        {
+            "id"        : 1,
+            "name"      : "PT3-S1",
+            "types"     : [ "BS", "CS" ],
+            "command"   : "/usr/local/bin/recbond --driver /hoge/BonDriver_Proxy_S.so --sid <sid> <channel> - - "
+        },
+        {
+            "id"        : 2,
+            "name"      : "PT3-S2",
+            "types"     : [ "BS", "CS" ],
+            "command"   : "/usr/local/bin/recbond --driver /hoge/BonDriver_Proxy_S.so --sid <sid> <channel> - - "
+        },
+        {
+            "id"        : 3,
+            "name"      : "PT3-T1",
+            "types"     : [ "GR" ],
+            "command"   : "/usr/local/bin/recbond --driver /hoge/BonDriver_Proxy_T.so --sid <sid> <channel> - - "
+        },
+        {
+            "id"        : 4,
+            "name"      : "PT3-T2",
+            "types"     : [ "GR" ],
+            "command"   : "/usr/local/bin/recbond --driver /hoge/BonDriver_Proxy_T.so --sid <sid> <channel> - - "
+        }
+    ],
+
+    "streamFilePath" : "/hoge/streamfiles",
+
+    "maxStreamNumber" : 4,
+
+    "EpgrecDatabaseConfig" : {
+        "multipleStatements": true,
+        "host": "localhost",
+        "user": "epgrec",
+        "password": "epgrec",
+        "database": "epgrec",
+        "timeout": 5000
+    },
+
+    "EpgrecRecordName" : "Recorder_",
+
+    "epgrecConfig" : {
+        "host" : "http://127.0.0.1:1180",
+        "videoPath" : "/var/www/epgrec/video",
+        "thumbsPath" : "/var/www/epgrec/thumbs",
+        "recMode" : [
+                        { "id" : 0, "name" : "Full TS" },
+                        { "id" : 1, "name" : "HD TS" },
+                        { "id" : 2, "name" : "SD TS" },
+                        { "id" : 3, "name" : "H264-HD" },
+                        { "id" : 4, "name" : "H264-SD" }
+                    ],
+        "recModeDefaultId" : 3,
+        "startTranscodeId" : 3
+    },
+
+    "programLength": 8,
+
+    "programViewConfig": {
+        "tablet": {
+            "timeHeight":      180,
+            "timeWidth":       30,
+            "timeFontSize":    17,
+            "stationHeight":   30,
+            "stationWidth":    140,
+            "stationFontSize": 15,
+            "titleSize":       10,
+            "timeSize":        10,
+            "descriptionSize": 10
+        },
+        "mobile": {
+            "timeHeight":      120,
+            "timeWidth":       20,
+            "timeFontSize":    12,
+            "stationHeight":   20,
+            "stationWidth":    100,
+            "stationFontSize": 12,
+            "titleSize":       7.5,
+            "timeSize":        7.5,
+            "descriptionSize": 7.5
+        }
+    },
+
+    "RecordedStreamingiOSURL" : "infuse://x-callback-url/play?url=http://ADDRESS",
+    "RecordedDownloadiOSURL" : "vlc://http://ADDRESS"
+}
+

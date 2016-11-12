@@ -1,0 +1,14 @@
+*.swp
+*.log
+.DS_Store
+/config/logConfig.json
+/config/config.json
+node_modules
+build-server
+build-client
+build-css
+streamfiles/*
+logs/*
+test_config/logs/*
+test_config/streamfiles/*
+!.gitkeep

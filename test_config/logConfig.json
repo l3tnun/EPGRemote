@@ -1,0 +1,39 @@
+{
+    "appenders": [
+        {
+            "type":     "file",
+            "category": "system",
+            "maxLogSize": 1048576,
+            "backups": 3,
+            "category": "system",
+            "filename": "test_config/logs/system.log",
+            "pattern":  "-yyyy-MM-dd"
+        },
+        {
+            "type":     "file",
+            "category": "access",
+            "maxLogSize": 1048576,
+            "backups": 3,
+            "category": "access",
+            "filename": "test_config/logs/access.log",
+            "pattern":  "-yyyy-MM-dd"
+        },
+        {
+            "type":     "file",
+            "category": "stream",
+            "maxLogSize": 1048576,
+            "backups": 3,
+            "category": "stream",
+            "filename": "test_config/logs/stream.log",
+            "pattern":  "-yyyy-MM-dd"
+        },
+        { "type": "console" }
+    ],
+    "levels": {
+        "system": "ERROR",
+        "access": "ERROR",
+        "error":  "ERROR",
+        "stream": "ERROR"
+    }
+}
+

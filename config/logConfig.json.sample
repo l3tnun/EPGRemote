@@ -1,0 +1,39 @@
+{
+    "appenders": [
+        {
+            "type":     "file",
+            "category": "system",
+            "maxLogSize": 1048576,
+            "backups": 3,
+            "category": "system",
+            "filename": "/hoge/logs/system.log",
+            "pattern":  "-yyyy-MM-dd"
+        },
+        {
+            "type":     "file",
+            "category": "access",
+            "maxLogSize": 1048576,
+            "backups": 3,
+            "category": "access",
+            "filename": "/hoge/logs/access.log",
+            "pattern":  "-yyyy-MM-dd"
+        },
+        {
+            "type":     "file",
+            "category": "stream",
+            "maxLogSize": 1048576,
+            "backups": 3,
+            "category": "stream",
+            "filename": "/hoge/logs/stream.log",
+            "pattern":  "-yyyy-MM-dd"
+        },
+        { "type": "console" }
+    ],
+    "levels": {
+        "system": "INFO",
+        "access": "INFO",
+        "error":  "INFO",
+        "stream": "INFO"
+    }
+}
+
