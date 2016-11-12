@@ -25,15 +25,15 @@ QSV や NVEnc 等のハードウェアエンコードを使うことをおすす
 ffmpeg の設定については [v42fg3g/TvRemoteViewer_VB](https://github.com/v42fg3g/TvRemoteViewer_VB/) を参考にさせていただきました。作者さんありがとうございます。
 
 ## スクリーンショット (タブレット UI)
-<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/top.png" width=360px>
-<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/live_program.png" width=360px>
-<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/live_watch.png" width=360px>
-<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/program.png" width=360px>
-<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/recorded.png" width=360px>
-<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/reservation.png" width=360px>
-<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/search.png" width=360px>
-<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/keyword.png"width=360px>
-<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/log.png" width=360px>
+<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/top.png" width=430px>
+<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/live_program.png" width=430px>
+<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/live_watch.png" width=430px>
+<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/program.png" width=430px>
+<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/recorded.png" width=430px>
+<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/reservation.png" width=430px>
+<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/search.png" width=430px>
+<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/keyword.png"width=430px>
+<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/log.png" width=430px>
 
 ## 使用ツール
 * Node.js v6.9.1 以降
