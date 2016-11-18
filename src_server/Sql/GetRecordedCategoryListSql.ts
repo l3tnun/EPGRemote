@@ -8,7 +8,7 @@ class GetRecordedCategoryListSql extends RecordedBaseSql {
         let sqlOption = this.buildRecordedOptionQuery(option);
 
         let sql = `select id, name_jp from ${ this.recordName }categoryTbl;`
-        sql +=    `select category_id, count(category_id) from ${ this.recordName }reserveTbl where starttime <= now() ${ sqlOption } group by category_id;`
+        sql +=    `select category_id, count(category_id) from ${ this.recordName }reserveTbl where starttime <= ${ this.getNow() } ${ sqlOption } group by category_id;`
 
         this.runQuery(sql, (rows) => { callback(rows); },
         (code) => { errCallback(code); });

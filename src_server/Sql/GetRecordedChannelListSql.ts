@@ -8,7 +8,7 @@ class GetRecordedChannelListSql extends RecordedBaseSql {
         let sqlOption = this.buildRecordedOptionQuery(option);
 
         let sql = `select id, name from ${ this.recordName }channelTbl;`
-        sql +=    `select channel_id, count(channel_id) from ${ this.recordName }reserveTbl where starttime <= now() ${ sqlOption } group by channel_id;`
+        sql +=    `select channel_id, count(channel_id) from ${ this.recordName }reserveTbl where starttime <= ${ this.getNow() } ${ sqlOption } group by channel_id;`
 
         this.runQuery(sql, (rows) => { callback(rows); },
         (code) => { errCallback(code); });

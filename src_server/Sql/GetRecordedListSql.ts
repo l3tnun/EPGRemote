@@ -13,8 +13,8 @@ class GetRecordedListSql extends RecordedBaseSql {
         let sqlOption = this.buildRecordedOptionQuery(option);
 
         let sql = `select * from ${ this.recordName }channelTbl;`
-        sql +=    `select * from ${ this.recordName }reserveTbl where starttime <= now() ${ sqlOption } order by starttime desc limit ${ limit } offset ${ SqlUtil.getOffset(page, limit) };`
-        sql +=    `select count(*) from ${ this.recordName }reserveTbl where starttime <= now() ${ sqlOption } order by starttime desc`;
+        sql +=    `select * from ${ this.recordName }reserveTbl where starttime <= ${ this.getNow() } ${ sqlOption } order by starttime desc limit ${ limit } offset ${ SqlUtil.getOffset(page, limit) };`
+        sql +=    `select count(*) from ${ this.recordName }reserveTbl where starttime <= ${ this.getNow() } ${ sqlOption } order by starttime desc`;
 
         this.runQuery(sql, (rows) => { callback(rows); },
         (code) => { errCallback(code); });

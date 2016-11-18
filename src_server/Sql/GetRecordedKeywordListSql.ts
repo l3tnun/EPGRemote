@@ -8,7 +8,7 @@ class GetRecordedKeywordListSql extends RecordedBaseSql {
         let sqlOption = this.buildRecordedOptionQuery(option);
 
         let sql = `select id, keyword from ${ this.recordName }keywordTbl;`
-        sql +=    `select autorec, count(autorec) from ${ this.recordName }reserveTbl where starttime <= now() ${ sqlOption } group by autorec;`
+        sql +=    `select autorec, count(autorec) from ${ this.recordName }reserveTbl where starttime <= ${ this.getNow() } ${ sqlOption } group by autorec;`
 
         this.runQuery(sql, (rows) => { callback(rows); },
         (code) => { errCallback(code); });
