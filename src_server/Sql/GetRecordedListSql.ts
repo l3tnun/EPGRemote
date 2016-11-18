@@ -16,6 +16,8 @@ class GetRecordedListSql extends RecordedBaseSql {
         sql +=    `select * from ${ this.recordName }reserveTbl where starttime <= ${ this.getNow() } ${ sqlOption } order by starttime desc limit ${ limit } offset ${ SqlUtil.getOffset(page, limit) };`
         sql +=    `select count(*) from ${ this.recordName }reserveTbl where starttime <= ${ this.getNow() } ${ sqlOption } order by starttime desc`;
 
+        console.log(sql);
+
         this.runQuery(sql, (rows) => { callback(rows); },
         (code) => { errCallback(code); });
     }
