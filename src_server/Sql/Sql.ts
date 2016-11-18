@@ -31,6 +31,17 @@ abstract class Sql extends Base {
     }
 
     public abstract execute(option: { [key: string]: any }, callback: (row: any) => void, errCallback: (error: number) => void): void;
+
+    protected getNow(): String {
+        let date = new Date(new Date().getTime() + ( 1000 * 60 * 60 * 9 ));
+        return "'" + date.getUTCFullYear() + '-' +
+            ('00' + (date.getUTCMonth()+1)).slice(-2) + '-' +
+            ('00' + date.getUTCDate()).slice(-2) + ' ' +
+            ('00' + date.getUTCHours()).slice(-2) + ':' +
+            ('00' + date.getUTCMinutes()).slice(-2) + ':' +
+            ('00' + date.getUTCSeconds()).slice(-2) +
+            "'";
+    }
 }
 
 export default Sql;

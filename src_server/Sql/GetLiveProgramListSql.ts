@@ -24,7 +24,7 @@ class GetLiveProgramListSql extends Sql {
             otherCondition += ` and channel = '${ option["channel"] }'`;
         }
 
-        let sql = `select name, ${this.recordName}channelTbl.type, sid, ${this.recordName}channelTbl.channel, ${this.recordName}channelTbl.channel_disc, title, starttime, endtime, description from ${this.recordName}channelTbl inner join (select * from ${this.recordName}programTbl where starttime <= (now() ${time}) and endtime >= (now() ${time}) ${otherCondition}) as programTbl on ${this.recordName}channelTbl.channel_disc = programTbl.channel_disc order by sid;`;
+        let sql = `select name, ${this.recordName}channelTbl.type, sid, ${this.recordName}channelTbl.channel, ${this.recordName}channelTbl.channel_disc, title, starttime, endtime, description from ${this.recordName}channelTbl inner join (select * from ${this.recordName}programTbl where starttime <= (${ this.getNow() } ${time}) and endtime >= (${ this.getNow() } ${time}) ${otherCondition}) as programTbl on ${this.recordName}channelTbl.channel_disc = programTbl.channel_disc order by sid;`;
 
         this.runQuery(sql, (rows) => {
             if(typeof option["sid"] != "undefined") {
