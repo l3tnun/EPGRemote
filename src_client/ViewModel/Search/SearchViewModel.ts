@@ -109,7 +109,7 @@ class SearchViewModel extends ViewModel {
                     setTimeout(() => {
                         //サブジャンルセットを待つ
                         this.search();
-                    }, 500);
+                    }, 1000);
                 });
             } else if(typeof m.route.param("search") != "undefined"){
                 this.search();
@@ -215,7 +215,7 @@ class SearchViewModel extends ViewModel {
             setTimeout(() => {
                 this.subGenreValue = query["sub_genre"];
                 m.redraw(true);
-            }, 100);
+            }, 500);
         }
     }
 
@@ -252,7 +252,7 @@ class SearchViewModel extends ViewModel {
             this.typeEX = config.typeEX;
             this.subGenreValue = config.subGenre_id;
             m.redraw(true);
-        }, 100);
+        }, 500);
     }
 
     /**
