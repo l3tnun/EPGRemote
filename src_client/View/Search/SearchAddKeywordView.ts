@@ -249,7 +249,7 @@ class SearchAddKeywordView extends SearchOptionBaseView {
                 class: "mdl-button mdl-js-button mdl-button--accent",
                 onclick: () => {
                     //1 つ前のページに戻る
-                    window.history.back(-1);
+                    window.history.back();
                 }
             }, "キャンセル")
         ]);
