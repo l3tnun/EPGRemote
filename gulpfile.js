@@ -6,7 +6,7 @@ const gulp = require('gulp');
 const del = require('del');
 const typescript = require('gulp-typescript');
 const sourcemaps = require('gulp-sourcemaps');
-const gulpWebpack = require('gulp-webpack');
+const webpackStream = require('webpack-stream');
 const webpack = require('webpack');
 const mocha = require('gulp-mocha');
 const gutil = require('gulp-util');
@@ -120,7 +120,7 @@ gulp.task('clean-client', () => {
 
 gulp.task('build-client', ['clean-client'], () => {
     return gulp.src(config.client.src)
-        .pipe(gulpWebpack(webpackConfig))
+        .pipe(webpackStream(webpackConfig))
         .pipe(gulp.dest(config.client.dst));
 });
 
