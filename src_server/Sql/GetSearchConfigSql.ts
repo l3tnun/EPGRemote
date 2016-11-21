@@ -10,10 +10,10 @@ class GetSearchConfigSql extends Sql {
         let sql =  `select id, name_jp from ${ this.recordName }categoryTbl order by id;`;
 
         //チャンネルリスト
-        sql += `select * from ${ this.recordName }channelTbl where type = "GR" order by sid;`;
-        sql += `select * from ${ this.recordName }channelTbl where type = "BS" order by sid;`;
-        sql += `select * from ${ this.recordName }channelTbl where type = "CS" order by sid;`;
-        sql += `select * from ${ this.recordName }channelTbl where type = "EX" order by sid;`;
+        sql += `select * from ${ this.recordName }channelTbl where type = "GR" and skip=0 order by sid;`;
+        sql += `select * from ${ this.recordName }channelTbl where type = "BS" and skip=0 order by sid;`;
+        sql += `select * from ${ this.recordName }channelTbl where type = "CS" and skip=0 order by sid;`;
+        sql += `select * from ${ this.recordName }channelTbl where type = "EX" and skip=0 order by sid;`;
 
 
         this.runQuery(sql, (rows) => { callback(rows); },

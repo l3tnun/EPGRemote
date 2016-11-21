@@ -28,7 +28,7 @@ class GetProgramListSql extends Sql {
         let sql =  `select id, name_jp from ${ this.recordName }categoryTbl order by id;`;
 
         //チャンネルリスト
-        sql += `select * from ${ this.recordName }channelTbl where ${typeOption} ${channelOption} order by sid;`;
+        sql += `select * from ${ this.recordName }channelTbl where ${typeOption} ${channelOption} and skip=0 order by sid;`;
 
         //録画済み
         sql += `select program_id from ${ this.recordName }reserveTbl where complete=0`;
