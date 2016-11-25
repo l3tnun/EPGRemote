@@ -1,23 +1,23 @@
 EPGRemote
 ====
 
-epgrec UNA の HLS View + スマートフォン & タブレット用 Web UI (Node.js)
+epgrecUNA の HLS View + スマートフォン & タブレット用 Web UI (Node.js)
 
 ## これはなに？
 
-epgrec UNA 用の後方支援プログラムです。epgrec UNA の番組情報を使用して HLS(HTTP Live Streaming) でリアルタイムに視聴可能にします。
+epgrecUNA 用の後方支援プログラムです。epgrecUNA の番組情報を使用して HLS(HTTP Live Streaming) でリアルタイムに視聴可能にします。
 
 [dailymotion/hls.js](https://github.com/dailymotion/hls.js/tree/master) を使用しているため、HLS 非対応ブラウザ(Desktop版 Chrome, Firefox など)でも視聴可能です。
 
 *  現在放送中の番組のリアルタイム配信(HLS)
 *  録画済みの番組の配信(HLS)
-*  スマートフォン & タブレット用の epgrec UNA の Web UI
+*  スマートフォン & タブレット用の epgrecUNA の Web UI
     * 番組表一覧
     * 録画済み一覧
     * 録画予約一覧
     * 番組検索、自動録画キーワードの作成、更新
     * 自動録画キーワードの管理
-    * epgrec UNA 動作ログ表示機能
+    * epgrecUNA 動作ログ表示機能
 
 HLSでのリアルタイム視聴は CPU にとってかなり重たい処理となります。スペックに余裕があるマシンで動かしてください。
 QSV や NVEnc 等のハードウェアエンコードを使うことをおすすめします。
@@ -49,7 +49,7 @@ $ npm install
 $ npm run build
 ```` 
 
-* EPGRemote で必要な php ファイルを epgrec UNA のディレクトリにコピーする(番組検索で使用します)
+* EPGRemote で必要な php ファイルを epgrecUNA のディレクトリにコピーする(番組検索で使用します)
 
 ````
 cp -r php/epgremote /var/www/epgrec/
@@ -91,7 +91,7 @@ vim config/config.json
     //録画済みファイルの HLS 配信を有効にするか true: 有効, false: 無効
     "enableRecordedStream" : true,
 
-    //放送波の設定。epgrec UNA で有効になっているものを true に設定する
+    //放送波の設定。epgrecUNA で有効になっているものを true に設定する
     "broadcast" :  { "GR" : true, "BS" : true, "CS" : true, "EX" : false },
 
     //放送中番組の HLS 配信で使用される ffmpeg の設定
@@ -138,7 +138,7 @@ vim config/config.json
     //enableLiveStream と enableRecordedStream 両方が false の場合必要ない
     "maxStreamNumber" : 4,
 
-    //epgrec UNA のデータベース(MySQL) にアクセスする設定
+    //epgrecUNA のデータベース(MySQL) にアクセスする設定
     "EpgrecDatabaseConfig" : {
         "multipleStatements": true,
         "host": "localhost",
@@ -148,10 +148,10 @@ vim config/config.json
         "timeout": 5000
     },
 
-    //epgrec UNAで設定したテーブル接頭辞
+    //epgrecUNAで設定したテーブル接頭辞
     "EpgrecRecordName" : "Recorder_",
 
-    //epgrec UNA の設定
+    //epgrecUNA の設定
     "epgrecConfig" : {
         "host" : "http://127.0.0.1:1180",        //ホスト
         "videoPath" : "/var/www/epgrec/video",   //録画ファイルが保存されているディレクトリのパス
@@ -164,9 +164,9 @@ vim config/config.json
                         { "id" : 3, "name" : "H264-HD" },
                         { "id" : 4, "name" : "H264-SD" }
                     ],
-        //epgrec UNA の予約カスタマイズの録画モードのデフォルト値 この場合 H264-HD になる
+        //epgrecUNA の予約カスタマイズの録画モードのデフォルト値 この場合 H264-HD になる
         "recModeDefaultId" : 3,
-        //epgrec UNA 自動予約のトランスコードのプルダウン開始位置 この場合プルダウンには H264-HD, H264-SD の2つが表示される
+        //epgrecUNA 自動予約のトランスコードのプルダウン開始位置 この場合プルダウンには H264-HD, H264-SD の2つが表示される
         "startTranscodeId" : 3
     },
 
@@ -207,9 +207,9 @@ vim config/config.json
 }
 ````
 
-### epgrec UNA の設定 (推奨)
+### epgrecUNA の設定 (推奨)
 * サムネイル作成の機能を有効化する (サムネイルのサイズ 320x180 以上に変更することを推奨)
-* epgrec UNA と epgremote のチューナーの取り合いを回避するため、BonDriverProxyEx + recbond のインストールする。
+* epgrecUNA と epgremote のチューナーの取り合いを回避するため、BonDriverProxyEx + recbond のインストールする。
 * トランスコード設定を有効化してスマホ等で録画済み番組を再生可能にする。
  * エンコードなしで ts ファイルを直接再生も可能ですが、スマートフォン、タブレット側にそれなりの性能が必要になります。
  * また、エンコードなしではPCで再生できません。(VLC の web plugin を入れれば別ですが)
