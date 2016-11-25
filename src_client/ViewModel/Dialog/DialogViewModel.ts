@@ -9,9 +9,7 @@ import { DialogModelInterface } from '../../Model/Dialog/DialogModel';
 * @throw DialogViewModelGetStatusError 指定された id の dialog が無かった場合に発生
 */
 class DialogViewModel extends ViewModel {
-    private resizeListener = this.resize.bind(this);
     private model: DialogModelInterface;
-    private windowHeight: number = 0;
 
     constructor(_model: DialogModelInterface) {
         super();
@@ -23,7 +21,6 @@ class DialogViewModel extends ViewModel {
     */
     public init(): void {
         this.model.close();
-        this.windowHeight = 0;
     }
 
     /**
@@ -41,14 +38,11 @@ class DialogViewModel extends ViewModel {
     */
     public open(id: string): void {
         this.model.open(id);
-        window.addEventListener('resize', this.resizeListener, false );
     }
 
     //すべての dialog の状態を close にする
     public close(): void {
         this.model.close();
-        window.removeEventListener('resize', this.resizeListener, false );
-        this.windowHeight = 0;
     }
 
     /**
@@ -58,17 +52,6 @@ class DialogViewModel extends ViewModel {
     */
     public getStatus(id: string): boolean {
         return this.model.getStatus(id);
-    }
-
-    /**
-    * window resize
-    */
-    private resize(): void {
-        if(this.windowHeight != window.innerHeight) {
-            this.windowHeight = window.innerHeight;
-            m.redraw.strategy("diff");
-            m.redraw(true);
-        }
     }
 }
 
