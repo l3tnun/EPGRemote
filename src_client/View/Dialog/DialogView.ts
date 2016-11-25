@@ -17,6 +17,7 @@ import DialogViewModel from "../../ViewModel/Dialog/DialogViewModel";
 class DialogView extends View {
     private id: string;
     private content: Mithril.VirtualElement;
+    private action: Mithril.VirtualElement | null = null;
     private width: number;
     private autoScroll: boolean = true;
     private scrollOffset: number = 60;
@@ -33,6 +34,7 @@ class DialogView extends View {
 
         this.id = this.options["id"];
         this.content = this.options["content"];
+        if(this.options["action"] != "undefined") { this.action = this.options["action"]; }
         this.width = this.options["width"];
         if(this.typeCheck("autoScroll", "boolean")) { this.autoScroll = this.options["autoScroll"]; }
         if(this.typeCheck("scrollOffset", "number")) { this.scrollOffset = this.options["scrollOffset"]; }
@@ -40,6 +42,9 @@ class DialogView extends View {
 
     public execute(): Mithril.VirtualElement {
         this.dialogViewModel = <DialogViewModel>this.getModel("DialogViewModel");
+
+        let child = [this.content];
+        if(this.action != null) { child.push(this.action); }
 
         return m("div", {
             id: this.getDialogId(),
@@ -51,9 +56,7 @@ class DialogView extends View {
                 id: this.getContentId(),
                 class: "dialog-content",
                 style: `max-width: ${ this.width }px; overflow: auto; -webkit-overflow-scrolling: touch;`
-            }, [
-                this.content
-            ])
+            }, child)
         ]);
     }
 
@@ -72,6 +75,12 @@ class DialogView extends View {
 
         let offset = this.autoScroll ? this.scrollOffset : 0;
         let padding = this.getPadding(dialogContentChild);
+
+        //action 分の高さを加える
+        if(this.action != null) {
+            let action = <HTMLElement>(<HTMLElement>document.getElementById(this.getContentId())).children[1];
+            padding += action.offsetHeight + this.getPadding(action);
+        }
 
         //dialog のスクロール設定
         if(dialogContentParent.offsetHeight >= window.innerHeight - offset && offset > 0) {
