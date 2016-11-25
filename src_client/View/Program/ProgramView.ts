@@ -16,6 +16,7 @@ import ProgramInfoDialogViewModel from '../../ViewModel/Program/ProgramInfoDialo
 import LiveProgramDialogContentComponent from '../../Component/Live/LiveProgramDialogContentComponent';
 import LiveProgramCardViewModel from '../../ViewModel/Live/LiveProgramCardViewModel';
 import ProgramGenreDialogComponent from '../../Component/Program/ProgramGenreDialogComponent';
+import ProgramGenreDialogActionComponent from '../../Component/Program/ProgramGenreDialogActionComponent';
 import ProgramStorageViewModel from '../../ViewModel/Program/ProgramStorageViewModel';
 
 /**
@@ -117,7 +118,8 @@ class ProgramView extends ParentPageView {
                 id: ProgramStorageViewModel.genreDialogId,
                 width: 400,
                 scrollOffset: 100,
-                content: m.component(new ProgramGenreDialogComponent())
+                content: m.component(new ProgramGenreDialogComponent()),
+                action: m.component(new ProgramGenreDialogActionComponent())
             }),
 
             //ディスク空き容量ダイアログ

@@ -84,7 +84,6 @@ class DialogView extends View {
 
         //dialog のスクロール設定
         if(dialogContentParent.offsetHeight >= window.innerHeight - offset && offset > 0) {
-            //dialogContentChild の padding 分を足す
             dialogContentParent.style.height = `${ window.innerHeight - offset }px`;
             dialogContentChild.style.height = `${ window.innerHeight - offset - padding }px`;
             if(!context["status"] && this.dialogViewModel.getStatus(this.id)) {
