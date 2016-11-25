@@ -118,7 +118,7 @@ class DialogView extends View {
             } else {
                 return 0;
             }
-        } finally {
+        } catch(e) {
             return 0;
         }
     }
