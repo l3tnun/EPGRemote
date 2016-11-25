@@ -71,17 +71,15 @@ class DialogView extends View {
         dialogContentChild.style.overflow = "auto";
 
         let offset = this.autoScroll ? this.scrollOffset : 0;
-        let padding = dialogContentChild.offsetHeight - dialogContentParent.offsetHeight;
+        let padding = this.getPadding(dialogContentChild);
 
         //dialog のスクロール設定
         if(dialogContentParent.offsetHeight >= window.innerHeight - offset && offset > 0) {
             //dialogContentChild の padding 分を足す
-            dialogContentParent.style.height = `${ window.innerHeight - offset + padding }px`;
-            dialogContentChild.style.height = `${ window.innerHeight - offset }px`;
+            dialogContentParent.style.height = `${ window.innerHeight - offset }px`;
+            dialogContentChild.style.height = `${ window.innerHeight - offset - padding }px`;
             if(!context["status"] && this.dialogViewModel.getStatus(this.id)) {
                 dialogContentChild.scrollTop = 0; //scroll位置を初期化
-                m.redraw.strategy("diff");
-                m.redraw(true);
             }
         } else {
             dialogContentParent.style.height = "";
@@ -100,6 +98,21 @@ class DialogView extends View {
         }
 
         context["status"] = this.dialogViewModel.getStatus(this.id);
+    }
+
+    private getPadding(element: HTMLElement): number {
+        try {
+            let top = window.getComputedStyle(element, undefined).getPropertyValue('padding-top');
+            let bottom = window.getComputedStyle(element, undefined).getPropertyValue('padding-bottom');
+
+            if(top.indexOf("px") != -1 && bottom.indexOf("px") != -1) {
+                return Number(top.replace(/[^0-9^\.]/g,"")) + Number(bottom.replace(/[^0-9^\.]/g,""));
+            } else {
+                return 0;
+            }
+        } finally {
+            return 0;
+        }
     }
 
     private onclick(e: Event): void {
