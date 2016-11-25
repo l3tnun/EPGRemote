@@ -1,24 +1,25 @@
 "use strict";
 
 import Component from '../Component';
-import ProgramGenreDialogView from '../../View/Program/ProgramGenreDialogView';
+import ProgramGenreDialogActionView from '../../View/Program/ProgramGenreDialogActionView';
 
-class ProgramGenreDialogComponent extends Component {
+class ProgramGenreDialogActionComponent extends Component {
     protected getController() {
         return null;
     }
 
     protected getView() {
-        return new ProgramGenreDialogView();
+        return new ProgramGenreDialogActionView();
     }
 
     protected getModels() {
         return {
+            DialogViewModel: this.container.get("DialogViewModel"),
             ProgramViewModel: this.container.get("ProgramViewModel"),
             ProgramStorageViewModel: this.container.get("ProgramStorageViewModel")
         };
     }
 }
 
-export default ProgramGenreDialogComponent;
+export default ProgramGenreDialogActionComponent;
 
