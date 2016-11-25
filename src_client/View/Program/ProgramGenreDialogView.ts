@@ -25,7 +25,7 @@ class ProgramGenreDialogView extends View {
         return m("div", [
             m("ul", {
                 class: "mdl-list",
-                style: "padding: 16px 16px 0px; margin: 0;",
+                style: "padding: 16px; margin: 0;",
                 config: (_element, _isInit, _context) => {
                     Util.upgradeMdl();
                 }
