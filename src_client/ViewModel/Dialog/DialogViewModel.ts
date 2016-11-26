@@ -10,6 +10,8 @@ import { DialogModelInterface } from '../../Model/Dialog/DialogModel';
 */
 class DialogViewModel extends ViewModel {
     private model: DialogModelInterface;
+    private isPageBack: boolean = false;
+    private resizeListener = this.disableBack.bind(this);
 
     constructor(_model: DialogModelInterface) {
         super();
@@ -38,11 +40,30 @@ class DialogViewModel extends ViewModel {
     */
     public open(id: string): void {
         this.model.open(id);
+
+        if(!this.isEnableHistory()) { return; }
+
+        //dialog open 時に dummy の履歴を追加
+        history.pushState(null, '', null);
+        this.isPageBack = false;
+
+        //ブラウザのバックで戻った時のイベントを追加
+        window.addEventListener('popstate', this.resizeListener);
     }
 
     //すべての dialog の状態を close にする
     public close(): void {
         this.model.close();
+
+        if(!this.isEnableHistory()) { return; }
+
+        window.removeEventListener('popstate', this.resizeListener);
+
+        //ブラウザのバックで戻ったか
+        if(!this.isPageBack) {
+            history.back();
+            this.isPageBack = false;
+        }
     }
 
     /**
@@ -52,6 +73,24 @@ class DialogViewModel extends ViewModel {
     */
     public getStatus(id: string): boolean {
         return this.model.getStatus(id);
+    }
+
+    /**
+    * page back の動作
+    */
+    private disableBack(): void {
+        this.isPageBack = true;
+        this.close();
+        m.redraw.strategy("diff");
+        m.redraw(true);
+    }
+
+    /**
+    * hostory api に対応しているかチェックする
+    * true: 対応, false: 非対応
+    */
+    private isEnableHistory(): boolean {
+        return history && history.pushState && history.state !== undefined
     }
 }
 
