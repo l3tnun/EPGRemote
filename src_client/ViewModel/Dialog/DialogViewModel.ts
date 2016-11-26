@@ -1,6 +1,7 @@
 "use strict";
 
 import ViewModel from '../ViewModel';
+import Util from '../../Util/Util';
 import { DialogModelInterface } from '../../Model/Dialog/DialogModel';
 
 /**
@@ -41,7 +42,7 @@ class DialogViewModel extends ViewModel {
     public open(id: string): void {
         this.model.open(id);
 
-        if(!this.isEnableHistory()) { return; }
+        if(!Util.isEnableHistory()) { return; }
 
         //dialog open 時に dummy の履歴を追加
         history.pushState(null, '', null);
@@ -55,7 +56,7 @@ class DialogViewModel extends ViewModel {
     public close(): void {
         this.model.close();
 
-        if(!this.isEnableHistory()) { return; }
+        if(!Util.isEnableHistory()) { return; }
 
         window.removeEventListener('popstate', this.resizeListener);
 
@@ -85,13 +86,6 @@ class DialogViewModel extends ViewModel {
         m.redraw(true);
     }
 
-    /**
-    * hostory api に対応しているかチェックする
-    * true: 対応, false: 非対応
-    */
-    private isEnableHistory(): boolean {
-        return history && history.pushState && history.state !== undefined
-    }
 }
 
 export default DialogViewModel;
