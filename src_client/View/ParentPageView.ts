@@ -2,6 +2,7 @@
 
 import * as m from 'mithril';
 import View from './View';
+import Util from '../Util/Util';
 import NavigationComponent from '../Component/Navigation/NavigationComponent';
 import HeaderComponent from '../Component/Header/HeaderComponent';
 import HeaderMenuIconComponent from '../Component/Header/HeaderMenuIconComponent';
@@ -79,11 +80,53 @@ abstract class ParentPageView extends View {
     * @param content content
     */
     protected mainLayout(content: any): Mithril.VirtualElement {
-        return m("main", { class: "mdl-layout__content" }, [
-            m("div", {class: "page-content" }, [
+        return m("main", {
+            class: "mdl-layout__content",
+            config: (element, isInit, context) => {
+                if(!Util.isEnableHistory()) { return; }
+                this.saveScrollPosition(element, isInit, context);
+            }
+        }, [
+            m("div", { class: "page-content" }, [
                 content
             ])
         ]);
+    }
+
+    /**
+    * scroll position を記録 & 復元を行う
+    */
+    protected saveScrollPosition(element: Element, isInit: boolean, context: Mithril.Context): void {
+        if(!isInit) {
+            //scroll position の記録
+            element.addEventListener("scroll", (() => {
+                this.saveScrollPostion(element.scrollTop, element.scrollLeft);
+            }).bind(this), false);
+            context["isRestored"] = false;
+        } else if(history.state != null && !context["isRestored"]){
+            //scroll position の復元
+            this.restoreScrollPosition(element);
+            context["isRestored"] = true;
+        }
+    }
+
+    /**
+    * history.state に scroll position を記録する
+    * @param top top
+    * @param left lef
+    */
+    protected saveScrollPostion(top: number, left: number): void {
+        history.replaceState({ top: top, left: left }, document.title);
+    }
+
+    /**
+    * scroll position を復元する
+    * @param element Element
+    */
+    protected restoreScrollPosition(element: Element): void {
+        let state = history.state;
+        element.scrollTop = state["top"];
+        element.scrollLeft = state["left"];
     }
 }
 
