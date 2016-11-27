@@ -68,7 +68,7 @@ class DialogModel implements DialogModelInterface {
     */
     public isOpened(): boolean {
         for(let key in this.dialogs) {
-            if(this.getStatus(key)) { console.log('true'); return true; }
+            if(this.getStatus(key)) { return true; }
         }
 
         return false;
