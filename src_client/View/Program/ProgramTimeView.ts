@@ -18,7 +18,11 @@ class ProgramTimeView extends View {
 
         return m("div", {
             id: ProgramViewModel.timeFrameId,
-            style: this.createStyle()
+            class: "feedin",
+            style: this.createStyle(),
+            config: (element, isInit) => {
+                this.addShowAnimetion(element, isInit);
+            }
         }, [
             this.create()
         ]);

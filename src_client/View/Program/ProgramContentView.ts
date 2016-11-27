@@ -88,7 +88,11 @@ class ProgramTimeView extends View {
 
         return m("div", {
             id: "program_content",
-            style: "margin-top: -2px;" //時刻線の分
+            class: "fadeIn",
+            style: "margin-top: -2px;", //時刻線の分
+            config: (element, isInit) => {
+                this.addShowAnimetion(element, isInit);
+            }
         }, result);
     }
 
