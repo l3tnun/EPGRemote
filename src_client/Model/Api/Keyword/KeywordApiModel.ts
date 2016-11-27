@@ -29,7 +29,7 @@ class KeywordApiModel implements KeywordApiModelInterface {
     public update(): void {
         let query = {};
 
-        if(this.page != null) { query["page"] = this.limit; }
+        if(this.page != null) { query["page"] = this.page; }
         if(this.limit != null) { query["limit"] = this.limit; }
 
         m.request({method: "GET", url: `/api/keyword?${ m.route.buildQueryString(query) }`})
