@@ -63,18 +63,11 @@ class ProgramView extends ParentPageView {
 
                 this.createNavigation(),
 
-                m("div", {
-                    class: "fadeIn",
-                    config: (element, isInit) => {
-                        this.addShowAnimetion(element, isInit);
-                    }
-                }, [
-                    //局名
-                    m.component(new ProgramStationComponent()),
+                //局名
+                m.component(new ProgramStationComponent()),
 
-                    //時刻
-                    m.component(new ProgramTimeComponent()),
-                ]),
+                //時刻
+                m.component(new ProgramTimeComponent()),
 
                 //program
                 m("div", {
