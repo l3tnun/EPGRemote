@@ -18,7 +18,7 @@ class ProgramTimeView extends View {
 
         return m("div", {
             id: ProgramViewModel.timeFrameId,
-            class: "feedin",
+            class: "fadeIn",
             style: this.createStyle(),
             config: (element, isInit) => {
                 this.addShowAnimetion(element, isInit);
