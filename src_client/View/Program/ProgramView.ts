@@ -73,9 +73,7 @@ class ProgramView extends ParentPageView {
                 m("div", {
                     id: ProgramViewModel.programFrameId,
                     style: this.createFrameStyle(),
-                    config: (element, isInit, context) => {
-                        this.frameConfig(element, isInit, context);
-                    }
+                    config: (element, isInit, context) => { this.frameConfig(element, isInit, context); }
                 }, [
                     //時刻線
                     m("div", { id: "tableNowBar", style: this.createNowBarStyle() }, "now" ),
@@ -167,10 +165,10 @@ class ProgramView extends ParentPageView {
             //スクロール処理
             let stationFrame =  document.getElementById(ProgramViewModel.stationFrameId)!;
             let timeFrame = document.getElementById(ProgramViewModel.timeFrameId)!;
-            element.addEventListener("scroll", () => {
+            (<HTMLElement>element).onscroll = () => {
                 stationFrame.scrollLeft = element.scrollLeft;
                 timeFrame.scrollTop = element.scrollTop;
-            }, false);
+            }
 
             context["query"] = null;
         } else if(context["query"] == null || context["query"] != qyeryStr) {
