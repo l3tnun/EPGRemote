@@ -8,6 +8,7 @@ interface DialogModelInterface extends Model {
     open(id: string): void;
     close(): void;
     getStatus(id: string): boolean;
+    isOpened(): boolean;
 }
 
 /**
@@ -59,6 +60,18 @@ class DialogModel implements DialogModelInterface {
         }
 
         return this.dialogs[id].getStatus();
+    }
+
+    /**
+    * ダイアログが開かれているか
+    * true: opened, false: closed
+    */
+    public isOpened(): boolean {
+        for(let key in this.dialogs) {
+            if(this.getStatus(key)) { console.log('true'); return true; }
+        }
+
+        return false;
     }
 }
 
