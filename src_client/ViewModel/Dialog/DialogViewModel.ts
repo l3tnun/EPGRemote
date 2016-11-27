@@ -45,7 +45,7 @@ class DialogViewModel extends ViewModel {
         if(!Util.isEnableHistory()) { return; }
 
         //dialog open 時に dummy の履歴を追加
-        history.pushState(null, '', null);
+        history.pushState(null, '', '');
         this.isPageBack = false;
 
         //ブラウザのバックで戻った時のイベントを追加
