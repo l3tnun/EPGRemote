@@ -54,6 +54,8 @@ class DialogViewModel extends ViewModel {
 
     //すべての dialog の状態を close にする
     public close(enableBack: boolean = true): void {
+        if(!this.model.isOpened()) { return; }
+
         this.model.close();
 
         if(!Util.isEnableHistory()) { return; }
