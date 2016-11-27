@@ -164,12 +164,15 @@ class LiveProgramDialogContentView extends View {
                 }, "EPG更新"),
 
                 //単局表示
-                m("a", {
+                m("button", {
                     class: "mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect",
                     style: "padding: 0 6px; margin: 0;",
-                    onclick: () => { this.dialogViewModel.close(false); },
-                    config: m.route,
-                    href: `/program?${ m.route.buildQueryString(query)} `
+                    onclick: () => {
+                        this.dialogViewModel.close();
+                        setTimeout(() => {
+                            m.route("/program", query)
+                        }, 100);
+                    }
                 }, "単局表示" )
             ];
 

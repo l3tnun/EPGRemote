@@ -24,11 +24,7 @@ class ProgramStationView extends View {
         let viewConfig = this.viewModel.getViewConfig();
 
         return m("div", {
-            id: ProgramViewModel.stationFrameId,
-            class: "fadeIn",
-            config: (element, isInit) => {
-                this.addShowAnimetion(element, isInit);
-            }
+            id: ProgramViewModel.stationFrameId
         }, [
             m("div", {
                 class: "station_title",
