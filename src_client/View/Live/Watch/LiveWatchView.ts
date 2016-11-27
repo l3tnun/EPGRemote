@@ -54,7 +54,12 @@ class LiveWatchView extends ParentPageView {
                     style: this.liveWatchViewModel.liveIsEnable() ? "" : " width: 100%;"
                 }, this.createLeftContent()),
                 //右側パネル
-                m("div", { class: "live-watch-right-panel" }, this.createRightContent()),
+                m("div", {
+                    class: "fadeIn live-watch-right-panel",
+                    config: (element, isInit) => {
+                        this.addShowAnimetion(element, isInit);
+                    }
+                }, this.createRightContent()),
                 m("div", { style: "clear: both;" })
             ]),
 
@@ -74,7 +79,11 @@ class LiveWatchView extends ParentPageView {
     //左側コンテンツ生成
     private createLeftContent(): Mithril.VirtualElement {
         return m("div", {
-            style: `height: 100%; overflow-y: auto;`
+            style: `height: 100%; overflow-y: auto;`,
+            class: "fadeIn",
+            config: (element, isInit) => {
+                this.addShowAnimetion(element, isInit);
+            }
         }, [
             //video
             m.component(new LiveWatchVideoComponent()),

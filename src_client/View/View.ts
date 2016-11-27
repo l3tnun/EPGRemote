@@ -25,6 +25,17 @@ abstract class View extends MithrilBase {
             (<HTMLInputElement>element).value = String(value);
         }
     }
+
+    /**
+    * ふわっと表示させる
+    */
+    protected addShowAnimetion(element: Element, isInit: boolean): void {
+        if(!isInit) {
+            setTimeout(() => {
+                (<HTMLElement>element).style.opacity = "1";
+            }, 100);
+        }
+    }
 }
 
 export default View;

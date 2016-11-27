@@ -104,6 +104,14 @@ namespace Util {
 
         return keyword[0];
     }
+
+    /**
+    * hostory api に対応しているかチェックする
+    * true: 対応, false: 非対応
+    */
+    export const isEnableHistory = (): boolean => {
+        return history && history.pushState && history.state !== undefined
+    }
 }
 
 export default Util;

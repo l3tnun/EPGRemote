@@ -79,7 +79,12 @@ abstract class ParentPageView extends View {
     * @param content content
     */
     protected mainLayout(content: any): Mithril.VirtualElement {
-        return m("main", { class: "mdl-layout__content" }, [
+        return m("main", {
+            class: "fadeIn mdl-layout__content",
+            config: (element, isInit) => {
+                this.addShowAnimetion(element, isInit);
+            }
+        }, [
             m("div", {class: "page-content" }, [
                 content
             ])
