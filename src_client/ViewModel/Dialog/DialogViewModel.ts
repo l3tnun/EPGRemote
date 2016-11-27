@@ -53,7 +53,7 @@ class DialogViewModel extends ViewModel {
     }
 
     //すべての dialog の状態を close にする
-    public close(): void {
+    public close(enableBack: boolean = true): void {
         this.model.close();
 
         if(!Util.isEnableHistory()) { return; }
@@ -61,7 +61,7 @@ class DialogViewModel extends ViewModel {
         window.removeEventListener('popstate', this.resizeListener);
 
         //ブラウザのバックで戻ったか
-        if(!this.isPageBack) {
+        if(!this.isPageBack && enableBack) {
             history.back();
             this.isPageBack = false;
         }
