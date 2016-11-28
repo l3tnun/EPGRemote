@@ -38,7 +38,7 @@ class ProgramGenreDialogActionView extends View {
                 class: "mdl-button mdl-js-button mdl-button--primary",
                 onclick: () => {
                     this.dialog.close();
-                    this.viewModel.update(this.storedGenre);
+                    this.viewModel.update();
                     this.programViewModel.resetCache();
                     this.programViewModel.updateProgram();
                 }
