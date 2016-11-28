@@ -5,7 +5,8 @@ import { StorageModelInterface } from '../../Model/Storage/StorageModel';
 
 class ProgramStorageViewModel extends ViewModel {
     private storageModel: StorageModelInterface;
-    private useStatus = true; //localstorage が使用可能かを表す true: 使用可, false: 使用不可
+    private useStatus: boolean = true; //localstorage が使用可能かを表す true: 使用可, false: 使用不可
+    private tmpGenre: { [key: number]: boolean; } | null = null;
 
     constructor(_storageModel: StorageModelInterface) {
         super();
@@ -38,15 +39,20 @@ class ProgramStorageViewModel extends ViewModel {
         return this.storageModel.get(ProgramStorageViewModel.storageKey);
     }
 
+    //ジャンル情報一時保持
+    public setTmp(tmpGenre: { [key: number]: boolean; } | null): void {
+        this.tmpGenre = tmpGenre;
+    }
+
     //ジャンル情報の削除
     public remove(): void {
         this.storageModel.remove(ProgramStorageViewModel.storageKey);
     }
 
     //ジャンル情報の更新
-    public update(value: { [key: number]: boolean; }): void {
-        if(!this.useStatus) { return; }
-        this.storageModel.set(ProgramStorageViewModel.storageKey, value);
+    public update(): void {
+        if(!this.useStatus || this.tmpGenre == null) { return; }
+        this.storageModel.set(ProgramStorageViewModel.storageKey, this.tmpGenre);
     }
 }
 
