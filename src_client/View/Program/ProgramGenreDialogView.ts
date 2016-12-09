@@ -13,14 +13,12 @@ import ProgramViewModel from '../../ViewModel/Program/ProgramViewModel';
 class ProgramGenreDialogView extends View {
     private viewModel: ProgramStorageViewModel;
     private programViewModel: ProgramViewModel;
-    private storedGenre: { [key: number]: boolean; };
 
     public execute(): Mithril.VirtualElement {
         this.viewModel = <ProgramStorageViewModel>this.getModel("ProgramStorageViewModel");
         this.programViewModel = <ProgramViewModel>this.getModel("ProgramViewModel");
 
-        this.storedGenre = this.viewModel.get();
-        if(this.storedGenre == null) { return m("div", "LocalStorage が無効になっています。"); }
+        if(this.viewModel.get() == null) { return m("div", "LocalStorage が無効になっています。"); }
 
         return m("div", [
             m("ul", {
@@ -36,7 +34,7 @@ class ProgramGenreDialogView extends View {
     //ジャンルリストを生成
     private createGenreList(): Mithril.VirtualElement[] {
         let genres = this.programViewModel.getGenre();
-        if(genres == null) { return [ m("div", "empty") ] }
+        if(genres == null || this.viewModel.tmpGenre == null) { return [ m("div", "empty") ] }
 
         return genres.map((genre: { [key: string]: any }) => {
             return m("li", { class: "program-genre-dialog-item mdl-list__item" }, [
@@ -45,9 +43,10 @@ class ProgramGenreDialogView extends View {
                     m("label", {
                         class: "mdl-switch mdl-js-switch mdl-js-ripple-effect",
                         config: (element, _isInit, _context) => {
-                            if(this.storedGenre[genre["id"]] && element.className.indexOf("is-checked") == -1) {
+                            if(this.viewModel.tmpGenre == null) { return; }
+                            if(this.viewModel.tmpGenre[genre["id"]] && element.className.indexOf("is-checked") == -1) {
                                 element.classList.add("is-checked");
-                            } else if(!this.storedGenre[genre["id"]] && element.className.indexOf("is-checked") != -1) {
+                            } else if(!this.viewModel.tmpGenre[genre["id"]] && element.className.indexOf("is-checked") != -1) {
                                 element.classList.remove("is-checked");
                             }
                         }
@@ -55,10 +54,9 @@ class ProgramGenreDialogView extends View {
                         m("input", {
                             type: "checkbox",
                             class: "mdl-switch__input",
-                            checked: this.storedGenre[genre["id"]],
+                            checked: this.viewModel.tmpGenre![genre["id"]],
                             onchange: m.withAttr("checked", (value) => {
-                                this.storedGenre[genre["id"]] = value;
-                                this.viewModel.setTmp(this.storedGenre);
+                                this.viewModel.tmpGenre![genre["id"]] = value;
                                 m.redraw.strategy("none");
                             })
                         })
