@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const gulp = require('gulp');
 const del = require('del');
+const plumber = require('gulp-plumber');
 const typescript = require('gulp-typescript');
 const sourcemaps = require('gulp-sourcemaps');
 const webpackStream = require('webpack-stream');
@@ -102,6 +103,7 @@ gulp.task('clean-server', () => {
 
 gulp.task('build-server', ['clean-server'],() => {
     return gulp.src(config.server.src)
+        .pipe(plumber())
         .pipe(sourcemaps.init())
         .pipe(typescript(config.server.options))
         .pipe(sourcemaps.write('./'))
@@ -120,8 +122,12 @@ gulp.task('clean-client', () => {
 
 gulp.task('build-client', ['clean-client'], () => {
     return gulp.src(config.client.src)
+        .pipe(plumber())
         .pipe(webpackStream(webpackConfig))
-        .pipe(gulp.dest(config.client.dst));
+        .pipe(gulp.dest(config.client.dst))
+        .on('error', (error) => {
+            console.error(error);
+        });
 });
 
 gulp.task('clean-client-css', () => {
@@ -130,6 +136,7 @@ gulp.task('clean-client-css', () => {
 
 gulp.task('client-css-build', () => {
     let result = gulp.src(config.client.css.src)
+        .pipe(plumber())
         .pipe(sourcemaps.init())
         .pipe(sass())
         .pipe(concat('style.css'))
