@@ -57,7 +57,16 @@ cp -r php/epgremote /var/www/epgrec/
 
 * HLSでリアルタイム視聴を行う場合、ffmpeg と recpt1 (BondriverProxyEx + recbond 推奨) 等が必要です
 
-### EPGRemote 設定
+##アップデート方法
+* 以下のコマンドを実行後に EPGRemote を再起動する
+
+```
+$ git pull
+$ npm update
+$ npm run build
+```
+
+## EPGRemote 設定
 ### config の設定
 * sample をコピーする
 
