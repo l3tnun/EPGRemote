@@ -10,9 +10,9 @@ namespace Util {
     //Material Desgin Lite の DOM をアップグレードする処理
     export const upgradeMdl = (): void => {
         componentHandler.upgradeDom();
-        var el = document.getElementsByClassName( "mdl-layout__container" );
-        for(var i = 1; i < el.length; i++) {
-            el[i].parentNode.removeChild(el[i]);
+        let el = document.getElementsByClassName( "mdl-layout__container" );
+        for(let i = 1; i < el.length; i++) {
+            el[i].parentNode!.removeChild(el[i]);
         }
     }
 
