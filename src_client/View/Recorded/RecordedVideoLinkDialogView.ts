@@ -108,9 +108,14 @@ class RecordedVideoLinkDialogView extends View {
             }, name);
         }
 
-        return m("a", {
+        return m("button", {
             class: `${ buttonClass } mdl-button mdl-js-button mdl-button--raised`,
-            href: href
+            onclick: () => {
+                this.dialog.close();
+                setTimeout(() => {
+                    location.href = href;
+                }, 100);
+            }
         }, name);
     }
 
