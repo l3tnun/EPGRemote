@@ -1,12 +1,13 @@
 "use strict";
 
 import Model from '../Model';
+import Util from '../../Util/Util';
 import DialogStatus from './DialogStatus';
 
 interface DialogModelInterface extends Model {
     add(id: string): void;
     open(id: string): void;
-    close(): void;
+    close(enableBack?: boolean): void;
     getStatus(id: string): boolean;
     isOpened(): boolean;
 }
@@ -18,6 +19,8 @@ interface DialogModelInterface extends Model {
 
 class DialogModel implements DialogModelInterface {
     private dialogs: { [key: string]: DialogStatus } = {};
+    private isPageBack: boolean = false;
+    private resizeListener = this.disableBack.bind(this);
 
     /**
     * 管理するダイアログを追加する
@@ -40,13 +43,32 @@ class DialogModel implements DialogModelInterface {
         }
 
         this.dialogs[id].open();
+
+        if(!Util.isEnableHistory()) { return; }
+
+        //dialog open 時に dummy の履歴を追加
+        history.pushState(null, '', document.title);
+        this.isPageBack = false;
+
+        //ブラウザのバックで戻った時のイベントを追加
+        window.addEventListener('popstate', this.resizeListener);
     }
 
     /**
     * すべての dialog の状態を close にする
     */
-    public close(): void {
+    public close(enableBack: boolean = true): void {
         for(let key in this.dialogs) { this.dialogs[key].close(); }
+
+        if(!Util.isEnableHistory()) { return; }
+
+        window.removeEventListener('popstate', this.resizeListener);
+
+        //ブラウザのバックで戻ったか
+        if(!this.isPageBack && enableBack) {
+            history.back();
+            this.isPageBack = false;
+        }
     }
 
     /**
@@ -72,6 +94,16 @@ class DialogModel implements DialogModelInterface {
         }
 
         return false;
+    }
+
+    /**
+    * page back の動作
+    */
+    private disableBack(): void {
+        this.isPageBack = true;
+        this.close();
+        m.redraw.strategy("diff");
+        m.redraw(true);
     }
 }
 
