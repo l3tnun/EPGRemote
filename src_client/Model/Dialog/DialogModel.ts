@@ -58,6 +58,8 @@ class DialogModel implements DialogModelInterface {
     * すべての dialog の状態を close にする
     */
     public close(enableBack: boolean = true): void {
+        if(!this.isOpened()) { return; }
+
         for(let key in this.dialogs) { this.dialogs[key].close(); }
 
         if(!Util.isEnableHistory()) { return; }
