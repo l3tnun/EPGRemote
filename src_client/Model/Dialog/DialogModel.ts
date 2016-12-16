@@ -47,7 +47,7 @@ class DialogModel implements DialogModelInterface {
         if(!Util.isEnableHistory()) { return; }
 
         //dialog open 時に dummy の履歴を追加
-        history.pushState(null, '', document.title);
+        history.pushState(null, document.title, '');
         this.isPageBack = false;
 
         //ブラウザのバックで戻った時のイベントを追加
