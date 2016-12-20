@@ -75,19 +75,20 @@ class RecordedVideoLinkDialogView extends View {
     //video href を生成する
     private createHref(path: string): string {
         let iOSURL = this.viewModel.getiOSURL();
+        let androidURL = this.viewModel.getAndroidURL();
         let dlStatus = this.viewModel.getDlStatus();
 
         //非 iOS 端末
-        if(iOSURL == null) {  return dlStatus ? path + "?mode=download" : path; }
+        if(iOSURL == null && androidURL == null) {  return dlStatus ? path + "?mode=download" : path; }
 
         //iOS 端末
-        let iOSPath = window.location.host + path;
+        let mobilePath = window.location.host + path;
         if(dlStatus) {
-            let url = iOSURL["RecordedDownloadiOSURL"];
-            return typeof url == "undefined" ? path : url.replace("ADDRESS", iOSPath);
+            let url = iOSURL != null ? iOSURL["RecordedDownloadiOSURL"] : androidURL["RecordedDownloadAndroidURL"]
+            return typeof url == "undefined" ? path : url.replace("ADDRESS", mobilePath);
         } else {
-            let url = iOSURL["RecordedStreamingiOSURL"];
-            return typeof url == "undefined" ? path : url.replace("ADDRESS", iOSPath);
+            let url = iOSURL != null ? iOSURL["RecordedStreamingiOSURL"] : androidURL["RecordedStreamingAndroidURL"];
+            return typeof url == "undefined" ? path : url.replace("ADDRESS", mobilePath);
         }
     }
 

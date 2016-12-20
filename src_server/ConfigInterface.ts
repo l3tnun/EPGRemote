@@ -87,6 +87,8 @@ interface ConfigInterface {
 
     RecordedStreamingiOSURL: string;
     RecordedDownloadiOSURL: string;
+    RecordedStreamingAndroidURL: string;
+    RecordedDownloadAndroidURL: string;
 }
 
 export default ConfigInterface;

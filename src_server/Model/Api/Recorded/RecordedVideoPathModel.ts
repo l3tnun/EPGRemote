@@ -60,6 +60,13 @@ class RecordedVideoPathModel extends ApiModel {
                 })
             }
 
+            if(typeof this.option["android"] != "undefined") {
+                this.results.push({
+                    RecordedStreamingAndroidURL: configJson.RecordedStreamingAndroidURL,
+                    RecordedDownloadAndroidURL: configJson.RecordedDownloadAndroidURL
+                })
+            }
+
             this.eventsNotify();
         },
         (code) => {

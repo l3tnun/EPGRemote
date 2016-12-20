@@ -38,10 +38,12 @@ describe('RecordedVideoGetController', () => {
                 assert.equal(option["rec_id"], 1);
                 assert.isNumber(option["ios"]);
                 assert.equal(option["ios"], 1);
+                assert.isNumber(option["android"]);
+                assert.equal(option["android"], 1);
             });
         });
 
-        http.get('http://localhost:' + port + "?rec_id=1&ios=1", (res) => {
+        http.get('http://localhost:' + port + "?rec_id=1&ios=1&android=1", (res) => {
             assert.equal(200, res.statusCode);
             done();
         });
