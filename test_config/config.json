@@ -107,6 +107,8 @@
     },
 
     "RecordedStreamingiOSURL" : "infuse://x-callback-url/play?url=http://ADDRESS",
-    "RecordedDownloadiOSURL" : "vlc://http://ADDRESS"
+    "RecordedDownloadiOSURL" : "vlc://http://ADDRESS",
+    "RecordedStreamingAndroidURL": "android-app://com.mxtech.videoplayer.ad/http/ADDRESS",
+    "RecordedDownloadAndroidURL": "android-app://com.dv.adm/http/ADDRESS"
 }
 
