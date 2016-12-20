@@ -11,9 +11,10 @@ class RecordedVideoGetController extends Controller {
 
         let rec_id = parsedUrl.query.rec_id;
         let ios = parsedUrl.query.ios;
+        let android = parsedUrl.query.android;
 
         let model = this.modelFactory.get("RecordedVideoPathModel");
-        model.setOption({ rec_id: Number(rec_id), ios: Number(ios) });
+        model.setOption({ rec_id: Number(rec_id), ios: Number(ios), android: Number(android) });
 
         let view = new NormalApiView(response, "RecordedVideoPathModel");
         view.setModels({ RecordedVideoPathModel: model });

@@ -209,10 +209,18 @@ vim config/config.json
         }
     },
 
-    //ios の録画済み一覧の URL Scheme の設定　↓の場合だと 視聴には infuse が DL では VLC が起動するようになっている
-    //必要なければなくても ok
+    //ios の録画済み一覧の URL Scheme の設定
+    //下記の設定の場合、視聴には infuse が DL では VLC が起動する
+    //必要なければ削除しても良い
     "RecordedStreamingiOSURL" : "infuse://x-callback-url/play?url=http://ADDRESS",
-    "RecordedDownloadiOSURL" : "vlc://http://ADDRESS"
+    "RecordedDownloadiOSURL" : "vlc://http://ADDRESS",
+
+    //android の録画済み一覧の URL Scheme の設定
+    //下記の設定の場合、視聴には MX Player が DL では Advanced Download Manager が起動する
+    //必要なければ削除しても良い
+    "RecordedStreamingAndroidURL": "android-app://com.mxtech.videoplayer.ad/http/ADDRESS",
+    "RecordedDownloadAndroidURL": "android-app://com.dv.adm/http/ADDRESS"
+
 }
 ````
 
@@ -263,7 +271,7 @@ chrome のバグらしいです。
 ## Android での VLC で録画済みファイル再生について
 vlc の日本語周りのバグがあるみたいで、原状動かないです。
 
-MX動画プレーヤーでの動作は確認しているのでそちらを使ってください。
+MX Player での動作は確認しているのでそちらを使ってください。
 
 VLC に対応していないと死んでしまいます、みたいな方がいれば対応させます。
 
