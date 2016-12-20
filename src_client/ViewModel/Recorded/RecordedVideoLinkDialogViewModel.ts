@@ -67,6 +67,11 @@ class RecordedVideoLinkDialogViewModel extends ViewModel {
         return this.recordedVideoLinkApiModel.getiOSURL();
     }
 
+    //Android 用の URL テンプレートテキストを返す
+    public getAndroidURL(): { [key: string]: string } {
+        return this.recordedVideoLinkApiModel.getAndroidURL();
+    }
+
     //DL リンクの状態を返す true: DL リンク, fale 視聴リンク
     public getDlStatus(): boolean {
         return this.dlStatus;
