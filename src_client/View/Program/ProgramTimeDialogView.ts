@@ -98,9 +98,12 @@ class ProgramTimeDialogView extends View {
     private createElement(name: string, query: { [key: string]: string }): Mithril.VirtualElement {
         return m("a", {
             class: "program-time-dialog-time",
-            href:  m.route().split("?")[0] + "?" + m.route.buildQueryString(query),
-            config: m.route,
-            onclick: () => { this.dialog.close(); }
+            onclick: () => {
+                this.dialog.close();
+                setTimeout(() => {
+                    m.route("/program", query);
+                }, 100);
+            }
         }, name);
     }
 }
