@@ -7,10 +7,10 @@ $use_regexp  = 0;
 $collate_ci  = FALSE;
 $ena_title   = FALSE;
 $ena_desc    = FALSE;
-$typeGR      = TRUE;
-$typeBS      = TRUE;
-$typeCS      = TRUE;
-$typeEX      = TRUE;
+$typeGR      = FALSE;
+$typeBS      = FALSE;
+$typeCS      = FALSE;
+$typeEX      = FALSE;
 $category_id = 0;
 $channel_id  = 0;
 $weekofday   = 0;
@@ -35,9 +35,9 @@ if( isset($_POST['search']) ) {
 if( isset($_POST['channel_id']) ) { $channel_id = (int)($_POST['channel_id']); }
 
 if( isset($_POST['typeGR']) ) { $typeGR = isset($_POST['typeGR']); }
-if( isset($_POST['typeBS']) ) { $typeGR = isset($_POST['typeGR']); }
-if( isset($_POST['typeCS']) ) { $typeGR = isset($_POST['typeGR']); }
-if( isset($_POST['typeEX']) ) { $typeGR = isset($_POST['typeGR']); }
+if( isset($_POST['typeBS']) ) { $typeBS = isset($_POST['typeBS']); }
+if( isset($_POST['typeCS']) ) { $typeCS = isset($_POST['typeCS']); }
+if( isset($_POST['typeEX']) ) { $typeEX = isset($_POST['typeEX']); }
 
 if( isset($_POST['category_id']) ) {
     $category_id = (int)($_POST['category_id']);
