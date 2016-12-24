@@ -109,7 +109,7 @@ class ProgramViewModel extends ViewModel {
                 element: [element]
             }
         } else {
-             this.programCache[id].element.push(element);
+            this.programCache[id].element.push(element);
         }
     }
 
@@ -123,11 +123,9 @@ class ProgramViewModel extends ViewModel {
 
                 if(typeof this.programCache[id] == "undefined") { return; }
 
-                this.programCache[id].element.map((element) => {
+                this.programCache[id].element.map((element, index) => {
                     //自動予約
                     if(this.programCache[id].autorec != program["autorec"]) {
-                        this.programCache[id].autorec = program["autorec"]
-
                         if(program["autorec"] == 0) {
                             element.classList.add(ProgramViewModel.autorecClassStr);
                         } else {
@@ -137,13 +135,17 @@ class ProgramViewModel extends ViewModel {
 
                     //録画予約
                     if(this.programCache[id].recorded != program["recorded"]) {
-                        this.programCache[id].recorded = program["recorded"];
-
                         if(program["recorded"]) {
                             element.classList.add(ProgramViewModel.recordedClassStr);
                         } else {
                             element.classList.remove(ProgramViewModel.recordedClassStr);
                         }
+                    }
+
+                    //全ての element をに class を追加したら cache の状態を書き換える
+                    if(index == this.programCache[id].element.length - 1) {
+                        this.programCache[id].autorec = program["autorec"];
+                        this.programCache[id].recorded = program["recorded"];
                     }
                 });
             });
