@@ -27,8 +27,8 @@ class TopPageView extends View {
 
     //Navigation を開く
     private openNavigation(): void {
-        var navi = document.getElementsByClassName("mdl-layout__obfuscator")
-        var naviVisible = document.getElementsByClassName("mdl-layout__obfuscator is-visible");
+        let navi = document.getElementsByClassName("mdl-layout__obfuscator")
+        let naviVisible = document.getElementsByClassName("mdl-layout__obfuscator is-visible");
         if(navi.length > 0 && naviVisible.length == 0) {
             let button = <HTMLElement>navi[0];
             button.click();

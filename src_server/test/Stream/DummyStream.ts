@@ -25,7 +25,7 @@ class DummyStream extends Stream {
 
         //dummyファイルを作成する
         this.createDummyFile(`stream${ streamNumber }.m3u8`);
-        for(var i = 0; i < 10; i++) {
+        for(let i = 0; i < 10; i++) {
             this.createDummyFile(`stream${ streamNumber }-0000000${ i }.ts`);
         }
     }

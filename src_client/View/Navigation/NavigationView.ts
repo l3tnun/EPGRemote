@@ -85,7 +85,7 @@ class NavigationView extends View {
 
     //navigation を閉じる
     private close(): void {
-        var navi = document.getElementsByClassName("mdl-layout__obfuscator");
+        let navi = document.getElementsByClassName("mdl-layout__obfuscator");
         if(navi.length > 0) {
             let button = <HTMLElement> navi[0];
             button.click();

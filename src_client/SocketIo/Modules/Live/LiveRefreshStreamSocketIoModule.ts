@@ -1,8 +1,9 @@
 "use strict";
 
 import * as m from 'mithril';
+import Util from '../../../Util/Util';
 import SocketIoModule from '../SocketIoModule';
-import {LiveOtherStreamInfoApiModelInterface} from '../../../Model/Api/Live/LiveOtherStreamInfoApiModel';
+import { LiveOtherStreamInfoApiModelInterface } from '../../../Model/Api/Live/LiveOtherStreamInfoApiModel';
 
 /*
 * ストリーム情報がサーバで更新されると呼ばれる
@@ -28,7 +29,7 @@ class LiveRefreshStreamSocketIoModule extends SocketIoModule {
         let streamNumber = m.route.param("stream");
 
         if(typeof streamNumber != "undefined" && option["streamNumber"] == Number(streamNumber)) {
-            if(option["status"] == 'change') { location.reload(true); }
+            if(option["status"] == 'change') { Util.reload(); }
         }
 
         this.liveOtherStreamInfoApiModel.update();

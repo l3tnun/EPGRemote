@@ -5,7 +5,7 @@ import Model from '../Model/Model';
 /**
 * ModelFactory
 * Model のインスタンスが一つであることを保証する
-* @throw ModelFactoryModelFindError getModel() 時に該当の Model が存在しない場合発生する
+* @throw ModelFactoryModelFindError get() 時に該当の Model が存在しない場合発生する
 */
 
 class ModelFactory {

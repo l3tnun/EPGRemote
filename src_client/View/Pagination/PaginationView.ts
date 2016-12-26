@@ -19,7 +19,7 @@ class PaginationView extends View {
 
     public execute(): Mithril.VirtualElement {
         this.viewModel = <PaginationViewModel>this.getModel("PaginationViewModel");
-        var maxWidthStr = (this.maxWidth == null) ? "" : `max-width: ${ this.maxWidth }px;`;
+        let maxWidthStr = (this.maxWidth == null) ? "" : `max-width: ${ this.maxWidth }px;`;
 
         if(!this.viewModel.showStatus) { return m("div"); }
 

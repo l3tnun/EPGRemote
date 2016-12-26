@@ -39,7 +39,7 @@ class ProgramTimeView extends View {
         }
 
         let result: Mithril.VirtualElement[] = [];
-        for(var i = start; i < end + 1; i++) {
+        for(let i = start; i < end + 1; i++) {
             result.push(this.createContent(
                 i % 24, viewConfig["timeWidth"], viewConfig["timeHeight"], viewConfig["timeFontSize"]
             ) )
