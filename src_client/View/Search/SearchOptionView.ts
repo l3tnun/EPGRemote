@@ -298,7 +298,7 @@ class SearchOptionView extends SearchOptionBaseView {
     //開始時刻セレクタの中身を生成
     public createProgramTimeOption():  Mithril.VirtualElement[] {
         let result = [ m("option", { value: 24 }, "なし") ];
-        for(var i = 0; i < 24; i++) { result.push( m("option", { value: i }, `${ i }時`) ) }
+        for(let i = 0; i < 24; i++) { result.push( m("option", { value: i }, `${ i }時`) ) }
 
         return result;
     }
@@ -306,7 +306,7 @@ class SearchOptionView extends SearchOptionBaseView {
     //時刻幅セレクタの中身
     public createPeriodOption():  Mithril.VirtualElement[] {
         let result: Mithril.VirtualElement[] = [];
-        for(var i = 1; i < 24; i++) { result.push( m("option", { value: i }, i + "時間") ); }
+        for(let i = 1; i < 24; i++) { result.push( m("option", { value: i }, i + "時間") ); }
         return result;
     }
 

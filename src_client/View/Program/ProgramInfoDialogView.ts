@@ -79,7 +79,7 @@ class ProgramInfoDialogView extends View {
     //優先度
     private createPriority(): Mithril.VirtualElement[] {
         let options: Mithril.VirtualElement[] = [];
-        for(var i = 20; i > 0; i--) { options.push(m("option", { value: i }, String(i))); }
+        for(let i = 20; i > 0; i--) { options.push(m("option", { value: i }, String(i))); }
 
         return [
             m("div", {

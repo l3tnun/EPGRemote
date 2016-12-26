@@ -56,7 +56,7 @@ describe('StreamFileDeleter', () => {
         it('ファイルを 20 個に維持する', (done) => {
             //dumy ファイル作成
             createDummyFile('stream0.m3u8');
-            for(var i = 0; i < 25; i++) { createDummyFile(`stream0-0000000${ i }.ts`); }
+            for(let i = 0; i < 25; i++) { createDummyFile(`stream0-0000000${ i }.ts`); }
             assert.equal(getFileList().length, 26);
 
             //ファイル削除開始

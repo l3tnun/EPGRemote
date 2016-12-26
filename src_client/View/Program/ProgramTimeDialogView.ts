@@ -37,7 +37,7 @@ class ProgramTimeDialogView extends View {
     //時刻
     private createTime(): Mithril.VirtualElement[] {
         let result: Mithril.VirtualElement[] = [];
-        for(var i = 0; i < 23; i += 2) { result.push(this.createTimeContent(i)); }
+        for(let i = 0; i < 23; i += 2) { result.push(this.createTimeContent(i)); }
 
         return result;
     }
@@ -67,7 +67,7 @@ class ProgramTimeDialogView extends View {
         let hour = typeof m.route.param("time") == "undefined" ? now.getHours() : Number(m.route.param("time").substr(8, 2));
         let stattime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hour);
 
-        for(var i = 0; i < 8; i++) {
+        for(let i = 0; i < 8; i++) {
             let name = DateUtil.format(stattime, "dd(w)");
             let timeQuery = DateUtil.format(stattime, "yyyyMMddhh");
             result.push(this.createDayContent(name, timeQuery));

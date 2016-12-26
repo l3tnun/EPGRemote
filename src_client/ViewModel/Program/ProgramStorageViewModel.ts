@@ -23,7 +23,7 @@ class ProgramStorageViewModel extends ViewModel {
         //表示ジャンル情報がなければ作成する
         if(storedGenre == null) {
             let value = {};
-            for(var i = 1; i <= 16; i++) { value[i] = true; }
+            for(let i = 1; i <= 16; i++) { value[i] = true; }
             try {
                 this.storageModel.set("genre", value);
             } catch(e) {

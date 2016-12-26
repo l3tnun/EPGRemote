@@ -61,7 +61,7 @@ class ProgramStationView extends View {
             //単局表示
             let starttime = new Date(this.viewModel.getTime()["startTime"]).getTime();
 
-            for(var i = 0; i < this.viewModel.getProgram().length; i++) {
+            for(let i = 0; i < this.viewModel.getProgram().length; i++) {
                 let jaTime = DateUtil.getJaDate(new Date(starttime));
 
                 result.push(this.createContent(
