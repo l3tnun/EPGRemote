@@ -1,6 +1,8 @@
 "use strict";
 
 import * as m from 'mithril';
+import ModelFactory from '../ModelFactory/ModelFactory';
+import { DialogModelInterface } from '../Model/Dialog/DialogModel';
 
 /**
 * Util モジュール
@@ -111,6 +113,14 @@ namespace Util {
     */
     export const isEnableHistory = (): boolean => {
         return history && history.pushState && history.state !== undefined
+    }
+
+    /**
+    * Mithril で reload する
+    */
+    export const reload = (): void => {
+        (<DialogModelInterface>ModelFactory.getInstance().get("DialogModel")).close();
+        m.route(m.route());
     }
 }
 

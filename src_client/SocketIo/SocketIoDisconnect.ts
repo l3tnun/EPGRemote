@@ -1,5 +1,6 @@
 "use strict";
 
+import Util from '../Util/Util';
 import SocketIoManager from './SocketIoManager';
 
 /**
@@ -27,10 +28,11 @@ namespace SocketIoDisconnect {
         }
 
         //切断時
+        let busy: Element | null = null;
         io.on('disconnect', () => {
             if(!movePage) {
                 //"接続が切断された
-                let busy = document.createElement("div");
+                busy = document.createElement("div");
                 busy.setAttribute("style", "width: 100%; height: 100%; position: absolute; left: 0px; top: 0px; background-color: black; opacity: 0.5; z-index: 100000;");
                 document.body.appendChild(busy);
             }
@@ -39,7 +41,10 @@ namespace SocketIoDisconnect {
 
         //再接続時 reload
         io.on('connect', () => {
-            if(!connectStatus) { location.reload(true); }
+            if(!connectStatus) {
+                Util.reload();
+                if(busy != null) { document.body.removeChild(busy); }
+            }
         });
     }
 }
