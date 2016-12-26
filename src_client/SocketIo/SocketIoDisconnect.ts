@@ -30,7 +30,7 @@ namespace SocketIoDisconnect {
         io.on('disconnect', () => {
             if(!movePage) {
                 //"接続が切断された
-                var busy = document.createElement("div");
+                let busy = document.createElement("div");
                 busy.setAttribute("style", "width: 100%; height: 100%; position: absolute; left: 0px; top: 0px; background-color: black; opacity: 0.5; z-index: 100000;");
                 document.body.appendChild(busy);
             }
