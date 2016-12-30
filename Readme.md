@@ -274,7 +274,7 @@ MX Player での動作は確認しているのでそちらを使ってくださ�
 
 ##動作確認済みブラウザ
 * Mobile Safari (iOS 10.1)
-* Chrome (Android) (6.0.2)
+* Chrome (Android 6.0.2)
 * Firefox (Android 版は非対応)
 * Chrome
 * Safari
