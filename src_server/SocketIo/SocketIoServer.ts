@@ -19,7 +19,7 @@ class SocketIoServer extends Base {
     private constructor() { super(); }
 
     public initialize(server: http.Server): void {
-        this.io = socketio.listen(server);
+        this.io = socketio(server);
 
         this.log.system.info("SocketIo Server has started.");
         this.io.sockets.on("connection", (_socket: SocketIO.Socket) => {
