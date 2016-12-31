@@ -263,12 +263,10 @@ npm start
 <img src="https://github.com/l3tnun/EPGRemote/wiki/images/Readme/android6.0_accessibility.png" width="250px">
 
 ##動作確認済みブラウザ
-* Mobile Safari
-* Chrome
 * Firefox (Android 版は一応動作可)
-* Chrome
-* Safari
-* Edge (余りデバックがされていないので注意)
+* Chrome (Android 版を含む)
+* Safari (iOS 版を含む)
+* Edge (Windows Phone 未確認)
 
 ## Licence
 
