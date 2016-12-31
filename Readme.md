@@ -253,11 +253,6 @@ npm start
 ## iOS での VLC の x-callback 対応について
 面倒なので対応予定は無いです。
 
-## chrome (Android) で太文字が正常に表示されない問題について
-chrome のバグらしいです。
-
-気になるなら、他のブラウザで試してみてください。
-
 ## Android 6.0 で番組表が重いぞ、という方へ
 設定のユーザー補助機能で "操作の監視" を行っているアプリが原因のようで、これらを OFF にすると問題は解消されました。
 
@@ -268,12 +263,12 @@ chrome のバグらしいです。
 <img src="https://github.com/l3tnun/EPGRemote/wiki/images/Readme/android6.0_accessibility.png" width="250px">
 
 ##動作確認済みブラウザ
-* Mobile Safari (iOS 10.1)
-* Chrome (Android 6.0.2)
-* Firefox (Android 版は非対応)
+* Mobile Safari
+* Chrome
+* Firefox (Android 版は一応動作可)
 * Chrome
 * Safari
-* Edge
+* Edge (余りデバックがされていないので注意)
 
 ## Licence
 
