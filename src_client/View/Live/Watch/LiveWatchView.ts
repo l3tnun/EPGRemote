@@ -105,7 +105,7 @@ class LiveWatchView extends ParentPageView {
 
         return m("div", { style: `height: 100%;` }, [
             //切り替えタブ
-            m("div", { id: "live_program_tab", class: "mdl-tabs mdl-js-tabs" }, [
+            m("div", { id: "live_program_tab", class: "mdl-tabs" }, [
                  m("div", {
                     class: "mdl-tabs__tab-bar",
                     config: () => {
@@ -151,7 +151,7 @@ class LiveWatchView extends ParentPageView {
 
         this.liveWatchViewModel.getBroadCastList().map((type, index) => {
             if(index == 0) {
-                activeHash[type]["className"] += " is-active";
+                activeHash[type]["className"] += ` ${ LiveWatchView.tabIsActive }`;
                 if(!this.liveWatchViewModel.getTabStatus()) {
                     this.liveWatchViewModel.setTabStatus(true);
                     //なぜか navigation open button が消えるので setTimeout で括る
@@ -176,7 +176,7 @@ class LiveWatchView extends ParentPageView {
     */
     private createTabContent(type: string, activeHash: { [key: string]: any }): Mithril.VirtualElement {
         return m("a", {
-            id: `${ type }_tab`,
+            id: this.createTabId(type),
             class: activeHash[type]["className"],
             style: activeHash[type]["style"],
             onclick:() => {
@@ -201,8 +201,30 @@ class LiveWatchView extends ParentPageView {
     * @param type 放送波
     */
     private tabClick(type: string): void {
+        //クリックされたタブを active にする
+        let oldElements = document.getElementsByClassName("mdl-tabs__tab " + LiveWatchView.tabIsActive);
+        let newElement = document.getElementById(this.createTabId(type));
+
+        if(newElement != null && oldElements[0] != null) {
+            oldElements[0].classList.remove(LiveWatchView.tabIsActive);
+            newElement.classList.add(LiveWatchView.tabIsActive);
+        }
+
+        //タブの中身を更新
         this.liveProgramCardViewModel.setup(type);
     }
+
+    /**
+    * tab id を生成
+    * @param type GR, BS, CS, EX を取る
+    */
+    private createTabId(type: string): string {
+        return `${ type }_tab`;
+    }
+}
+
+namespace LiveWatchView {
+    export const tabIsActive = "is-active";
 }
 
 export default LiveWatchView;
