@@ -49,7 +49,7 @@ class LiveWatchOtherStreamInfoView extends View {
     * @param date string型
     */
     private getFormatedDate(date: string): string {
-        return DateUtil.format(new Date(date), "hh:mm");
+        return DateUtil.format(DateUtil.getJaDate(new Date(date)), "hh:mm");
     }
 }
 
