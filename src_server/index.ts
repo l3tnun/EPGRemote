@@ -16,7 +16,7 @@ const log = Logger.getLogger();
 
 /**
 * 引数
-* NODE_ENVに指定がなければ開発モードをデフォルトにする
+* NODE_ENVに指定がなければ本番モードをデフォルトにする
 */
 const knownOptions = {
   string: 'env',

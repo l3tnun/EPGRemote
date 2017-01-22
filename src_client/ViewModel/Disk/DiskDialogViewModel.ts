@@ -1,5 +1,6 @@
 "use strict";
 
+import * as Chart from 'chart.js';
 import ViewModel from '../ViewModel';
 import { DiskApiModelInterface } from '../../Model/Api/Disk/DiskApiModel';
 
