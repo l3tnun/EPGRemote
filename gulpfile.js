@@ -63,6 +63,7 @@ let webpackConfig = {
     externals: {
         "mithril": "m",
         "socket.io-client": "io",
+        "chart.js": "Chart"
     },
 
     module: {

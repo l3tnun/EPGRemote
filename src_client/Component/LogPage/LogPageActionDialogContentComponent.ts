@@ -14,6 +14,7 @@ class LogPageActionDialogContentComponent extends Component {
 
     protected getModels() {
         return  {
+            DialogViewModel: this.container.get("DialogViewModel"),
             LogPageActionDialogViewModel: this.container.get("LogPageActionDialogViewModel")
         };
     }
