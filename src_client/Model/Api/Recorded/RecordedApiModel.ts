@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import Util from '../../../Util/Util';
 import ApiModel from '../ApiModel';
 
 interface  RecordedApiModelParamsInterface {
@@ -48,6 +49,7 @@ class RecordedApiModel implements RecordedApiModelInterface {
             let limit = value["limit"];
 
             if(typeof programs != "undefined" && typeof totalNum != "undefined" && typeof limit != "undefined") {
+                programs.map((program: any) => {  program.thumbs = Util.encodeURL(program.thumbs); });
                 this.recordedList = programs;
                 this.totalNum = totalNum;
                 this.limit = limit;

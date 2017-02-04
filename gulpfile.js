@@ -88,8 +88,7 @@ if(isProduction) {
     //本番
     //app.js の圧縮
     webpackConfig["plugins"] = [
-        new webpack.optimize.OccurenceOrderPlugin(true),
-        new webpack.optimize.DedupePlugin(),
+        new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.UglifyJsPlugin({ output: { comments: false } })
     ];
 } else {

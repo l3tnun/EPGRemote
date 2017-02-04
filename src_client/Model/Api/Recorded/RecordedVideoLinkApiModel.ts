@@ -35,6 +35,9 @@ class RecordedVideoLinkApiModel implements RecordedVideoLinkApiModelInterface {
             this.iosURL = isIos ? value.pop() : null;
             this.androidURL = isAndroid ? value.pop() : null;
             this.videoLink = (typeof value == "undefined" || value.length == 0) ? null : value;
+            if(this.videoLink != null) {
+                this.videoLink.map((video: any) => { video.path = Util.encodeURL(video.path); });
+            }
         },
         (error) => {
             console.log("RecordedVideoLinkApiModel update error");

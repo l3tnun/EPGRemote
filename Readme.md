@@ -212,8 +212,8 @@ vim config/config.json
     //ios の録画済み一覧の URL Scheme の設定
     //下記の設定の場合、視聴には infuse が DL では VLC が起動する
     //必要なければ削除しても良い
-    "RecordedStreamingiOSURL" : "infuse://x-callback-url/play?url=http://ADDRESS",
-    "RecordedDownloadiOSURL" : "vlc://http://ADDRESS",
+    "RecordedStreamingiOSURL": "infuse://x-callback-url/play?url=http://ADDRESS",
+    "RecordedDownloadiOSURL": "vlc-x-callback://x-callback-url/download?url=http://ADDRESS",
 
     //android の録画済み一覧の URL Scheme の設定
     //下記の設定の場合、視聴には MX Player が DL では Advanced Download Manager が起動する
@@ -249,9 +249,6 @@ npm start
 ログファイルの保存場所や streamFilePath のディレクトリが作成されていないと落ちます。
 
 サービス化については pm2 等で各自で行ってください。
-
-## iOS での VLC の x-callback 対応について
-面倒なので対応予定は無いです。
 
 ## Android 6.0 で番組表が重いぞ、という方へ
 設定のユーザー補助機能で "操作の監視" を行っているアプリが原因のようで、これらを OFF にすると問題は解消されました。

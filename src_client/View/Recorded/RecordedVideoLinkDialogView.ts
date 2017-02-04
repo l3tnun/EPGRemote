@@ -82,14 +82,18 @@ class RecordedVideoLinkDialogView extends View {
         if(iOSURL == null && androidURL == null) {  return dlStatus ? path + "?mode=download" : path; }
 
         //Mobile 端末
-        let mobilePath = encodeURI(window.location.host + path);
+        let mobilePath = window.location.host + path;
+        let url: string;
         if(dlStatus) {
-            let url = iOSURL != null ? iOSURL["RecordedDownloadiOSURL"] : androidURL["RecordedDownloadAndroidURL"]
-            return typeof url == "undefined" ? path : url.replace("ADDRESS", mobilePath);
+            url = iOSURL != null ? iOSURL["RecordedDownloadiOSURL"] : androidURL["RecordedDownloadAndroidURL"]
         } else {
-            let url = iOSURL != null ? iOSURL["RecordedStreamingiOSURL"] : androidURL["RecordedStreamingAndroidURL"];
-            return typeof url == "undefined" ? path : url.replace("ADDRESS", mobilePath);
+            url = iOSURL != null ? iOSURL["RecordedStreamingiOSURL"] : androidURL["RecordedStreamingAndroidURL"];
         }
+
+        //iOS vlc x-callbak 用処理
+        if(typeof url != "undefined" && iOSURL != null && url.match(/vlc-x-callback/)) { mobilePath = encodeURI(window.location.host + path); }
+
+        return typeof url == "undefined" ? path : url.replace("ADDRESS", mobilePath);
     }
 
     //ビデオリンクの名前を生成する
