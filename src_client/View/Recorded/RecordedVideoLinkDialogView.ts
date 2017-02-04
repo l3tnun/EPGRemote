@@ -82,7 +82,7 @@ class RecordedVideoLinkDialogView extends View {
         if(iOSURL == null && androidURL == null) {  return dlStatus ? path + "?mode=download" : path; }
 
         //Mobile 端末
-        let mobilePath = encodeURI(window.location.host + path);
+        let mobilePath = window.location.host + path;
         if(dlStatus) {
             let url = iOSURL != null ? iOSURL["RecordedDownloadiOSURL"] : androidURL["RecordedDownloadAndroidURL"]
             return typeof url == "undefined" ? path : url.replace("ADDRESS", mobilePath);
