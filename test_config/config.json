@@ -83,31 +83,31 @@
 
     "programViewConfig": {
         "tablet": {
-            "timeHeight":             180,
-            "timeWidth":              30,
-            "timeFontSize":           17,
-            "stationHeight":          30,
-            "stationWidth":           140,
-            "stationFontSize":        15,
+            "timeHeight":      180,
+            "timeWidth":       30,
+            "timeFontSize":    17,
+            "stationHeight":   30,
+            "stationWidth":    140,
+            "stationFontSize": 15,
             "titleSize":       10,
             "timeSize":        10,
             "descriptionSize": 10
         },
         "mobile": {
-            "timeHeight":             120,
-            "timeWidth":              20,
-            "timeFontSize":           12,
-            "stationHeight":          20,
-            "stationWidth":           100,
-            "stationFontSize":        12,
+            "timeHeight":      120,
+            "timeWidth":       20,
+            "timeFontSize":    12,
+            "stationHeight":   20,
+            "stationWidth":    100,
+            "stationFontSize": 12,
             "titleSize":       7.5,
             "timeSize":        7.5,
             "descriptionSize": 7.5
         }
     },
 
-    "RecordedStreamingiOSURL" : "infuse://x-callback-url/play?url=http://ADDRESS",
-    "RecordedDownloadiOSURL" : "vlc-x-callback://x-callback-url/download?url=http://ADDRESS",
+    "RecordedStreamingiOSURL": "infuse://x-callback-url/play?url=http://ADDRESS",
+    "RecordedDownloadiOSURL": "vlc-x-callback://x-callback-url/download?url=http://ADDRESS",
     "RecordedStreamingAndroidURL": "android-app://com.mxtech.videoplayer.ad/http/ADDRESS",
     "RecordedDownloadAndroidURL": "android-app://com.dv.adm/http/ADDRESS"
 }
