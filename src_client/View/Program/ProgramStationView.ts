@@ -96,7 +96,7 @@ class ProgramStationView extends View {
                         this.dialog.open(LiveProgramCardViewModel.dialogId);
                     } else {
                         //単局表示
-                        m.route("/program", {
+                        m.route.set("/program", {
                             ch: channel["channel_disc"],
                             time: m.route.param("time")
                         });

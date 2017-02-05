@@ -30,7 +30,7 @@ class PaginationViewModel extends ViewModel {
     * @param 表示するコンテンツの全体の個数
     */
     public setup(_limit: number, totalNum: number): void {
-        let url = m.route().split("?")[0];
+        let url = Util.getRoute();
         let query = Util.getCopyQuery();
         let page: number;
         let limit: number;

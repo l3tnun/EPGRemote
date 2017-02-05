@@ -105,7 +105,7 @@ class KeywordInfoDialogView extends View {
                     class: "hover mdl-button mdl-js-button mdl-button--primary",
                     onclick: () => {
                         this.dialog.close();
-                        setTimeout( () => { m.route("/recorded", { keyword_id: keyword!["id"] }); }, 300);
+                        setTimeout( () => { m.route.set("/recorded", { keyword_id: keyword!["id"] }); }, 300);
                     }
                 }, "番組一覧" ),
 
@@ -133,7 +133,7 @@ class KeywordInfoDialogView extends View {
                     class: "hover mdl-button mdl-js-button mdl-button--primary",
                     onclick: () => {
                         this.dialog.close();
-                        setTimeout( () => { m.route("/search", { keyword_id: keyword!["id"] }); }, 300);
+                        setTimeout( () => { m.route.set("/search", { keyword_id: keyword!["id"] }); }, 300);
                     }
                 }, "編集" )
             ])

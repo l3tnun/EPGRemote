@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import Util from '../../../Util/Util';
 import EpgrecModuleModel from './EpgrecModuleModel';
 import { ProgramApiModelInterface } from '../Program/ProgramApiModel';
 import { SearchResultApiModelInterface } from '../Search/SearchResultApiModel';
@@ -93,7 +94,7 @@ class CustomRecEpgrecModuleModel extends EpgrecModuleModel implements CustomRecE
 
         this.dialog.close();
 
-        let route = m.route().split("?")[0];
+        let route = Util.getRoute();
         if(route == "/program") {
             snackbarStr += (<HTMLElement>program.children[0]).innerText;
             this.programApiModel.update(true);

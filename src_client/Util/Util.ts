@@ -88,6 +88,13 @@ namespace Util {
     }
 
     /**
+    * 現在のページを取得する
+    */
+    export const getRoute = (): string => {
+        return m.route.get().split("?")[0];
+    }
+
+    /**
     * title から検索用文字列を生成する
     * epgrec UNA から移植した
     * @param title title

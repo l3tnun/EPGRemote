@@ -34,7 +34,7 @@ class PaginationView extends View {
                     href: this.createLink(this.viewModel.prev),
                     config: (element, isInit, context, vdom) => {
                         this.hidden(<HTMLElement>element, this.viewModel.prev);
-                        m.route(element, isInit, context, vdom);
+                        //m.route(element, isInit, context, vdom);
                     }
                 }, "navigate_before"),
 
@@ -47,7 +47,7 @@ class PaginationView extends View {
                     href: this.createLink(this.viewModel.next),
                     config: (element, isInit, context, vdom) => {
                         this.hidden(<HTMLElement>element, this.viewModel.next);
-                        m.route(element, isInit, context, vdom);
+                        //m.route(element, isInit, context, vdom);
                     }
                 }, "navigate_next")
             ])

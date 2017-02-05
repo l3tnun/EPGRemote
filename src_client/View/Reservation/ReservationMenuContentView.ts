@@ -23,7 +23,7 @@ class ReservationMenuContentView extends View {
                 class: "menu-item",
                 onclick: () => {
                     if(program != null) {
-                        m.route("/search", { keyword_id: program["autorec"] });
+                        m.route.set("/search", { keyword_id: program["autorec"] });
                     }
                     menuViewModel.close();
                 }

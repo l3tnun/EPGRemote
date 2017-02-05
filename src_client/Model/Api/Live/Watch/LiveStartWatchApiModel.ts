@@ -42,7 +42,7 @@ class LiveStartWatchApiModel implements LiveStartWatchApiModelInterface {
 
             //チャンネル切り替えの時は何もしない
             if(typeof stream == "undefined" || stream == null) { return; }
-            m.route(`/live/watch?stream=${ stream }`);
+            m.route.set(`/live/watch?stream=${ stream }`);
         },
         (error) => {
             if(stream == null) { console.log("ストリーム開始に失敗しました。"); }

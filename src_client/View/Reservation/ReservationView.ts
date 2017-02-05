@@ -166,7 +166,7 @@ class ReservationView extends ParentPageView {
             m("th", { class: "reservation-list-th reservation-list-description mdl-data-table__cell--non-numeric" }, program["description"]),
             m("th", { class: "reservation-list-th reservation-list-button-content mdl-data-table__cell--non-numeric", style: "padding-right: 8px;" }, [
                 m("button", { class: "mdl-button mdl-js-button mdl-button--primary", style: (program["autorec"] == 0) ? "display: none;" : "",
-                    onclick: () => { m.route("/search", { keyword_id: program["autorec"] }); }
+                    onclick: () => { m.route.set("/search", { keyword_id: program["autorec"] }); }
                 },"編集"),
                 m("div"),
                 m("button", { class: "mdl-button mdl-js-button mdl-button--primary",

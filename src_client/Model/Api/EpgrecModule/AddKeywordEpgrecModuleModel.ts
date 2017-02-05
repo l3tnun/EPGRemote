@@ -133,7 +133,7 @@ class AddKeywordEpgrecModuleModel extends EpgrecModuleModel implements AddKeywor
         this.snackbar.open(snackbarStr);
 
         setTimeout(() => {
-            m.route("/keyword");
+            m.route.set("/keyword");
         }, 1000);
     }
 }

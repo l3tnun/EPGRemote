@@ -101,7 +101,7 @@ class ProgramTimeDialogView extends View {
             onclick: () => {
                 this.dialog.close();
                 setTimeout(() => {
-                    m.route("/program", query);
+                    m.route.set("/program", query);
                 }, 100);
             }
         }, name);

@@ -170,7 +170,7 @@ class LiveProgramDialogContentView extends View {
                     onclick: () => {
                         this.dialogViewModel.close();
                         setTimeout(() => {
-                            m.route("/program", query)
+                            m.route.set("/program", query)
                         }, 100);
                     }
                 }, "単局表示" )

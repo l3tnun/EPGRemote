@@ -198,10 +198,10 @@ class ProgramInfoDialogView extends View {
         return m("button", { class: "mdl-button mdl-js-button mdl-button--primary",
             onclick: () => {
                 this.dialog.close();
-                m.route("/search", this.createSearchQuery());
+                m.route.set("/search", this.createSearchQuery());
             },
             config: (element, isInit, _context) => {
-                if(!isInit && m.route().split("?")[0] == "/search") {
+                if(!isInit && Util.getRoute() == "/search") {
                     (<HTMLElement>element).style.display = "none";
                 }
             }

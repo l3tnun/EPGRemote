@@ -62,7 +62,7 @@ class LogPageActionDialogContentView extends View {
     */
     private movePage(url: string): void {
         this.dialog.close();
-        setTimeout( () => { m.route(url); }, 300);
+        setTimeout( () => { m.route.set(url); }, 300);
     }
 }
 
