@@ -20,7 +20,7 @@ class MenuViewModel extends ViewModel {
         this.buttonElement = buttonElement;
 
         m.redraw.strategy("diff");
-        m.redraw(true);
+        m.redraw();
     }
 
     //menu を閉じる
@@ -29,7 +29,7 @@ class MenuViewModel extends ViewModel {
         this.buttonElement = null;
 
         m.redraw.strategy("diff");
-        m.redraw(true);
+        m.redraw();
     }
 
     /**

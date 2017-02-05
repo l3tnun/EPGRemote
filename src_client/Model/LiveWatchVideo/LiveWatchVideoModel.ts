@@ -25,7 +25,7 @@ class LiveWatchVideoModel implements LiveWatchVideoModelInterface {
 
         //描画更新
         m.redraw.strategy("diff");
-        m.redraw(true);
+        m.redraw();
     }
 
     public get(): boolean {

@@ -204,7 +204,7 @@ class SearchOptionView extends SearchOptionBaseView {
                 if(!this.viewModel.isInitSubGenre) {
                     this.viewModel.isInitSubGenre = true;
                     this.viewModel.subGenreValue = Number(id);
-                    setTimeout(() => { m.redraw(true); }, 0);
+                    setTimeout(() => { m.redraw(); }, 0);
                 }
             } else {
                 result.push( m("option", { value: id }, subGenres[id]) );

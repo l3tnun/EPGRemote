@@ -50,16 +50,16 @@ class RecordedViewModel extends ViewModel {
     public resize(): void {
          if((this.showStatus || this.showStatus == null) && window.innerWidth >= RecordedViewModel.cardWidth * 2) {
             this.showStatus = false;
-            m.redraw(true);
+            m.redraw();
             return;
         } else if((!this.showStatus || this.showStatus == null) && window.innerWidth < RecordedViewModel.cardWidth * 2) {
             this.showStatus = true;
-            m.redraw(true);
+            m.redraw();
             return;
         }
 
         //カードタイル描画のため
-        if(!this.showStatus) { m.redraw(true); }
+        if(!this.showStatus) { m.redraw(); }
     }
 
     /**

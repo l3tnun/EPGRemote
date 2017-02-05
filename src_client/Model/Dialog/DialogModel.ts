@@ -105,7 +105,7 @@ class DialogModel implements DialogModelInterface {
         this.isPageBack = true;
         this.close();
         m.redraw.strategy("diff");
-        m.redraw(true);
+        m.redraw();
     }
 }
 

@@ -57,10 +57,10 @@ class ReservationViewModel extends ViewModel {
     public resize(): void {
         if((!this.showStatus || this.showStatus == null) && window.innerWidth < ReservationViewModel.viewChangeWidth) {
             this.showStatus = true;
-            m.redraw(true);
+            m.redraw();
         } else if((this.showStatus || this.showStatus == null) && window.innerWidth > ReservationViewModel.viewChangeWidth) {
             this.showStatus = false;
-            m.redraw(true);
+            m.redraw();
         }
     }
 

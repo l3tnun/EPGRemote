@@ -119,7 +119,7 @@ class KeywordInfoDialogView extends View {
                                 //open keyword delete dialog
                                 this.keywordDeleteDialogViewModel.setup(keyword!);
                                 this.dialog.open(KeywordDeleteDialogViewModel.dialogId);
-                                m.redraw(true)
+                                m.redraw()
                             }, 400);
                         } else {
                             //delete keyword

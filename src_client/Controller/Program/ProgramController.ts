@@ -47,7 +47,7 @@ class ProgramController extends ParentPageController {
     //時刻線の位置を更新するたびに 1分毎に再描画させる
     private updateNowBarTimer(): void {
         m.redraw.strategy("diff");
-        m.redraw(true);
+        m.redraw();
 
         this.nowBarTimerId = window.setTimeout(() => {
             this.updateNowBarTimer();

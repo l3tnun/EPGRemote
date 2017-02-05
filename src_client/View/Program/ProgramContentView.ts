@@ -257,7 +257,7 @@ class ProgramTimeView extends View {
                 );
                 this.dialog.open(ProgramInfoDialogViewModel.infoDialogId);
                 m.redraw.strategy("diff");
-                m.redraw(true);
+                m.redraw();
             }
         }, [
             //title

@@ -80,7 +80,7 @@ class ProgramViewModel extends ViewModel {
     public hiddenProgressStatus(): void {
         this.progressStatus = false;
         m.redraw.strategy("diff");
-        m.redraw(true);
+        m.redraw();
     }
 
     //program cache をリセットする
@@ -176,7 +176,7 @@ class ProgramViewModel extends ViewModel {
             this.headerHeight = newHeaderSize;
             //header の高さの変更を反映させるために再描画
             m.redraw.strategy("diff");
-            m.redraw(true);
+            m.redraw();
         }
     }
 
@@ -194,7 +194,7 @@ class ProgramViewModel extends ViewModel {
          || (newWidth <= ProgramViewModel.viewConfigWidth && this.windowWidth > ProgramViewModel.viewConfigWidth) ) {
             this.initUpdateTime();
             m.redraw.strategy("diff");
-            m.redraw(true);
+            m.redraw();
         }
 
         this.windowWidth = newWidth;
