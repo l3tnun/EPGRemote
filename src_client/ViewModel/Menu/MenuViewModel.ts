@@ -19,7 +19,7 @@ class MenuViewModel extends ViewModel {
         this.menuId = id;
         this.buttonElement = buttonElement;
 
-        m.redraw.strategy("diff");
+        //m.redraw.strategy("diff");
         m.redraw();
     }
 
@@ -28,7 +28,7 @@ class MenuViewModel extends ViewModel {
         this.menuId = null;
         this.buttonElement = null;
 
-        m.redraw.strategy("diff");
+        //m.redraw.strategy("diff");
         m.redraw();
     }
 

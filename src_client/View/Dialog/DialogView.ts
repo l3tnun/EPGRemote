@@ -124,10 +124,11 @@ class DialogView extends View {
     }
 
     private onclick(e: Event): void {
-        m.redraw.strategy("none");
+        //m.redraw.strategy("none");
+        e.redraw = false;
 
         if((<HTMLElement>(e.target)).id == this.getDialogId()) {
-            m.redraw.strategy("diff");
+            //m.redraw.strategy("diff");
             this.dialogViewModel.close();
         }
     }

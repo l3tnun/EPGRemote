@@ -256,7 +256,7 @@ class ProgramTimeView extends View {
                     this.viewModel.getRecModeDefaultId()
                 );
                 this.dialog.open(ProgramInfoDialogViewModel.infoDialogId);
-                m.redraw.strategy("diff");
+                //m.redraw.strategy("diff");
                 m.redraw();
             }
         }, [

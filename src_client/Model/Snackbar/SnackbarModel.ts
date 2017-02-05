@@ -19,7 +19,7 @@ class SnackbarModel implements SnackbarModelInterface {
     */
     public open(message: string): void {
         this.tables.push(message);
-        m.redraw.strategy("diff");
+        //m.redraw.strategy("diff");
         m.redraw();
     }
 

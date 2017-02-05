@@ -57,7 +57,8 @@ class ProgramGenreDialogView extends View {
                             checked: this.viewModel.tmpGenre![genre["id"]],
                             onchange: m.withAttr("checked", (value) => {
                                 this.viewModel.tmpGenre![genre["id"]] = value;
-                                m.redraw.strategy("none");
+                                //m.redraw.strategy("none");
+                                //TODO check
                             })
                         })
                     ])
