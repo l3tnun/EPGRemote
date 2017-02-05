@@ -43,24 +43,24 @@ class KeywordView extends ParentPageView {
 
             this.mainLayout([
                 this.mainView(),
-                m.component(new PaginationComponent(), {
+                m(new PaginationComponent(), {
                     maxWidth: 800
                 }),
                 m("div", { style: "height: 20px;" }) //dummy
             ]),
 
             //keyword info dialog
-            m.component(new DialogComponent(), {
+            m(new DialogComponent(), {
                 id: KeywordInfoDialogViewModel.dialogId,
                 width: 400,
-                content: m.component(new KeywordInfoDialogComponent())
+                content: m(new KeywordInfoDialogComponent())
             }),
 
             //keyword delete dialog
-            m.component(new DialogComponent(), {
+            m(new DialogComponent(), {
                 id: KeywordDeleteDialogViewModel.dialogId,
                 width: 400,
-                content: m.component(new KeywordDeleteDialogComponent())
+                content: m(new KeywordDeleteDialogComponent())
             }),
 
             //ディスク空き容量ダイアログ

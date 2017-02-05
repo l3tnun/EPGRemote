@@ -42,10 +42,10 @@ class LogPageView extends ParentPageView {
                 this.createList()
             ]),
 
-            m.component(new DialogComponent(), {
+            m(new DialogComponent(), {
                 id: "log_action_dialog",
                 width: 280,
-                content: m.component(new LogPageActionDialogContentComponent())
+                content: m(new LogPageActionDialogContentComponent())
             }),
 
             //ディスク空き容量ダイアログ

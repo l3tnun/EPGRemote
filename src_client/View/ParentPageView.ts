@@ -26,11 +26,11 @@ abstract class ParentPageView extends View {
     * @param leftButton leftButton content
     */
     protected createHeader(title: string, leftButton: any[] = []): Mithril.Component<{}> {
-        leftButton.push(m.component(new HeaderMenuIconComponent(), {
+        leftButton.push(m(new HeaderMenuIconComponent(), {
             id: ParentPageView.headerMenuId
         }));
 
-        return m.component(new HeaderComponent(), {
+        return m(new HeaderComponent(), {
             title: title,
             leftButton: leftButton
         });
@@ -41,9 +41,9 @@ abstract class ParentPageView extends View {
     * @param content メニューコンテント
     */
     protected createHeaderMenu(content: any[] = []): Mithril.Component<{}> {
-        content.push(m.component(new DiskMenuContentComponent())); //ディスク空き容量メニュー
+        content.push(m(new DiskMenuContentComponent())); //ディスク空き容量メニュー
 
-        return m.component(new HeaderMenuListComponent(), {
+        return m(new HeaderMenuListComponent(), {
             id: ParentPageView.headerMenuId,
             content: content
         });
@@ -53,17 +53,17 @@ abstract class ParentPageView extends View {
     * Navigation 作成
     */
     protected createNavigation(): Mithril.Component<{}> {
-        return m.component(new NavigationComponent())
+        return m(new NavigationComponent())
     }
 
     /**
     * ディスク空き容量ダイアログ
     */
     protected createDiskDialog(): Mithril.Component<{}> {
-        return m.component(new DialogComponent(), {
+        return m(new DialogComponent(), {
             id: DiskDialogViewModel.dialogId,
             width: 250,
-            content: m.component(new DiskDialogComponent())
+            content: m(new DiskDialogComponent())
         });
     }
 
@@ -71,7 +71,7 @@ abstract class ParentPageView extends View {
     * SnackbarComponent 生成
     */
     protected createSnackbar(): Mithril.Component<{}> {
-        return m.component(new SnackbarComponent());
+        return m(new SnackbarComponent());
     }
 
     /**

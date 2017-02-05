@@ -40,7 +40,7 @@ class LiveWatchView extends ParentPageView {
             this.createHeader("視聴"),
             this.createNavigation(),
             this.createHeaderMenu(),
-            m.component(new LiveProgramAddTimeButtonComponent()),
+            m(new LiveProgramAddTimeButtonComponent()),
 
             this.createStopButton(),
 
@@ -63,10 +63,10 @@ class LiveWatchView extends ParentPageView {
                 m("div", { style: "clear: both;" })
             ]),
 
-            m.component(new DialogComponent(), {
+            m(new DialogComponent(), {
                 id: LiveProgramCardViewModel.dialogId,
                 width: 650,
-                content: m.component(new LiveProgramDialogContentComponent())
+                content: m(new LiveProgramDialogContentComponent())
             }),
 
             this.createDiskDialog(),
@@ -86,15 +86,15 @@ class LiveWatchView extends ParentPageView {
             }
         }, [
             //video
-            m.component(new LiveWatchVideoComponent()),
+            m(new LiveWatchVideoComponent()),
 
             //番組情報
-            m.component(new LiveWatchStreamInfoComponent()),
+            m(new LiveWatchStreamInfoComponent()),
 
             m("div", { style: "margin-top: 14px;" }),
 
             //他のストリーム
-            m.component(new LiveWatchOtherStreamInfoComponent())
+            m(new LiveWatchOtherStreamInfoComponent())
         ]);
     }
 
@@ -116,7 +116,7 @@ class LiveWatchView extends ParentPageView {
 
             //放送中番組の一覧
             m("div", { style: `height: calc(100% - 49px);` }, [
-                m.component(new LiveProgramCardComponent(), { single: true })
+                m(new LiveProgramCardComponent(), { single: true })
             ])
         ]);
     }

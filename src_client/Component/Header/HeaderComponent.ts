@@ -6,7 +6,7 @@ import HeaderView from '../../View/Header/HeaderView';
 /**
 * Header Component
 * @param { title: "タイトル" } の形式でヘッダーのタイトルを与える
-* @param { leftButton: m.component() } の形式でヘッダーの左側のボタンを与える
+* @param { leftButton: m() } の形式でヘッダーの左側のボタンを与える
 * @throw HeaderTitleError title が指定されていない時に発生する例外
 */
 class HeaderComponent extends Component {

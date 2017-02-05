@@ -64,10 +64,10 @@ class ProgramView extends ParentPageView {
                 this.createNavigation(),
 
                 //局名
-                m.component(new ProgramStationComponent()),
+                m(new ProgramStationComponent()),
 
                 //時刻
-                m.component(new ProgramTimeComponent()),
+                m(new ProgramTimeComponent()),
 
                 //program
                 m("div", {
@@ -77,7 +77,7 @@ class ProgramView extends ParentPageView {
                 }, [
                     //時刻線
                     m("div", { id: "tableNowBar", style: this.createNowBarStyle() }, "now" ),
-                    m.component(new ProgramContentComponent())
+                    m(new ProgramContentComponent())
                 ]),
 
                 //プログレスバー
@@ -93,33 +93,33 @@ class ProgramView extends ParentPageView {
             ]),
 
             //時刻ダイアログ
-            m.component(new DialogComponent(), {
+            m(new DialogComponent(), {
                 id: ProgramViewModel.timeDialogId,
                 width: 820,
-                content: m.component(new ProgramTimeDialogComponent())
+                content: m(new ProgramTimeDialogComponent())
             }),
 
             //予約ダイアログ
-            m.component(new DialogComponent(), {
+            m(new DialogComponent(), {
                 id: ProgramInfoDialogViewModel.infoDialogId,
                 width: 400,
-                content: m.component(new ProgramInfoDialogComponent())
+                content: m(new ProgramInfoDialogComponent())
             }),
 
             //ライブ配信ダイアログ
-            m.component(new DialogComponent(), {
+            m(new DialogComponent(), {
                 id: LiveProgramCardViewModel.dialogId,
                 width: 650,
-                content: m.component(new LiveProgramDialogContentComponent())
+                content: m(new LiveProgramDialogContentComponent())
             }),
 
             //表示ジャンルダイアログ
-            m.component(new DialogComponent(), {
+            m(new DialogComponent(), {
                 id: ProgramStorageViewModel.genreDialogId,
                 width: 400,
                 scrollOffset: 100,
-                content: m.component(new ProgramGenreDialogComponent()),
-                action: m.component(new ProgramGenreDialogActionComponent())
+                content: m(new ProgramGenreDialogComponent()),
+                action: m(new ProgramGenreDialogActionComponent())
             }),
 
             //ディスク空き容量ダイアログ

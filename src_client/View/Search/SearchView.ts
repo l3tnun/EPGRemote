@@ -34,16 +34,16 @@ class SearchView extends ParentPageView {
             this.createNavigation(),
 
             this.mainLayout([
-                m.component(new SearchOptionComponent()),
-                m.component(new SearchResultComponent()),
-                m.component(new SearchAddKeywordComponent())
+                m(new SearchOptionComponent()),
+                m(new SearchResultComponent()),
+                m(new SearchAddKeywordComponent())
             ]),
 
             //予約ダイアログ
-            m.component(new DialogComponent(), {
+            m(new DialogComponent(), {
                 id: ProgramInfoDialogViewModel.infoDialogId,
                 width: 400,
-                content: m.component(new ProgramInfoDialogComponent())
+                content: m(new ProgramInfoDialogComponent())
             }),
 
             //ディスク空き容量ダイアログ

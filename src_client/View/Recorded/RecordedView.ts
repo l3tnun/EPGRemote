@@ -62,37 +62,37 @@ class RecordedView extends ParentPageView {
             this.createNavigation(),
 
             this.mainLayout([
-                m.component(new RecordedSearchMenuComponent()),
+                m(new RecordedSearchMenuComponent()),
 
                 this.mainView(),
                 //program menu
-                m.component(new MenuComponent(), {
+                m(new MenuComponent(), {
                     id: RecordedMenuViewModel.id,
-                    content: m.component(new RecordedMenuContentComponent())
+                    content: m(new RecordedMenuContentComponent())
                 }),
                 m("div", { style: "height: 20px;" }) //dummy
             ]),
 
             //video link dialog
-            m.component(new DialogComponent(), {
+            m(new DialogComponent(), {
                 id: RecordedVideoLinkDialogViewModel.dialogId,
                 width: 300,
-                content: m.component(new RecordedVideoLinkDialogComponent())
+                content: m(new RecordedVideoLinkDialogComponent())
             }),
 
             //delete video dialog
-            m.component(new DialogComponent(), {
+            m(new DialogComponent(), {
                 id: RecordedMenuViewModel.deleteVideoDialogId,
                 width: 300,
-                content: m.component(new RecordedDeleteVideoDialogComponent())
+                content: m(new RecordedDeleteVideoDialogComponent())
             }),
 
             //program info dialog
-            m.component(new DialogComponent(), {
+            m(new DialogComponent(), {
                 id: RecordedMenuViewModel.programInfoDialogId,
                 width: 300,
                 scrollOffset: 120,
-                content: m.component(new RecordedProgramInfoDialogComponent())
+                content: m(new RecordedProgramInfoDialogComponent())
             }),
 
             //ディスク空き容量ダイアログ
@@ -111,7 +111,7 @@ class RecordedView extends ParentPageView {
         if(this.viewModel.getShowStatus()) {
             return [
                 this.createCardListView(),
-                m.component(new PaginationComponent())
+                m(new PaginationComponent())
             ];
         } else { //表表示
             return this.createCardTileView();
@@ -167,7 +167,7 @@ class RecordedView extends ParentPageView {
             this.viewModel.getRecordedList().map((program: { [key: string]: any }) => {
                 return this.createCardTileContent(program)
             }),
-            m.component(new PaginationComponent())
+            m(new PaginationComponent())
         ]);
     }
 

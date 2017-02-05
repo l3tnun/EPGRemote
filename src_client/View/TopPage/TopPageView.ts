@@ -20,8 +20,8 @@ class TopPageView extends View {
                 }
             }
         }, [
-            m.component(new HeaderComponent(), { title: "EPGRemote" }),
-            m.component(new NavigationComponent())
+            m(new HeaderComponent(), { title: "EPGRemote" }),
+            m(new NavigationComponent())
         ]);
     }
 

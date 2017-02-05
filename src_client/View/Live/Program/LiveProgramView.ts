@@ -17,16 +17,16 @@ class LiveProgramView extends ParentPageView {
             this.createHeader("番組表"),
             this.createHeaderMenu(),
             this.createNavigation(),
-            m.component(new LiveProgramAddTimeButtonComponent()),
+            m(new LiveProgramAddTimeButtonComponent()),
 
             this.mainLayout([
-                m.component(new LiveProgramCardComponent(), { single: false })
+                m(new LiveProgramCardComponent(), { single: false })
             ]),
 
-            m.component(new DialogComponent(), {
+            m(new DialogComponent(), {
                 id: LiveProgramCardViewModel.dialogId,
                 width: 650,
-                content: m.component(new LiveProgramDialogContentComponent())
+                content: m(new LiveProgramDialogContentComponent())
             }),
 
             this.createDiskDialog(),

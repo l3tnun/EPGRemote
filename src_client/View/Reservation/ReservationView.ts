@@ -48,17 +48,17 @@ class ReservationView extends ParentPageView {
 
             this.mainLayout([
                 this.mainView(),
-                m.component(new PaginationComponent(), {
+                m(new PaginationComponent(), {
                     maxWidth: 840
                 }),
                 m("div", { style: "height: 20px;" }) //dummy
             ]),
 
             //delete dialog
-            m.component(new DialogComponent(), {
+            m(new DialogComponent(), {
                 id: ReservationDeleteDialogContentViewModel.dialogId,
                 width: 300,
-                content: m.component(new ReservationDeleteDialogContentComponent())
+                content: m(new ReservationDeleteDialogContentComponent())
             }),
 
             //ディスク空き容量ダイアログ
@@ -78,9 +78,9 @@ class ReservationView extends ParentPageView {
             return [
                 this.createCardView(),
                 //menu
-                m.component( new MenuComponent(), {
+                m(new MenuComponent(), {
                     id: ReservationMenuViewModel.id,
-                    content: m.component(new ReservationMenuContentComponent())
+                    content: m(new ReservationMenuContentComponent())
                 })
             ];
         } else { //表表示
