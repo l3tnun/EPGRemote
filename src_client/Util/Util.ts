@@ -123,11 +123,13 @@ namespace Util {
     }
 
     /**
-    * Mithril で reload する
+    * page reload
     */
     export const reload = (): void => {
         (<DialogModelInterface>ModelFactory.getInstance().get("DialogModel")).close();
-        m.route(m.route());
+        //m.route(m.route());
+        //TODO
+        location.reload();
     }
 
     /**
