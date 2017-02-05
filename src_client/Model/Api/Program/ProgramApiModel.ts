@@ -59,7 +59,7 @@ class ProgramApiModel implements ProgramApiModelInterface {
             option.time = DateUtil.format(DateUtil.getJaDate(new Date(this.time["startTime"])), "yyyyMMddhh");
         }
 
-        m.request({method: "GET", url: `/api/program?${ m.route.buildQueryString(option) }`})
+        m.request({method: "GET", url: `/api/program?${ m.buildQueryString(option) }`})
         .then((value) => {
             this.genre = value["genres"];
             this.time = value["time"];

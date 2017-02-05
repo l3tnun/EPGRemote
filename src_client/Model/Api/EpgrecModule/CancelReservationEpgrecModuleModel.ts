@@ -33,7 +33,7 @@ class CancelReservationEpgrecModuleModel extends EpgrecModuleModel implements Ca
 
         m.request({
             method: "DELETE",
-            url: `/api/reservation?${ m.route.buildQueryString(query) }`
+            url: `/api/reservation?${ m.buildQueryString(query) }`
         })
         .then((_value) => {
             //this.viewUpdate(_value);

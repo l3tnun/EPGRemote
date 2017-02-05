@@ -42,7 +42,7 @@ class RecordedApiModel implements RecordedApiModelInterface {
             }
         }
 
-        m.request({method: "GET", url: `/api/recorded?${ m.route.buildQueryString(query) }`})
+        m.request({method: "GET", url: `/api/recorded?${ m.buildQueryString(query) }`})
         .then((value) => {
             let programs = value["programs"];
             let totalNum = value["totalNum"];

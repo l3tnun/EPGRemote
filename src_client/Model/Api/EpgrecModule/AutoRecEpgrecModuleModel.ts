@@ -41,7 +41,7 @@ class AutoRecEpgrecModuleModel extends EpgrecModuleModel implements AutoRecEpgre
         m.request({
             method: "PUT",
             url: `/api/program/autorec`,
-            data: m.route.buildQueryString(query)
+            data: m.buildQueryString(query)
         })
         .then((_value) => {
             //this.viewUpdate(_value);

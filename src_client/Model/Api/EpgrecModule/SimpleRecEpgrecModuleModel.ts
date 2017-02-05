@@ -39,7 +39,7 @@ class SimpleRecEpgrecModuleModel extends EpgrecModuleModel implements SimpleRecE
         m.request({
             method: "PUT",
             url: `/api/program/simplerec`,
-            data: m.route.buildQueryString(query)
+            data: m.buildQueryString(query)
         })
         .then((_value) => {
             //this.viewUpdate(_value);

@@ -38,7 +38,7 @@ class LiveProgramApiModel extends RetryApiModel implements LiveProgramApiModelIn
             time: this.time
         }
 
-        m.request({ method: "GET", url: `/api/live/program?${ m.route.buildQueryString(query) }` })
+        m.request({ method: "GET", url: `/api/live/program?${ m.buildQueryString(query) }` })
         .then((value) => {
             if( value.length == 0) {
                 this.list = [];

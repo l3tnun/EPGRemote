@@ -82,7 +82,7 @@ class RecordedMenuContentView extends View {
             m("a", {
                 id: RecordedMenuContentView.searchDummyLinkId,
                 style: "display: none;",
-                href: "/recorded?" + m.route.buildQueryString( query ),
+                href: "/recorded?" + m.buildQueryString( query ),
                 config: m.route
             })
         ];

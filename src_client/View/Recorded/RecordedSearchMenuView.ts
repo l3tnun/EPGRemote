@@ -181,7 +181,7 @@ class RecordedSearchMenuView extends View {
         //検索 m.route では戻るときに初期ページが記憶されないため dummy link をクリックして移動する
         let dummySearch = document.getElementById(RecordedSearchMenuView.dummyLinkId)!;
         let href = location.hash.split("?")[0];
-        if(Util.hashSize(query) != 0) { href += "?" + m.route.buildQueryString(query); }
+        if(Util.hashSize(query) != 0) { href += "?" + m.buildQueryString(query); }
         (<HTMLBaseElement>dummySearch).href = href;
         dummySearch.click();
         this.viewModel.changeShowStatus();

@@ -38,7 +38,7 @@ class CancelRecEpgrecModuleModel extends EpgrecModuleModel implements CancelRecE
 
         m.request({
             method: "DELETE",
-            url: `/api/program/cancelrec?${ m.route.buildQueryString(query) }`
+            url: `/api/program/cancelrec?${ m.buildQueryString(query) }`
         })
         .then((_value) => {
             //this.viewUpdate(_value);

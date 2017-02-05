@@ -32,7 +32,7 @@ class LiveRecordedStartWatchApiModel implements LiveRecordedStartWatchApiModelIn
         m.request({
             method: "POST",
             url: "/api/live/watch",
-            data: m.route.buildQueryString(query)
+            data: m.buildQueryString(query)
         })
         .then((value) => {
             let stream = value["streamId"];

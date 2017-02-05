@@ -30,7 +30,7 @@ class RecordedVideoLinkApiModel implements RecordedVideoLinkApiModelInterface {
         if(isIos) { query["ios"] = 1; }
         if(isAndroid) { query["android"] = 1; }
 
-        m.request({method: "GET", url: `/api/recorded/video?${ m.route.buildQueryString(query) }`})
+        m.request({method: "GET", url: `/api/recorded/video?${ m.buildQueryString(query) }`})
         .then((value) => {
             this.iosURL = isIos ? value.pop() : null;
             this.androidURL = isAndroid ? value.pop() : null;

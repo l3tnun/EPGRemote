@@ -113,7 +113,7 @@ class AddKeywordEpgrecModuleModel extends EpgrecModuleModel implements AddKeywor
         m.request({
             method: "POST",
             url: `/api/keyword`,
-            data: m.route.buildQueryString(option)
+            data: m.buildQueryString(option)
         })
         .then((value) => {
             this.viewUpdate(value);

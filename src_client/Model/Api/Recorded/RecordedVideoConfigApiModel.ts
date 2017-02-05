@@ -16,7 +16,7 @@ class RecordedVideoConfigApiModel implements RecordedVideoConfigApiModelInterfac
 
     //config の取得
     public update(): void {
-        m.request({method: "GET", url: `/api/live/config?${ m.route.buildQueryString({ type: "recorded" }) }`})
+        m.request({method: "GET", url: `/api/live/config?${ m.buildQueryString({ type: "recorded" }) }`})
         .then((value) => {
                 this.config = value["videoConfig"];
         },

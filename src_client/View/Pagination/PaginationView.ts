@@ -56,7 +56,7 @@ class PaginationView extends View {
 
     private createLink(page: { [key: string]: any } | null): string {
         if(page == null) { return ""; }
-        return page["addr"] + "?" + m.route.buildQueryString(page["query"]);
+        return page["addr"] + "?" + m.buildQueryString(page["query"]);
     }
 
     private hidden(element: HTMLElement, page: { [key: string]: any } | null): void {

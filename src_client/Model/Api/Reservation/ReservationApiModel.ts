@@ -31,7 +31,7 @@ class ReservationApiModel implements ReservationApiModelInterface {
         if(this.page != null) { query["page"] = this.page; }
         if(this.limit != null) { query["limit"] = this.limit; }
 
-        m.request({method: "GET", url: `/api/reservation?${ m.route.buildQueryString(query) }`})
+        m.request({method: "GET", url: `/api/reservation?${ m.buildQueryString(query) }`})
         .then((value) => {
             let prgorams = value["programs"];
             let limit = value["limit"];

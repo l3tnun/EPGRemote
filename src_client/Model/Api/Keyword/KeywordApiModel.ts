@@ -32,7 +32,7 @@ class KeywordApiModel implements KeywordApiModelInterface {
         if(this.page != null) { query["page"] = this.page; }
         if(this.limit != null) { query["limit"] = this.limit; }
 
-        m.request({method: "GET", url: `/api/keyword?${ m.route.buildQueryString(query) }`})
+        m.request({method: "GET", url: `/api/keyword?${ m.buildQueryString(query) }`})
         .then((value) => {
             let keywords = value["keywords"];
             let limit = value["limit"];

@@ -65,7 +65,7 @@ class CustomRecEpgrecModuleModel extends EpgrecModuleModel implements CustomRecE
         m.request({
             method: "PUT",
             url: `/api/program/customrec`,
-            data: m.route.buildQueryString(option)
+            data: m.buildQueryString(option)
         })
         .then((_value) => {
             //this.viewUpdate(_value);

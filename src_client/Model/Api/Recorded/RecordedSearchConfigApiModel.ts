@@ -48,7 +48,7 @@ class RecordedSearchConfigApiModel implements RecordedSearchConfigApiModelInterf
     public categoryUpdate(query: RecordedSearchConfigQueryInterface): void {
         m.request({
             method: "GET",
-            url: `/api/recorded/category?${ m.route.buildQueryString(query) }`
+            url: `/api/recorded/category?${ m.buildQueryString(query) }`
         })
         .then((value) => {
             this.category = value;
@@ -66,7 +66,7 @@ class RecordedSearchConfigApiModel implements RecordedSearchConfigApiModelInterf
     public channelUpdate(query: RecordedSearchConfigQueryInterface): void {
         m.request({
             method: "GET",
-            url: `/api/recorded/channel?${ m.route.buildQueryString(query) }`
+            url: `/api/recorded/channel?${ m.buildQueryString(query) }`
         })
         .then((value) => {
             this.channel = value;
