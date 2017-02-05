@@ -39,16 +39,16 @@ class LiveProgramApiModel extends RetryApiModel implements LiveProgramApiModelIn
         }
 
         m.request({ method: "GET", url: `/api/live/program?${ m.buildQueryString(query) }` })
-        .then((value) => {
-            if( value.length == 0) {
+        .then((value: { [key: string]: any }[]) => {
+            if(typeof value == "undefined" || value.length == 0) {
                 this.list = [];
                 return;
             }
 
-            let minEndtime = value.pop()["updateTime"];
+            let minEndtime = value.pop()!["updateTime"];
             if(typeof minEndtime == "undefined") { return; }
 
-            this.addTimer("LiveProgramApiModel", minEndtime);
+            this.addTimer("LiveProgramApiModel", <number>minEndtime);
 
             this.list = value;
         },

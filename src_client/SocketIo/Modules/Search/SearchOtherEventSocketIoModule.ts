@@ -1,6 +1,5 @@
 "use strict";
 
-import * as m from 'mithril';
 import SocketIoModule from '../SocketIoModule';
 import { SearchResultApiModelInterface } from '../../../Model/Api/Search/SearchResultApiModel';
 

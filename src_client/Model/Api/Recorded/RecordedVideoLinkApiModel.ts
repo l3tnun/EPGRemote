@@ -15,9 +15,9 @@ interface RecordedVideoLinkApiModelInterface extends ApiModel {
 * RecordedVideoLinkApiModel
 */
 class RecordedVideoLinkApiModel implements RecordedVideoLinkApiModelInterface {
-    private videoLink: { [key: string]: any }[] = [];
-    private iosURL: { [key: string]: string } = {};
-    private androidURL: { [key: string]: string } = {};
+    private videoLink: { [key: string]: any }[] | null = [];
+    private iosURL: { [key: string]: string } | null = {};
+    private androidURL: { [key: string]: string } | null = {};
 
     /**
     * ビデオリンクの更新
@@ -31,9 +31,9 @@ class RecordedVideoLinkApiModel implements RecordedVideoLinkApiModelInterface {
         if(isAndroid) { query["android"] = 1; }
 
         m.request({method: "GET", url: `/api/recorded/video?${ m.buildQueryString(query) }`})
-        .then((value) => {
-            this.iosURL = isIos ? value.pop() : null;
-            this.androidURL = isAndroid ? value.pop() : null;
+        .then((value: { [key: string]: any }[]) => {
+            this.iosURL = isIos ? <{ [key: string]: string }>(value.pop()) : null;
+            this.androidURL = isAndroid ? <{ [key: string]: string }>(value.pop()) : null;
             this.videoLink = (typeof value == "undefined" || value.length == 0) ? null : value;
             if(this.videoLink != null) {
                 this.videoLink.map((video: any) => { video.path = Util.encodeURL(video.path); });
@@ -47,17 +47,17 @@ class RecordedVideoLinkApiModel implements RecordedVideoLinkApiModelInterface {
 
     //ビデオリンクを返す
     public getLink(): { [key: string]: any }[] {
-        return this.videoLink;
+        return this.videoLink == null ? [] : this.videoLink;
     }
 
     //iOS 用の URL リンクのテンプレートを返す
     public getiOSURL(): { [key: string]: string } {
-        return this.iosURL;
+        return this.iosURL == null ? {} : this.iosURL;
     }
 
     //Android 用の URL リンクのテンプレートを返す
     getAndroidURL(): { [key: string]: string } {
-        return this.androidURL;
+        return this.androidURL == null ? {} : this.androidURL;
     }
 }
 

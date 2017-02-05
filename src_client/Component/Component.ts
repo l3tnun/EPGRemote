@@ -32,7 +32,7 @@ abstract class Component implements Mithril.Component<{}> {
         if(controllerInstance != null) {
             //https://github.com/lhorie/mithril.js/issues/914
             //controller にはアロー構文ではなく function を使う
-            this.controller = function(args) {
+            this.controller = function(args: { [key: string]: any }) {
                 if(typeof args != "undefined") {
                     controllerInstance!.setOptions(args);
                 }

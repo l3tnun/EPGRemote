@@ -19,7 +19,7 @@ class BroadCastApiModel implements BroadCastApiModelInterface {
 
         m.request({method: "GET", url: `/api/broadcast`})
         .then(
-            (value) => {
+            (value: string[]) => {
                 this.list = value;
             },
             (error) => {

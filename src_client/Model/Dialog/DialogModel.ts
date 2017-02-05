@@ -1,5 +1,6 @@
 "use strict";
 
+import * as m from 'mithril';
 import Model from '../Model';
 import Util from '../../Util/Util';
 import DialogStatus from './DialogStatus';

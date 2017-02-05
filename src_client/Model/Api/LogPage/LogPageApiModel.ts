@@ -30,7 +30,7 @@ class LogPageApiModel implements LogPageApiModelInterface {
         }
 
         m.request({ method: "GET", url: `/api/log?${ m.buildQueryString(query) }` })
-        .then((value) => {
+        .then((value: any[]) => {
             this.logList = value;
         },
         (error) => {

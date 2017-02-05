@@ -1,5 +1,6 @@
 "use strict";
 
+import * as m from 'mithril';
 import Model from '../Model';
 
 interface LiveWatchVideoModelInterface extends Model {

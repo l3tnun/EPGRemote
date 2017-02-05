@@ -125,7 +125,8 @@ class DialogView extends View {
 
     private onclick(e: Event): void {
         //m.redraw.strategy("none");
-        e.redraw = false;
+        //TODO check type
+        (<any>e).redraw = false;
 
         if((<HTMLElement>(e.target)).id == this.getDialogId()) {
             //m.redraw.strategy("diff");

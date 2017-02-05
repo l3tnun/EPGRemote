@@ -1,6 +1,5 @@
 "use strict";
 
-import * as m from 'mithril';
 import SocketIoModule from '../SocketIoModule';
 import { RecordedApiModelInterface } from '../../../Model/Api/Recorded/RecordedApiModel';
 

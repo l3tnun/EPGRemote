@@ -20,7 +20,7 @@ Container.init(); //viewModel の設定
 SocketIoModuleAdd.init(); //SocketIoModule の設定
 SocketIoDisconnect.init(); //SocketIo 切断時の設定
 
-m.route.mode = "hash";
+m.route.prefix("#");
 m.route(document.body, "/", {
     "/": new TopPageComponent(),
     "/live/program":new LiveProgramComponent(),
