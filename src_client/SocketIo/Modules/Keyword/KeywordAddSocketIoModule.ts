@@ -24,10 +24,7 @@ class KeywordAddSocketIoModule extends SocketIoModule {
     }
 
     public execute(_option: { [key: string]: any; }): void {
-        m.startComputation();
-        console.log('update keyword api model');
         this.keywordApiModel.update();
-        m.endComputation();
     }
 }
 

@@ -28,9 +28,7 @@ class SearchOtherEventSocketIoModule extends SocketIoModule {
     }
 
     public execute(_option: { [key: string]: any; }): void {
-        m.startComputation();
         this.searchResultApModel.update();
-        m.endComputation();
     }
 }
 

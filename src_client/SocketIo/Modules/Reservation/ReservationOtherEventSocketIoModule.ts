@@ -31,9 +31,7 @@ class ReservationOtherEventSocketIoModule extends SocketIoModule {
     }
 
     public execute(_option: { [key: string]: any; }): void {
-        m.startComputation();
         this.reservationApiModel.update();
-        m.endComputation();
     }
 }
 

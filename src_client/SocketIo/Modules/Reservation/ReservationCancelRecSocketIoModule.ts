@@ -24,9 +24,7 @@ class ReservationCancelRecSocketIoModule extends SocketIoModule {
     }
 
     public execute(option: { [key: string]: any; }): void {
-        m.startComputation();
         this.cancelReservationModule.viewUpdate(option);
-        m.endComputation();
     }
 }
 

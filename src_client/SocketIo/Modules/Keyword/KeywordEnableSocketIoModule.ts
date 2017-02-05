@@ -24,9 +24,7 @@ class KeywordEnableSocketIoModule extends SocketIoModule {
     }
 
     public execute(option: { [key: string]: any; }): void {
-        m.startComputation();
         this.enableKeywordEpgrecModule.viewUpdate(option);
-        m.endComputation();
     }
 }
 

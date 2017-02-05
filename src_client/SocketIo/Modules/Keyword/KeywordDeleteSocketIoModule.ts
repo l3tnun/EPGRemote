@@ -24,9 +24,7 @@ class KeywordDeleteSocketIoModule extends SocketIoModule {
     }
 
     public execute(option: { [key: string]: any; }): void {
-        m.startComputation();
         this.deleteKeywordEpgrecModule.viewUpdate(option);
-        m.endComputation();
     }
 }
 

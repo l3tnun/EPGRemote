@@ -24,9 +24,7 @@ class RecordedDeleteVideoSocketIoModule extends SocketIoModule {
     }
 
     public execute(option: { [key: string]: any; }): void {
-        m.startComputation();
         this.deleteVideoEpgrecModule.viewUpdate(option);
-        m.endComputation();
     }
 }
 
