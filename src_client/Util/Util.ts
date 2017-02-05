@@ -13,9 +13,7 @@ namespace Util {
     export const upgradeMdl = (): void => {
         componentHandler.upgradeDom();
         let el = document.getElementsByClassName( "mdl-layout__container" );
-        for(let i = 1; i < el.length; i++) {
-            el[i].parentNode!.removeChild(el[i]);
-        }
+        for(let i = 0; i < el.length - 1; i++) { el[i].parentNode.removeChild(el[i]); }
     }
 
     /**
@@ -84,7 +82,7 @@ namespace Util {
     * query のコピーを返す
     */
     export const getCopyQuery = (): { [key: string]: any } => {
-        return JSON.parse(JSON.stringify(m.route.param('')));
+        return JSON.parse(JSON.stringify(m.route.param()));
     }
 
     /**

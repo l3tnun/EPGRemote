@@ -16,16 +16,12 @@ abstract class ParentPageController extends Controller {
     protected socketIoManager: SocketIoManager = SocketIoManager.getInstance();
 
     // Mithril の controller して呼び出される部分
-    public execute(): any {
-        super.execute();
+    public onInit(): void {
+        super.onInit();
         this.socketIoManager.init();
         this.enableSocketIoModules();
         (<DialogViewModel>Container.get("DialogViewModel")).init();
         (<PaginationViewModel>Container.get("PaginationViewModel")).init();
-
-        return {
-            onunload: () => { this.onunload() }
-        }
     }
 
     /*
@@ -38,7 +34,7 @@ abstract class ParentPageController extends Controller {
     }
 
     //ページから離れるときに呼び出される
-    protected onunload(): void {
+    public onRemove(): void {
         //ページが切り替わるごとにタイマーを停止させる
         TimerManager.getInstance().stopAll();
     }

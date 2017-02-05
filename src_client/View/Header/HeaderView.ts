@@ -10,7 +10,7 @@ import View from '../View';
 */
 class HeaderView extends View {
     private static title: string = "";
-    private leftButtons: Mithril.VirtualElement[] = [];
+    private leftButtons:  Mithril.Vnode<any, any>[] = [];
 
     /**
     * @throw HeaderView option Error options が正しくない場合発生
@@ -31,8 +31,8 @@ class HeaderView extends View {
         }
     }
 
-    public execute(): Mithril.VirtualElement {
-        return m("header", {class: "mdl-layout__header" }, [
+    public execute(): Mithril.Vnode<any, any> {
+        return m("header", { class: "mdl-layout__header" }, [
             m("div", { class: "mdl-layout__header-row", style: "padding-right: 8px;" }, [
                 m("span", { class: "mdl-layout-title" }, HeaderView.title),
 

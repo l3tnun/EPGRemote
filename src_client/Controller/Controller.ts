@@ -7,10 +7,13 @@ import MithrilBase from '../MithrilBase';
 * Mithril の Controller 部分
 */
 abstract class Controller extends MithrilBase {
-    public execute(): any {
-        this.initModel();
-        return null;
-    }
+    private query: { [key: string]: any } = {}
+
+    public onInit(): void { this.initModel(); }
+
+    public onUpdate(): void {}
+
+    public onRemove(): void {}
 
     //使用する Model を初期化する
     protected initModel(): void {}

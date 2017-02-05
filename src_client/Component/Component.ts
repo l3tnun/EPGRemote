@@ -9,11 +9,13 @@ import Container from '../Container/Container';
 * Controller, View, Model の依存設定を書く
 * create() で Mithril の route, component へ渡す
 */
-abstract class Component implements Mithril.Component<{}> {
+abstract class Component implements Mithril.Component<{ [key: string]: any; }, any> {
     protected container = Container;
 
-    public view: (ctrl?: {}, ...args: any[]) => Mithril.VirtualElement;
-    public controller: Mithril.ControllerFunction<{}>;
+    public view: (this: any, vnode: Mithril.Vnode<{ [key: string]: any; }, any>) => Mithril.Vnode<any, any>;
+    public oninit: (this: any, vnode: Mithril.Vnode<{ [key: string]: any; }, any>) => void;
+    public onupdate: (this: any, vnode: Mithril.Vnode<{ [key: string]: any; }, any>) => void;
+    public onremove: (this: any, vnode: Mithril.Vnode<{ [key: string]: any; }, any>) => void;
 
     constructor() {
         let controllerInstance = this.getController();
@@ -28,25 +30,30 @@ abstract class Component implements Mithril.Component<{}> {
             controllerInstance!.setModels(viewModels);
         }
 
-        //controller のセット
-        if(controllerInstance != null) {
-            //https://github.com/lhorie/mithril.js/issues/914
-            //controller にはアロー構文ではなく function を使う
-            this.controller = function(args: { [key: string]: any }) {
-                if(typeof args != "undefined") {
-                    controllerInstance!.setOptions(args);
-                }
-                return controllerInstance!.execute();
-            }
-        }
-
         //view のセット
-        this.view = (_ctrl, args) => {
-            if(typeof args != "undefined") {
-                viewInstance.setOptions(args);
+        this.view = (vnode: Mithril.Vnode<{ [key: string]: any }, any>): Mithril.Vnode<any, any> => {
+            if(typeof vnode.attrs != "undefined") {
+                viewInstance.setOptions(vnode.attrs);
             }
             return viewInstance.execute();
         }
+
+        //controller のセット
+        if(controllerInstance == null) { return; }
+
+        //oninit
+        this.oninit = (vnode: Mithril.Vnode<{ [key: string]: any }, any>): void => {
+            if(typeof vnode.attrs != "undefined") {
+                controllerInstance.setOptions(vnode.attrs); //args のセット
+            }
+            controllerInstance.onInit(); //oninit
+        }
+
+        //onupdate
+        this.onupdate = (): void => { controllerInstance.onUpdate(); }
+
+        //onremove
+        this.onremove = (): void => { controllerInstance.onRemove(); }
     }
 
     public static getInstance(): Component | null { return null; }

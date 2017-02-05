@@ -9,9 +9,10 @@ import Util from '../Util/Util';
 */
 abstract class View extends MithrilBase {
     //Mithril へ渡される部分
-    public abstract execute(): Mithril.VirtualElement
+    public abstract execute(): Mithril.Vnode<any,any>
 
-    protected checkboxConfig(element: HTMLInputElement, isInit: boolean, _context: Mithril.Context): void {
+    //TODO
+    /*protected checkboxConfig(element: HTMLInputElement, isInit: boolean, _context: Mithril.Context): void {
         if(!isInit) {  Util.upgradeMdl(); }
         if(element.checked && (<Element>element.parentNode).className.indexOf("is-checked") == -1 ) {
             (<Element>element.parentNode).classList.add('is-checked');
@@ -24,18 +25,18 @@ abstract class View extends MithrilBase {
         if(Number((<HTMLInputElement>element).value) != value) {
             (<HTMLInputElement>element).value = String(value);
         }
-    }
+    }*/
 
     /**
     * ふわっと表示させる
     */
-    protected addShowAnimetion(element: Element, isInit: boolean): void {
+    /*protected addShowAnimetion(element: Element, isInit: boolean): void {
         if(!isInit) {
             setTimeout(() => {
                 (<HTMLElement>element).style.opacity = "1";
             }, 100);
         }
-    }
+    }*/
 }
 
 export default View;
