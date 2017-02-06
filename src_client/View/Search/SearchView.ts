@@ -17,7 +17,7 @@ import ProgramInfoDialogViewModel from '../../ViewModel/Program/ProgramInfoDialo
 class SearchView extends ParentPageView {
     private viewModel: SearchViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <SearchViewModel>this.getModel("SearchViewModel");
 
         return m("div", { class: "mdl-layout mdl-js-layout mdl-layout--fixed-header" }, [

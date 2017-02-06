@@ -10,7 +10,7 @@ import SearchViewModel from '../../ViewModel/Search/SearchViewModel';
 class SearchOptionView extends SearchOptionBaseView {
     private viewModel: SearchViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <SearchViewModel>this.getModel("SearchViewModel");
 
         return m("div", { class: "search-option-card mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col" }, [
@@ -25,7 +25,7 @@ class SearchOptionView extends SearchOptionBaseView {
     }
 
     //キーワード部分
-    private createKeyword(): Mithril.VirtualElement {
+    private createKeyword(): Mithril.Vnode<any, any> {
         return this.createContentFrame("キーワード", [
             m("div", { class: "search-option-text-box mdl-cell--12-col mdl-textfield mdl-js-textfield" }, [
                  m("input", {
@@ -33,14 +33,13 @@ class SearchOptionView extends SearchOptionBaseView {
                     type: "text",
                     value: this.viewModel.keyword,
                     onchange: m.withAttr("value", (value) => { this.viewModel.keyword = value; }),
-                    config: (element, isInit, _context) => {
-                        if(isInit) { return; }
+                    onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
                          //enter key で検索
-                        (<HTMLInputElement>element).onkeydown = (e) => {
+                        (<HTMLInputElement>vnode.dom).onkeydown = (e) => {
                             if(e.keyCode == 13) {
-                                this.viewModel.keyword = (<HTMLInputElement>element).value;
+                                this.viewModel.keyword = (<HTMLInputElement>vnode.dom).value;
                                 this.viewModel.search();
-                                (<HTMLInputElement>element).blur();
+                                (<HTMLInputElement>vnode.dom).blur();
                             }
                         }
                     }
@@ -76,7 +75,7 @@ class SearchOptionView extends SearchOptionBaseView {
     }
 
     //放送局
-    private createBroadcaster(): Mithril.VirtualElement {
+    private createBroadcaster(): Mithril.Vnode<any, any> {
         return this.createContentFrame("放送局", [
             //放送局プルダウン
             m("div", { style: "display: flex; width: 100%;" }, [
@@ -84,8 +83,8 @@ class SearchOptionView extends SearchOptionBaseView {
                     m("select", {
                         value: this.viewModel.channelValue,
                         onchange: m.withAttr("value", (value) => { this.viewModel.channelValue = Number(value); }),
-                        config: (element, isInit, context) => {
-                            this.selectConfig(<HTMLInputElement>element, isInit, context, this.viewModel.channelValue);
+                        onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                            this.selectConfig(<HTMLInputElement>vnode.dom, this.viewModel.programTimeValue);
                         }
                     }, [
                         m("option", { value: 0 }, "すべて"),
@@ -105,9 +104,9 @@ class SearchOptionView extends SearchOptionBaseView {
     }
 
     //放送波のチェックボックス生成
-    private createBroadCastCheckBox(): Mithril.VirtualElement[] {
+    private createBroadCastCheckBox(): Mithril.Vnode<any, any>[] {
         let broadcast = this.viewModel.getBroadcast();
-        let result: Mithril.VirtualElement[] = [];
+        let result: Mithril.Vnode<any, any>[] = [];
 
         if(broadcast["GR"]) { result.push(
             this.createCheckBox(
@@ -142,7 +141,7 @@ class SearchOptionView extends SearchOptionBaseView {
     }
 
     //対象ジャンル
-    private createGenres(): Mithril.VirtualElement {
+    private createGenres(): Mithril.Vnode<any, any> {
         return this.createContentFrame("対象ジャンル", [
             //ジャンルセレクタ
             m("div", { style: "display: flex; width: 50%; float: left;" }, [
@@ -153,8 +152,8 @@ class SearchOptionView extends SearchOptionBaseView {
                             this.viewModel.genreValue = Number(value);
                             this.viewModel.isInitSubGenre = false;
                         }),
-                        config: (element, isInit, context) => {
-                            this.selectConfig(<HTMLInputElement>element, isInit, context, this.viewModel.genreValue);
+                        onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                            this.selectConfig(<HTMLInputElement>vnode.dom, this.viewModel.programTimeValue);
                         }
                     },
                         m("option", { value: 0 }, "すべて"),
@@ -171,8 +170,8 @@ class SearchOptionView extends SearchOptionBaseView {
                     m("select", {
                         value: this.viewModel.subGenreValue,
                         onchange: m.withAttr("value", (value) => { this.viewModel.subGenreValue = value; }),
-                        config: (element, isInit, context) => {
-                            this.selectConfig(<HTMLInputElement>element, isInit, context, this.viewModel.subGenreValue);
+                        onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                            this.selectConfig(<HTMLInputElement>vnode.dom, this.viewModel.programTimeValue);
                         }
                     },
                         this.createSubGenreOption()
@@ -194,8 +193,8 @@ class SearchOptionView extends SearchOptionBaseView {
     }
 
     //サブジャンルセレクタの中身を生成
-    private createSubGenreOption(): Mithril.VirtualElement[] {
-        let result: Mithril.VirtualElement[] = [];
+    private createSubGenreOption(): Mithril.Vnode<any, any>[] {
+        let result: Mithril.Vnode<any, any>[] = [];
         let subGenres = this.viewModel.getSubGenre()[this.viewModel.genreValue];
 
         for(let id in subGenres) {
@@ -215,7 +214,7 @@ class SearchOptionView extends SearchOptionBaseView {
     }
 
     //対象時刻
-    private createTimes(): Mithril.VirtualElement {
+    private createTimes(): Mithril.Vnode<any, any> {
         return this.createContentFrame("対象時刻", [
             //開始時刻セレクタ
             m("div", { style: "display: flex; width: float: left;" }, [
@@ -225,8 +224,8 @@ class SearchOptionView extends SearchOptionBaseView {
                         onchange: m.withAttr("value", (value) => {
                             this.viewModel.programTimeValue = Number(value)
                         }),
-                        config: (element, isInit, context) => {
-                            this.selectConfig(<HTMLInputElement>element, isInit, context, this.viewModel.programTimeValue);
+                        onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                            this.selectConfig(<HTMLInputElement>vnode.dom, this.viewModel.programTimeValue);
                         }
                     }, this.createProgramTimeOption() )
                 ])
@@ -242,8 +241,8 @@ class SearchOptionView extends SearchOptionBaseView {
                     m("select", {
                         value: this.viewModel.periodValue,
                         onchange: m.withAttr("value", (value) => { this.viewModel.periodValue = value; } ),
-                        config: (element, isInit, context) => {
-                            this.selectConfig(<HTMLInputElement>element, isInit, context, this.viewModel.periodValue);
+                        onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                            this.selectConfig(<HTMLInputElement>vnode.dom, this.viewModel.programTimeValue);
                         }
                     }, [
                         this.createPeriodOption()
@@ -296,7 +295,7 @@ class SearchOptionView extends SearchOptionBaseView {
     }
 
     //開始時刻セレクタの中身を生成
-    public createProgramTimeOption():  Mithril.VirtualElement[] {
+    public createProgramTimeOption():  Mithril.Vnode<any, any>[] {
         let result = [ m("option", { value: 24 }, "なし") ];
         for(let i = 0; i < 24; i++) { result.push( m("option", { value: i }, `${ i }時`) ) }
 
@@ -304,14 +303,14 @@ class SearchOptionView extends SearchOptionBaseView {
     }
 
     //時刻幅セレクタの中身
-    public createPeriodOption():  Mithril.VirtualElement[] {
-        let result: Mithril.VirtualElement[] = [];
+    public createPeriodOption():  Mithril.Vnode<any, any>[] {
+        let result: Mithril.Vnode<any, any>[] = [];
         for(let i = 1; i < 24; i++) { result.push( m("option", { value: i }, i + "時間") ); }
         return result;
     }
 
     //アクションボタン
-    public createActionButtons(): Mithril.VirtualElement {
+    public createActionButtons(): Mithril.Vnode<any, any> {
         return m("div", { class: "mdl-dialog__actions mdl-card__actions mdl-card--border" }, [
             //検索ボタン
             m("button", {

@@ -11,9 +11,11 @@ abstract class View extends MithrilBase {
     //Mithril へ渡される部分
     public abstract execute(): Mithril.Vnode<any,any>
 
-    //TODO
-    /*protected checkboxConfig(element: HTMLInputElement, isInit: boolean, _context: Mithril.Context): void {
-        if(!isInit) {  Util.upgradeMdl(); }
+    protected checkboxInit(): void {
+        Util.upgradeMdl();
+    }
+
+    protected checkboxConfig(element: HTMLInputElement): void {
         if(element.checked && (<Element>element.parentNode).className.indexOf("is-checked") == -1 ) {
             (<Element>element.parentNode).classList.add('is-checked');
         } else if(!element.checked && (<Element>element.parentNode).className.indexOf("is-checked") != -1) {
@@ -21,11 +23,11 @@ abstract class View extends MithrilBase {
         }
     }
 
-    protected selectConfig(element: HTMLInputElement, _isInit: boolean, _context: Mithril.Context, value: number): void {
-        if(Number((<HTMLInputElement>element).value) != value) {
-            (<HTMLInputElement>element).value = String(value);
+    protected selectConfig(element: HTMLInputElement, value: number): void {
+        if(Number(element.value) != value) {
+            element.value = String(value);
         }
-    }*/
+    }
 
     /**
     * ふわっと表示させる

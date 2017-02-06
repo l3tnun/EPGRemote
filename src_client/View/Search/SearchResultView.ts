@@ -16,7 +16,7 @@ class SearchResultView extends View {
     private dialog: DialogViewModel;
     private programInfoDialogViewModel: ProgramInfoDialogViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <SearchViewModel>this.getModel("SearchViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
         this.programInfoDialogViewModel = <ProgramInfoDialogViewModel>this.getModel("ProgramInfoDialogViewModel");
@@ -28,13 +28,13 @@ class SearchResultView extends View {
             //ヒット件数
             m("div", {
                 class: "search-result-hit-num",
-                config: (element, _isInit, _context) => {
+                onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
                     //スクロール処理
                     if(this.viewModel.scrollStatus) {
                         this.viewModel.scrollStatus = false;
                         let mainLayout = document.getElementsByClassName("mdl-layout__content")[0];
                         let start = mainLayout.scrollTop;
-                        let end = element.getBoundingClientRect().top - 98 + mainLayout.scrollTop;
+                        let end = vnode.dom.getBoundingClientRect().top - 98 + mainLayout.scrollTop;
 
                         setTimeout(() => { Scroll.scrollTo(mainLayout, start, end); }, 100);
                     }
@@ -48,7 +48,7 @@ class SearchResultView extends View {
         ]);
     }
 
-    private createContent(program: { [key: string]: any }): Mithril.VirtualElement {
+    private createContent(program: { [key: string]: any }): Mithril.Vnode<any, any> {
         let addClass = "";
         if(program["autorec"] == 0) { addClass += " tv_program_freeze "; }
         if(program["recorded"]) { addClass += " tv_program_reced "; }

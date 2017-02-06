@@ -11,7 +11,7 @@ import SearchViewModel from '../../ViewModel/Search/SearchViewModel';
 class SearchAddKeywordView extends SearchOptionBaseView {
     private viewModel: SearchViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <SearchViewModel>this.getModel("SearchViewModel");
 
         //検索結果非表示
@@ -20,7 +20,8 @@ class SearchAddKeywordView extends SearchOptionBaseView {
         return m("div", {
             class: "search-option-card mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col",
             style: "margin: 38px auto;",
-            config: (_element, _isInit, _context) => { Util.upgradeMdl(); }
+            oncreate: () => { Util.upgradeMdl(); }
+            onupdate: () => { Util.upgradeMdl(); }
         }, [
             m("div", { class: "mdl-card__supporting-text" }, [
                 this.createOptionCheckBox(),
@@ -35,7 +36,7 @@ class SearchAddKeywordView extends SearchOptionBaseView {
     }
 
     //オプション部分
-    private createOptionCheckBox(): Mithril.VirtualElement {
+    private createOptionCheckBox(): Mithril.Vnode<any, any> {
         return this.createContentFrame("オプション", [
             m("div", { style: "margin-left: -12px;" } , [
                 this.createCheckBox(
@@ -68,7 +69,7 @@ class SearchAddKeywordView extends SearchOptionBaseView {
     }
 
     //時刻シフト
-    private createTimeShift():  Mithril.VirtualElement {
+    private createTimeShift():  Mithril.Vnode<any, any> {
         return this.createContentFrame("時刻シフト", [
             //開始シフト
             m("div", { style: "margin-right: 14px;" }, [
@@ -120,7 +121,7 @@ class SearchAddKeywordView extends SearchOptionBaseView {
     }
 
     //録画モード
-    private createRecMode(): Mithril.VirtualElement {
+    private createRecMode(): Mithril.Vnode<any, any> {
         return this.createContentFrame("録画モード", [
             //録画モード
             m("div", [
@@ -130,8 +131,8 @@ class SearchAddKeywordView extends SearchOptionBaseView {
                         m("select", {
                             value: this.viewModel.autorecMode,
                             onchange: m.withAttr("value", (value) => { this.viewModel.autorecMode = Number(value); }),
-                            config: (element, isInit, context) => {
-                                this.selectConfig(<HTMLInputElement>element, isInit, context, this.viewModel.autorecMode);
+                            onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                                this.selectConfig(<HTMLInputElement>(vnode.dom), this.viewModel.autorecMode);
                             }
                         },
                             this.createRecModeOption(0)
@@ -143,7 +144,7 @@ class SearchAddKeywordView extends SearchOptionBaseView {
     }
 
     //保存ディレクトリ
-    private createSaveDirectory(): Mithril.VirtualElement {
+    private createSaveDirectory(): Mithril.Vnode<any, any> {
         return this.createContentFrame("保存ディレクトリ", [
             m("div", { class: "search-result-text-box mdl-cell--12-col mdl-textfield mdl-js-textfield" }, [
                 m("input", { class: "mdl-textfield__input", type: "text",
@@ -155,7 +156,7 @@ class SearchAddKeywordView extends SearchOptionBaseView {
     }
 
     //録画ファイル名の形式
-    private createFileNameFormat(): Mithril.VirtualElement {
+    private createFileNameFormat(): Mithril.Vnode<any, any> {
         return this.createContentFrame("録画ファイル名の形式", [
             m("div", { class: "search-result-text-box mdl-cell--12-col mdl-textfield mdl-js-textfield" }, [
                 m("input", { class: "mdl-textfield__input", type: "text",
@@ -167,7 +168,7 @@ class SearchAddKeywordView extends SearchOptionBaseView {
     }
 
     //トランスコード
-    private createTransCode(): Mithril.VirtualElement {
+    private createTransCode(): Mithril.Vnode<any, any> {
         if(this.viewModel.getStartTranscodeId() == null) { return m("div"); }
 
         return this.createContentFrame("トランスコード", [
@@ -183,7 +184,7 @@ class SearchAddKeywordView extends SearchOptionBaseView {
     }
 
     //トランスコードのセレクタ、text inout を生成する
-    private createTranscodeContent(num: number): Mithril.VirtualElement {
+    private createTranscodeContent(num: number): Mithril.Vnode<any, any> {
         let startTranscodeId = this.viewModel.getStartTranscodeId();
 
         return m("div", { style: "width: 100%;" }, [
@@ -196,8 +197,8 @@ class SearchAddKeywordView extends SearchOptionBaseView {
                         onchange: m.withAttr("value", (value) => {
                             this.viewModel.transConfig[num]["mode"] = Number(value);
                         }),
-                        config: (element, isInit, context) => {
-                            this.selectConfig(<HTMLInputElement>element, isInit, context, this.viewModel.transConfig[num]["mode"]);
+                        onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                            this.selectConfig(<HTMLInputElement>(vnode.dom), this.viewModel.autorecMode);
                         }
                     }, [
                         m("option", { value: 0 }, "未指定"),
@@ -222,8 +223,8 @@ class SearchAddKeywordView extends SearchOptionBaseView {
     * 録画モードのセレクタのオプションを生成する
     * @param startId 開始 id
     */
-    private createRecModeOption(startId: number): Mithril.VirtualElement[] {
-        let result: Mithril.VirtualElement[] = [];
+    private createRecModeOption(startId: number): Mithril.Vnode<any, any>[] {
+        let result: Mithril.Vnode<any, any>[] = [];
         this.viewModel.getRecMode().map((recMode: { [key: string]: any }) => {
             if(recMode["id"] >= startId) {
                 result.push( m("option", { value: recMode["id"] }, recMode["name"]) );
@@ -234,7 +235,7 @@ class SearchAddKeywordView extends SearchOptionBaseView {
     }
 
     //アクションボタン
-    private createActionButons(): Mithril.VirtualElement {
+    private createActionButons(): Mithril.Vnode<any, any> {
         return m("div", { class: "mdl-dialog__actions mdl-card__actions mdl-card--border" }, [
             //追加 or 更新ボタン
             m("button", {
