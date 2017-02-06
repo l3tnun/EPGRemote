@@ -17,20 +17,29 @@ import SnackbarComponent from '../Component/Snackbar/SnackbarComponent';
 * 親ページの View で使用される
 */
 abstract class ParentPageView extends View {
+    private headerMenuIconComponent = new HeaderMenuIconComponent();
+    private headerComponent = new HeaderComponent();
+    private diskMenuContentComponent = new DiskMenuContentComponent();
+    private headerMenuListComponent = new HeaderMenuListComponent();
+    private navigationComponent = new NavigationComponent();
+    private dialogComponent = new DialogComponent();
+    private diskDialogComponent = new DiskDialogComponent();
+    private snackbarComponent = new SnackbarComponent();
+
     //Mithril へ渡される部分
-    public abstract execute(): Mithril.VirtualElement
+    public abstract execute(): Mithril.Vnode<any, any>
 
     /**
     * header 作成
     * @param title title
     * @param leftButton leftButton content
     */
-    protected createHeader(title: string, leftButton: any[] = []): Mithril.Component<{}> {
-        leftButton.push(m(new HeaderMenuIconComponent(), {
+    protected createHeader(title: string, leftButton: any[] = []): Mithril.Vnode<any, any> {
+        leftButton.push(m(this.headerMenuIconComponent, {
             id: ParentPageView.headerMenuId
         }));
 
-        return m(new HeaderComponent(), {
+        return m(this.headerComponent, {
             title: title,
             leftButton: leftButton
         });
@@ -40,10 +49,10 @@ abstract class ParentPageView extends View {
     * header メニュー作成
     * @param content メニューコンテント
     */
-    protected createHeaderMenu(content: any[] = []): Mithril.Component<{}> {
-        content.push(m(new DiskMenuContentComponent())); //ディスク空き容量メニュー
+    protected createHeaderMenu(content: any[] = []): Mithril.Vnode<any, any> {
+        content.push(m(this.diskMenuContentComponent)); //ディスク空き容量メニュー
 
-        return m(new HeaderMenuListComponent(), {
+        return m(this.headerMenuListComponent, {
             id: ParentPageView.headerMenuId,
             content: content
         });
@@ -52,33 +61,33 @@ abstract class ParentPageView extends View {
     /**
     * Navigation 作成
     */
-    protected createNavigation(): Mithril.Component<{}> {
-        return m(new NavigationComponent())
+    protected createNavigation(): Mithril.Vnode<any, any> {
+        return m(this.navigationComponent)
     }
 
     /**
     * ディスク空き容量ダイアログ
     */
-    protected createDiskDialog(): Mithril.Component<{}> {
-        return m(new DialogComponent(), {
+    protected createDiskDialog(): Mithril.Vnode<any, any> {
+        return m(this.dialogComponent, {
             id: DiskDialogViewModel.dialogId,
             width: 250,
-            content: m(new DiskDialogComponent())
+            content: m(this.diskDialogComponent)
         });
     }
 
     /**
     * SnackbarComponent 生成
     */
-    protected createSnackbar(): Mithril.Component<{}> {
-        return m(new SnackbarComponent());
+    protected createSnackbar(): Mithril.Vnode<any, any> {
+        return m(this.snackbarComponent);
     }
 
     /**
     * main layout
     * @param content content
     */
-    protected mainLayout(content: any): Mithril.VirtualElement {
+    protected mainLayout(content: any): Mithril.Vnode<any, any> {
         return m("main", {
             class: "fadeIn mdl-layout__content",
             oncreate: (vnode: Mithril.VnodeDOM<any, any>) => {
