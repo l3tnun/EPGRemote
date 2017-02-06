@@ -15,15 +15,6 @@ import PaginationViewModel from '../ViewModel/Pagination/PaginationViewModel';
 abstract class ParentPageController extends Controller {
     protected socketIoManager: SocketIoManager = SocketIoManager.getInstance();
 
-    // Mithril の controller して呼び出される部分
-    public onInit(): void {
-        super.onInit();
-        this.socketIoManager.init();
-        this.enableSocketIoModules();
-        (<DialogViewModel>Container.get("DialogViewModel")).init();
-        (<PaginationViewModel>Container.get("PaginationViewModel")).init();
-    }
-
     /*
     * 必要な SocketIoModule を有効化する
     * 有効化するモジュールがあれば override する
@@ -37,6 +28,14 @@ abstract class ParentPageController extends Controller {
     public onRemove(): void {
         //ページが切り替わるごとにタイマーを停止させる
         TimerManager.getInstance().stopAll();
+    }
+
+    protected initModel(): void {
+        super.initModel();
+        this.socketIoManager.init();
+        this.enableSocketIoModules();
+        (<DialogViewModel>Container.get("DialogViewModel")).init();
+        (<PaginationViewModel>Container.get("PaginationViewModel")).init();
     }
 }
 

@@ -86,6 +86,14 @@ namespace Util {
     }
 
     /**
+    * query を文字列に変換する
+    * @param query query
+    */
+    export const buildQueryStr = (query: { [key: string]: any }): string => {
+        return m.buildQueryString(query);
+    }
+
+    /**
     * 現在のページを取得する
     */
     export const getRoute = (): string => {

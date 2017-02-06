@@ -14,6 +14,7 @@ abstract class Component implements Mithril.Component<{ [key: string]: any; }, a
 
     public view: (this: any, vnode: Mithril.Vnode<{ [key: string]: any; }, any>) => Mithril.Vnode<any, any>;
     public oninit: (this: any, vnode: Mithril.Vnode<{ [key: string]: any; }, any>) => void;
+    public onbeforeupdate: (this: any, vnode: Mithril.Vnode<{ [key: string]: any; }, any>, old: Mithril.Vnode<{ [key: string]: any; }, any>) => boolean;
     public onupdate: (this: any, vnode: Mithril.Vnode<{ [key: string]: any; }, any>) => void;
     public onremove: (this: any, vnode: Mithril.Vnode<{ [key: string]: any; }, any>) => void;
 
@@ -48,6 +49,9 @@ abstract class Component implements Mithril.Component<{ [key: string]: any; }, a
             }
             controllerInstance.onInit(); //oninit
         }
+
+        //onbeforeupdate
+        this.onbeforeupdate = (): boolean => { controllerInstance.onBeforeUpdate(); return true; }
 
         //onupdate
         this.onupdate = (): void => { controllerInstance.onUpdate(); }
