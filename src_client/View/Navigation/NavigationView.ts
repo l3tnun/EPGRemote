@@ -15,7 +15,6 @@ class NavigationView extends View {
         this.viewModel = <NavigationViewModel>this.getModel("NavigationViewModel");
 
         return m("div", { class: "mdl-layout__drawer",
-            oninit: () => { this.viewModel.init(); },
             oncreate: () => { Util.upgradeMdl(); }
         }, [
             this.createLiveStreamContent(), //ライブ配信リンク
