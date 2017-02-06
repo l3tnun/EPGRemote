@@ -17,17 +17,29 @@ import SnackbarComponent from '../Component/Snackbar/SnackbarComponent';
 * 親ページの View で使用される
 */
 abstract class ParentPageView extends View {
+    private dialogComponents: { [key: string]: DialogComponent } = {};
     private headerMenuIconComponent = new HeaderMenuIconComponent();
     private headerComponent = new HeaderComponent();
     private diskMenuContentComponent = new DiskMenuContentComponent();
     private headerMenuListComponent = new HeaderMenuListComponent();
     private navigationComponent = new NavigationComponent();
-    private dialogComponent = new DialogComponent();
     private diskDialogComponent = new DiskDialogComponent();
     private snackbarComponent = new SnackbarComponent();
 
     //Mithril へ渡される部分
     public abstract execute(): Mithril.Vnode<any, any>
+
+    /**
+    * DialogComponent を生成する
+    * @param id View 内で重複しない文字列
+    */
+    protected getDialogComponent(id: string): DialogComponent {
+        if(typeof this.dialogComponents[id] == "undefined") {
+            this.dialogComponents[id] = new DialogComponent();
+        }
+
+        return this.dialogComponents[id];
+    }
 
     /**
     * header 作成
@@ -69,7 +81,7 @@ abstract class ParentPageView extends View {
     * ディスク空き容量ダイアログ
     */
     protected createDiskDialog(): Mithril.Vnode<any, any> {
-        return m(this.dialogComponent, {
+        return m(this.getDialogComponent(DiskDialogViewModel.dialogId), {
             id: DiskDialogViewModel.dialogId,
             width: 250,
             content: m(this.diskDialogComponent)
