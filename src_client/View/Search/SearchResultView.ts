@@ -28,17 +28,8 @@ class SearchResultView extends View {
             //ヒット件数
             m("div", {
                 class: "search-result-hit-num",
-                onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
-                    //スクロール処理
-                    if(this.viewModel.scrollStatus) {
-                        this.viewModel.scrollStatus = false;
-                        let mainLayout = document.getElementsByClassName("mdl-layout__content")[0];
-                        let start = mainLayout.scrollTop;
-                        let end = vnode.dom.getBoundingClientRect().top - 98 + mainLayout.scrollTop;
-
-                        setTimeout(() => { Scroll.scrollTo(mainLayout, start, end); }, 100);
-                    }
-                }
+                oncreate: (vnode: Mithril.VnodeDOM<any, any>) => { this.scroll(vnode.dom); },
+                onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.scroll(vnode.dom); }
             }, this.viewModel.getResult().length + "件ヒットしました。"),
 
             //検索結果
@@ -46,6 +37,17 @@ class SearchResultView extends View {
                 return this.createContent(program);
             })
         ]);
+    }
+
+    //スクロール処理
+    private scroll(element: Element): void {
+        if(!this.viewModel.scrollStatus) { return; }
+        this.viewModel.scrollStatus = false;
+        let mainLayout = document.getElementsByClassName("mdl-layout__content")[0];
+        let start = mainLayout.scrollTop;
+        let end = element.getBoundingClientRect().top - 98 + mainLayout.scrollTop;
+
+        setTimeout(() => { Scroll.scrollTo(mainLayout, start, end); }, 100);
     }
 
     private createContent(program: { [key: string]: any }): Mithril.Vnode<any, any> {
