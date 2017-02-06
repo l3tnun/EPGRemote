@@ -130,10 +130,7 @@ class SearchAddKeywordView extends SearchOptionBaseView {
                     m("div", { class: "pulldown mdl-layout-spacer" }, [
                         m("select", {
                             value: this.viewModel.autorecMode,
-                            onchange: m.withAttr("value", (value) => { this.viewModel.autorecMode = Number(value); }),
-                            onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
-                                this.selectConfig(<HTMLInputElement>(vnode.dom), this.viewModel.autorecMode);
-                            }
+                            onchange: m.withAttr("value", (value) => { this.viewModel.autorecMode = Number(value); })
                         },
                             this.createRecModeOption(0)
                         )
@@ -196,10 +193,7 @@ class SearchAddKeywordView extends SearchOptionBaseView {
                         value: this.viewModel.transConfig[num]["mode"],
                         onchange: m.withAttr("value", (value) => {
                             this.viewModel.transConfig[num]["mode"] = Number(value);
-                        }),
-                        onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
-                            this.selectConfig(<HTMLInputElement>(vnode.dom), this.viewModel.autorecMode);
-                        }
+                        })
                     }, [
                         m("option", { value: 0 }, "未指定"),
                         this.createRecModeOption(startTranscodeId)
