@@ -51,7 +51,7 @@ class DialogView extends View {
             id: this.getDialogId(),
             class: "dialog",
             oninit: () => { this.dialogStatus = false; },
-            onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.dialogConfig(vnode.dom); }
+            onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.dialogConfig(vnode.dom); },
             onclick: (e: Event) => { this.onclick(e) }
         }, [
             m("div", {
