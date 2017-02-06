@@ -20,6 +20,7 @@ class SearchView extends ParentPageView {
     private searchResultComponent = new SearchResultComponent();
     private searchAddKeywordComponent = new SearchAddKeywordComponent();
     private programInfoDialogComponent = new ProgramInfoDialogComponent();
+    private dialogComponent = new DialogComponent();
 
     public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <SearchViewModel>this.getModel("SearchViewModel");
@@ -44,7 +45,7 @@ class SearchView extends ParentPageView {
             ]),
 
             //予約ダイアログ
-            m(new DialogComponent(), {
+            m(this.dialogComponent, {
                 id: ProgramInfoDialogViewModel.infoDialogId,
                 width: 400,
                 content: m(this.programInfoDialogComponent)

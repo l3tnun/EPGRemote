@@ -14,7 +14,7 @@ class ProgramInfoDialogView extends View {
     private dialog: DialogViewModel;
     private viewModel: ProgramInfoDialogViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
         this.viewModel = <ProgramInfoDialogViewModel>this.getModel("ProgramInfoDialogViewModel");
 
@@ -27,9 +27,7 @@ class ProgramInfoDialogView extends View {
 
         return m("div", {
             class: "program-dialog-frame",
-            config: (_element, isInit, _context) => {
-                if(!isInit) { Util.upgradeMdl(); }
-            }
+            oninit: () => { Util.upgradeMdl(); }
         }, [
             m("div", { class: "program-dialog-title" }, program["title"]),
             m("div", { class: "program-dialog-channel" }, channel["name"]),
@@ -77,8 +75,8 @@ class ProgramInfoDialogView extends View {
     }
 
     //優先度
-    private createPriority(): Mithril.VirtualElement[] {
-        let options: Mithril.VirtualElement[] = [];
+    private createPriority(): Mithril.Vnode<any, any>[] {
+        let options: Mithril.Vnode<any, any>[] = [];
         for(let i = 20; i > 0; i--) { options.push(m("option", { value: i }, String(i))); }
 
         return [
@@ -95,17 +93,14 @@ class ProgramInfoDialogView extends View {
                     id: "priority_selector",
                     class: "mdl-textfield__input program-dialog-label",
                     value: this.viewModel.priority,
-                    onchange: m.withAttr("value", (value) => { this.viewModel.priority = Number(value); }),
-                    config: (element, isInit, context) => {
-                        this.selectConfig(<HTMLInputElement>element, isInit, context, this.viewModel.priority);
-                    }
+                    onchange: m.withAttr("value", (value) => { this.viewModel.priority = Number(value); })
                 }, options)
             ])
         ];
     }
 
     //チェックボックス生成
-    private createCheckBox(label: string, checked: Function, onchange: Function): Mithril.VirtualElement {
+    private createCheckBox(label: string, checked: Function, onchange: Function): Mithril.Vnode<any, any> {
         return m("div", {
             style: "display: table-cell; padding-left: 8px;"
         }, [
@@ -116,8 +111,7 @@ class ProgramInfoDialogView extends View {
                     type: "checkbox",
                     class: "mdl-checkbox__input",
                     checked: checked(),
-                    onchange: m.withAttr("checked", (value) => { onchange(value) }),
-                    config: this.checkboxConfig
+                    onchange: m.withAttr("checked", (value) => { onchange(value) })
                 }),
                 m("span", {
                     class: "mdl-checkbox__label program-dialog-label"
@@ -127,7 +121,7 @@ class ProgramInfoDialogView extends View {
     }
 
     //録画モードセレクタ
-    private createRecMode(): Mithril.VirtualElement {
+    private createRecMode(): Mithril.Vnode<any, any> {
         let recMode = this.viewModel.getRecModeList();
 
         return m("div", {
@@ -141,10 +135,7 @@ class ProgramInfoDialogView extends View {
                     id: "rec_mode_selector",
                     class: "mdl-textfield__input program-dialog-label",
                     value: this.viewModel.recMode,
-                    onchange: m.withAttr("value", (value) => { this.viewModel.recMode = Number(value); }),
-                    config: (element, isInit, context) => {
-                        this.selectConfig(<HTMLInputElement>element, isInit, context, this.viewModel.recMode);
-                    }
+                    onchange: m.withAttr("value", (value) => { this.viewModel.recMode = Number(value); })
                  },
                  recMode.map((rec: { [key: string]: any }) => {
                      return m("option", { value: rec["id"] }, rec["name"]);
@@ -154,7 +145,7 @@ class ProgramInfoDialogView extends View {
     }
 
     //予約ボタン
-    private createRecButton(): Mithril.VirtualElement {
+    private createRecButton(): Mithril.Vnode<any, any> {
         let program = this.viewModel.getProgram();
         let recModeDefaultId = this.viewModel.getRecModeDefaultId();
 
@@ -182,7 +173,7 @@ class ProgramInfoDialogView extends View {
     }
 
     //自動予約ボタン
-    private createAutorecButton(): Mithril.VirtualElement {
+    private createAutorecButton(): Mithril.Vnode<any, any> {
         let program = this.viewModel.getProgram();
 
         return  m("button", {
@@ -194,16 +185,16 @@ class ProgramInfoDialogView extends View {
     }
 
     //検索ボタン
-    private createSearch(): Mithril.VirtualElement {
+    private createSearch(): Mithril.Vnode<any, any> {
         return m("button", { class: "mdl-button mdl-js-button mdl-button--primary",
             onclick: () => {
                 this.dialog.close();
                 m.route.set("/search", this.createSearchQuery());
             },
-            config: (element, isInit, _context) => {
-                if(!isInit && Util.getRoute() == "/search") {
-                    (<HTMLElement>element).style.display = "none";
-                }
+            oncreate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                if(Util.getRoute() != "/search") { return; }
+                (<HTMLElement>(vnode.dom)).style.display = "none";
+
             }
         }, "番組検索" )
     }
