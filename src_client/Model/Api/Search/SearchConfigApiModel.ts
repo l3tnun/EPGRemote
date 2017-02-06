@@ -19,7 +19,7 @@ interface SearchConfigApiModelInterface extends ApiModel {
 */
 class SearchConfigApiModel implements SearchConfigApiModelInterface {
     private genres: { [key: string]: any }[] = [];
-    private channel: { [key: string]: any }[];
+    private channel: { [key: string]: any }[] = [];
     private subGenre: { [key: number]: { [key:number]: string } } = {};
     private recMode: { [key: string]: any }[] = [];
     private startTranscodeId: number | null = null;
