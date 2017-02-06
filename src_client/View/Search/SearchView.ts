@@ -16,6 +16,10 @@ import ProgramInfoDialogViewModel from '../../ViewModel/Program/ProgramInfoDialo
 */
 class SearchView extends ParentPageView {
     private viewModel: SearchViewModel;
+    private searchOptionComponent = new SearchOptionComponent();
+    private searchResultComponent = new SearchResultComponent();
+    private searchAddKeywordComponent = new SearchAddKeywordComponent();
+    private programInfoDialogComponent = new ProgramInfoDialogComponent();
 
     public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <SearchViewModel>this.getModel("SearchViewModel");
@@ -34,16 +38,16 @@ class SearchView extends ParentPageView {
             this.createNavigation(),
 
             this.mainLayout([
-                m(new SearchOptionComponent()),
-                m(new SearchResultComponent()),
-                m(new SearchAddKeywordComponent())
+                m(this.searchOptionComponent),
+                m(this.searchResultComponent),
+                m(this.searchAddKeywordComponent)
             ]),
 
             //予約ダイアログ
             m(new DialogComponent(), {
                 id: ProgramInfoDialogViewModel.infoDialogId,
                 width: 400,
-                content: m(new ProgramInfoDialogComponent())
+                content: m(this.programInfoDialogComponent)
             }),
 
             //ディスク空き容量ダイアログ
