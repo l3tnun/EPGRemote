@@ -82,10 +82,7 @@ class SearchOptionView extends SearchOptionBaseView {
                  m("div", { class: "pulldown mdl-layout-spacer" }, [
                     m("select", {
                         value: this.viewModel.channelValue,
-                        onchange: m.withAttr("value", (value) => { this.viewModel.channelValue = Number(value); }),
-                        onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
-                            this.selectConfig(<HTMLInputElement>vnode.dom, this.viewModel.programTimeValue);
-                        }
+                        onchange: m.withAttr("value", (value) => { this.viewModel.channelValue = Number(value); })
                     }, [
                         m("option", { value: 0 }, "すべて"),
                         this.viewModel.getChannel().map((channel: { [key: string]: any }) => {
@@ -151,10 +148,7 @@ class SearchOptionView extends SearchOptionBaseView {
                         onchange: m.withAttr("value", (value) => {
                             this.viewModel.genreValue = Number(value);
                             this.viewModel.isInitSubGenre = false;
-                        }),
-                        onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
-                            this.selectConfig(<HTMLInputElement>vnode.dom, this.viewModel.programTimeValue);
-                        }
+                        })
                     },
                         m("option", { value: 0 }, "すべて"),
                         this.viewModel.getGenres().map((genres: { [key: string]: any }) => {
@@ -169,10 +163,7 @@ class SearchOptionView extends SearchOptionBaseView {
                 m("div", { class: "pulldown mdl-layout-spacer" }, [
                     m("select", {
                         value: this.viewModel.subGenreValue,
-                        onchange: m.withAttr("value", (value) => { this.viewModel.subGenreValue = value; }),
-                        onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
-                            this.selectConfig(<HTMLInputElement>vnode.dom, this.viewModel.programTimeValue);
-                        }
+                        onchange: m.withAttr("value", (value) => { this.viewModel.subGenreValue = value; })
                     },
                         this.createSubGenreOption()
                     )
@@ -223,10 +214,7 @@ class SearchOptionView extends SearchOptionBaseView {
                         value: this.viewModel.programTimeValue,
                         onchange: m.withAttr("value", (value) => {
                             this.viewModel.programTimeValue = Number(value)
-                        }),
-                        onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
-                            this.selectConfig(<HTMLInputElement>vnode.dom, this.viewModel.programTimeValue);
-                        }
+                        })
                     }, this.createProgramTimeOption() )
                 ])
             ]),
@@ -240,10 +228,7 @@ class SearchOptionView extends SearchOptionBaseView {
                 m("div", { class: "pulldown mdl-layout-spacer" }, [
                     m("select", {
                         value: this.viewModel.periodValue,
-                        onchange: m.withAttr("value", (value) => { this.viewModel.periodValue = value; } ),
-                        onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
-                            this.selectConfig(<HTMLInputElement>vnode.dom, this.viewModel.programTimeValue);
-                        }
+                        onchange: m.withAttr("value", (value) => { this.viewModel.periodValue = value; } )
                     }, [
                         this.createPeriodOption()
                     ])
