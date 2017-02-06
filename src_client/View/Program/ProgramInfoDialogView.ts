@@ -93,7 +93,10 @@ class ProgramInfoDialogView extends View {
                     id: "priority_selector",
                     class: "mdl-textfield__input program-dialog-label",
                     value: this.viewModel.priority,
-                    onchange: m.withAttr("value", (value) => { this.viewModel.priority = Number(value); })
+                    onchange: m.withAttr("value", (value) => { this.viewModel.priority = Number(value); }),
+                    onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                        this.selectConfig(<HTMLInputElement>(vnode.dom), this.viewModel.priority);
+                    }
                 }, options)
             ])
         ];
@@ -111,7 +114,9 @@ class ProgramInfoDialogView extends View {
                     type: "checkbox",
                     class: "mdl-checkbox__input",
                     checked: checked(),
-                    onchange: m.withAttr("checked", (value) => { onchange(value) })
+                    onchange: m.withAttr("checked", (value) => { onchange(value) }),
+                    oninit: () => { this.checkboxInit(); },
+                    onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.checkboxConfig(<HTMLInputElement>(vnode.dom)) }
                 }),
                 m("span", {
                     class: "mdl-checkbox__label program-dialog-label"
@@ -135,7 +140,10 @@ class ProgramInfoDialogView extends View {
                     id: "rec_mode_selector",
                     class: "mdl-textfield__input program-dialog-label",
                     value: this.viewModel.recMode,
-                    onchange: m.withAttr("value", (value) => { this.viewModel.recMode = Number(value); })
+                    onchange: m.withAttr("value", (value) => { this.viewModel.recMode = Number(value); }),
+                    onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                        this.selectConfig(<HTMLInputElement>(vnode.dom), this.viewModel.recMode);
+                    }
                  },
                  recMode.map((rec: { [key: string]: any }) => {
                      return m("option", { value: rec["id"] }, rec["name"]);
