@@ -29,7 +29,6 @@ abstract class View extends MithrilBase {
         }
     }
 
-    //TODO fix
     /**
     * ふわっと表示させる
     */
