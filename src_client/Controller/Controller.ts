@@ -37,6 +37,7 @@ abstract class Controller extends MithrilBase {
     public onUpdate(): void {
         if(this.queryChanged) { this.initModel(); }
         this.query = this.newQuery;
+        this.queryChanged = false;
     }
 
     /**
