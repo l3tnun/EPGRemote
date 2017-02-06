@@ -29,16 +29,15 @@ abstract class View extends MithrilBase {
         }
     }
 
+    //TODO fix
     /**
     * ふわっと表示させる
     */
-    /*protected addShowAnimetion(element: Element, isInit: boolean): void {
-        if(!isInit) {
-            setTimeout(() => {
-                (<HTMLElement>element).style.opacity = "1";
-            }, 100);
-        }
-    }*/
+    protected addShowAnimetion(element: Element): void {
+        setTimeout(() => {
+            (<HTMLElement>element).style.opacity = "1";
+        }, 100);
+    }
 }
 
 export default View;
