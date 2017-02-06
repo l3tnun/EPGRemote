@@ -133,13 +133,13 @@ class KeywordModel extends ApiModel {
 
     private getWeeks(weeks: number): { [key: number]: boolean } {
         let hash: { [key: number]: boolean } = {};
-        if((weeks | 0x1) == weeks)  { hash[0] = true; }
-        if((weeks | 0x2) == weeks)  { hash[1] = true; }
-        if((weeks | 0x4) == weeks)  { hash[2] = true; }
-        if((weeks | 0x8) == weeks)  { hash[3] = true; }
-        if((weeks | 0x10) == weeks) { hash[4] = true; }
-        if((weeks | 0x20) == weeks) { hash[5] = true; }
-        if((weeks | 0x40) == weeks) { hash[6] = true; }
+        hash[0] = ((weeks | 0x1) == weeks);
+        hash[1] = ((weeks | 0x2) == weeks);
+        hash[2] = ((weeks | 0x4) == weeks);
+        hash[3] = ((weeks | 0x8) == weeks);
+        hash[4] = ((weeks | 0x10) == weeks);
+        hash[5] = ((weeks | 0x20) == weeks);
+        hash[6] = ((weeks | 0x40) == weeks);
 
         return hash;
     }
