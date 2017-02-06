@@ -16,12 +16,13 @@ import DialogViewModel from "../../ViewModel/Dialog/DialogViewModel";
 */
 class DialogView extends View {
     private id: string;
-    private content: Mithril.VirtualElement;
-    private action: Mithril.VirtualElement | null = null;
+    private content: Mithril.Vnode<any, any>;
+    private action: Mithril.Vnode<any, any> | null = null;
     private width: number;
     private autoScroll: boolean = true;
     private scrollOffset: number = 60;
     private dialogViewModel: DialogViewModel;
+    private dialogStatus: boolean = false;
 
     /**
     * @throw DialogView option Error options が正しくない場合発生
@@ -40,7 +41,7 @@ class DialogView extends View {
         if(this.typeCheck("scrollOffset", "number")) { this.scrollOffset = this.options["scrollOffset"]; }
     }
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.dialogViewModel = <DialogViewModel>this.getModel("DialogViewModel");
 
         let child = [this.content];
@@ -49,7 +50,8 @@ class DialogView extends View {
         return m("div", {
             id: this.getDialogId(),
             class: "dialog",
-            config: (element, isInit, context) => { this.dialogConfig(element, isInit, context) },
+            oninit: () => { this.dialogStatus = false; },
+            onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.dialogConfig(vnode.dom); }
             onclick: (e: Event) => { this.onclick(e) }
         }, [
             m("div", {
@@ -60,11 +62,7 @@ class DialogView extends View {
         ]);
     }
 
-    private dialogConfig(element: Element, isInit: boolean, context: Mithril.Context): void {
-        if(!isInit) {
-            context["status"] = this.dialogViewModel.getStatus(this.id);
-        }
-
+    private dialogConfig(element: Element): void {
         if(this.dialogViewModel.getStatus(this.id)) {
             document.getElementById(this.getDialogId())!.setAttribute("style", "");
         }
@@ -86,7 +84,7 @@ class DialogView extends View {
         if(dialogContentParent.offsetHeight >= window.innerHeight - offset && offset > 0) {
             dialogContentParent.style.height = `${ window.innerHeight - offset }px`;
             dialogContentChild.style.height = `${ window.innerHeight - offset - padding }px`;
-            if(!context["status"] && this.dialogViewModel.getStatus(this.id)) {
+            if(!this.dialogStatus && this.dialogViewModel.getStatus(this.id)) {
                 dialogContentChild.scrollTop = 0; //scroll位置を初期化
             }
         } else {
@@ -105,7 +103,7 @@ class DialogView extends View {
             }, 300);
         }
 
-        context["status"] = this.dialogViewModel.getStatus(this.id);
+        this.dialogStatus = this.dialogViewModel.getStatus(this.id);
     }
 
     private getPadding(element: HTMLElement): number {
