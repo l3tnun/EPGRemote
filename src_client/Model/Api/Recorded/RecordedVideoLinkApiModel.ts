@@ -6,18 +6,18 @@ import Util from '../../../Util/Util';
 
 interface RecordedVideoLinkApiModelInterface extends ApiModel {
     update(rec_id: number): void;
-    getLink(): { [key: string]: any }[];
-    getiOSURL(): { [key: string]: string };
-    getAndroidURL(): { [key: string]: string };
+    getLink(): { [key: string]: any }[] | null;
+    getiOSURL(): { [key: string]: string } | null;
+    getAndroidURL(): { [key: string]: string } | null;
 }
 
 /**
 * RecordedVideoLinkApiModel
 */
 class RecordedVideoLinkApiModel implements RecordedVideoLinkApiModelInterface {
-    private videoLink: { [key: string]: any }[] | null = [];
-    private iosURL: { [key: string]: string } | null = {};
-    private androidURL: { [key: string]: string } | null = {};
+    private videoLink: { [key: string]: any }[] | null = null;
+    private iosURL: { [key: string]: string } | null = null;
+    private androidURL: { [key: string]: string } | null = null;
 
     /**
     * ビデオリンクの更新
@@ -46,18 +46,18 @@ class RecordedVideoLinkApiModel implements RecordedVideoLinkApiModelInterface {
     }
 
     //ビデオリンクを返す
-    public getLink(): { [key: string]: any }[] {
-        return this.videoLink == null ? [] : this.videoLink;
+    public getLink(): { [key: string]: any }[] | null {
+        return this.videoLink;
     }
 
     //iOS 用の URL リンクのテンプレートを返す
-    public getiOSURL(): { [key: string]: string } {
-        return this.iosURL == null ? {} : this.iosURL;
+    public getiOSURL(): { [key: string]: string } | null {
+        return this.iosURL;
     }
 
     //Android 用の URL リンクのテンプレートを返す
-    getAndroidURL(): { [key: string]: string } {
-        return this.androidURL == null ? {} : this.androidURL;
+    getAndroidURL(): { [key: string]: string } | null {
+        return this.androidURL;
     }
 }
 

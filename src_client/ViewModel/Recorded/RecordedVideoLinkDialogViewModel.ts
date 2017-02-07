@@ -58,17 +58,17 @@ class RecordedVideoLinkDialogViewModel extends ViewModel {
     }
 
     //video link を返す
-    public getLink(): { [key: string]: any }[] {
+    public getLink(): { [key: string]: any }[] | null {
         return this.recordedVideoLinkApiModel.getLink();
     }
 
     //iOS 用の URL テンプレートテキストを返す
-    public getiOSURL(): { [key: string]: string } {
+    public getiOSURL(): { [key: string]: string } | null {
         return this.recordedVideoLinkApiModel.getiOSURL();
     }
 
     //Android 用の URL テンプレートテキストを返す
-    public getAndroidURL(): { [key: string]: string } {
+    public getAndroidURL(): { [key: string]: string } | null {
         return this.recordedVideoLinkApiModel.getAndroidURL();
     }
 
