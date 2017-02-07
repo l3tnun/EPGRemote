@@ -53,7 +53,7 @@ class RecordedView extends ParentPageView {
 
         return m("div", {
             class: "mdl-layout mdl-js-layout mdl-layout--fixed-header",
-            oninit: () => { this.viewModel.resize(); }
+            oncreate: () => { this.viewModel.resize(); }
         }, [
             this.createHeader("録画済み一覧", [
                 //search menu button
