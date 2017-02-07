@@ -103,7 +103,7 @@ class MenuView extends View {
     /**
     * menu を閉じるときの設定
     */
-    private closeConfig(element: HTMLElement, _isInit: boolean, _context: Mithril.Context): void {
+    private closeConfig(element: HTMLElement): void {
         //content 非表示
         let ListArray = this.getChildren(element);
         ListArray.map((list: HTMLElement) => {
