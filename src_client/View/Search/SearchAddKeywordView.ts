@@ -20,7 +20,7 @@ class SearchAddKeywordView extends SearchOptionBaseView {
         return m("div", {
             class: "search-option-card mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col",
             style: "margin: 38px auto;",
-            oncreate: () => { Util.upgradeMdl(); }
+            oncreate: () => { Util.upgradeMdl(); },
             onupdate: () => { Util.upgradeMdl(); }
         }, [
             m("div", { class: "mdl-card__supporting-text" }, [
