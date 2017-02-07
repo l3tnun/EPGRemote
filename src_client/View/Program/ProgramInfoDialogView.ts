@@ -27,7 +27,7 @@ class ProgramInfoDialogView extends View {
 
         return m("div", {
             class: "program-dialog-frame",
-            oninit: () => { Util.upgradeMdl(); }
+            oncreate: () => { Util.upgradeMdl(); }
         }, [
             m("div", { class: "program-dialog-title" }, program["title"]),
             m("div", { class: "program-dialog-channel" }, channel["name"]),
@@ -115,7 +115,7 @@ class ProgramInfoDialogView extends View {
                     class: "mdl-checkbox__input",
                     checked: checked(),
                     onchange: m.withAttr("checked", (value) => { onchange(value) }),
-                    oninit: () => { this.checkboxInit(); },
+                    oncreate: () => { this.checkboxInit(); },
                     onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.checkboxConfig(<HTMLInputElement>(vnode.dom)) }
                 }),
                 m("span", {
