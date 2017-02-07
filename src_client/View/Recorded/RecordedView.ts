@@ -3,7 +3,6 @@
 import * as m from 'mithril';
 import ParentPageView from '../ParentPageView';
 import DateUtil from '../../Util/DateUtil';
-import DialogComponent from '../../Component/Dialog/DialogComponent';
 import DialogViewModel from '../../ViewModel/Dialog/DialogViewModel';
 import RecordedViewModel from '../../ViewModel/Recorded/RecordedViewModel';
 import PaginationComponent from '../../Component/Pagination/PaginationComponent';
@@ -32,7 +31,15 @@ class RecordedView extends ParentPageView {
     private recordedVideoLinkViewModel: RecordedVideoLinkDialogViewModel;
     private recordedSearchMenuViewModel: RecordedSearchMenuViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    private paginationComponent = new PaginationComponent();
+    private menuComponent = new MenuComponent();
+    private recordedMenuContentComponent = new RecordedMenuContentComponent();
+    private recordedProgramInfoDialogComponent = new RecordedProgramInfoDialogComponent();
+    private recordedDeleteVideoDialogComponent = new RecordedDeleteVideoDialogComponent();
+    private recordedVideoLinkDialogComponent = new RecordedVideoLinkDialogComponent();
+    private recordedSearchMenuComponent = new RecordedSearchMenuComponent();
+
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <RecordedViewModel>this.getModel("RecordedViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
         this.paginationViewModel = <PaginationViewModel>this.getModel("PaginationViewModel");
@@ -46,7 +53,7 @@ class RecordedView extends ParentPageView {
 
         return m("div", {
             class: "mdl-layout mdl-js-layout mdl-layout--fixed-header",
-            config: (_element, isInit, _context) => { if(!isInit) { this.viewModel.resize(); } }
+            oninit: () => { this.viewModel.resize(); }
         }, [
             this.createHeader("録画済み一覧", [
                 //search menu button
@@ -62,37 +69,37 @@ class RecordedView extends ParentPageView {
             this.createNavigation(),
 
             this.mainLayout([
-                m(new RecordedSearchMenuComponent()),
+                m(this.recordedSearchMenuComponent),
 
                 this.mainView(),
                 //program menu
-                m(new MenuComponent(), {
+                m(this.menuComponent, {
                     id: RecordedMenuViewModel.id,
-                    content: m(new RecordedMenuContentComponent())
+                    content: m(this.recordedMenuContentComponent)
                 }),
                 m("div", { style: "height: 20px;" }) //dummy
             ]),
 
             //video link dialog
-            m(new DialogComponent(), {
+            m(this.getDialogComponent("RecordedVideoLinkDialogViewModel.dialogId"), {
                 id: RecordedVideoLinkDialogViewModel.dialogId,
                 width: 300,
-                content: m(new RecordedVideoLinkDialogComponent())
+                content: m(this.recordedVideoLinkDialogComponent)
             }),
 
             //delete video dialog
-            m(new DialogComponent(), {
+            m(this.getDialogComponent(RecordedMenuViewModel.deleteVideoDialogId), {
                 id: RecordedMenuViewModel.deleteVideoDialogId,
                 width: 300,
-                content: m(new RecordedDeleteVideoDialogComponent())
+                content: m(this.recordedDeleteVideoDialogComponent)
             }),
 
             //program info dialog
-            m(new DialogComponent(), {
+            m(this.getDialogComponent(RecordedMenuViewModel.programInfoDialogId), {
                 id: RecordedMenuViewModel.programInfoDialogId,
                 width: 300,
                 scrollOffset: 120,
-                content: m(new RecordedProgramInfoDialogComponent())
+                content: m(this.recordedProgramInfoDialogComponent)
             }),
 
             //ディスク空き容量ダイアログ
@@ -104,14 +111,14 @@ class RecordedView extends ParentPageView {
     }
 
     //カードリスト表示、カードタイル表示を切り替える
-    private mainView(): Mithril.VirtualElement | (Mithril.VirtualElement[] | Mithril.Component<{}>)[] {
+    private mainView(): Mithril.Vnode<any, any> | (Mithril.Vnode<any, any>[] | Mithril.Vnode<any, any>)[] {
         if(this.viewModel.getShowStatus() == null) { return m("div"); }
 
         //カードリスト表示
         if(this.viewModel.getShowStatus()) {
             return [
                 this.createCardListView(),
-                m(new PaginationComponent())
+                m(this.paginationComponent())
             ];
         } else { //表表示
             return this.createCardTileView();
@@ -119,14 +126,14 @@ class RecordedView extends ParentPageView {
     }
 
     //カードリスト表示
-    private createCardListView(): Mithril.VirtualElement[] {
+    private createCardListView(): Mithril.Vnode<any, any>[] {
         return this.viewModel.getRecordedList().map((program: { [key: string]: any }) => {
             return this.createCardListContent(program);
         });
     }
 
     //カードリストの中身
-    private createCardListContent(program: { [key: string]: any }): Mithril.VirtualElement {
+    private createCardListContent(program: { [key: string]: any }): Mithril.Vnode<any, any> {
         return m("div", { class: "recorded-list-program mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col" }, [
             m("button", { class: "mdl-button mdl-js-button mdl-button--icon", style: "position: absolute; right: 0px;",
                 onclick: (e: Event) => { this.openMenu(program, <Element>(e.target)); }
@@ -159,7 +166,7 @@ class RecordedView extends ParentPageView {
     }
 
     //カードタイル表示
-    private createCardTileView(): Mithril.VirtualElement {
+    private createCardTileView(): Mithril.Vnode<any, any> {
         return m("div", {
             id: "grid-container",
             style: `width: ${ Math.floor(window.innerWidth / RecordedViewModel.cardWidth) * RecordedViewModel.cardWidth }px;`
@@ -167,12 +174,12 @@ class RecordedView extends ParentPageView {
             this.viewModel.getRecordedList().map((program: { [key: string]: any }) => {
                 return this.createCardTileContent(program)
             }),
-            m(new PaginationComponent())
+            m(this.paginationComponent)
         ]);
     }
 
     //カードタイルの中身
-    private createCardTileContent(program: { [key: string]: any }): Mithril.VirtualElement {
+    private createCardTileContent(program: { [key: string]: any }): Mithril.Vnode<any, any> {
         return  m("div", { class: "recorded-grid-program mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col" }, [
             m("button", {
                 class: "mdl-button mdl-js-button mdl-button--icon",
