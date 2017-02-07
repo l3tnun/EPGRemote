@@ -11,14 +11,14 @@ import DateUtil from '../../../Util/DateUtil';
 class LiveWatchStreamInfoView extends View {
     private viewModel: LiveWatchStreamInfoViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <LiveWatchStreamInfoViewModel>this.getModel("LiveWatchStreamInfoViewModel");
 
         let info = this.viewModel.getInfo();
 
         return m("div", {
             class: "live-program mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col",
-            config: (element, isInit, context) => { this.init(element, isInit, context); }
+            oncreate: () => { this.viewModel.init(); }
         }, [
             m("div", { class: "mdl-card__supporting-text" }, [
                 m("div", { class: "live-program-description" }, "番組情報"),
@@ -28,13 +28,6 @@ class LiveWatchStreamInfoView extends View {
                 m("div", { class: "program-description" }, info["description"])
             ])
         ]);
-    }
-
-    //init
-    private init(_element: Element, isInit: boolean, _context: Mithril.Context): void {
-        if(isInit) { return; }
-
-        this.viewModel.init();
     }
 
     /**

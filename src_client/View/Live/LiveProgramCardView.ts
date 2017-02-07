@@ -29,7 +29,7 @@ class LiveProgramCardView extends View {
         this.viewSingle = this.options["single"];
     }
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <LiveProgramCardViewModel>this.getModel("LiveProgramCardViewModel");
         this.dialogViewModel = <DialogViewModel>this.getModel("DialogViewModel");
         this.dialogContentViewModel = <LiveProgramDialogContentViewModel>this.getModel("LiveProgramDialogContentViewModel");
@@ -37,26 +37,18 @@ class LiveProgramCardView extends View {
         return m("div", {
             id: LiveProgramCardViewModel.cardParentId,
             style: `height: 100%;`,
-            config: (element, isInit, context) => { this.init(element, isInit, context); }
+            oncreate: () => { this.viewModel.setup(m.route.param("type")); }
         }, [
             this.viewSingle ? this.singleCardView() : this.multipleCardView(),
             m("div", { class: "live-program-dummy" }) //dummy space
         ]);
     }
 
-    //view の初回描画時に呼び出される
-    private init(_element: Element, isInit: boolean, _context: Mithril.Context): void {
-        if(isInit) { return; }
-
-        let type: string = m.route.param("type");
-        this.viewModel.setup(type);
-    }
-
     //単一カード表示
-    private singleCardView(): Mithril.VirtualElement {
+    private singleCardView(): Mithril.Vnode<any, any> {
         if(this.viewModel.getList().length == 0) { return m("div"); }
 
-        let result: Mithril.VirtualElement[] = [];
+        let result: Mithril.Vnode<any, any>[] = [];
         this.viewModel.getList().map((data, index, array) => {
             result.push(this.createCardContent(data));
             if(array.length - 1 > index) { result.push(m("hr", { class: "card-line" } )); }
@@ -66,7 +58,7 @@ class LiveProgramCardView extends View {
     }
 
     //複数カード表示
-    private multipleCardView(): Mithril.VirtualElement[] {
+    private multipleCardView(): Mithril.Vnode<any, any>[] {
         return this.viewModel.getList().map((data: { [key: string]: any }) => {
             return m("div", { class: LiveProgramCardView.cardClassStr }, [
                 this.createCardContent(data)
@@ -75,7 +67,7 @@ class LiveProgramCardView extends View {
     }
 
     //1局ごとの番組情報
-    private createCardContent(data: { [key: string]: any }): Mithril.VirtualElement {
+    private createCardContent(data: { [key: string]: any }): Mithril.Vnode<any, any> {
         return m("div", {
             class: "mdl-card__supporting-text card-link",
             onclick: () => {

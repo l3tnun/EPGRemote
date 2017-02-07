@@ -5,7 +5,6 @@ import ParentPageView from '../../ParentPageView';
 import Util from "../../../Util/Util";
 import Scroll from "../../../Util/Scroll";
 import LiveProgramCardComponent from '../../../Component/Live/LiveProgramCardComponent';
-import DialogComponent from '../../../Component/Dialog/DialogComponent';
 import LiveProgramDialogContentComponent from '../../../Component/Live/LiveProgramDialogContentComponent';
 import LiveWatchViewModel from '../../../ViewModel/Live/Watch/LiveWatchViewModel';
 import LiveProgramCardViewModel from '../../../ViewModel/Live/LiveProgramCardViewModel';
@@ -23,24 +22,26 @@ class LiveWatchView extends ParentPageView {
     private liveProgramCardViewModel: LiveProgramCardViewModel;
     private videoViewModel: LiveWatchVideoViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    private liveProgramCardComponent = new LiveProgramCardComponent();
+    private liveProgramDialogContentComponent = new LiveProgramDialogContentComponent();
+    private liveWatchVideoComponent = new LiveWatchVideoComponent();
+    private liveWatchStreamInfoComponent = new LiveWatchStreamInfoComponent();
+    private liveWatchOtherStreamInfoComponent = new LiveWatchOtherStreamInfoComponent();
+    private liveProgramAddTimeButtonComponent = new LiveProgramAddTimeButtonComponent();
+
+    public execute(): Mithril.Vnode<any, any> {
         this.liveWatchViewModel = <LiveWatchViewModel>this.getModel("LiveWatchViewModel");
         this.liveProgramCardViewModel = <LiveProgramCardViewModel>this.getModel("LiveProgramCardViewModel");
         this.videoViewModel = <LiveWatchVideoViewModel>this.getModel("LiveWatchVideoViewModel");
 
         return m("div", {
             class: "live-watch-mdl-layout mdl-layout mdl-js-layout mdl-layout--fixed-header",
-            config: (_element, isInit, _context) => {
-                if(!isInit) {
-                    //video が再生可能か調べる
-                   setTimeout(() => { this.videoViewModel.updateVideoStatus(); }, 1000);
-                }
-            }
+            oncreate: () => { setTimeout(() => { this.videoViewModel.updateVideoStatus(); }, 1000); }
         }, [
             this.createHeader("視聴"),
             this.createNavigation(),
             this.createHeaderMenu(),
-            m(new LiveProgramAddTimeButtonComponent()),
+            m(this.liveProgramAddTimeButtonComponent),
 
             this.createStopButton(),
 
@@ -56,17 +57,16 @@ class LiveWatchView extends ParentPageView {
                 //右側パネル
                 m("div", {
                     class: "fadeIn live-watch-right-panel",
-                    config: (element, isInit) => {
-                        this.addShowAnimetion(element, isInit);
-                    }
+                    oncreate: (vnode: Mithril.VnodeDOM<any, any>) => { this.addShowAnimetion(vnode.dom); },
+                    onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.addShowAnimetion(vnode.dom); }
                 }, this.createRightContent()),
                 m("div", { style: "clear: both;" })
             ]),
 
-            m(new DialogComponent(), {
+            m(this.getDialogComponent(LiveProgramCardViewModel.dialogId), {
                 id: LiveProgramCardViewModel.dialogId,
                 width: 650,
-                content: m(new LiveProgramDialogContentComponent())
+                content: m(this.liveProgramDialogContentComponent)
             }),
 
             this.createDiskDialog(),
@@ -77,29 +77,28 @@ class LiveWatchView extends ParentPageView {
     }
 
     //左側コンテンツ生成
-    private createLeftContent(): Mithril.VirtualElement {
+    private createLeftContent(): Mithril.Vnode<any, any> {
         return m("div", {
             style: `height: 100%; overflow-y: auto;`,
             class: "fadeIn",
-            config: (element, isInit) => {
-                this.addShowAnimetion(element, isInit);
-            }
+            oncreate: (vnode: Mithril.VnodeDOM<any, any>) => { this.addShowAnimetion(vnode.dom); },
+            onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.addShowAnimetion(vnode.dom); }
         }, [
             //video
-            m(new LiveWatchVideoComponent()),
+            m(this.liveWatchVideoComponent),
 
             //番組情報
-            m(new LiveWatchStreamInfoComponent()),
+            m(this.liveWatchStreamInfoComponent),
 
             m("div", { style: "margin-top: 14px;" }),
 
             //他のストリーム
-            m(new LiveWatchOtherStreamInfoComponent())
+            m(this.liveWatchOtherStreamInfoComponent)
         ]);
     }
 
     //右側コンテンツ生成
-    private createRightContent(): Mithril.VirtualElement {
+    private createRightContent(): Mithril.Vnode<any, any> {
         //live 配信が無効の場合は表示しない
         if(!this.liveWatchViewModel.liveIsEnable()) { return m("div"); }
 
@@ -108,21 +107,20 @@ class LiveWatchView extends ParentPageView {
             m("div", { id: "live_program_tab", class: "mdl-tabs" }, [
                  m("div", {
                     class: "mdl-tabs__tab-bar",
-                    config: () => {
-                        Util.upgradeMdl();
-                    }
+                    oncreate: () => { Util.upgradeMdl(); },
+                    onupdate: () => { Util.upgradeMdl(); }
                 }, this.createTab() )
             ]),
 
             //放送中番組の一覧
             m("div", { style: `height: calc(100% - 49px);` }, [
-                m(new LiveProgramCardComponent(), { single: true })
+                m(this.liveProgramCardComponent, { single: true })
             ])
         ]);
     }
 
     //配信停止ボタン
-    private createStopButton(): Mithril.VirtualElement {
+    private createStopButton(): Mithril.Vnode<any, any> {
         return m("button",{
             class: "fab-right-bottom mdl-shadow--8dp mdl-button mdl-js-button mdl-button--fab mdl-button--colored",
             onclick: () => {
@@ -141,7 +139,7 @@ class LiveWatchView extends ParentPageView {
         return (typeof streamId == "undefined") ? null : Number(streamId);
     }
 
-    private createTab(): Mithril.VirtualElement[] {
+    private createTab(): Mithril.Vnode<any, any>[] {
         let activeHash = {
             GR: { className: "mdl-tabs__tab", style: "display: none" },
             BS: { className: "mdl-tabs__tab", style: "display: none" },
@@ -174,7 +172,7 @@ class LiveWatchView extends ParentPageView {
     * type 放送波
     * activeHash activeHash
     */
-    private createTabContent(type: string, activeHash: { [key: string]: any }): Mithril.VirtualElement {
+    private createTabContent(type: string, activeHash: { [key: string]: any }): Mithril.Vnode<any, any> {
         return m("a", {
             id: this.createTabId(type),
             class: activeHash[type]["className"],
