@@ -12,7 +12,7 @@ class LogPageActionDialogContentView extends View {
     private viewModel: LogPageActionDialogViewModel;
     private dialog: DialogViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <LogPageActionDialogViewModel>this.getModel("LogPageActionDialogViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
 
@@ -26,7 +26,7 @@ class LogPageActionDialogContentView extends View {
         ]);
     }
 
-    private createSearchLink(link: { [key: string]: any }): Mithril.VirtualElement {
+    private createSearchLink(link: { [key: string]: any }): Mithril.Vnode<any, any> {
         let search = link["search"];
         if(typeof search == "undefined") { return m("div"); }
 
@@ -36,7 +36,7 @@ class LogPageActionDialogContentView extends View {
         }, "該当自動録画キーワードを編集");
     }
 
-    private createProgramLink(link: { [key: string]: any }): Mithril.VirtualElement {
+    private createProgramLink(link: { [key: string]: any }): Mithril.Vnode<any, any> {
         let program = link["program"];
         if(typeof program == "undefined") { return m("div"); }
 
@@ -46,7 +46,7 @@ class LogPageActionDialogContentView extends View {
         }, "該当時刻の番組表を見る");
     }
 
-    private createRecordedLink(link: { [key: string]: any }): Mithril.VirtualElement {
+    private createRecordedLink(link: { [key: string]: any }): Mithril.Vnode<any, any> {
         let recorded = link["recorded"];
         if(typeof recorded == "undefined") { return m("div"); }
 
