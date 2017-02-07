@@ -118,7 +118,7 @@ class RecordedView extends ParentPageView {
         if(this.viewModel.getShowStatus()) {
             return [
                 this.createCardListView(),
-                m(this.paginationComponent())
+                m(this.paginationComponent)
             ];
         } else { //表表示
             return this.createCardTileView();
