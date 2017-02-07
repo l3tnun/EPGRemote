@@ -10,6 +10,8 @@ class RecordedController extends ParentPageController {
 
     //ViewModel 初期化
     public initModel(): void {
+        super.initModel();
+
         this.viewModel = <RecordedViewModel>this.getModel("RecordedViewModel");
         this.viewModel.init();
         this.viewModel.setup(Util.getCopyQuery());
@@ -29,8 +31,8 @@ class RecordedController extends ParentPageController {
     }
 
     //ページから離れるときに呼び出される
-    public onunload(): void {
-        super.onunload();
+    public onRemove(): void {
+        super.onRemove();
         window.removeEventListener('resize', this.resizeListener, false );
     }
 
