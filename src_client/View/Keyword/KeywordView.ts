@@ -5,7 +5,6 @@ import ParentPageView from '../ParentPageView';
 import Util from '../../Util/Util';
 import PaginationComponent from '../../Component/Pagination/PaginationComponent';
 import PaginationViewModel from '../../ViewModel/Pagination/PaginationViewModel';
-import DialogComponent from '../../Component/Dialog/DialogComponent';
 import DialogViewModel from '../../ViewModel/Dialog/DialogViewModel';
 import KeywordViewModel from '../../ViewModel/Keyword/KeywordViewModel';
 import KeywordInfoDialogComponent from '../../Component/Keyword/KeywordInfoDialogComponent';
@@ -22,7 +21,11 @@ class KeywordView extends ParentPageView {
     private dialog: DialogViewModel;
     private keywordInfoDialogViewModel: KeywordInfoDialogViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    private paginationComponent = new PaginationComponent();
+    private keywordInfoDialogComponent = new KeywordInfoDialogComponent();
+    private keywordDeleteDialogComponent = new KeywordDeleteDialogComponent();
+
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <KeywordViewModel>this.getModel("KeywordViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
         this.keywordInfoDialogViewModel = <KeywordInfoDialogViewModel>this.getModel("KeywordInfoDialogViewModel");
@@ -33,9 +36,8 @@ class KeywordView extends ParentPageView {
 
         return m("div", {
             class: "mdl-layout mdl-js-layout mdl-layout--fixed-header",
-            config: (_element, _isInit, _context) => {
-                this.viewModel.resize();
-            }
+            oncreate: () => { this.viewModel.resize(); },
+            onupdate: () => { this.viewModel.resize(); }
         }, [
             this.createHeader("自動録画のキーワード管理"),
             this.createHeaderMenu(),
@@ -43,24 +45,24 @@ class KeywordView extends ParentPageView {
 
             this.mainLayout([
                 this.mainView(),
-                m(new PaginationComponent(), {
+                m(this.paginationComponent, {
                     maxWidth: 800
                 }),
                 m("div", { style: "height: 20px;" }) //dummy
             ]),
 
             //keyword info dialog
-            m(new DialogComponent(), {
+            m(this.getDialogComponent(KeywordInfoDialogViewModel.dialogId), {
                 id: KeywordInfoDialogViewModel.dialogId,
                 width: 400,
-                content: m(new KeywordInfoDialogComponent())
+                content: m(this.keywordInfoDialogComponent)
             }),
 
             //keyword delete dialog
-            m(new DialogComponent(), {
+            m(this.getDialogComponent(KeywordDeleteDialogViewModel.dialogId), {
                 id: KeywordDeleteDialogViewModel.dialogId,
                 width: 400,
-                content: m(new KeywordDeleteDialogComponent())
+                content: m(this.keywordDeleteDialogComponent)
             }),
 
             //ディスク空き容量ダイアログ
@@ -72,7 +74,7 @@ class KeywordView extends ParentPageView {
     }
 
     //カード表示と表表示を切り替え
-    private mainView(): Mithril.VirtualElement[] {
+    private mainView(): Mithril.Vnode<any, any>[] {
         if(this.viewModel.getShowStatus() == null) { return []; }
 
         if(this.viewModel.getShowStatus()) {
@@ -83,17 +85,18 @@ class KeywordView extends ParentPageView {
     }
 
     //カード表示
-    private createCardView(): Mithril.VirtualElement[] {
+    private createCardView(): Mithril.Vnode<any, any>[] {
         return this.viewModel.getKeywords().map((keyword: { [key: string]: any }) => {
             return this.createCardContent(keyword);
         });
     }
 
     //カードの中身
-    private createCardContent(keyword: { [key: string]: any }): Mithril.VirtualElement {
+    private createCardContent(keyword: { [key: string]: any }): Mithril.Vnode<any, any> {
         return m("div", {
             class: "keyword-card mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col",
-            config: (_element, _isInit, _context) => { Util.upgradeMdl(); },
+            oncreate: () => { Util.upgradeMdl(); },
+            onupdate: () => { Util.upgradeMdl(); },
             onclick: (e: Event) => {
                 if((<HTMLElement>e.target).className.indexOf("mdl-switch") != -1) { return; }
                 //open keyword info dialog
@@ -105,12 +108,12 @@ class KeywordView extends ParentPageView {
                 m("div", { class: "keyword-card-title" }, keyword["keyword"]),
                 m("label", {
                     class: "keyword-card-toggle mdl-switch mdl-js-switch mdl-js-ripple-effect",
-                    config: (element, _isInit, _context) => {
+                    onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
                         //toggle の設定
-                        if(keyword["kw_enable"] && element.className.indexOf("is-checked") == -1) {
-                            element.classList.add("is-checked");
-                        } else if(!keyword["kw_enable"] && element.className.indexOf("is-checked") != -1) {
-                            element.classList.remove("is-checked");
+                        if(keyword["kw_enable"] && vnode.dom.className.indexOf("is-checked") == -1) {
+                            vnode.dom.classList.add("is-checked");
+                        } else if(!keyword["kw_enable"] && vnode.dom.className.indexOf("is-checked") != -1) {
+                            vnode.dom.classList.remove("is-checked");
                         }
                     }
                 }, [
@@ -132,7 +135,7 @@ class KeywordView extends ParentPageView {
     }
 
     //表表示
-    private createTableView(): Mithril.VirtualElement {
+    private createTableView(): Mithril.Vnode<any, any> {
         let keywords = this.viewModel.getKeywords();
         if(keywords.length == 0) { return m("div"); }
 
@@ -164,7 +167,7 @@ class KeywordView extends ParentPageView {
     }
 
     //表の中身
-    private createTableContent(keyword: { [key: string]: any }): Mithril.VirtualElement {
+    private createTableContent(keyword: { [key: string]: any }): Mithril.Vnode<any, any> {
         let option = keyword["option"].split(":");
         let listAddClass = keyword["kw_enable"] ? "" : "keyword-list-disable";
 
