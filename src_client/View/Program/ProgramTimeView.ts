@@ -13,7 +13,7 @@ import ProgramViewModel from '../../ViewModel/Program/ProgramViewModel';
 class ProgramTimeView extends View {
     private viewModel: ProgramViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <ProgramViewModel>this.getModel("ProgramViewModel");
 
         return m("div", {
@@ -24,9 +24,13 @@ class ProgramTimeView extends View {
         ]);
     }
 
-    private create(): Mithril.VirtualElement[] {
+    private create(): Mithril.Vnode<any, any>[] {
         let viewConfig = this.viewModel.getViewConfig();
+        if(viewConfig == null) { return []; }
+
         let time = this.viewModel.getTime();
+        if(time == null) { return []; }
+
         let start = DateUtil.getJaDate(new Date(time["startTime"])).getHours();
         let end: number;
 
@@ -38,7 +42,7 @@ class ProgramTimeView extends View {
             end = start + 23;
         }
 
-        let result: Mithril.VirtualElement[] = [];
+        let result: Mithril.Vnode<any, any>[] = [];
         for(let i = start; i < end + 1; i++) {
             result.push(this.createContent(
                 i % 24, viewConfig["timeWidth"], viewConfig["timeHeight"], viewConfig["timeFontSize"]
@@ -48,12 +52,13 @@ class ProgramTimeView extends View {
     }
 
     private createStyle(): string {
-        let offset = Util.getHeaderHeight() + this.viewModel.getViewConfig()["stationHeight"];
+        let viewConfig = this.viewModel.getViewConfig();
+        let offset = viewConfig == null ? 0 : Util.getHeaderHeight() + viewConfig["stationHeight"];
 
         return `height: calc(100% - ${ offset }px);`
     }
 
-    private createContent(num: number, timeWidth: number, timeHeight: number, timeFontSize: number): Mithril.VirtualElement {
+    private createContent(num: number, timeWidth: number, timeHeight: number, timeFontSize: number): Mithril.Vnode<any, any> {
         return m("div", { class: `time time_${ num }`,
             style: `max-width: ${ timeWidth }px;`
             + `min-width: ${ timeWidth }px;`

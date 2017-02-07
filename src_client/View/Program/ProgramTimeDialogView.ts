@@ -15,11 +15,12 @@ class ProgramTimeDialogView extends View {
     private viewModel: ProgramViewModel;
     private dialog: DialogViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <ProgramViewModel>this.getModel("ProgramViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
 
-        if(typeof this.viewModel.getTime()["startTime"] == "undefined") { return m("div", ""); }
+        let time = this.viewModel.getTime();
+        if(time == null) { return m("div"); }
 
         return m("div", { class: "program-time-dialog-content" }, [
             m("div", "時間"),
@@ -35,14 +36,14 @@ class ProgramTimeDialogView extends View {
     }
 
     //時刻
-    private createTime(): Mithril.VirtualElement[] {
-        let result: Mithril.VirtualElement[] = [];
+    private createTime(): Mithril.Vnode<any, any>[] {
+        let result: Mithril.Vnode<any, any>[] = [];
         for(let i = 0; i < 23; i += 2) { result.push(this.createTimeContent(i)); }
 
         return result;
     }
 
-    private createTimeContent(i: number): Mithril.VirtualElement {
+    private createTimeContent(i: number): Mithril.Vnode<any, any> {
         let query = Util.getCopyQuery();
         let text = Util.strZeroPlus(i, 2);
 
@@ -58,8 +59,8 @@ class ProgramTimeDialogView extends View {
     }
 
     //日付
-    private createDay(): Mithril.VirtualElement[] {
-        let result: Mithril.VirtualElement[] = [];
+    private createDay(): Mithril.Vnode<any, any>[] {
+        let result: Mithril.Vnode<any, any>[] = [];
 
         result.push(this.createDayContent("現在"));
 
@@ -77,7 +78,7 @@ class ProgramTimeDialogView extends View {
         return result;
     }
 
-    private createDayContent(name: string, timeQuery: string | null = null): Mithril.VirtualElement {
+    private createDayContent(name: string, timeQuery: string | null = null): Mithril.Vnode<any, any> {
         let query = Util.getCopyQuery();
 
         if(query["time"] == timeQuery) { return this.createNowElement(name); }
@@ -88,14 +89,14 @@ class ProgramTimeDialogView extends View {
         return this.createElement(name, <{ [key: string]: string; }>query);
     }
 
-    private createNowElement(name: string): Mithril.VirtualElement {
+    private createNowElement(name: string): Mithril.Vnode<any, any> {
         return m("a", {
             class: "program-time-dialog-time",
             onclick: () => { this.dialog.close(); }
         }, name);
     }
 
-    private createElement(name: string, query: { [key: string]: string }): Mithril.VirtualElement {
+    private createElement(name: string, query: { [key: string]: string }): Mithril.Vnode<any, any> {
         return m("a", {
             class: "program-time-dialog-time",
             onclick: () => {

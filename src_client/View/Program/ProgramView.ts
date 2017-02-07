@@ -4,7 +4,6 @@ import * as m from 'mithril';
 import ParentPageView from '../ParentPageView';
 import Util from '../../Util/Util';
 import DateUtil from '../../Util/DateUtil';
-import DialogComponent from '../../Component/Dialog/DialogComponent';
 import DialogViewModel from '../../ViewModel/Dialog/DialogViewModel';
 import ProgramViewModel from '../../ViewModel/Program/ProgramViewModel';
 import ProgramStationComponent from '../../Component/Program/ProgramStationComponent';
@@ -26,8 +25,18 @@ class ProgramView extends ParentPageView {
     private viewModel: ProgramViewModel;
     private dialog: DialogViewModel;
     private programStorageViewModel: ProgramStorageViewModel;
+    private query: { [key: string]: any } | null = null;
 
-    public execute(): Mithril.VirtualElement {
+    private programStationComponent = new ProgramStationComponent();
+    private programTimeComponent = new ProgramTimeComponent();
+    private programContentComponent = new ProgramContentComponent();
+    private programTimeDialogComponent = new ProgramTimeDialogComponent();
+    private programInfoDialogComponent = new ProgramInfoDialogComponent();
+    private liveProgramDialogContentComponent = new LiveProgramDialogContentComponent();
+    private programGenreDialogComponent = new ProgramGenreDialogComponent();
+    private programGenreDialogActionComponent = new ProgramGenreDialogActionComponent();
+
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <ProgramViewModel>this.getModel("ProgramViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
         this.programStorageViewModel = <ProgramStorageViewModel>this.getModel("ProgramStorageViewModel");
@@ -64,20 +73,21 @@ class ProgramView extends ParentPageView {
                 this.createNavigation(),
 
                 //局名
-                m(new ProgramStationComponent()),
+                m(this.programStationComponent),
 
                 //時刻
-                m(new ProgramTimeComponent()),
+                m(this.programTimeComponent),
 
                 //program
                 m("div", {
                     id: ProgramViewModel.programFrameId,
                     style: this.createFrameStyle(),
-                    config: (element, isInit, context) => { this.frameConfig(element, isInit, context); }
+                    oncreate: (vnode: Mithril.VnodeDOM<any, any>) => { this.frameInit(vnode.dom); },
+                    onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.frameConfig(vnode.dom); }
                 }, [
                     //時刻線
                     m("div", { id: "tableNowBar", style: this.createNowBarStyle() }, "now" ),
-                    m(new ProgramContentComponent())
+                    m(this.programContentComponent)
                 ]),
 
                 //プログレスバー
@@ -93,33 +103,33 @@ class ProgramView extends ParentPageView {
             ]),
 
             //時刻ダイアログ
-            m(new DialogComponent(), {
+            m(this.getDialogComponent(ProgramViewModel.timeDialogId), {
                 id: ProgramViewModel.timeDialogId,
                 width: 820,
-                content: m(new ProgramTimeDialogComponent())
+                content: m(this.programTimeDialogComponent)
             }),
 
             //予約ダイアログ
-            m(new DialogComponent(), {
+            m(this.getDialogComponent(ProgramInfoDialogViewModel.infoDialogId), {
                 id: ProgramInfoDialogViewModel.infoDialogId,
                 width: 400,
-                content: m(new ProgramInfoDialogComponent())
+                content: m(this.programInfoDialogComponent)
             }),
 
             //ライブ配信ダイアログ
-            m(new DialogComponent(), {
+            m(this.getDialogComponent(LiveProgramCardViewModel.dialogId), {
                 id: LiveProgramCardViewModel.dialogId,
                 width: 650,
-                content: m(new LiveProgramDialogContentComponent())
+                content: m(this.liveProgramDialogContentComponent)
             }),
 
             //表示ジャンルダイアログ
-            m(new DialogComponent(), {
+            m(this.getDialogComponent(ProgramStorageViewModel.genreDialogId), {
                 id: ProgramStorageViewModel.genreDialogId,
                 width: 400,
                 scrollOffset: 100,
-                content: m(new ProgramGenreDialogComponent()),
-                action: m(new ProgramGenreDialogActionComponent())
+                content: m(this.programGenreDialogComponent),
+                action: m(this.programGenreDialogActionComponent)
             }),
 
             //ディスク空き容量ダイアログ
@@ -133,15 +143,14 @@ class ProgramView extends ParentPageView {
     //header title を生成する
     private createTitleStr(): string {
         let titleStr = "番組表";
-        let starttime = this.viewModel.getTime()["startTime"];
-
-        if(typeof starttime == "undefined") { return titleStr; }
+        if(this.viewModel.getTime() == null) { return titleStr; }
+        let starttime = this.viewModel.getTime()!["startTime"];
 
         if(typeof m.route.param("type") != "undefined") {
             titleStr += m.route.param("type") + DateUtil.format(DateUtil.getJaDate(new Date(starttime)), " MM/dd(w)");
         } else if(typeof m.route.param("ch") != "undefined") {
             let channels = this.viewModel.getChannel();
-            titleStr = channels.length == 0 ? "" : channels[0]["name"];
+            titleStr = channels == null || channels.length == 0 ? "" : channels[0]["name"];
         }
 
         return titleStr;
@@ -149,8 +158,9 @@ class ProgramView extends ParentPageView {
 
     private createFrameStyle(): string {
         let viewConfig = this.viewModel.getViewConfig();
-        let stationHeight = viewConfig["stationHeight"];
-        let timeWidth = viewConfig["timeWidth"];
+
+        let stationHeight = viewConfig == null ? 0 : viewConfig["stationHeight"];
+        let timeWidth = viewConfig == null ? 0 : viewConfig["timeWidth"];
 
         return `height: calc(100% - ${ Util.getHeaderHeight() + stationHeight }px);`
             + `width: calc(100% - ${ timeWidth }px);`
@@ -158,42 +168,51 @@ class ProgramView extends ParentPageView {
             + `overflow: scroll;`;
     }
 
-    private frameConfig(element: Element, isInit: boolean, context: Mithril.Context): void {
-        let qyeryStr = JSON.stringify(Util.getCopyQuery());
-
-        if(!isInit) {
-            //スクロール処理
+    private frameInit(element: Element): void {
+        //スクロール処理
+        (<HTMLElement>element).onscroll = () => {
             let stationFrame =  document.getElementById(ProgramViewModel.stationFrameId)!;
             let timeFrame = document.getElementById(ProgramViewModel.timeFrameId)!;
-            (<HTMLElement>element).onscroll = () => {
-                stationFrame.scrollLeft = element.scrollLeft;
-                timeFrame.scrollTop = element.scrollTop;
-            }
-
-            context["query"] = null;
-        } else if(context["query"] == null || context["query"] != qyeryStr) {
-            //init scroll position
-            context["query"] = qyeryStr;
-            (<HTMLElement>element).scrollLeft = 0;
-            (<HTMLElement>element).scrollTop = 0;
+            stationFrame.scrollLeft = element.scrollLeft;
+            timeFrame.scrollTop = element.scrollTop;
         }
+
+        this.query = null;
+    }
+
+    private frameConfig(element: Element): void {
+        let qyeryStr = Util.getCopyQuery();
+        if(this.query != null || this.query == qyeryStr) { return; }
+
+        //init scroll position
+        this.query = qyeryStr;
+        (<HTMLElement>element).scrollLeft = 0;
+        (<HTMLElement>element).scrollTop = 0;
     }
 
     private createNowBarStyle(): string {
         let titles = document.getElementsByClassName("station_title");
         if(typeof titles[2] == "undefined") { return "top: -100px;"; }
 
-        return `width: ${ (titles.length - 2) * this.viewModel.getViewConfig()["stationWidth"] }px;`
+        let viewConfig = this.viewModel.getViewConfig();
+        let stationWidth = 0;
+        if(viewConfig != null) { stationWidth = viewConfig["stationWidth"]; }
+
+        return `width: ${ (titles.length - 2) * stationWidth }px;`
             + `top: ${ this.getNowBarPosition() }px;`
     }
 
     private getNowBarPosition(): number {
-        if(Util.hashSize(this.viewModel.getTime()) == 0) { return -100; }
+        let viewConfig = this.viewModel.getViewConfig();
+        let time = this.viewModel.getTime();
+        if(time == null || Util.hashSize(time) == 0) { return -100; }
+
+        let timeHeight = 0;
+        if(viewConfig != null) { timeHeight = viewConfig["timeHeight"]; }
 
         let now = new Date().getTime();
-        let start = new Date(this.viewModel.getTime()["startTime"]).getTime();
-        let end = new Date(this.viewModel.getTime()["endTime"]).getTime();
-        let timeHeight = this.viewModel.getViewConfig()["timeHeight"];
+        let start = new Date(time["startTime"]).getTime();
+        let end = new Date(time["endTime"]).getTime();
 
         let position = Math.floor((now - start) / 1000 / 60) * Math.floor(timeHeight / 60);
 
