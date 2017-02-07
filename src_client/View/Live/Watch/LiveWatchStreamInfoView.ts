@@ -17,8 +17,7 @@ class LiveWatchStreamInfoView extends View {
         let info = this.viewModel.getInfo();
 
         return m("div", {
-            class: "live-program mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col",
-            oncreate: () => { this.viewModel.init(); }
+            class: "live-program mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col"
         }, [
             m("div", { class: "mdl-card__supporting-text" }, [
                 m("div", { class: "live-program-description" }, "番組情報"),
