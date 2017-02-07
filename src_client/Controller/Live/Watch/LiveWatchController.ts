@@ -29,7 +29,7 @@ class LiveWatchController extends ParentPageController {
         this.socketIoManager.enableModule("enableLiveStream");
     }
 
-    protected onRemove(): void {
+    public onRemove(): void {
         super.onRemove();
         this.liveWatchVideo.HlsDestroy();
     }

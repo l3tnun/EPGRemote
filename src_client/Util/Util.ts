@@ -13,7 +13,7 @@ namespace Util {
     export const upgradeMdl = (): void => {
         componentHandler.upgradeDom();
         let el = document.getElementsByClassName( "mdl-layout__container" );
-        for(let i = 0; i < el.length - 1; i++) { el[i].parentNode.removeChild(el[i]); }
+        for(let i = 0; i < el.length - 1; i++) { el[i].parentNode!.removeChild(el[i]); }
     }
 
     /**

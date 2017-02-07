@@ -55,7 +55,7 @@ class ProgramApiModel implements ProgramApiModelInterface {
     public update(diff: boolean = false): void {
         let option = this.createProgramOption();
 
-        if(diff && typeof option.time == "undefined") {
+        if(diff && typeof option.time == "undefined" && this.time != null) {
             option.time = DateUtil.format(DateUtil.getJaDate(new Date(this.time["startTime"])), "yyyyMMddhh");
         }
 

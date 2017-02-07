@@ -45,19 +45,19 @@ abstract class Component implements Mithril.Component<{ [key: string]: any; }, a
         //oninit
         this.oninit = (vnode: Mithril.Vnode<{ [key: string]: any }, any>): void => {
             if(typeof vnode.attrs != "undefined") {
-                controllerInstance.setOptions(vnode.attrs); //args のセット
+                controllerInstance!.setOptions(vnode.attrs); //args のセット
             }
-            controllerInstance.onInit(); //oninit
+            controllerInstance!.onInit(); //oninit
         }
 
         //onbeforeupdate
-        this.onbeforeupdate = (): boolean => { controllerInstance.onBeforeUpdate(); return true; }
+        this.onbeforeupdate = (): boolean => { controllerInstance!.onBeforeUpdate(); return true; }
 
         //onupdate
-        this.onupdate = (): void => { controllerInstance.onUpdate(); }
+        this.onupdate = (): void => { controllerInstance!.onUpdate(); }
 
         //onremove
-        this.onremove = (): void => { controllerInstance.onRemove(); }
+        this.onremove = (): void => { controllerInstance!.onRemove(); }
     }
 
     public static getInstance(): Component | null { return null; }
