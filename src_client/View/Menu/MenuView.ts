@@ -13,7 +13,7 @@ import MenuViewModel from '../../ViewModel/Menu/MenuViewModel';
 */
 class MenuView extends View {
     private id: string;
-    private content: Mithril.VirtualElement;
+    private content: Mithril.Vnode<any, any>;
     private viewModel: MenuViewModel;
 
     /**
@@ -28,20 +28,15 @@ class MenuView extends View {
         this.content = this.options["content"];
     }
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <MenuViewModel>this.getModel("MenuViewModel");
 
         return m("div", [
             m("div", {
                 id: this.id,
                 class: "menu-list mdl-shadow--2dp",
-                config: (element, isInit, context) => {
-                    if(this.id == this.viewModel.getId()) {
-                        this.openConfig(<HTMLElement>element, isInit, context);
-                    } else {
-                        this.closeConfig(<HTMLElement>element, isInit, context);
-                    }
-                }
+                oncreate: (vnode: Mithril.VnodeDOM<any, any>) => { this.menuConfig(vnode.dom); },
+                onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.menuConfig(vnode.dom); }
             }, this.content ),
             m("div", {
                 class: MenuViewModel.backgroundClass,
@@ -54,9 +49,20 @@ class MenuView extends View {
     }
 
     /**
+    * menu の設定
+    */
+    private menuConfig(element: Element): void {
+        if(this.id == this.viewModel.getId()) {
+            this.openConfig(<HTMLElement>element);
+        } else {
+            this.closeConfig(<HTMLElement>element);
+        }
+    }
+
+    /**
     * menu を開くときの設定
     */
-    private openConfig(element: HTMLElement, _isInit: boolean, _context: Mithril.Context): void {
+    private openConfig(element: HTMLElement): void {
         let rect = this.viewModel.getRect();
         if(rect == null) { return; }
 
