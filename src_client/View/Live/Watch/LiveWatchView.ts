@@ -9,7 +9,6 @@ import LiveProgramDialogContentComponent from '../../../Component/Live/LiveProgr
 import LiveWatchViewModel from '../../../ViewModel/Live/Watch/LiveWatchViewModel';
 import LiveProgramCardViewModel from '../../../ViewModel/Live/LiveProgramCardViewModel';
 import LiveWatchVideoComponent from '../../../Component/Live/Watch/LiveWatchVideoComponent';
-import LiveWatchVideoViewModel from '../../../ViewModel/Live/Watch/LiveWatchVideoViewModel';
 import LiveWatchStreamInfoComponent from '../../../Component/Live/Watch/LiveWatchStreamInfoComponent';
 import LiveWatchOtherStreamInfoComponent from '../../../Component/Live/Watch/LiveWatchOtherStreamInfoComponent';
 import LiveProgramAddTimeButtonComponent from '../../../Component/Live/LiveProgramAddTimeButtonComponent';
@@ -20,7 +19,6 @@ import LiveProgramAddTimeButtonComponent from '../../../Component/Live/LiveProgr
 class LiveWatchView extends ParentPageView {
     private liveWatchViewModel: LiveWatchViewModel;
     private liveProgramCardViewModel: LiveProgramCardViewModel;
-    private videoViewModel: LiveWatchVideoViewModel;
 
     private liveProgramCardComponent = new LiveProgramCardComponent();
     private liveProgramDialogContentComponent = new LiveProgramDialogContentComponent();
@@ -32,11 +30,9 @@ class LiveWatchView extends ParentPageView {
     public execute(): Mithril.Vnode<any, any> {
         this.liveWatchViewModel = <LiveWatchViewModel>this.getModel("LiveWatchViewModel");
         this.liveProgramCardViewModel = <LiveProgramCardViewModel>this.getModel("LiveProgramCardViewModel");
-        this.videoViewModel = <LiveWatchVideoViewModel>this.getModel("LiveWatchVideoViewModel");
 
         return m("div", {
-            class: "live-watch-mdl-layout mdl-layout mdl-js-layout mdl-layout--fixed-header",
-            oncreate: () => { setTimeout(() => { this.videoViewModel.updateVideoStatus(); }, 1000); }
+            class: "live-watch-mdl-layout mdl-layout mdl-js-layout mdl-layout--fixed-header"
         }, [
             this.createHeader("視聴"),
             this.createNavigation(),

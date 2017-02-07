@@ -16,8 +16,7 @@ class LiveWatchComponent extends Component {
     protected getModels() {
         return {
             LiveWatchViewModel: this.container.get("LiveWatchViewModel"),
-            LiveProgramCardViewModel: this.container.get("LiveProgramCardViewModel"),
-            LiveWatchVideoViewModel: this.container.get("LiveWatchVideoViewModel")
+            LiveProgramCardViewModel: this.container.get("LiveProgramCardViewModel")
         };
     }
 }
