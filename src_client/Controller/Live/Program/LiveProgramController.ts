@@ -11,6 +11,8 @@ class LiveProgramController extends ParentPageController {
     }
 
     public initModel(): void {
+        super.initModel();
+
         (<LiveProgramCardViewModel>this.getModel("LiveProgramCardViewModel")).init();
     }
 }

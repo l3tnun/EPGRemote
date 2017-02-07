@@ -10,6 +10,8 @@ class LiveWatchController extends ParentPageController {
 
     // ViewModel 初期化
     public initModel(): void {
+        super.initModel();
+
         //layout init
         this.liveWatchVideo = <LiveWatchVideoViewModel>this.getModel("LiveWatchVideoViewModel");
 
@@ -27,8 +29,8 @@ class LiveWatchController extends ParentPageController {
         this.socketIoManager.enableModule("enableLiveStream");
     }
 
-    protected onunload(): void {
-        super.onunload();
+    protected onRemove(): void {
+        super.onRemove();
         this.liveWatchVideo.HlsDestroy();
     }
 }
