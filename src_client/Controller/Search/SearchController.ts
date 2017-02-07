@@ -8,6 +8,7 @@ class SearchController extends ParentPageController {
 
     //ViewModel 初期化
     public initModel(): void {
+        super.initModel();
         this.viewModel = <SearchViewModel>this.getModel("SearchViewModel");
         this.viewModel.init();
     }
