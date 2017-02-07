@@ -3,7 +3,6 @@
 import * as m from 'mithril';
 import ParentPageView from '../ParentPageView';
 import DateUtil from '../../Util/DateUtil';
-import DialogComponent from '../../Component/Dialog/DialogComponent';
 import DialogViewModel from '../../ViewModel/Dialog/DialogViewModel';
 import ReservationViewModel from '../../ViewModel/Reservation/ReservationViewModel';
 import PaginationComponent from '../../Component/Pagination/PaginationComponent';
@@ -27,7 +26,12 @@ class ReservationView extends ParentPageView {
     private menuViewModel: MenuViewModel;
     private menuContentViewModel: ReservationMenuViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    private paginationComponent = new PaginationComponent();
+    private reservationDeleteDialogContentComponent = new ReservationDeleteDialogContentComponent();
+    private menuComponent = new MenuComponent();
+    private reservationMenuContentComponent = new ReservationMenuContentComponent();
+
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <ReservationViewModel>this.getModel("ReservationViewModel");
         this.dialogViewModel = <DialogViewModel>this.getModel("DialogViewModel");
         this.paginationViewModel = <PaginationViewModel>this.getModel("PaginationViewModel");
@@ -40,7 +44,8 @@ class ReservationView extends ParentPageView {
 
         return m("div", {
             class: "mdl-layout mdl-js-layout mdl-layout--fixed-header",
-            config: (_element, isInit, _context) => { if(!isInit) { this.viewModel.resize(); } }
+            oncreate: () => { this.viewModel.resize(); },
+            onupdate: () => { this.viewModel.resize(); }
         }, [
             this.createHeader("録画予約一覧"),
             this.createHeaderMenu(),
@@ -48,17 +53,17 @@ class ReservationView extends ParentPageView {
 
             this.mainLayout([
                 this.mainView(),
-                m(new PaginationComponent(), {
+                m(this.paginationComponent, {
                     maxWidth: 840
                 }),
                 m("div", { style: "height: 20px;" }) //dummy
             ]),
 
             //delete dialog
-            m(new DialogComponent(), {
+            m(this.getDialogComponent(ReservationDeleteDialogContentViewModel.dialogId), {
                 id: ReservationDeleteDialogContentViewModel.dialogId,
                 width: 300,
-                content: m(new ReservationDeleteDialogContentComponent())
+                content: m(this.reservationDeleteDialogContentComponent)
             }),
 
             //ディスク空き容量ダイアログ
@@ -70,7 +75,7 @@ class ReservationView extends ParentPageView {
     }
 
     //カード表示、表表示を切り替える
-    private mainView(): Mithril.VirtualElement | (Mithril.VirtualElement[] | Mithril.Component<{}>)[] {
+    private mainView(): Mithril.Vnode<any, any> | (Mithril.Vnode<any, any> | Mithril.Vnode<any, any>[])[] {
         if(this.viewModel.getShowStatus() == null) { return m("div"); }
 
         //カード表示
@@ -78,9 +83,9 @@ class ReservationView extends ParentPageView {
             return [
                 this.createCardView(),
                 //menu
-                m(new MenuComponent(), {
+                m(this.menuComponent, {
                     id: ReservationMenuViewModel.id,
-                    content: m(new ReservationMenuContentComponent())
+                    content: m(this.reservationMenuContentComponent)
                 })
             ];
         } else { //表表示
@@ -89,7 +94,7 @@ class ReservationView extends ParentPageView {
     }
 
     //カード表示
-    private createCardView(): Mithril.VirtualElement[] {
+    private createCardView(): Mithril.Vnode<any, any>[] {
         return this.viewModel.getPrograms().map((program: { [key: string]: any }) => {
             return m("div", { class: "reservation-card mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col" }, [
                 m("button", {
@@ -127,7 +132,7 @@ class ReservationView extends ParentPageView {
     }
 
     //表表示
-    private createTableView(): Mithril.VirtualElement {
+    private createTableView(): Mithril.Vnode<any, any> {
         let programs = this.viewModel.getPrograms();
         if(programs.length == 0) { return m("div"); }
 
@@ -153,7 +158,7 @@ class ReservationView extends ParentPageView {
         ]);
     }
 
-    private createTableContent(program: { [key: string]: any }): Mithril.VirtualElement {
+    private createTableContent(program: { [key: string]: any }): Mithril.Vnode<any, any> {
         return m("tr", [
             m("th", { class: "reservation-list-th reservation-list-channel-name mdl-data-table__cell--non-numeric" }, program["channel_name"]),
             m("th", { class: "reservation-list-th reservation-list-date mdl-data-table__cell--non-numeric" }, `${ this.getTableDateStr(program["starttime"]) }`),

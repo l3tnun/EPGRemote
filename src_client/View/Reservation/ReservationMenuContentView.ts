@@ -8,7 +8,7 @@ import DialogViewModel from '../../ViewModel/Dialog/DialogViewModel';
 import ReservationDeleteDialogContentViewModel from '../../ViewModel/Reservation/ReservationDeleteDialogContentViewModel';
 
 class ReservationMenuContentView extends View {
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         let viewModel = <ReservationMenuViewModel>this.getModel("ReservationMenuViewModel");
         let menuViewModel = <MenuViewModel>this.getModel("MenuViewModel");
         let dialog = <DialogViewModel>this.getModel("DialogViewModel");
