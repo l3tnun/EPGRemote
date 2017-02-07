@@ -11,6 +11,8 @@ class ProgramController extends ParentPageController {
 
     //ViewModel 初期化
     public initModel(): void {
+        super.initModel();
+
         this.viewModel = <ProgramViewModel>this.getModel("ProgramViewModel");
         this.viewModel.init();
 
@@ -33,8 +35,8 @@ class ProgramController extends ParentPageController {
     }
 
     //ページから離れるときに呼び出される
-    public onunload(): void {
-        super.onunload();
+    public onRemove(): void {
+        super.onRemove();
         clearInterval(this.nowBarTimerId);
         window.removeEventListener('resize', this.resizeListener, false );
     }
