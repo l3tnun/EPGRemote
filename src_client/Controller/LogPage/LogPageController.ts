@@ -8,6 +8,8 @@ import LogPageViewModel from '../../ViewModel/LogPage/LogPageViewModel';
 */
 class LogPageController extends ParentPageController {
     public initModel(): void {
+        super.initModel();
+
         (<LogPageViewModel>this.getModel("LogPageViewModel")).init();
     }
 }
