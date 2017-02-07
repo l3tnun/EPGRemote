@@ -85,9 +85,9 @@ class RecordedVideoLinkDialogView extends View {
         let mobilePath = window.location.host + path;
         let url: string;
         if(dlStatus) {
-            url = iOSURL != null ? iOSURL["RecordedDownloadiOSURL"] : androidURL["RecordedDownloadAndroidURL"]
+            url = iOSURL != null ? iOSURL!["RecordedDownloadiOSURL"] : androidURL!["RecordedDownloadAndroidURL"]
         } else {
-            url = iOSURL != null ? iOSURL["RecordedStreamingiOSURL"] : androidURL["RecordedStreamingAndroidURL"];
+            url = iOSURL != null ? iOSURL!["RecordedStreamingiOSURL"] : androidURL!["RecordedStreamingAndroidURL"];
         }
 
         //iOS vlc x-callbak 用処理
