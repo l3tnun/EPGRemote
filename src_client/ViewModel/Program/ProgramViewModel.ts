@@ -117,7 +117,10 @@ class ProgramViewModel extends ViewModel {
     * 番組表 DOM 差分更新
     */
     private diffUpdate(): void {
-        this.programApiModel.getProgram().map((stationProgram: { [key: string]: any }[]) => {
+        let programs = this.programApiModel.getProgram();
+        if(programs == null) { return; }
+
+        programs.map((stationProgram: { [key: string]: any }[]) => {
             stationProgram.map((program: { [key: string]: any }) => {
                 let id = program["id"];
 
@@ -201,22 +204,22 @@ class ProgramViewModel extends ViewModel {
     }
 
     //ジャンルを返す
-    public getGenre(): { [key: string]: any }[] {
+    public getGenre(): { [key: string]: any }[] | null {
         return this.programApiModel.getGenre();
     }
 
     //time を返す
-    public getTime(): { [key: string]: number } {
+    public getTime(): { [key: string]: number } | null {
         return this.programApiModel.getTime();
     }
 
     //channel を返す
-    public getChannel(): { [key: string]: any }[] {
+    public getChannel(): { [key: string]: any }[] | null {
         return this.programApiModel.getChannel();
     }
 
     //program を返す
-    public getProgram(): { [key: string]: any }[] {
+    public getProgram(): { [key: string]: any }[] | null {
         return this.programApiModel.getProgram();
     }
 
@@ -238,17 +241,17 @@ class ProgramViewModel extends ViewModel {
     }
 
     //タブレット用 view 設定を返す
-    public getTabletViewConfig(): { [key: string]: any } {
+    public getTabletViewConfig(): { [key: string]: number } | null {
         return this.programConfigApiModel.getTabletViewConfig();
     }
 
     //モバイル用 view 設定を返す
-    public getMobileViewConfig(): { [key: string]: any } {
+    public getMobileViewConfig(): { [key: string]: number } | null {
         return this.programConfigApiModel.getMobileViewConfig();
     }
 
     //window 横幅判断して タブレット or モバイル用の view 設定を返す
-    public getViewConfig(): { [key: string]: any } {
+    public getViewConfig(): { [key: string]: number } | null {
         if(window.innerWidth > ProgramViewModel.viewConfigWidth) {
             return this.getTabletViewConfig();
         } else {
