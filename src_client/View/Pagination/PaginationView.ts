@@ -17,7 +17,7 @@ class PaginationView extends View {
         }
     }
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <PaginationViewModel>this.getModel("PaginationViewModel");
         let maxWidthStr = (this.maxWidth == null) ? "" : `max-width: ${ this.maxWidth }px;`;
 
@@ -32,9 +32,12 @@ class PaginationView extends View {
                 m("a", {
                     class: "pagination-button hover material-icons",
                     href: this.createLink(this.viewModel.prev),
-                    config: (element, isInit, context, vdom) => {
-                        this.hidden(<HTMLElement>element, this.viewModel.prev);
-                        m.route(element, isInit, context, vdom);
+                    oncreate : (vnode: Mithril.VnodeDOM<any, any>) => {
+                        m.route.link(vnode);
+                        this.hidden(<HTMLElement>(vnode.dom), this.viewModel.prev);
+                    },
+                    onupdate : (vnode: Mithril.VnodeDOM<any, any>) => {
+                        this.hidden(<HTMLElement>(vnode.dom), this.viewModel.prev);
                     }
                 }, "navigate_before"),
 
@@ -45,9 +48,12 @@ class PaginationView extends View {
                 m("a", {
                     class: "pagination-button hover material-icons",
                     href: this.createLink(this.viewModel.next),
-                    config: (element, isInit, context, vdom) => {
-                        this.hidden(<HTMLElement>element, this.viewModel.next);
-                        m.route(element, isInit, context, vdom);
+                    oncreate : (vnode: Mithril.VnodeDOM<any, any>) => {
+                        m.route.link(vnode);
+                        this.hidden(<HTMLElement>(vnode.dom), this.viewModel.next);
+                    },
+                    onupdate : (vnode: Mithril.VnodeDOM<any, any>) => {
+                        this.hidden(<HTMLElement>(vnode.dom), this.viewModel.next);
                     }
                 }, "navigate_next")
             ])
