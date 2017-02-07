@@ -15,10 +15,10 @@ interface ProgramApiOptionInterface {
 interface ProgramApiModelInterface extends ApiModel {
     init(callback: Function): void;
     update(diff?: boolean): void;
-    getGenre(): { [key: string]: any }[];
-    getTime(): { [key: string]: number };
-    getChannel(): { [key: string]: any }[];
-    getProgram(): { [key: string]: any }[];
+    getGenre(): { [key: string]: any }[] | null;
+    getTime(): { [key: string]: number } | null;
+    getChannel(): { [key: string]: any }[] | null;
+    getProgram(): { [key: string]: any }[] | null;
     getUpdateTime(): Date;
     setUpdateTime(): void;
 }
@@ -27,10 +27,10 @@ interface ProgramApiModelInterface extends ApiModel {
 * 番組表情報を取得
 */
 class ProgramApiModel implements ProgramApiModelInterface {
-    private genre: { [key: string]: any }[] = [];
-    private time: { [key: string]: number } = {};
-    private channel: { [key: string]: any }[] = [];
-    private program: { [key: string]: any }[] = [];
+    private genre: { [key: string]: any }[] | null = null;
+    private time: { [key: string]: number } | null = null;
+    private channel: { [key: string]: any }[] | null = null;
+    private program: { [key: string]: any }[] | null = null;
     private updateTime: Date = new Date();
     private diffUpdateCallback: Function | null = null;
 
@@ -39,10 +39,10 @@ class ProgramApiModel implements ProgramApiModelInterface {
     * @param 差分更新処理の callback 差分更新時に呼ぶ
     */
     public init (callback: Function): void {
-        this.genre = [];
-        this.time = {};
-        this.channel = [];
-        this.program = [];
+        this.genre = null;
+        this.time = null;
+        this.channel = null;
+        this.program = null;
         this.updateTime = new Date();
         this.diffUpdateCallback = callback;
     }
@@ -78,19 +78,19 @@ class ProgramApiModel implements ProgramApiModelInterface {
         });
     }
 
-    public getGenre(): { [key: string]: any }[] {
+    public getGenre(): { [key: string]: any }[] | null {
         return this.genre;
     }
 
-    public getTime(): { [key: string]: number } {
+    public getTime(): { [key: string]: number } | null {
         return this.time;
     }
 
-    public getChannel(): { [key: string]: any }[] {
+    public getChannel(): { [key: string]: any }[] | null {
         return this.channel;
     }
 
-    public getProgram(): { [key: string]: any }[] {
+    public getProgram(): { [key: string]: any }[] | null {
         return this.program;
     }
 
