@@ -4,7 +4,6 @@ import * as m from 'mithril';
 import ParentPageView from '../ParentPageView';
 import Scroll from '../../Util/Scroll';
 import SearchViewModel from '../../ViewModel/Search/SearchViewModel';
-import DialogComponent from '../../Component/Dialog/DialogComponent';
 import SearchOptionComponent from '../../Component/Search/SearchOptionComponent';
 import SearchResultComponent from '../../Component/Search/SearchResultComponent';
 import SearchAddKeywordComponent from '../../Component/Search/SearchAddKeywordComponent';
