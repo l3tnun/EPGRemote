@@ -7,7 +7,7 @@ import DialogViewModel from '../../ViewModel/Dialog/DialogViewModel';
 import RecordedDeleteVideoViewModel from '../../ViewModel/Recorded/RecordedDeleteVideoViewModel';
 
 class RecordedDeleteVideoDialogView extends View {
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         let viewModel = <RecordedDeleteVideoViewModel>this.getModel("RecordedDeleteVideoViewModel");
         let dialog = <DialogViewModel>this.getModel("DialogViewModel");
         let program = (<RecordedMenuViewModel>this.getModel("RecordedMenuViewModel")).program;
