@@ -63,10 +63,6 @@ class DialogView extends View {
     }
 
     private dialogConfig(element: Element): void {
-        if(this.dialogViewModel.getStatus(this.id)) {
-            document.getElementById(this.getDialogId())!.setAttribute("style", "");
-        }
-
         let dialogContentParent = document.getElementById(this.getContentId())!;
         let dialogContentChild = <HTMLElement>(<HTMLElement>document.getElementById(this.getContentId())).children[0];
         dialogContentChild.style.overflow = "auto";
