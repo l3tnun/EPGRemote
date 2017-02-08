@@ -44,7 +44,7 @@ class PaginationViewModel extends ViewModel {
         next["query"]["page"] = page + 1;
 
         //1ページで収まる場合は pagination を表示させない
-        this._showStatus = !(page == 1 && page * limit >= totalNum || limit == null)
+        this._showStatus = !(page == 1 && page * limit >= totalNum || limit == null || totalNum == 0)
 
         if( page * limit >= totalNum ) { next = { url: null, query: null }; }
 
