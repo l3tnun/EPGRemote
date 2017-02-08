@@ -82,7 +82,7 @@ class ProgramTimeView extends View {
 
         if(programCnt == programLength - 1) {
             //プログレスを非表示にする
-            setTimeout(() => { this.viewModel.hiddenProgressStatus(); }, Util.uaIsMobile ? 800 : 100);
+            setTimeout(() => { this.viewModel.hiddenProgressStatus(); }, 200);
             //updateTime を更新
             this.viewModel.programUpdateTime = this.viewModel.getUpdateTime();
         }
