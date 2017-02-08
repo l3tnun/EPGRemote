@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import Util from '../../Util/Util';
 import ViewModel from '../ViewModel';
 import { RecordedApiModelParamsInterface, RecordedApiModelInterface} from '../../Model/Api/Recorded/RecordedApiModel';
 
@@ -16,6 +17,14 @@ class RecordedViewModel extends ViewModel {
     constructor(_recordedApiModel: RecordedApiModelInterface) {
         super();
         this.recordedApiModel = _recordedApiModel;
+    }
+
+    public init(): void {
+        this.recordedApiModel.init();
+        setTimeout(() => {
+            this.setup(Util.getCopyQuery());
+            this.update();
+        }, 100);
     }
 
     /**

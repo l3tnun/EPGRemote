@@ -14,6 +14,7 @@ interface  RecordedApiModelParamsInterface {
 }
 
 interface RecordedApiModelInterface extends ApiModel {
+    init(): void;
     setup(option: RecordedApiModelParamsInterface): void;
     update(): void;
     getRecordedList(): any[];
@@ -29,6 +30,13 @@ class RecordedApiModel implements RecordedApiModelInterface {
     private recordedList: any[] = [];
     private totalNum: number | null = null;
     private limit: number | null = null;
+
+    public init(): void {
+        this.option = {};
+        this.recordedList = [];
+        this.totalNum = null;
+        this.limit = null;
+    }
 
     public setup(_option: RecordedApiModelParamsInterface): void {
         this.option = _option;

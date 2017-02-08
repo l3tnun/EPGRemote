@@ -2,7 +2,6 @@
 
 import ParentPageController from '../ParentPageController';
 import RecordedViewModel from '../../ViewModel/Recorded/RecordedViewModel';
-import Util from '../../Util/Util';
 
 class RecordedController extends ParentPageController {
     private resizeListener = this.resize.bind(this);
@@ -14,8 +13,6 @@ class RecordedController extends ParentPageController {
 
         this.viewModel = <RecordedViewModel>this.getModel("RecordedViewModel");
         this.viewModel.init();
-        this.viewModel.setup(Util.getCopyQuery());
-        this.viewModel.update();
 
         this.getModel("RecordedVideoLinkDialogViewModel").init();
         this.getModel("RecordedSearchMenuViewModel").init();
