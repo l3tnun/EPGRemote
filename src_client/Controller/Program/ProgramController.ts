@@ -17,7 +17,7 @@ class ProgramController extends ParentPageController {
         this.viewModel.init();
 
         //時刻線の位置を定期的に更新
-        this.updateNowBarTimer();
+        setTimeout(() => { this.updateNowBarTimer(); }, 100);
 
         window.addEventListener('resize', this.resizeListener, false );
     }
@@ -48,10 +48,8 @@ class ProgramController extends ParentPageController {
 
     //時刻線の位置を更新するたびに 1分毎に再描画させる
     private updateNowBarTimer(): void {
-        //m.redraw.strategy("diff");
-        m.redraw();
-
         this.nowBarTimerId = window.setTimeout(() => {
+            m.redraw();
             this.updateNowBarTimer();
         }, (60 - new Date().getSeconds()) * 1000);
     }
