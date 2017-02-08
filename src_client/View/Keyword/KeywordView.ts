@@ -122,10 +122,8 @@ class KeywordView extends ParentPageView {
                         type: "checkbox", class: "mdl-switch__input",
                         checked: keyword["kw_enable"],
                         onchange: m.withAttr("checked", (value) => {
-                            //setTimeout 挟まないと snackbar が null になる
-                            setTimeout(() => {
-                                this.viewModel.enableKeyword(keyword["id"], value);
-                            }, 300);
+                            if(keyword["kw_enable"] == value) { value = !value } //firefox で発生する
+                            this.viewModel.enableKeyword(keyword["id"], value);
                         }),
                     }),
                     m("span", { class: "mdl-switch__label" })
