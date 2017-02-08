@@ -19,14 +19,13 @@ class ProgramTimeView extends View {
     private viewConfig: { [key: string]: number };
     private infoDialogViewModel: ProgramInfoDialogViewModel;
     private storedGenre: { [key: number]: boolean; };
-    private updateTime: Date | null = null;
 
     public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <ProgramViewModel>this.getModel("ProgramViewModel");
         this.infoDialogViewModel = <ProgramInfoDialogViewModel>this.getModel("ProgramInfoDialogViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
 
-        let time = this.viewModel.getTime();
+        let time = this.viewModel.getTime(); //プログラムの開始、終了時刻表示を取得
         if(time == null || this.viewModel.getViewConfig() == null) { return m("div"); }
         this.viewConfig = this.viewModel.getViewConfig()!;
 
@@ -34,23 +33,12 @@ class ProgramTimeView extends View {
         this.storedGenre = (<ProgramStorageViewModel>this.getModel("ProgramStorageViewModel")).get();
         if(this.storedGenre == null) { this.storedGenre = {}; }
 
+        //プログラム取得
         let programs = this.viewModel.getProgram();
         if(programs == null) { return m("div"); }
+
         let result: Mithril.Vnode<any, any>[] = [];
-
         programs.map((stationPrograms: { [key: string]: any }[], i: number) => {
-            //子要素の更新が必要
-            if(this.needUpdateChild()) {
-                //キャッシュをリセットする
-                if(i == 0) { this.viewModel.resetCache(); }
-
-                if(programs != null && i == programs.length - 1) {
-                    this.updateTime = this.viewModel.getUpdateTime();
-                    //プログレスを非表示にする
-                    setTimeout(() => { this.viewModel.hiddenProgressStatus(); }, 100);
-                }
-            }
-
             //表示する要素がない
             if(stationPrograms.length == 0 || time == null) { return; }
 
@@ -70,15 +58,14 @@ class ProgramTimeView extends View {
 
             result.push( m("div", {
                 class: "station",
-                oninit: () => { this.updateTime = null; },
                 oncreate: (vnode: Mithril.VnodeDOM<any, any>) => {
-                    this.stationConfig(vnode.dom, nextTime, stationEndTime, stationPrograms);
+                    this.stationConfig(vnode.dom, programs!.length, i, nextTime, stationEndTime, stationPrograms);
                 },
                 onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
-                    this.stationConfig(vnode.dom, nextTime, stationEndTime, stationPrograms);
+                    this.stationConfig(vnode.dom, programs!.length, i, nextTime, stationEndTime, stationPrograms);
                 }
             }) );
-        })
+        });
 
         return m("div", {
             id: "program_content",
@@ -86,12 +73,18 @@ class ProgramTimeView extends View {
         }, result);
     }
 
-    private needUpdateChild(): boolean {
-        return ( this.updateTime == null || this.updateTime < this.viewModel.getUpdateTime());
-    }
+    private stationConfig(element: Element, programLength: number, programCnt: number, nextTime: number, stationEndTime: number, stationPrograms: { [key: string]: any }[]): void {
+        if(this.viewModel.programUpdateTime != null && this.viewModel.programUpdateTime >= this.viewModel.getUpdateTime()) { return; }
 
-    private stationConfig(element: Element, nextTime: number, stationEndTime: number, stationPrograms: { [key: string]: any }[]): void {
-        if(!this.needUpdateChild()) { return; }
+        //キャッシュをリセットする
+        if(programCnt == 0) { this.viewModel.resetCache(); }
+
+        if(programCnt == programLength - 1) {
+            //プログレスを非表示にする
+            setTimeout(() => { this.viewModel.hiddenProgressStatus(); }, Util.uaIsMobile ? 800 : 100);
+            //updateTime を更新
+            this.viewModel.programUpdateTime = this.viewModel.getUpdateTime();
+        }
 
         //remove child
         for (let i = element.childNodes.length - 1; i >= 0; i--) {

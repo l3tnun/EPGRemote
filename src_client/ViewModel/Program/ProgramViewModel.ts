@@ -27,6 +27,9 @@ class ProgramViewModel extends ViewModel {
     //ProgramApiModel のアップデート時に差分更新をするために使用する
     private programCache: { [key: number]: ProgramCacheStructure } = {};
 
+    //ProgramContentView の更新時間を記録する
+    public programUpdateTime: Date | null = null;
+
     constructor(
         _programApiModel: ProgramApiModelInterface,
         _programConfigApiModel: ProgramConfigApiModelInterface,
@@ -43,6 +46,7 @@ class ProgramViewModel extends ViewModel {
     * ParentPageController から呼ばれる
     */
     public init(): void {
+        this.programUpdateTime = null;
         this.programApiModel.init(() => { this.diffUpdate(); });
         this.updateProgram();
         this.programConfigApiModel.update();
