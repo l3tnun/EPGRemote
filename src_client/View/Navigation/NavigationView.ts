@@ -92,9 +92,10 @@ class NavigationView extends View {
     private createLink(name: string, href: string): Mithril.Vnode<any, any> {
         return m("a", {
             class: "mdl-navigation__link",
-            href: href,
-            oncreate : m.route.link,
-            onclick: () => { this.close() }
+            onclick: () => {
+                this.close();
+                setTimeout(() => { m.route.set(href); }, 100);
+            }
         }, name);
     }
 }
