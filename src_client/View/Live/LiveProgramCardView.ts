@@ -36,8 +36,7 @@ class LiveProgramCardView extends View {
 
         return m("div", {
             id: LiveProgramCardViewModel.cardParentId,
-            style: `height: 100%;`,
-            oncreate: () => { this.viewModel.setup(m.route.param("type")); }
+            style: `height: 100%;`
         }, [
             this.viewSingle ? this.singleCardView() : this.multipleCardView(),
             m("div", { class: "live-program-dummy" }) //dummy space

@@ -1,5 +1,6 @@
 "use strict";
 
+import Util from '../../../Util/Util';
 import ParentPageController from '../../ParentPageController';
 import LiveProgramCardViewModel from '../../../ViewModel/Live/LiveProgramCardViewModel';
 
@@ -13,7 +14,9 @@ class LiveProgramController extends ParentPageController {
     public initModel(): void {
         super.initModel();
 
-        (<LiveProgramCardViewModel>this.getModel("LiveProgramCardViewModel")).init();
+        let viewModel = <LiveProgramCardViewModel>this.getModel("LiveProgramCardViewModel");
+        viewModel.init();
+        setTimeout(() => { viewModel.setup(Util.getCopyQuery()["type"]); }, 100);
     }
 }
 
