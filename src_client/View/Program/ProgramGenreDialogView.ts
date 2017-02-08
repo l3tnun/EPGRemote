@@ -54,9 +54,8 @@ class ProgramGenreDialogView extends View {
                             class: "mdl-switch__input",
                             checked: this.viewModel.tmpGenre![genre["id"]],
                             onchange: m.withAttr("checked", (value) => {
+                                if(this.viewModel.tmpGenre![genre["id"]] == value) { value = !value } //firefox で発生する
                                 this.viewModel.tmpGenre![genre["id"]] = value;
-                                //m.redraw.strategy("none");
-                                //TODO check
                             })
                         })
                     ])
