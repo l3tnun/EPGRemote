@@ -74,6 +74,7 @@ class ProgramTimeView extends View {
     }
 
     private stationConfig(element: Element, programLength: number, programCnt: number, nextTime: number, stationEndTime: number, stationPrograms: { [key: string]: any }[]): void {
+        //更新が必要でない
         if(this.viewModel.programUpdateTime != null && this.viewModel.programUpdateTime >= this.viewModel.getUpdateTime()) { return; }
 
         //キャッシュをリセットする
