@@ -37,6 +37,13 @@ class ProgramTimeView extends View {
         let programs = this.viewModel.getProgram();
         if(programs == null) { return m("div"); }
 
+        let programLength: number = 0;
+        programs.map((stationPrograms: { [key: string]: any }[], i: number) => {
+            //表示する要素がない
+            if(stationPrograms.length == 0 || time == null) { return; }
+            programLength = i;
+        });
+
         let result: Mithril.Vnode<any, any>[] = [];
         programs.map((stationPrograms: { [key: string]: any }[], i: number) => {
             //表示する要素がない
@@ -59,10 +66,10 @@ class ProgramTimeView extends View {
             result.push( m("div", {
                 class: "station",
                 oncreate: (vnode: Mithril.VnodeDOM<any, any>) => {
-                    this.stationConfig(vnode.dom, programs!.length, i, nextTime, stationEndTime, stationPrograms);
+                    this.stationConfig(vnode.dom, programLength, i, nextTime, stationEndTime, stationPrograms);
                 },
                 onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
-                    this.stationConfig(vnode.dom, programs!.length, i, nextTime, stationEndTime, stationPrograms);
+                    this.stationConfig(vnode.dom, programLength, i, nextTime, stationEndTime, stationPrograms);
                 }
             }) );
         });
@@ -80,7 +87,7 @@ class ProgramTimeView extends View {
         //キャッシュをリセットする
         if(programCnt == 0) { this.viewModel.resetCache(); }
 
-        if(programCnt == programLength - 1) {
+        if(programCnt == programLength) {
             //プログレスを非表示にする
             setTimeout(() => { this.viewModel.hiddenProgressStatus(); }, 200);
             //updateTime を更新
