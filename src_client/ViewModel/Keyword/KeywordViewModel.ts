@@ -27,6 +27,7 @@ class KeywordViewModel extends ViewModel {
     * controller からページ読み込み時に呼ばれる
     */
     public init(): void {
+        this.keywordApiModel.init();
         this.showStatus = null;
         let query = Util.getCopyQuery();
         this.page = (typeof query["page"] == "undefined") ? null : Number(query["page"]);

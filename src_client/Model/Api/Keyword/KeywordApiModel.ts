@@ -5,6 +5,7 @@ import ApiModel from '../ApiModel';
 import Util from '../../../Util/Util';
 
 interface KeywordApiModelInterface extends ApiModel {
+    init(): void;
     setup(page: number | null, limit: number | null): void;
     update(): void;
     getKeywords(): { [key: string]: any }[];
@@ -20,6 +21,13 @@ class KeywordApiModel implements KeywordApiModelInterface {
     private page: number | null = null;
     private limit: number | null = null;
     private totalNum: number = 0;
+
+    public init(): void {
+        this.keywords = [];
+        this.page = null;
+        this.limit = null;
+        this.totalNum = 0;
+    }
 
     public setup(_page: number | null, _limit: number | null): void {
         this.page = _page;
