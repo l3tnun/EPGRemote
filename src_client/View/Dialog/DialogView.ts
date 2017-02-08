@@ -90,13 +90,21 @@ class DialogView extends View {
 
         //dialog 表示
         if(this.dialogViewModel.getStatus(this.id)) {
-            element.setAttribute("style", "opacity: 1;");
+            if(this.dialogStatus) {
+                element.setAttribute("style", "opacity: 1;");
+            } else {
+                element.setAttribute("style", "opacity: 0;");
+                setTimeout(() => {
+                    element.setAttribute("style", "opacity: 1;");
+                    m.redraw();
+                }, 100);
+            }
         } else { //非表示
             element.setAttribute("style", "opacity: 0;");
             setTimeout(() => {
                 if(this.dialogViewModel.getStatus(this.id)) { return; }
                 element.setAttribute("style", "display: none;");
-            }, 300);
+            }, 100);
         }
 
         this.dialogStatus = this.dialogViewModel.getStatus(this.id);
