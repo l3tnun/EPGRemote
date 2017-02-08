@@ -148,8 +148,7 @@ class LiveWatchView extends ParentPageView {
                 activeHash[type]["className"] += ` ${ LiveWatchView.tabIsActive }`;
                 if(!this.liveWatchViewModel.getTabStatus()) {
                     this.liveWatchViewModel.setTabStatus(true);
-                    //なぜか navigation open button が消えるので setTimeout で括る
-                    setTimeout(() => { this.liveProgramCardViewModel.setup(type); }, 0);
+                    this.liveProgramCardViewModel.setup(type);
                 }
             }
             activeHash[type]["style"] = "display: block;"
