@@ -197,7 +197,10 @@ class ProgramInfoDialogView extends View {
         return m("button", { class: "mdl-button mdl-js-button mdl-button--primary",
             onclick: () => {
                 this.dialog.close();
-                m.route.set("/search", this.createSearchQuery());
+                console.log(this.createSearchQuery());
+                setTimeout(() => {
+                    m.route.set("/search", this.createSearchQuery());
+                }, 0);
             },
             oncreate: (vnode: Mithril.VnodeDOM<any, any>) => {
                 if(Util.getRoute() != "/search") { return; }
