@@ -145,9 +145,10 @@ class LiveWatchView extends ParentPageView {
 
         this.liveWatchViewModel.getBroadCastList().map((type, index) => {
             if(index == 0) {
-                activeHash[type]["className"] += ` ${ LiveWatchView.tabIsActive }`;
-                if(!this.liveWatchViewModel.getTabStatus()) {
-                    this.liveWatchViewModel.setTabStatus(true);
+                if(!this.liveWatchViewModel.tabStatus) {
+                    setTimeout(() => { this.setTabActiveClass(type); }, 100);
+
+                    this.liveWatchViewModel.tabStatus = true;
                     this.liveProgramCardViewModel.setup(type);
                 }
             }
@@ -190,21 +191,28 @@ class LiveWatchView extends ParentPageView {
     }
 
     /**
+    * tab に active class を追加する
+    * @param type 放送波
+    */
+    private setTabActiveClass(type: string): void {
+        let oldElements = document.getElementsByClassName("mdl-tabs__tab " + LiveWatchView.tabIsActive);
+        let newElement = document.getElementById(this.createTabId(type));
+
+        if(oldElements[0] != null) {
+            oldElements[0].classList.remove(LiveWatchView.tabIsActive);
+        }
+        if(newElement != null) {
+            newElement.classList.add(LiveWatchView.tabIsActive);
+        }
+    }
+
+    /**
     * tab クリック時に番組一覧を更新する
     * @param type 放送波
     */
     private tabClick(type: string): void {
-        //クリックされたタブを active にする
-        let oldElements = document.getElementsByClassName("mdl-tabs__tab " + LiveWatchView.tabIsActive);
-        let newElement = document.getElementById(this.createTabId(type));
-
-        if(newElement != null && oldElements[0] != null) {
-            oldElements[0].classList.remove(LiveWatchView.tabIsActive);
-            newElement.classList.add(LiveWatchView.tabIsActive);
-        }
-
-        //タブの中身を更新
-        this.liveProgramCardViewModel.setup(type);
+        this.setTabActiveClass(type);
+        this.liveProgramCardViewModel.setup(type); //タブの中身を更新
     }
 
     /**
