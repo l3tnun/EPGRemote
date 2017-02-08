@@ -37,6 +37,10 @@ abstract class View extends MithrilBase {
             (<HTMLElement>element).style.opacity = "1";
         }, 100);
     }
+
+    protected hideAnimetion(element: Element): void {
+        (<HTMLElement>element).style.opacity = "0";
+    }
 }
 
 export default View;

@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import Util from '../Util/Util';
 import View from './View';
 import NavigationComponent from '../Component/Navigation/NavigationComponent';
 import HeaderComponent from '../Component/Header/HeaderComponent';
@@ -25,6 +26,8 @@ abstract class ParentPageView extends View {
     private navigationComponent = new NavigationComponent();
     private diskDialogComponent = new DiskDialogComponent();
     private snackbarComponent = new SnackbarComponent();
+
+    private _query_: { [key: string]: any } = {};
 
     //Mithril へ渡される部分
     public abstract execute(): Mithril.Vnode<any, any>
@@ -103,7 +106,17 @@ abstract class ParentPageView extends View {
         return m("main", {
             class: "fadeIn mdl-layout__content",
             oncreate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                this._query_ = Util.getCopyQuery();
                 this.addShowAnimetion(vnode.dom);
+            },
+            onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                let newQuery = Util.getCopyQuery();
+                if(Util.buildQueryStr(newQuery) != Util.buildQueryStr(this._query_)) {
+                    //query が違う
+                    this._query_ = newQuery;
+                    this.hideAnimetion(vnode.dom);
+                    this.addShowAnimetion(vnode.dom);
+                }
             }
         }, [
             m("div", {class: "page-content" }, [
