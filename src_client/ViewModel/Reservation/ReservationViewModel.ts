@@ -29,6 +29,7 @@ class ReservationViewModel extends ViewModel {
         let query = Util.getCopyQuery();
         this.page = (typeof query["page"] == "undefined") ? null : Number(query["page"]);
         this.limit = (typeof query["limit"] == "undefined") ? null : Number(query["limit"]);
+        this.reservationApiModel.init();
     }
 
     //更新

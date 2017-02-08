@@ -4,6 +4,7 @@ import * as m from 'mithril';
 import ApiModel from '../ApiModel';
 
 interface ReservationApiModelInterface extends ApiModel {
+    init(): void;
     setup(page: number | null, limit: number | null): void;
     update(): void;
     getPrograms(): { [key: string]: any }[];
@@ -19,6 +20,13 @@ class ReservationApiModel implements ReservationApiModelInterface {
     private page: number | null = null;
     private limit: number | null = null;
     private totalNum: number = 0;
+
+    public init(): void {
+        this.programs = [];
+        this.page = null;
+        this.limit = null;
+        this.totalNum = 0;
+    }
 
     public setup(_page: number | null, _limit: number | null): void {
         this.page = _page;
