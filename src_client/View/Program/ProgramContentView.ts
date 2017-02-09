@@ -37,11 +37,13 @@ class ProgramTimeView extends View {
         let programs = this.viewModel.getProgram();
         if(programs == null) { return m("div"); }
 
-        let programLength: number = 0;
+        let programEnd: number = 0;
+        let programStart: number = -1;
         programs.map((stationPrograms: { [key: string]: any }[], i: number) => {
             //表示する要素がない
             if(stationPrograms.length == 0 || time == null) { return; }
-            programLength = i;
+            if(programStart == -1) { programStart = i; }
+            programEnd = i;
         });
 
         let result: Mithril.Vnode<any, any>[] = [];
@@ -66,10 +68,10 @@ class ProgramTimeView extends View {
             result.push( m("div", {
                 class: "station",
                 oncreate: (vnode: Mithril.VnodeDOM<any, any>) => {
-                    this.stationConfig(vnode.dom, programLength, i, nextTime, stationEndTime, stationPrograms);
+                    this.stationConfig(vnode.dom, programStart, programEnd, i, nextTime, stationEndTime, stationPrograms);
                 },
                 onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
-                    this.stationConfig(vnode.dom, programLength, i, nextTime, stationEndTime, stationPrograms);
+                    this.stationConfig(vnode.dom, programStart, programEnd, i, nextTime, stationEndTime, stationPrograms);
                 }
             }) );
         });
@@ -80,16 +82,18 @@ class ProgramTimeView extends View {
         }, result);
     }
 
-    private stationConfig(element: Element, programLength: number, programCnt: number, nextTime: number, stationEndTime: number, stationPrograms: { [key: string]: any }[]): void {
+    private stationConfig(element: Element, programStart: number, programEnd: number, programCnt: number, nextTime: number, stationEndTime: number, stationPrograms: { [key: string]: any }[]): void {
         //更新が必要でない
         if(this.viewModel.programUpdateTime != null && this.viewModel.programUpdateTime >= this.viewModel.getUpdateTime()) { return; }
 
-        //キャッシュをリセットする
-        if(programCnt == 0) { this.viewModel.resetCache(); }
-
-        if(programCnt == programLength) {
+        if(programCnt == programStart) {
+            //キャッシュをリセットする
+            this.viewModel.resetCache();
             //プログレスを非表示にする
             setTimeout(() => { this.viewModel.hiddenProgressStatus(); }, 200);
+        }
+
+        if(programCnt == programEnd) {
             //updateTime を更新
             this.viewModel.programUpdateTime = this.viewModel.getUpdateTime();
         }
@@ -103,7 +107,7 @@ class ProgramTimeView extends View {
         let stationChild = this.createStationChild(nextTime, stationEndTime, stationPrograms);
         stationChild.map((child: HTMLElement) => {
             if(Util.uaIsMobile()) {
-                setTimeout(() => { element.appendChild(child); }, Util.uaIsMobile ? 800 : 100);
+                setTimeout(() => { element.appendChild(child); }, 100);
             } else {
                 element.appendChild(child);
             }
