@@ -7,8 +7,6 @@ class LiveWatchController extends ParentPageController {
     public initModel(): void {
         super.initModel();
 
-        //init
-        this.getModel("LiveProgramCardViewModel").init();
         this.getModel("LiveWatchViewModel").init();
     }
 

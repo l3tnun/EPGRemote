@@ -14,9 +14,8 @@ class LiveProgramController extends ParentPageController {
     public initModel(): void {
         super.initModel();
 
-        let viewModel = <LiveProgramCardViewModel>this.getModel("LiveProgramCardViewModel");
-        viewModel.init();
-        setTimeout(() => { viewModel.setup(Util.getCopyQuery()["type"]); }, 100);
+        let liveProgramCardViewModel = <LiveProgramCardViewModel>this.getModel("LiveProgramCardViewModel");
+        setTimeout(() => { liveProgramCardViewModel.setup(Util.getCopyQuery()["type"]); }, 100);
     }
 }
 
