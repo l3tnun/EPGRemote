@@ -135,7 +135,7 @@ namespace Util {
         (<DialogModelInterface>ModelFactory.getInstance().get("DialogModel")).close();
         //m.route(m.route());
         //TODO
-        location.reload();
+        setTimeout(() => { location.reload(); }, 100);
     }
 
     /**
