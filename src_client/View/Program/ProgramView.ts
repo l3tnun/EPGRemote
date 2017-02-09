@@ -25,7 +25,6 @@ class ProgramView extends ParentPageView {
     private viewModel: ProgramViewModel;
     private dialog: DialogViewModel;
     private programStorageViewModel: ProgramStorageViewModel;
-    private query: { [key: string]: any } | null = null;
 
     private programStationComponent = new ProgramStationComponent();
     private programTimeComponent = new ProgramTimeComponent();
@@ -82,8 +81,8 @@ class ProgramView extends ParentPageView {
                 m("div", {
                     id: ProgramViewModel.programFrameId,
                     style: this.createFrameStyle(),
-                    oncreate: (vnode: Mithril.VnodeDOM<any, any>) => { this.frameInit(vnode.dom); },
-                    onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.frameConfig(vnode.dom); }
+                    oncreate: (vnode: Mithril.VnodeDOM<any, any>) => { this.frameInit(vnode.dom, vnode.state); },
+                    onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.frameConfig(vnode.dom, vnode.state); }
                 }, [
                     //時刻線
                     m("div", { id: "tableNowBar", style: this.createNowBarStyle() }, "now" ),
@@ -168,7 +167,9 @@ class ProgramView extends ParentPageView {
             + `overflow: scroll;`;
     }
 
-    private frameInit(element: Element): void {
+    private frameInit(element: Element, context: { [key: string]: any }): void {
+        context["query"] = null;
+
         //スクロール処理
         (<HTMLElement>element).onscroll = () => {
             let stationFrame =  document.getElementById(ProgramViewModel.stationFrameId)!;
@@ -176,16 +177,14 @@ class ProgramView extends ParentPageView {
             stationFrame.scrollLeft = element.scrollLeft;
             timeFrame.scrollTop = element.scrollTop;
         }
-
-        this.query = null;
     }
 
-    private frameConfig(element: Element): void {
+    private frameConfig(element: Element, context: { [key: string]: any }): void {
         let qyeryStr = Util.getCopyQuery();
-        if(this.query != null || this.query == qyeryStr) { return; }
+        if(context["query"] != null || context["query"] == qyeryStr) { return; }
 
         //init scroll position
-        this.query = qyeryStr;
+        context["query"] = qyeryStr;
         (<HTMLElement>element).scrollLeft = 0;
         (<HTMLElement>element).scrollTop = 0;
     }
