@@ -1,12 +1,12 @@
 "use strict";
 
 import Component from '../Component';
-import TopPageController from '../../Controller/TopPage/TopPageController';
+import ParentPageController from '../../Controller/ParentPageController';
 import TopPageView from '../../View/TopPage/TopPageView';
 
 class TopPageComponent extends Component {
     protected getController() {
-        return new TopPageController();
+        return new ParentPageController();
     }
 
     protected getView() {

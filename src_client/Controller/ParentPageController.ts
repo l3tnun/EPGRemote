@@ -8,9 +8,9 @@ import SocketIoManager from '../SocketIo/SocketIoManager';
 * 親ページの Controller
 * ページ読み込み時に socketIoModule をすべて無効化する
 * enableSocketIoModules で必要な SocketIoModule を有効化させる
-* ページ離脱時に TimerManager ですべてのタイマーを停止させる onunload
+* ページ離脱時に TimerManager ですべてのタイマーを停止させる
 */
-abstract class ParentPageController extends Controller {
+class ParentPageController extends Controller {
     protected socketIoManager: SocketIoManager = SocketIoManager.getInstance();
 
     /*
