@@ -13,17 +13,6 @@ class PaginationViewModel extends ViewModel {
     private _showStatus: boolean = false;
 
     /**
-    * 初期化
-    * ParentPageController からページ読み込み時に呼ばれる
-    */
-    public init(): void {
-        this._next = null;
-        this._prev = null;
-        this._names = "";
-        this._showStatus = false
-    }
-
-    /**
     * Pagination の設定
     * @param 1ページで表示するコンテンツの個数
     * @param 表示するコンテンツの全体の個数
