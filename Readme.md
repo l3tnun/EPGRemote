@@ -149,7 +149,6 @@ vim config/config.json
 
     //epgrecUNA のデータベース(MySQL) にアクセスする設定
     "EpgrecDatabaseConfig" : {
-        "multipleStatements": true,
         "host": "localhost",
         "user": "epgrec",
         "password": "epgrec",
