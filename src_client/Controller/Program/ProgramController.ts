@@ -11,11 +11,13 @@ class ProgramController extends ParentPageController {
 
     //ViewModel 初期化
     public initModel(): void {
+        super.initModel();
+
         this.viewModel = <ProgramViewModel>this.getModel("ProgramViewModel");
         this.viewModel.init();
 
         //時刻線の位置を定期的に更新
-        this.updateNowBarTimer();
+        setTimeout(() => { this.updateNowBarTimer(); }, 100);
 
         window.addEventListener('resize', this.resizeListener, false );
     }
@@ -33,8 +35,8 @@ class ProgramController extends ParentPageController {
     }
 
     //ページから離れるときに呼び出される
-    public onunload(): void {
-        super.onunload();
+    public onRemove(): void {
+        super.onRemove();
         clearInterval(this.nowBarTimerId);
         window.removeEventListener('resize', this.resizeListener, false );
     }
@@ -46,10 +48,8 @@ class ProgramController extends ParentPageController {
 
     //時刻線の位置を更新するたびに 1分毎に再描画させる
     private updateNowBarTimer(): void {
-        m.redraw.strategy("diff");
-        m.redraw(true);
-
         this.nowBarTimerId = window.setTimeout(() => {
+            m.redraw();
             this.updateNowBarTimer();
         }, (60 - new Date().getSeconds()) * 1000);
     }

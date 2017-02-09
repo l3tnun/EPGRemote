@@ -1,6 +1,5 @@
 "use strict";
 
-import * as m from 'mithril';
 import SocketIoModule from '../SocketIoModule';
 import { DeleteKeywordEpgrecModuleModelInterface } from '../../../Model/Api/EpgrecModule/DeleteKeywordEpgrecModuleModel';
 
@@ -24,9 +23,7 @@ class KeywordDeleteSocketIoModule extends SocketIoModule {
     }
 
     public execute(option: { [key: string]: any; }): void {
-        m.startComputation();
         this.deleteKeywordEpgrecModule.viewUpdate(option);
-        m.endComputation();
     }
 }
 

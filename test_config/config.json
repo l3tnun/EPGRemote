@@ -54,7 +54,6 @@
     "maxStreamNumber" : 2,
 
     "EpgrecDatabaseConfig" : {
-        "multipleStatements": true,
         "host": "localhost",
         "user": "epgrec",
         "password": "epgrec",

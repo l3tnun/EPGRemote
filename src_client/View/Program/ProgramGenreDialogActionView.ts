@@ -16,7 +16,7 @@ class ProgramGenreDialogActionView extends View {
     private programViewModel: ProgramViewModel;
     private storedGenre: { [key: number]: boolean; };
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <ProgramStorageViewModel>this.getModel("ProgramStorageViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
         this.programViewModel = <ProgramViewModel>this.getModel("ProgramViewModel");
@@ -31,7 +31,7 @@ class ProgramGenreDialogActionView extends View {
     }
 
     //更新、キャンセルボタン
-    public createActionButton(): Mithril.VirtualElement {
+    public createActionButton(): Mithril.Vnode<any, any> {
          return m("div", { class: "mdl-dialog__actions", style: "height: 36px;" }, [
             //更新ボタン
             m("button", {

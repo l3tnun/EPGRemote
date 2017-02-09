@@ -16,13 +16,13 @@ class LiveOtherStreamInfoApiModel extends RetryApiModel implements LiveOtherStre
 
     public update(): void {
         m.request({ method: "GET", url: `/api/live/watch` })
-        .then((value) => {
+        .then((value: any[]) => {
             if(typeof value == "undefined" || value.length == 0) {
                 this.list = [];
                 return;
             }
 
-            let minEndtime: number = value.pop()["updateTime"];
+            let minEndtime: number = value.pop()!["updateTime"];
             if(typeof minEndtime == "undefined") { return; }
 
             //timer にセット

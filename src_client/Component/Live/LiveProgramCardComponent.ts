@@ -1,6 +1,7 @@
 "use strict";
 
 import Component from '../Component';
+import LiveProgramCardController from '../../Controller/Live/LiveProgramCardController';
 import LiveProgramCardView from '../../View/Live/LiveProgramCardView';
 
 /**
@@ -11,7 +12,7 @@ import LiveProgramCardView from '../../View/Live/LiveProgramCardView';
 */
 class LiveProgramCardComponent extends Component {
     protected getController() {
-        return null;
+        return new LiveProgramCardController();
     }
 
     protected getView() {

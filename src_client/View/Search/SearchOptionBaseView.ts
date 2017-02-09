@@ -7,7 +7,7 @@ import View from '../View';
 * Search Option と Add Keyword のベースクラス
 */
 abstract class SearchOptionBaseView extends View {
-    protected createContentFrame(name: string, content: Mithril.VirtualElement[]): Mithril.VirtualElement {
+    protected createContentFrame(name: string, content: Mithril.Vnode<any, any>[]): Mithril.Vnode<any, any> {
         return m("div", {
             class: "search-option-content mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing"
         }, [
@@ -21,14 +21,17 @@ abstract class SearchOptionBaseView extends View {
     }
 
     //チェックボックス生成
-    protected createCheckBox(labelName: string, checked: Function, onchange: Function): Mithril.VirtualElement {
+    protected createCheckBox(labelName: string, checked: Function, onchange: Function): Mithril.Vnode<any, any> {
         return m("label", { class: "search-option-checkbox mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" }, [
             m("input", {
                 type: "checkbox",
                 class: "mdl-checkbox__input",
                 checked: checked(),
                 onchange: m.withAttr("checked", (value) => { onchange(value); }),
-                config: this.checkboxConfig
+                oncreate: () => { this.checkboxInit(); },
+                onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                    this.checkboxConfig(<HTMLInputElement>(vnode.dom));
+                }
             }),
             m("span", { class: "mdl-checkbox__label" }, labelName )
         ]);

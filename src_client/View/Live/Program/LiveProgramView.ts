@@ -3,7 +3,6 @@
 import * as m from 'mithril';
 import ParentPageView from '../../ParentPageView';
 import LiveProgramCardComponent from '../../../Component/Live/LiveProgramCardComponent';
-import DialogComponent from '../../../Component/Dialog/DialogComponent';
 import LiveProgramDialogContentComponent from '../../../Component/Live/LiveProgramDialogContentComponent';
 import LiveProgramAddTimeButtonComponent from '../../../Component/Live/LiveProgramAddTimeButtonComponent';
 import LiveProgramCardViewModel from '../../../ViewModel/Live/LiveProgramCardViewModel';
@@ -12,21 +11,25 @@ import LiveProgramCardViewModel from '../../../ViewModel/Live/LiveProgramCardVie
 * LiveProgram の View
 */
 class LiveProgramView extends ParentPageView {
-    public execute(): Mithril.VirtualElement {
+    private liveProgramCardComponent = new LiveProgramCardComponent();
+    private liveProgramDialogContentComponent = new LiveProgramDialogContentComponent();
+    private liveProgramAddTimeButtonComponent = new LiveProgramAddTimeButtonComponent();
+
+    public execute(): Mithril.Vnode<any, any> {
         return m("div", { class: "mdl-layout mdl-js-layout mdl-layout--fixed-header"}, [
             this.createHeader("番組表"),
             this.createHeaderMenu(),
             this.createNavigation(),
-            m.component(new LiveProgramAddTimeButtonComponent()),
+            m(this.liveProgramAddTimeButtonComponent),
 
             this.mainLayout([
-                m.component(new LiveProgramCardComponent(), { single: false })
+                m(this.liveProgramCardComponent, { single: false })
             ]),
 
-            m.component(new DialogComponent(), {
+            m(this.getDialogComponent(LiveProgramCardViewModel.dialogId), {
                 id: LiveProgramCardViewModel.dialogId,
                 width: 650,
-                content: m.component(new LiveProgramDialogContentComponent())
+                content: m(this.liveProgramDialogContentComponent)
             }),
 
             this.createDiskDialog(),

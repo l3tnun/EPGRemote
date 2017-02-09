@@ -27,6 +27,9 @@ class ProgramViewModel extends ViewModel {
     //ProgramApiModel のアップデート時に差分更新をするために使用する
     private programCache: { [key: number]: ProgramCacheStructure } = {};
 
+    //ProgramContentView の更新時間を記録する
+    public programUpdateTime: Date | null = null;
+
     constructor(
         _programApiModel: ProgramApiModelInterface,
         _programConfigApiModel: ProgramConfigApiModelInterface,
@@ -43,6 +46,7 @@ class ProgramViewModel extends ViewModel {
     * ParentPageController から呼ばれる
     */
     public init(): void {
+        this.programUpdateTime = null;
         this.programApiModel.init(() => { this.diffUpdate(); });
         this.updateProgram();
         this.programConfigApiModel.update();
@@ -79,8 +83,8 @@ class ProgramViewModel extends ViewModel {
     //プログレスを非表示にする
     public hiddenProgressStatus(): void {
         this.progressStatus = false;
-        m.redraw.strategy("diff");
-        m.redraw(true);
+        //m.redraw.strategy("diff");
+        m.redraw();
     }
 
     //program cache をリセットする
@@ -117,7 +121,10 @@ class ProgramViewModel extends ViewModel {
     * 番組表 DOM 差分更新
     */
     private diffUpdate(): void {
-        this.programApiModel.getProgram().map((stationProgram: { [key: string]: any }[]) => {
+        let programs = this.programApiModel.getProgram();
+        if(programs == null) { return; }
+
+        programs.map((stationProgram: { [key: string]: any }[]) => {
             stationProgram.map((program: { [key: string]: any }) => {
                 let id = program["id"];
 
@@ -175,8 +182,8 @@ class ProgramViewModel extends ViewModel {
         } else if(newHeaderSize > 0 && newHeaderSize != this.headerHeight) {
             this.headerHeight = newHeaderSize;
             //header の高さの変更を反映させるために再描画
-            m.redraw.strategy("diff");
-            m.redraw(true);
+            //m.redraw.strategy("diff");
+            m.redraw();
         }
     }
 
@@ -193,30 +200,30 @@ class ProgramViewModel extends ViewModel {
         if( (newWidth > ProgramViewModel.viewConfigWidth && this.windowWidth <= ProgramViewModel.viewConfigWidth)
          || (newWidth <= ProgramViewModel.viewConfigWidth && this.windowWidth > ProgramViewModel.viewConfigWidth) ) {
             this.initUpdateTime();
-            m.redraw.strategy("diff");
-            m.redraw(true);
+            //m.redraw.strategy("diff");
+            m.redraw();
         }
 
         this.windowWidth = newWidth;
     }
 
     //ジャンルを返す
-    public getGenre(): { [key: string]: any }[] {
+    public getGenre(): { [key: string]: any }[] | null {
         return this.programApiModel.getGenre();
     }
 
     //time を返す
-    public getTime(): { [key: string]: number } {
+    public getTime(): { [key: string]: number } | null {
         return this.programApiModel.getTime();
     }
 
     //channel を返す
-    public getChannel(): { [key: string]: any }[] {
+    public getChannel(): { [key: string]: any }[] | null {
         return this.programApiModel.getChannel();
     }
 
     //program を返す
-    public getProgram(): { [key: string]: any }[] {
+    public getProgram(): { [key: string]: any }[] | null {
         return this.programApiModel.getProgram();
     }
 
@@ -238,17 +245,17 @@ class ProgramViewModel extends ViewModel {
     }
 
     //タブレット用 view 設定を返す
-    public getTabletViewConfig(): { [key: string]: any } {
+    public getTabletViewConfig(): { [key: string]: number } | null {
         return this.programConfigApiModel.getTabletViewConfig();
     }
 
     //モバイル用 view 設定を返す
-    public getMobileViewConfig(): { [key: string]: any } {
+    public getMobileViewConfig(): { [key: string]: number } | null {
         return this.programConfigApiModel.getMobileViewConfig();
     }
 
     //window 横幅判断して タブレット or モバイル用の view 設定を返す
-    public getViewConfig(): { [key: string]: any } {
+    public getViewConfig(): { [key: string]: number } | null {
         if(window.innerWidth > ProgramViewModel.viewConfigWidth) {
             return this.getTabletViewConfig();
         } else {

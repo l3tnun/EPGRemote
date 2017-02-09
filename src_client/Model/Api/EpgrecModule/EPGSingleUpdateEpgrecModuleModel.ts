@@ -27,7 +27,7 @@ class EPGSingleUpdateEpgrecModuleModel extends EpgrecModuleModel implements EPGS
     public execute(channel_disc: string): void {
         m.request({
             method: "GET",
-            url: `/api/epg?${ m.route.buildQueryString({ channel_disc: channel_disc }) }`
+            url: `/api/epg?${ m.buildQueryString({ channel_disc: channel_disc }) }`
         })
         .then((_value) => {
             //this.viewUpdate(_value);

@@ -8,6 +8,10 @@ import ViewModel from '../ViewModel';
 class LogPageActionDialogViewModel extends ViewModel {
     private link: { [key: string]: any } | null = null;
 
+    public init(): void {
+        this.link = null;
+    }
+
     public setLink(value: { [key: string]: any }): void {
         this.link = value;
     }

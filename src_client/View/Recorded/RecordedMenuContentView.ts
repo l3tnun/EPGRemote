@@ -14,7 +14,7 @@ class RecordedMenuContentView extends View {
     private dialog: DialogViewModel;
     private videoLinkViewModel: RecordedVideoLinkDialogViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <RecordedMenuViewModel>this.getModel("RecordedMenuViewModel");
         this.menuViewModel = <MenuViewModel>this.getModel("MenuViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
@@ -51,7 +51,7 @@ class RecordedMenuContentView extends View {
         ]);
     }
 
-    private createItem(option: { [key: string]: any }, iconName: string, text: string): Mithril.VirtualElement {
+    private createItem(option: { [key: string]: any }, iconName: string, text: string): Mithril.Vnode<any, any> {
         option["class"] = "menu-item";
 
         return m("div", option, [
@@ -60,7 +60,7 @@ class RecordedMenuContentView extends View {
         ]);
     }
 
-    private searchItem(): Mithril.VirtualElement[] | Mithril.VirtualElement {
+    private searchItem(): Mithril.Vnode<any, any>[] | Mithril.Vnode<any, any> {
         if(this.viewModel.program == null) { return m("div"); }
 
         let query = {};
@@ -82,8 +82,8 @@ class RecordedMenuContentView extends View {
             m("a", {
                 id: RecordedMenuContentView.searchDummyLinkId,
                 style: "display: none;",
-                href: "/recorded?" + m.route.buildQueryString( query ),
-                config: m.route
+                href: "/recorded?" + m.buildQueryString( query ),
+                oncreate : m.route.link
             })
         ];
     }

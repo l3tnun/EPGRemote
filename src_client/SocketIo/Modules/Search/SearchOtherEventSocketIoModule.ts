@@ -1,6 +1,5 @@
 "use strict";
 
-import * as m from 'mithril';
 import SocketIoModule from '../SocketIoModule';
 import { SearchResultApiModelInterface } from '../../../Model/Api/Search/SearchResultApiModel';
 
@@ -28,9 +27,7 @@ class SearchOtherEventSocketIoModule extends SocketIoModule {
     }
 
     public execute(_option: { [key: string]: any; }): void {
-        m.startComputation();
         this.searchResultApModel.update();
-        m.endComputation();
     }
 }
 

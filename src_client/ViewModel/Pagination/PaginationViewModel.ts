@@ -1,6 +1,5 @@
 "use strict";
 
-import * as m from 'mithril';
 import ViewModel from '../ViewModel';
 import Util from  '../../Util/Util';
 
@@ -30,7 +29,7 @@ class PaginationViewModel extends ViewModel {
     * @param 表示するコンテンツの全体の個数
     */
     public setup(_limit: number, totalNum: number): void {
-        let url = m.route().split("?")[0];
+        let url = Util.getRoute();
         let query = Util.getCopyQuery();
         let page: number;
         let limit: number;
@@ -45,7 +44,7 @@ class PaginationViewModel extends ViewModel {
         next["query"]["page"] = page + 1;
 
         //1ページで収まる場合は pagination を表示させない
-        this._showStatus = !(page == 1 && page * limit >= totalNum || limit == null)
+        this._showStatus = !(page == 1 && page * limit >= totalNum || limit == null || totalNum == 0)
 
         if( page * limit >= totalNum ) { next = { url: null, query: null }; }
 

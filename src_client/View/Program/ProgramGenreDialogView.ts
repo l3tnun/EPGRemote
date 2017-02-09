@@ -14,7 +14,7 @@ class ProgramGenreDialogView extends View {
     private viewModel: ProgramStorageViewModel;
     private programViewModel: ProgramViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <ProgramStorageViewModel>this.getModel("ProgramStorageViewModel");
         this.programViewModel = <ProgramViewModel>this.getModel("ProgramViewModel");
 
@@ -24,15 +24,13 @@ class ProgramGenreDialogView extends View {
             m("ul", {
                 class: "mdl-list",
                 style: "padding: 16px; margin: 0;",
-                config: (_element, _isInit, _context) => {
-                    Util.upgradeMdl();
-                }
+                onupdate: () => { Util.upgradeMdl(); }
             }, this.createGenreList())
         ]);
     }
 
     //ジャンルリストを生成
-    private createGenreList(): Mithril.VirtualElement[] {
+    private createGenreList(): Mithril.Vnode<any, any>[] {
         let genres = this.programViewModel.getGenre();
         if(genres == null || this.viewModel.tmpGenre == null) { return [ m("div", "empty") ] }
 
@@ -42,12 +40,12 @@ class ProgramGenreDialogView extends View {
                 m("span", { class: "program-genre-dialog-toggle mdl-list__item-secondary-action" }, [
                     m("label", {
                         class: "mdl-switch mdl-js-switch mdl-js-ripple-effect",
-                        config: (element, _isInit, _context) => {
+                        onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
                             if(this.viewModel.tmpGenre == null) { return; }
-                            if(this.viewModel.tmpGenre[genre["id"]] && element.className.indexOf("is-checked") == -1) {
-                                element.classList.add("is-checked");
-                            } else if(!this.viewModel.tmpGenre[genre["id"]] && element.className.indexOf("is-checked") != -1) {
-                                element.classList.remove("is-checked");
+                            if(this.viewModel.tmpGenre[genre["id"]] && vnode.dom.className.indexOf("is-checked") == -1) {
+                                vnode.dom.classList.add("is-checked");
+                            } else if(!this.viewModel.tmpGenre[genre["id"]] && vnode.dom.className.indexOf("is-checked") != -1) {
+                                vnode.dom.classList.remove("is-checked");
                             }
                         }
                     }, [
@@ -56,8 +54,8 @@ class ProgramGenreDialogView extends View {
                             class: "mdl-switch__input",
                             checked: this.viewModel.tmpGenre![genre["id"]],
                             onchange: m.withAttr("checked", (value) => {
+                                if(this.viewModel.tmpGenre![genre["id"]] == value) { value = !value } //firefox で発生する
                                 this.viewModel.tmpGenre![genre["id"]] = value;
-                                m.redraw.strategy("none");
                             })
                         })
                     ])

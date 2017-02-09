@@ -29,6 +29,7 @@ class ReservationViewModel extends ViewModel {
         let query = Util.getCopyQuery();
         this.page = (typeof query["page"] == "undefined") ? null : Number(query["page"]);
         this.limit = (typeof query["limit"] == "undefined") ? null : Number(query["limit"]);
+        this.reservationApiModel.init();
     }
 
     //更新
@@ -57,10 +58,10 @@ class ReservationViewModel extends ViewModel {
     public resize(): void {
         if((!this.showStatus || this.showStatus == null) && window.innerWidth < ReservationViewModel.viewChangeWidth) {
             this.showStatus = true;
-            m.redraw(true);
+            m.redraw();
         } else if((this.showStatus || this.showStatus == null) && window.innerWidth > ReservationViewModel.viewChangeWidth) {
             this.showStatus = false;
-            m.redraw(true);
+            m.redraw();
         }
     }
 

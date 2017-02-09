@@ -10,7 +10,7 @@ import DiskDialogViewModel from '../../ViewModel/Disk/DiskDialogViewModel';
 class DiskDialogView extends View {
     private viewModel: DiskDialogViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <DiskDialogViewModel>this.getModel("DiskDialogViewModel");
 
         return m("div", [

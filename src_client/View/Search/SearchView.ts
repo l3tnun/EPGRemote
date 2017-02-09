@@ -4,7 +4,6 @@ import * as m from 'mithril';
 import ParentPageView from '../ParentPageView';
 import Scroll from '../../Util/Scroll';
 import SearchViewModel from '../../ViewModel/Search/SearchViewModel';
-import DialogComponent from '../../Component/Dialog/DialogComponent';
 import SearchOptionComponent from '../../Component/Search/SearchOptionComponent';
 import SearchResultComponent from '../../Component/Search/SearchResultComponent';
 import SearchAddKeywordComponent from '../../Component/Search/SearchAddKeywordComponent';
@@ -16,8 +15,12 @@ import ProgramInfoDialogViewModel from '../../ViewModel/Program/ProgramInfoDialo
 */
 class SearchView extends ParentPageView {
     private viewModel: SearchViewModel;
+    private searchOptionComponent = new SearchOptionComponent();
+    private searchResultComponent = new SearchResultComponent();
+    private searchAddKeywordComponent = new SearchAddKeywordComponent();
+    private programInfoDialogComponent = new ProgramInfoDialogComponent();
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <SearchViewModel>this.getModel("SearchViewModel");
 
         return m("div", { class: "mdl-layout mdl-js-layout mdl-layout--fixed-header" }, [
@@ -34,16 +37,16 @@ class SearchView extends ParentPageView {
             this.createNavigation(),
 
             this.mainLayout([
-                m.component(new SearchOptionComponent()),
-                m.component(new SearchResultComponent()),
-                m.component(new SearchAddKeywordComponent())
+                m(this.searchOptionComponent),
+                m(this.searchResultComponent),
+                m(this.searchAddKeywordComponent)
             ]),
 
             //予約ダイアログ
-            m.component(new DialogComponent(), {
+            m(this.getDialogComponent(ProgramInfoDialogViewModel.infoDialogId), {
                 id: ProgramInfoDialogViewModel.infoDialogId,
                 width: 400,
-                content: m.component(new ProgramInfoDialogComponent())
+                content: m(this.programInfoDialogComponent)
             }),
 
             //ディスク空き容量ダイアログ

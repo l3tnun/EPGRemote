@@ -10,18 +10,16 @@ import HeaderComponent from '../../Component/Header/HeaderComponent';
 * ページ読み込み時に Navigation を開く
 */
 class TopPageView extends View {
-    public execute(): Mithril.VirtualElement {
+    private headerComponent = new HeaderComponent();
+    private navigationComponent = new NavigationComponent();
+
+    public execute(): Mithril.Vnode<any, any> {
         return m("div", {
             class: "mdl-layout mdl-js-layout mdl-layout--fixed-header",
-            config: (_element, isInit, _context) => {
-                if(!isInit) {
-                    //navigation を開く
-                    setTimeout(() => { this.openNavigation(); }, 200);
-                }
-            }
+            oncreate: () => { setTimeout(() => { this.openNavigation(); }, 200); },
         }, [
-            m.component(new HeaderComponent(), { title: "EPGRemote" }),
-            m.component(new NavigationComponent())
+            m(<Mithril.Component<{ title: string; }, {}>>this.headerComponent, { title: "EPGRemote" }),
+            m(this.navigationComponent)
         ]);
     }
 

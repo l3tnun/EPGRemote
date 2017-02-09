@@ -16,7 +16,7 @@ class KeywordInfoDialogView extends View {
     private keywordDeleteDialogViewModel: KeywordDeleteDialogViewModel;
     private dialog: DialogViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <KeywordInfoDialogViewModel>this.getModel("KeywordInfoDialogViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
         this.keywordViewModel = <KeywordViewModel>this.getModel("KeywordViewModel");
@@ -105,7 +105,7 @@ class KeywordInfoDialogView extends View {
                     class: "hover mdl-button mdl-js-button mdl-button--primary",
                     onclick: () => {
                         this.dialog.close();
-                        setTimeout( () => { m.route("/recorded", { keyword_id: keyword!["id"] }); }, 300);
+                        setTimeout( () => { m.route.set("/recorded", { keyword_id: keyword!["id"] }); }, 300);
                     }
                 }, "番組一覧" ),
 
@@ -119,7 +119,7 @@ class KeywordInfoDialogView extends View {
                                 //open keyword delete dialog
                                 this.keywordDeleteDialogViewModel.setup(keyword!);
                                 this.dialog.open(KeywordDeleteDialogViewModel.dialogId);
-                                m.redraw(true)
+                                m.redraw()
                             }, 400);
                         } else {
                             //delete keyword
@@ -133,7 +133,7 @@ class KeywordInfoDialogView extends View {
                     class: "hover mdl-button mdl-js-button mdl-button--primary",
                     onclick: () => {
                         this.dialog.close();
-                        setTimeout( () => { m.route("/search", { keyword_id: keyword!["id"] }); }, 300);
+                        setTimeout( () => { m.route.set("/search", { keyword_id: keyword!["id"] }); }, 300);
                     }
                 }, "編集" )
             ])

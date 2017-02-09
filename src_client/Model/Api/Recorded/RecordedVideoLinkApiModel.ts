@@ -6,34 +6,35 @@ import Util from '../../../Util/Util';
 
 interface RecordedVideoLinkApiModelInterface extends ApiModel {
     update(rec_id: number): void;
-    getLink(): { [key: string]: any }[];
-    getiOSURL(): { [key: string]: string };
-    getAndroidURL(): { [key: string]: string };
+    getLink(): { [key: string]: any }[] | null;
+    getiOSURL(): { [key: string]: string } | null;
+    getAndroidURL(): { [key: string]: string } | null;
 }
 
 /**
 * RecordedVideoLinkApiModel
 */
 class RecordedVideoLinkApiModel implements RecordedVideoLinkApiModelInterface {
-    private videoLink: { [key: string]: any }[] = [];
-    private iosURL: { [key: string]: string } = {};
-    private androidURL: { [key: string]: string } = {};
+    private videoLink: { [key: string]: any }[] | null = null;
+    private iosURL: { [key: string]: string } | null = null;
+    private androidURL: { [key: string]: string } | null = null;
 
     /**
     * ビデオリンクの更新
     * @param rec_id program id
     */
     public update(rec_id: number): void {
+        this.videoLink = null;
         let query = { rec_id: rec_id }
         let isIos = Util.uaIsiOS();
         let isAndroid = Util.uaIsAndroid();
         if(isIos) { query["ios"] = 1; }
         if(isAndroid) { query["android"] = 1; }
 
-        m.request({method: "GET", url: `/api/recorded/video?${ m.route.buildQueryString(query) }`})
-        .then((value) => {
-            this.iosURL = isIos ? value.pop() : null;
-            this.androidURL = isAndroid ? value.pop() : null;
+        m.request({method: "GET", url: `/api/recorded/video?${ m.buildQueryString(query) }`})
+        .then((value: { [key: string]: any }[]) => {
+            this.iosURL = isIos ? <{ [key: string]: string }>(value.pop()) : null;
+            this.androidURL = isAndroid ? <{ [key: string]: string }>(value.pop()) : null;
             this.videoLink = (typeof value == "undefined" || value.length == 0) ? null : value;
             if(this.videoLink != null) {
                 this.videoLink.map((video: any) => { video.path = Util.encodeURL(video.path); });
@@ -46,17 +47,17 @@ class RecordedVideoLinkApiModel implements RecordedVideoLinkApiModelInterface {
     }
 
     //ビデオリンクを返す
-    public getLink(): { [key: string]: any }[] {
+    public getLink(): { [key: string]: any }[] | null {
         return this.videoLink;
     }
 
     //iOS 用の URL リンクのテンプレートを返す
-    public getiOSURL(): { [key: string]: string } {
+    public getiOSURL(): { [key: string]: string } | null {
         return this.iosURL;
     }
 
     //Android 用の URL リンクのテンプレートを返す
-    getAndroidURL(): { [key: string]: string } {
+    getAndroidURL(): { [key: string]: string } | null {
         return this.androidURL;
     }
 }

@@ -12,7 +12,7 @@ class KeywordDeleteDialogView extends View {
     private viewModel: KeywordDeleteDialogViewModel;
     private dialog: DialogViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <KeywordDeleteDialogViewModel>this.getModel("KeywordDeleteDialogViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
 

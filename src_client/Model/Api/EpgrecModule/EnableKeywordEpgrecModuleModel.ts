@@ -34,7 +34,7 @@ class EnableKeywordEpgrecModuleModel extends EpgrecModuleModel implements Enable
         m.request({
             method: "PUT",
             url: `/api/keyword`,
-            data: m.route.buildQueryString(query)
+            data: m.buildQueryString(query)
         })
         .then((_value) => {
             //this.viewUpdate(_value);

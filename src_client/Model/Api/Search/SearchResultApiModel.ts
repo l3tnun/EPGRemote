@@ -84,7 +84,7 @@ class SearchResultApiModel implements SearchResultApiModelInterface {
         m.request({
             method: "POST",
             url: `/api/search`,
-            data: m.route.buildQueryString(query)
+            data: m.buildQueryString(query)
         })
         .then((value) => {
             if(value["status"] == "completed") {

@@ -1,6 +1,5 @@
 "use strict";
 
-import * as m from 'mithril';
 import SocketIoModule from '../SocketIoModule';
 import { RecordedApiModelInterface } from '../../../Model/Api/Recorded/RecordedApiModel';
 
@@ -31,9 +30,7 @@ class RecordedOtherEventSocketIoModule extends SocketIoModule {
     }
 
     public execute(_option: { [key: string]: any; }): void {
-        m.startComputation();
         this.recordedApiModel.update();
-        m.endComputation();
     }
 }
 

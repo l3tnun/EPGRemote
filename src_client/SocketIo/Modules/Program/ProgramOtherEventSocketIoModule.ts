@@ -1,6 +1,5 @@
 "use strict";
 
-import * as m from 'mithril';
 import SocketIoModule from '../SocketIoModule';
 import { ProgramApiModelInterface } from '../../../Model/Api/Program/ProgramApiModel';
 
@@ -28,9 +27,7 @@ class ProgramOtherEventSocketIoModule extends SocketIoModule {
     }
 
     public execute(_option: { [key: string]: any; }): void {
-        m.startComputation();
         this.programApiModel.update(true);
-        m.endComputation();
     }
 }
 

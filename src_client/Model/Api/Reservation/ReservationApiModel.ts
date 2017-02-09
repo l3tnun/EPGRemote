@@ -4,6 +4,7 @@ import * as m from 'mithril';
 import ApiModel from '../ApiModel';
 
 interface ReservationApiModelInterface extends ApiModel {
+    init(): void;
     setup(page: number | null, limit: number | null): void;
     update(): void;
     getPrograms(): { [key: string]: any }[];
@@ -20,6 +21,13 @@ class ReservationApiModel implements ReservationApiModelInterface {
     private limit: number | null = null;
     private totalNum: number = 0;
 
+    public init(): void {
+        this.programs = [];
+        this.page = null;
+        this.limit = null;
+        this.totalNum = 0;
+    }
+
     public setup(_page: number | null, _limit: number | null): void {
         this.page = _page;
         this.limit = _limit;
@@ -31,7 +39,7 @@ class ReservationApiModel implements ReservationApiModelInterface {
         if(this.page != null) { query["page"] = this.page; }
         if(this.limit != null) { query["limit"] = this.limit; }
 
-        m.request({method: "GET", url: `/api/reservation?${ m.route.buildQueryString(query) }`})
+        m.request({method: "GET", url: `/api/reservation?${ m.buildQueryString(query) }`})
         .then((value) => {
             let prgorams = value["programs"];
             let limit = value["limit"];

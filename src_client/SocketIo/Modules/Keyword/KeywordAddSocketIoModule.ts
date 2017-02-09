@@ -1,6 +1,5 @@
 "use strict";
 
-import * as m from 'mithril';
 import SocketIoModule from '../SocketIoModule';
 import { KeywordApiModelInterface } from '../../../Model/Api/Keyword/KeywordApiModel';
 
@@ -24,10 +23,7 @@ class KeywordAddSocketIoModule extends SocketIoModule {
     }
 
     public execute(_option: { [key: string]: any; }): void {
-        m.startComputation();
-        console.log('update keyword api model');
         this.keywordApiModel.update();
-        m.endComputation();
     }
 }
 

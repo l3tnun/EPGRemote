@@ -9,9 +9,10 @@ class KeywordController extends ParentPageController {
 
     //ViewModel 初期化
     public initModel(): void {
+        super.initModel();
         this.viewModel = <KeywordViewModel>this.getModel("KeywordViewModel");
         this.viewModel.init();
-        this.viewModel.update();
+        setTimeout(() => { this.viewModel.update(); }, 100);
 
         window.addEventListener('resize', this.resizeListener, false );
     }
@@ -25,8 +26,8 @@ class KeywordController extends ParentPageController {
     }
 
     //ページから離れるときに呼び出される
-    public onunload(): void {
-        super.onunload();
+    public onRemove(): void {
+        super.onRemove();
         window.removeEventListener('resize', this.resizeListener, false );
     }
 
