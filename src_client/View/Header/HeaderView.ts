@@ -2,6 +2,7 @@
 
 import * as m from 'mithril';
 import View from '../View';
+import Util from '../../Util/Util';
 
 /**
 * Header 部分の View
@@ -34,7 +35,10 @@ class HeaderView extends View {
     public execute(): Mithril.Vnode<any, any> {
         return m("header", { class: "mdl-layout__header" }, [
             m("div", { class: "mdl-layout__header-row", style: "padding-right: 8px;" }, [
-                m("span", { class: "mdl-layout-title" }, HeaderView.title),
+                m("span", {
+                    class: "mdl-layout-title",
+                    onclick: () => { if(Util.getRoute() != "/") { m.route.set("/"); } }
+                }, HeaderView.title),
 
                 m("div", { class: "mdl-layout-spacer" } ),
                 this.leftButtons
