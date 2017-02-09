@@ -24,6 +24,7 @@ class RecordedVideoLinkApiModel implements RecordedVideoLinkApiModelInterface {
     * @param rec_id program id
     */
     public update(rec_id: number): void {
+        this.videoLink = null;
         let query = { rec_id: rec_id }
         let isIos = Util.uaIsiOS();
         let isAndroid = Util.uaIsAndroid();

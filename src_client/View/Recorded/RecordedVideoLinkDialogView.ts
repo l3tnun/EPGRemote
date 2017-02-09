@@ -14,7 +14,7 @@ class RecordedVideoLinkDialogView extends View {
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
 
         let links = this.viewModel.getLink();
-        if(links == null) { return m("div", "empty"); }
+        if(links == null) { return m("div"); }
 
         //title
         let title = this.viewModel.getDlStatus() ? "ダウンロードリンク" : "ビデオリンク";
