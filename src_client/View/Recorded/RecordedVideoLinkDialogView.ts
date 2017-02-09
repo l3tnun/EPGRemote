@@ -55,6 +55,10 @@ class RecordedVideoLinkDialogView extends View {
         return m("div", { class: "pulldown mdl-layout-spacer", style: "width: 100%;" }, [
             m("select", {
                 value: this.viewModel.videoSelectorValue,
+                oncreate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                    if(this.viewModel.videoSelectorValue == null) { return; }
+                    this.selectConfig((<HTMLInputElement>(vnode.dom)), this.viewModel.videoSelectorValue);
+                },
                 onchange: m.withAttr("value", (value) => { this.viewModel.videoSelectorValue = Number(value); }),
                 onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
                     let video = this.viewModel.videoSelectorValue;
