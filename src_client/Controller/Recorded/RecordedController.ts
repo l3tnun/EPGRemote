@@ -15,7 +15,6 @@ class RecordedController extends ParentPageController {
         this.viewModel.init();
 
         this.getModel("RecordedVideoLinkDialogViewModel").init();
-        this.getModel("RecordedSearchMenuViewModel").init();
 
         window.addEventListener('resize', this.resizeListener, false );
     }
