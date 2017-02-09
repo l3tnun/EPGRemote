@@ -1,11 +1,12 @@
 "use strict";
 
 import Component from '../Component';
+import LogPageActionDialogController from '../../Controller/LogPage/LogPageActionDialogController';
 import LogPageActionDialogContentView from '../../View/LogPage/LogPageActionDialogContentView';
 
 class LogPageActionDialogContentComponent extends Component {
     protected getController() {
-        return null;
+        return new LogPageActionDialogController();
     }
 
     protected getView() {
