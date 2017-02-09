@@ -26,6 +26,7 @@ class DialogController extends Controller {
         super.initModel();
 
         let dialogViewModel = <DialogViewModel>this.getModel("DialogViewModel");
+        dialogViewModel.init();
         dialogViewModel.add(this.id);
     }
 }

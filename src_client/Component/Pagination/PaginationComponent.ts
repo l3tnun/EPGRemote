@@ -1,6 +1,7 @@
 "use strict";
 
 import Component from '../Component';
+import PaginationController from '../../Controller/Pagination/PaginationController';
 import PaginationView from '../../View/Pagination/PaginationView';
 
 /**
@@ -9,7 +10,7 @@ import PaginationView from '../../View/Pagination/PaginationView';
 */
 class PaginationComponent extends Component {
     protected getController() {
-        return null;
+        return new PaginationController();
     }
 
     protected getView() {
