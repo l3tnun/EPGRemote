@@ -133,8 +133,6 @@ namespace Util {
     */
     export const reload = (): void => {
         (<DialogModelInterface>ModelFactory.getInstance().get("DialogModel")).close();
-        //m.route(m.route());
-        //TODO
         setTimeout(() => { location.reload(); }, 100);
     }
 
