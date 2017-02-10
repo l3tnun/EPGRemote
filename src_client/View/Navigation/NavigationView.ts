@@ -94,7 +94,10 @@ class NavigationView extends View {
             class: "mdl-navigation__link",
             onclick: () => {
                 this.close();
-                setTimeout(() => { m.route.set(href); }, 100);
+                setTimeout(() => {
+                    if(m.route.get() == href) { return; }
+                    m.route.set(href);
+                }, 100);
             }
         }, name);
     }

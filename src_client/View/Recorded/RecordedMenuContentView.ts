@@ -74,23 +74,13 @@ class RecordedMenuContentView extends View {
             this.createItem({
                 onclick: () => {
                     this.menuViewModel.close();
-                    document.getElementById(RecordedMenuContentView.searchDummyLinkId)!.click();
+                    let href = "/recorded?" + m.buildQueryString( query );
+                    if(href == m.route.get()) { return; }
+                    m.route.set(href);
                 }
-            }, "search", "search"),
-
-            //dummy link
-            m("a", {
-                id: RecordedMenuContentView.searchDummyLinkId,
-                style: "display: none;",
-                href: "/recorded?" + m.buildQueryString( query ),
-                oncreate : m.route.link
-            })
+            }, "search", "search")
         ];
     }
-}
-
-namespace RecordedMenuContentView {
-    export const searchDummyLinkId = "recorded_menu_search_dummy_link";
 }
 
 export default RecordedMenuContentView;
