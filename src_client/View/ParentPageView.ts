@@ -115,7 +115,7 @@ abstract class ParentPageView extends View {
                     //query が違う
                     this._query_ = newQuery;
                     this.hideAnimetion(vnode.dom);
-                    this.addShowAnimetion(vnode.dom);
+                    setTimeout(() => { this.addShowAnimetion(vnode.dom); }, 100);
                 }
             }
         }, [
