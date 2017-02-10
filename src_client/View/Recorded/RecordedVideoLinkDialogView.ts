@@ -82,8 +82,10 @@ class RecordedVideoLinkDialogView extends View {
         let androidURL = this.viewModel.getAndroidURL();
         let dlStatus = this.viewModel.getDlStatus();
 
+        if(dlStatus) { path += "?mode=download"; }
+
         //非 Mobile 端末
-        if(iOSURL == null && androidURL == null) {  return dlStatus ? path + "?mode=download" : path; }
+        if(iOSURL == null && androidURL == null) {  return path; }
 
         //Mobile 端末
         let mobilePath = window.location.host + path;
