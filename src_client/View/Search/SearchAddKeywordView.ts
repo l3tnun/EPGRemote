@@ -166,7 +166,7 @@ class SearchAddKeywordView extends SearchOptionBaseView {
 
     //トランスコード
     private createTransCode(): Mithril.Vnode<any, any> {
-        if(this.viewModel.getStartTranscodeId() == null) { return m("div"); }
+        if(this.viewModel.getStartTranscodeId() == -1) { return m("div"); }
 
         return this.createContentFrame("トランスコード", [
             this.createTranscodeContent(0),

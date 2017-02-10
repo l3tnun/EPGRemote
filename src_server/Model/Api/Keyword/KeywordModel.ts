@@ -73,7 +73,12 @@ class KeywordModel extends ApiModel {
                 keyword["priority"] = result["priority"] //優先度
                 keyword["sft_start"] = result["sft_start"];
                 keyword["sft_end"] = result["sft_end"];
-                keyword["autorec_mode_name"] = recMode[result["autorec_mode"]].name; //録画モード
+                //録画モード
+                if(typeof recMode[result["autorec_mode"]] == "undefined") {
+                    keyword["autorec_mode_name"] = null;
+                } else {
+                    keyword["autorec_mode_name"] = recMode[result["autorec_mode"]].name;
+                }
                 keyword["autorec_mode"] = result["autorec_mode"]; //録画モード
                 keyword["firstGenre"] = result["first_genre"] == 1; //ジャンル全保持
                 keyword["directory"] = result["directory"];
