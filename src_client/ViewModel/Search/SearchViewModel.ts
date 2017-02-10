@@ -217,7 +217,7 @@ class SearchViewModel extends ViewModel {
         if( typeof query["sub_genre"] != "undefined" ) {
             setTimeout(() => {
                 this.subGenreValue = query["sub_genre"];
-                m.redraw(true);
+                m.redraw();
             }, 100);
         }
     }
@@ -254,7 +254,7 @@ class SearchViewModel extends ViewModel {
             this.typeCS = config.typeCS;
             this.typeEX = config.typeEX;
             this.subGenreValue = config.subGenre_id;
-            m.redraw(true);
+            m.redraw();
         }, 100);
     }
 

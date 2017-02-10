@@ -1,11 +1,12 @@
 "use strict";
 
 import Component from '../Component';
+import RecordedVideoLinkDialogController from '../../Controller/Recorded/RecordedVideoLinkDialogController';
 import RecordedVideoLinkDialogView from '../../View/Recorded/RecordedVideoLinkDialogView';
 
 class RecordedVideoLinkDialogComponent extends Component {
     protected getController() {
-        return null;
+        return new RecordedVideoLinkDialogController();
     }
 
     protected getView() {

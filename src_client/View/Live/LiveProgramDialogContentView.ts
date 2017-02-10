@@ -14,7 +14,7 @@ class LiveProgramDialogContentView extends View {
     private dialogViewModel: DialogViewModel;
     private snackbarViewModel: SnackbarViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.dialogContentViewModel = <LiveProgramDialogContentViewModel>this.getModel("LiveProgramDialogContentViewModel");
         this.dialogViewModel = <DialogViewModel>this.getModel("DialogViewModel");
         this.snackbarViewModel = <SnackbarViewModel>this.getModel("SnackbarViewModel");
@@ -60,7 +60,7 @@ class LiveProgramDialogContentView extends View {
     }
 
     //tuner pulldown の生成
-    private tunerPulldown(): Mithril.VirtualElement {
+    private tunerPulldown(): Mithril.Vnode<any, any> {
         return m("div", { style: "display: flex; width: 50%; float: left;" }, [
             m("div", { class: "pulldown mdl-layout-spacer" }, [
                 m("select", { id: LiveProgramDialogContentView.tunerPullDownId }, [
@@ -78,7 +78,7 @@ class LiveProgramDialogContentView extends View {
     }
 
     //video pulldown の生成
-    private videoPulldown(): Mithril.VirtualElement {
+    private videoPulldown(): Mithril.Vnode<any, any> {
         return m("div", { style: "display: flex; width: 50%;" }, [
             m("div", { class: "pulldown mdl-layout-spacer" }, [
                 m("select", { id: LiveProgramDialogContentView.videoPullDownId }, [
@@ -92,7 +92,7 @@ class LiveProgramDialogContentView extends View {
     * pulldown の中身を生成する
     * @param array { id: 1, name: "hoge" } の形になっている array
     */
-    private createPulldownContent(array: any[]): Mithril.VirtualElement[] {
+    private createPulldownContent(array: any[]): Mithril.Vnode<any, any>[] {
         return array.map((data: { [key: string]: any }) => {
             return m("option", { value: data["id"] }, data["name"] )
         });
@@ -145,7 +145,7 @@ class LiveProgramDialogContentView extends View {
     }
 
     //単局、EPG 更新ボタン、新規ストリームチェックボックス
-    private createSubButton():  Mithril.VirtualElement[] {
+    private createSubButton():  Mithril.Vnode<any, any>[] {
         if(location.href.indexOf("/program") > 0 && location.href.indexOf("/live") == -1 && typeof m.route.param("ch") == "undefined") {
             //番組表
             let query = typeof m.route.param("time") == "undefined" ? {} : { time: m.route.param("time") };
@@ -170,7 +170,7 @@ class LiveProgramDialogContentView extends View {
                     onclick: () => {
                         this.dialogViewModel.close();
                         setTimeout(() => {
-                            m.route("/program", query)
+                            m.route.set("/program", query)
                         }, 100);
                     }
                 }, "単局表示" )
@@ -190,7 +190,8 @@ class LiveProgramDialogContentView extends View {
                         onchange: m.withAttr("checked", (value) => {
                             this.dialogContentViewModel.enableNewStream = value;
                         }),
-                        config: this.checkboxConfig
+                        onreate: () => { this.checkboxInit(); },
+                        onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.checkboxConfig(<HTMLInputElement>(vnode.dom)); }
                     }),
                     m("span", { class: "mdl-checkbox__label" }, "新規ストリーム")
                 ])

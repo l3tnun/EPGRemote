@@ -11,16 +11,16 @@ import SnackbarViewModel from '../../ViewModel/Snackbar/SnackbarViewModel';
 class SnackbarView extends View {
     private viewModel: SnackbarViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <SnackbarViewModel>this.getModel("SnackbarViewModel");
 
         return m("div", {
                 id: SnackbarViewModel.id,
                 class: "mdl-js-snackbar mdl-snackbar",
-                config: (element, _isInit, _context) => {
+                onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
                     let message = this.viewModel.get();
                     if(message == null) { return; }
-                    (<MaterialSnackbar>element).MaterialSnackbar.showSnackbar({ message: message });
+                    (<MaterialSnackbar>(vnode.dom)).MaterialSnackbar.showSnackbar({ message: message });
                 }
             }, [
             m("div", { class: "mdl-snackbar__text" } ),

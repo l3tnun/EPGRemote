@@ -16,12 +16,13 @@ class ProgramStationView extends View {
     private liveProgramDialogContentViewModel: LiveProgramDialogContentViewModel;
     private dialog: DialogViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <ProgramViewModel>this.getModel("ProgramViewModel");
         this.liveProgramDialogContentViewModel = <LiveProgramDialogContentViewModel>this.getModel("LiveProgramDialogContentViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
 
         let viewConfig = this.viewModel.getViewConfig();
+        if(viewConfig == null) { return m("div"); }
 
         return m("div", {
             id: ProgramViewModel.stationFrameId
@@ -41,27 +42,36 @@ class ProgramStationView extends View {
     }
 
     //局名を生成する
-    private createTitle(viewConfig:  { [key: string]: any }): Mithril.VirtualElement[] {
-        let result: Mithril.VirtualElement[] = [];
+    private createTitle(viewConfig:  { [key: string]: number }): Mithril.Vnode<any, any>[] {
+        let result: Mithril.Vnode<any, any>[] = [];
         let chennels = this.viewModel.getChannel();
+        if(chennels == null) { return []; }
+
+        let programs = this.viewModel.getProgram();
+        if(programs == null) { return []; }
 
         if(typeof m.route.param("ch") == "undefined") {
+
             //非単局表示
-            this.viewModel.getProgram().map((program: { [key: string]: any }[], index: number) => {
+            programs.map((program: { [key: string]: any }[], index: number) => {
                 if( program.length == 0) { return; }
+
+                if(typeof chennels![index] == "undefined") { return; }
                 result.push( this.createContent(
-                    chennels[index]["name"],
+                    chennels![index]["name"],
                     viewConfig["stationWidth"],
                     viewConfig["stationHeight"],
                     viewConfig["stationFontSize"],
-                    chennels[index]
+                    chennels![index]
                 ));
             })
         } else {
             //単局表示
-            let starttime = new Date(this.viewModel.getTime()["startTime"]).getTime();
+            let time = this.viewModel.getTime();
+            if(time == null) { return []; }
+            let starttime = new Date(time["startTime"]).getTime();
 
-            for(let i = 0; i < this.viewModel.getProgram().length; i++) {
+            for(let i = 0; i < programs.length; i++) {
                 let jaTime = DateUtil.getJaDate(new Date(starttime));
 
                 result.push(this.createContent(
@@ -78,7 +88,7 @@ class ProgramStationView extends View {
     }
 
     //非単局表示の中身を生成する
-    private createContent(name: string, width: number, height: number, fontSize: number, channel: { [key: string]: any }): Mithril.VirtualElement {
+    private createContent(name: string, width: number, height: number, fontSize: number, channel: { [key: string]: any }): Mithril.Vnode<any, any> {
         return m("div", {
             class: "station_title",
             style: `max-width: ${ width }px;`
@@ -96,7 +106,7 @@ class ProgramStationView extends View {
                         this.dialog.open(LiveProgramCardViewModel.dialogId);
                     } else {
                         //単局表示
-                        m.route("/program", {
+                        m.route.set("/program", {
                             ch: channel["channel_disc"],
                             time: m.route.param("time")
                         });

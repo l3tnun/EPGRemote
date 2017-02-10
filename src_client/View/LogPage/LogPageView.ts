@@ -6,7 +6,6 @@ import Util from '../../Util/Util';
 import DateUtil from '../../Util/DateUtil';
 import Scroll from '../../Util/Scroll';
 import LogPageViewModel from '../../ViewModel/LogPage/LogPageViewModel';
-import DialogComponent from '../../Component/Dialog/DialogComponent';
 import DialogViewModel from '../../ViewModel/Dialog/DialogViewModel';
 import LogPageActionDialogContentComponent from '../../Component/LogPage/LogPageActionDialogContentComponent';
 import LogPageActionDialogViewModel from '../../ViewModel/LogPage/LogPageActionDialogViewModel';
@@ -19,7 +18,9 @@ class LogPageView extends ParentPageView {
     private dialogViewModel: DialogViewModel;
     private actionViewModel: LogPageActionDialogViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    private logPageActionDialogContentComponent = new LogPageActionDialogContentComponent();
+
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <LogPageViewModel>this.getModel("LogPageViewModel");
         this.dialogViewModel = <DialogViewModel>this.getModel("DialogViewModel");
         this.actionViewModel = <LogPageActionDialogViewModel>this.getModel("LogPageActionDialogViewModel");
@@ -42,10 +43,10 @@ class LogPageView extends ParentPageView {
                 this.createList()
             ]),
 
-            m.component(new DialogComponent(), {
+            m(this.getDialogComponent("log_action_dialog"), {
                 id: "log_action_dialog",
                 width: 280,
-                content: m.component(new LogPageActionDialogContentComponent())
+                content: m(this.logPageActionDialogContentComponent)
             }),
 
             //ディスク空き容量ダイアログ
@@ -57,7 +58,7 @@ class LogPageView extends ParentPageView {
     }
 
     //option 部分
-    private createOption(): Mithril.VirtualElement {
+    private createOption(): Mithril.Vnode<any, any> {
         return m("div", { class: "log-card mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col" }, [
             m("div", { class: "mdl-card__supporting-text" }, [
                 this.createCheckBox("情報", this.viewModel.info, (value) => { this.viewModel.info = value }),
@@ -69,28 +70,29 @@ class LogPageView extends ParentPageView {
     }
 
     //chekcbox 作成
-    private createCheckBox(labelName: string, value: boolean, callback:(value: boolean) => void): Mithril.VirtualElement {
+    private createCheckBox(labelName: string, value: boolean, callback:(value: boolean) => void): Mithril.Vnode<any, any> {
         return m("label", { class: "log-card-checkbox mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" }, [
             m("input", {
                 class: "mdl-checkbox__input",
                 type: "checkbox",
                 checked: value,
                 onchange: m.withAttr("checked", (value) => { callback(value); this.viewModel.update(); } ),
-                config:  (element, isInit, context) => { this.checkboxConfig(<HTMLInputElement>element, isInit, context); }
+                oncreate: () => { this.checkboxInit(); },
+                onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.checkboxConfig(<HTMLInputElement>(vnode.dom)); }
             }),
             m("span", { class: "mdl-checkbox__label" }, labelName )
         ]);
     }
 
     //card list 作成
-    private createList(): Mithril.VirtualElement[] {
+    private createList(): Mithril.Vnode<any, any>[] {
         return this.viewModel.getLogList().map((data: { [key: string]: any }) => {
             return this.createListContent(data);
         })
     }
 
     //card の中身
-    private createListContent(data: { [key: string]: any }): Mithril.VirtualElement {
+    private createListContent(data: { [key: string]: any }): Mithril.Vnode<any, any> {
         return m("div", {
             class: `log-card-level${ data["level"] } log-card mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col`,
             onclick: () => {
@@ -112,7 +114,7 @@ class LogPageView extends ParentPageView {
     }
 
     //icon
-    private createAnnouncementIcon(link: {}): Mithril.VirtualElement {
+    private createAnnouncementIcon(link: {}): Mithril.Vnode<any, any> {
         if(typeof link == "undefined" || Util.hashSize(link) == 0) { return m("div"); }
 
         return m("i", { class: "log-dialog-icon material-icons" }, "announcement");

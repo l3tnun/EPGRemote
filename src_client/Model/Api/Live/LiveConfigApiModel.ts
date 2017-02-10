@@ -23,7 +23,7 @@ class LiveConfigApiModel implements LiveConfigApiModelInterface {
         if(this.type == null) { return; }
 
         let query = { type: this.type }
-        m.request({ method: "GET", url: `/api/live/config?${ m.route.buildQueryString(query) }` })
+        m.request({ method: "GET", url: `/api/live/config?${ m.buildQueryString(query) }` })
         .then((value) => {
             this.tunerList = value["tunerList"];
             this.videoList = value["videoConfig"];

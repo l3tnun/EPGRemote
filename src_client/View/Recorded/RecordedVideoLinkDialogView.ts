@@ -9,12 +9,12 @@ class RecordedVideoLinkDialogView extends View {
     private viewModel: RecordedVideoLinkDialogViewModel;
     private dialog: DialogViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <RecordedVideoLinkDialogViewModel>this.getModel("RecordedVideoLinkDialogViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
 
         let links = this.viewModel.getLink();
-        if(links == null) { return m("div", "empty"); }
+        if(links == null) { return m("div"); }
 
         //title
         let title = this.viewModel.getDlStatus() ? "ダウンロードリンク" : "ビデオリンク";
@@ -31,7 +31,7 @@ class RecordedVideoLinkDialogView extends View {
                 let name = this.createVideoLinkName(videoLink["name"], status);
                 let href = status == 2 ? this.createHref(videoLink["path"]) : null;
 
-                let result: Mithril.VirtualElement[] = [];
+                let result: Mithril.Vnode<any, any>[] = [];
                 //ビデオリンクボタン
                 result.push(this.createVideoLinkButton(name, href));
 
@@ -48,18 +48,22 @@ class RecordedVideoLinkDialogView extends View {
     }
 
     //配信用ビデオセレクタ
-    private createVideoSelector(): Mithril.VirtualElement {
+    private createVideoSelector(): Mithril.Vnode<any, any> {
         //録画配信が有効でない or ダウンロードなら表示しない
         if(!this.viewModel.getStreamStatus() || this.viewModel.getDlStatus()) { return m("div"); }
 
         return m("div", { class: "pulldown mdl-layout-spacer", style: "width: 100%;" }, [
             m("select", {
                 value: this.viewModel.videoSelectorValue,
+                oncreate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                    if(this.viewModel.videoSelectorValue == null) { return; }
+                    this.selectConfig((<HTMLInputElement>(vnode.dom)), this.viewModel.videoSelectorValue);
+                },
                 onchange: m.withAttr("value", (value) => { this.viewModel.videoSelectorValue = Number(value); }),
-                config: (element, isInit, context) => {
+                onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
                     let video = this.viewModel.videoSelectorValue;
                     if(video == null) { return; }
-                    this.selectConfig(<HTMLInputElement>element, isInit, context, video);
+                    this.selectConfig(<HTMLInputElement>(vnode.dom), video);
                 }
             }, [
                 this.viewModel.getVideoConfig().map((config: { [key: string]: any }) => {
@@ -78,16 +82,18 @@ class RecordedVideoLinkDialogView extends View {
         let androidURL = this.viewModel.getAndroidURL();
         let dlStatus = this.viewModel.getDlStatus();
 
+        if(dlStatus) { path += "?mode=download"; }
+
         //非 Mobile 端末
-        if(iOSURL == null && androidURL == null) {  return dlStatus ? path + "?mode=download" : path; }
+        if(iOSURL == null && androidURL == null) {  return path; }
 
         //Mobile 端末
         let mobilePath = window.location.host + path;
         let url: string;
         if(dlStatus) {
-            url = iOSURL != null ? iOSURL["RecordedDownloadiOSURL"] : androidURL["RecordedDownloadAndroidURL"]
+            url = iOSURL != null ? iOSURL!["RecordedDownloadiOSURL"] : androidURL!["RecordedDownloadAndroidURL"]
         } else {
-            url = iOSURL != null ? iOSURL["RecordedStreamingiOSURL"] : androidURL["RecordedStreamingAndroidURL"];
+            url = iOSURL != null ? iOSURL!["RecordedStreamingiOSURL"] : androidURL!["RecordedStreamingAndroidURL"];
         }
 
         //iOS vlc x-callbak 用処理
@@ -104,7 +110,7 @@ class RecordedVideoLinkDialogView extends View {
     }
 
     //ビデオリンクを生成する
-    private createVideoLinkButton(name: string, href: string | null): Mithril.VirtualElement {
+    private createVideoLinkButton(name: string, href: string | null): Mithril.Vnode<any, any> {
         let buttonClass = (!this.viewModel.getDlStatus() && this.viewModel.getStreamStatus() ) ? "recorded-video-view-link-button" : "recorded-video-dl-link-button";
 
         if(href == null) {
@@ -124,7 +130,7 @@ class RecordedVideoLinkDialogView extends View {
         }, name);
     }
 
-    private createStreamLink(id: number, type: number): Mithril.VirtualElement {
+    private createStreamLink(id: number, type: number): Mithril.Vnode<any, any> {
         //配信用リンク
         return m("label", {
             class: "mdl-button mdl-js-button mdl-button--icon",

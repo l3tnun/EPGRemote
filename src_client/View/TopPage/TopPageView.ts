@@ -2,6 +2,7 @@
 
 import * as m from 'mithril';
 import View from '../View';
+import Util from '../../Util/Util';
 import NavigationComponent from '../../Component/Navigation/NavigationComponent';
 import HeaderComponent from '../../Component/Header/HeaderComponent';
 
@@ -10,18 +11,25 @@ import HeaderComponent from '../../Component/Header/HeaderComponent';
 * ページ読み込み時に Navigation を開く
 */
 class TopPageView extends View {
-    public execute(): Mithril.VirtualElement {
+    private headerComponent = new HeaderComponent();
+    private navigationComponent = new NavigationComponent();
+
+    public execute(): Mithril.Vnode<any, any> {
         return m("div", {
             class: "mdl-layout mdl-js-layout mdl-layout--fixed-header",
-            config: (_element, isInit, _context) => {
-                if(!isInit) {
-                    //navigation を開く
-                    setTimeout(() => { this.openNavigation(); }, 200);
-                }
-            }
+            oncreate: () => {
+                setTimeout(() => { this.openNavigation(); }, 200);
+
+                //web app 化
+                if(typeof m.route.param("mobile") == "undefined") { return; }
+                let meta = document.createElement("meta");
+                meta.setAttribute("name", Util.uaIsiOS() ? "apple-mobile-web-app-capable" : "mobile-web-app-capable");
+                meta.setAttribute("content", "yes");
+                document.getElementsByTagName("head")[0].appendChild(meta);
+            },
         }, [
-            m.component(new HeaderComponent(), { title: "EPGRemote" }),
-            m.component(new NavigationComponent())
+            m(<Mithril.Component<{ title: string; }, {}>>this.headerComponent, { title: "EPGRemote" }),
+            m(this.navigationComponent)
         ]);
     }
 

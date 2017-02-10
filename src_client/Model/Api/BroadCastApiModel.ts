@@ -18,15 +18,12 @@ class BroadCastApiModel implements BroadCastApiModelInterface {
         if(this.list.length != 0) { return; }
 
         m.request({method: "GET", url: `/api/broadcast`})
-        .then(
-            (value) => {
-                this.list = value;
-            },
-            (error) => {
-                console.log('BroadCastApiModel update error');
-                console.log(error);
-            }
-        );
+        .then((value: string[]) => {
+            this.list = value;
+        }, (error) => {
+            console.log('BroadCastApiModel update error');
+            console.log(error);
+        });
     }
 
     //取得した有効な放送波を返す

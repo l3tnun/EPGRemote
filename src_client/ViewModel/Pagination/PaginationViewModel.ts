@@ -1,6 +1,5 @@
 "use strict";
 
-import * as m from 'mithril';
 import ViewModel from '../ViewModel';
 import Util from  '../../Util/Util';
 
@@ -14,23 +13,12 @@ class PaginationViewModel extends ViewModel {
     private _showStatus: boolean = false;
 
     /**
-    * 初期化
-    * ParentPageController からページ読み込み時に呼ばれる
-    */
-    public init(): void {
-        this._next = null;
-        this._prev = null;
-        this._names = "";
-        this._showStatus = false
-    }
-
-    /**
     * Pagination の設定
     * @param 1ページで表示するコンテンツの個数
     * @param 表示するコンテンツの全体の個数
     */
     public setup(_limit: number, totalNum: number): void {
-        let url = m.route().split("?")[0];
+        let url = Util.getRoute();
         let query = Util.getCopyQuery();
         let page: number;
         let limit: number;
@@ -45,7 +33,7 @@ class PaginationViewModel extends ViewModel {
         next["query"]["page"] = page + 1;
 
         //1ページで収まる場合は pagination を表示させない
-        this._showStatus = !(page == 1 && page * limit >= totalNum || limit == null)
+        this._showStatus = !(page == 1 && page * limit >= totalNum || limit == null || totalNum == 0)
 
         if( page * limit >= totalNum ) { next = { url: null, query: null }; }
 

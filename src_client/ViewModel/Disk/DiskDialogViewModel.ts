@@ -30,11 +30,7 @@ class DiskDialogViewModel extends ViewModel {
                 */
             }
         }
-        this.diskApiModel.update(() => {
-            setTimeout(() => {
-                this.show();
-            }, 0);
-        });
+        this.diskApiModel.update(() => { this.show(); });
     }
 
     /**

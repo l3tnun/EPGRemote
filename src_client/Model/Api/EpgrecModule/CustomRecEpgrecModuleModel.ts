@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import Util from '../../../Util/Util';
 import EpgrecModuleModel from './EpgrecModuleModel';
 import { ProgramApiModelInterface } from '../Program/ProgramApiModel';
 import { SearchResultApiModelInterface } from '../Search/SearchResultApiModel';
@@ -64,7 +65,7 @@ class CustomRecEpgrecModuleModel extends EpgrecModuleModel implements CustomRecE
         m.request({
             method: "PUT",
             url: `/api/program/customrec`,
-            data: m.route.buildQueryString(option)
+            data: m.buildQueryString(option)
         })
         .then((_value) => {
             //this.viewUpdate(_value);
@@ -93,7 +94,7 @@ class CustomRecEpgrecModuleModel extends EpgrecModuleModel implements CustomRecE
 
         this.dialog.close();
 
-        let route = m.route().split("?")[0];
+        let route = Util.getRoute();
         if(route == "/program") {
             snackbarStr += (<HTMLElement>program.children[0]).innerText;
             this.programApiModel.update(true);

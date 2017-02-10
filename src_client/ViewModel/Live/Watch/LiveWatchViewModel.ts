@@ -12,7 +12,7 @@ class LiveWatchViewModel extends ViewModel {
     private broadCastApiModel: BroadCastApiModelInterface;
     private stopStreamApiModel: LiveWatchStopStreamApiModelInterface;
     private liveConfigEnableApiModel: LiveConfigEnableApiModelInterface;
-    private tabStatus = false;
+    public tabStatus = false;
 
     constructor(
         _broadCast: BroadCastApiModelInterface,
@@ -35,22 +35,6 @@ class LiveWatchViewModel extends ViewModel {
     //有効な放送波を返す
     public getBroadCastList(): string[] {
         return this.broadCastApiModel.getList();
-    }
-
-    /**
-    * tab の init 状態を返す
-    * true: init済み, false: initされてない
-    */
-    public getTabStatus(): boolean {
-        return this.tabStatus;
-    }
-
-    /**
-    * tab の状態をセットする
-    * value true: init済み, false initされていない
-    */
-    public setTabStatus(value: boolean): void {
-        this.tabStatus = value;
     }
 
     /**

@@ -14,6 +14,7 @@ interface  RecordedApiModelParamsInterface {
 }
 
 interface RecordedApiModelInterface extends ApiModel {
+    init(): void;
     setup(option: RecordedApiModelParamsInterface): void;
     update(): void;
     getRecordedList(): any[];
@@ -30,6 +31,13 @@ class RecordedApiModel implements RecordedApiModelInterface {
     private totalNum: number | null = null;
     private limit: number | null = null;
 
+    public init(): void {
+        this.option = {};
+        this.recordedList = [];
+        this.totalNum = null;
+        this.limit = null;
+    }
+
     public setup(_option: RecordedApiModelParamsInterface): void {
         this.option = _option;
     }
@@ -42,7 +50,7 @@ class RecordedApiModel implements RecordedApiModelInterface {
             }
         }
 
-        m.request({method: "GET", url: `/api/recorded?${ m.route.buildQueryString(query) }`})
+        m.request({method: "GET", url: `/api/recorded?${ m.buildQueryString(query) }`})
         .then((value) => {
             let programs = value["programs"];
             let totalNum = value["totalNum"];

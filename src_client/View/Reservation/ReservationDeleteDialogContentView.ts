@@ -10,7 +10,7 @@ class ReservationDeleteDialogContentView extends View {
     private viewModel: ReservationDeleteDialogContentViewModel;
     private dialog: DialogViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <ReservationDeleteDialogContentViewModel>this.getModel("ReservationDeleteDialogContentViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
 
@@ -26,7 +26,8 @@ class ReservationDeleteDialogContentView extends View {
                     class: "mdl-checkbox__input",
                     checked: this.viewModel.deleteCheckBox,
                     onchange: m.withAttr("checked", (value) => { this.viewModel.deleteCheckBox = value; }),
-                    config: this.checkboxConfig
+                    oncreate: () => { this.checkboxInit(); },
+                    onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.checkboxConfig(<HTMLInputElement>(vnode.dom)); }
                 }),
                 m("span", { class: "mdl-checkbox__label" }, "自動予約禁止")
             ]),
@@ -34,7 +35,7 @@ class ReservationDeleteDialogContentView extends View {
             m("div", { class: "mdl-dialog__actions" }, [
                 m("button", {
                     class: "mdl-button mdl-js-button mdl-button--primary",
-                    config: (_element, isInit, _context) => { if(!isInit) { Util.upgradeMdl(); } },
+                    oncreate: () => { Util.upgradeMdl(); },
                     onclick: () => {
                         if(program == null) { return; }
                         this.viewModel.deleteProgram(program["id"]);

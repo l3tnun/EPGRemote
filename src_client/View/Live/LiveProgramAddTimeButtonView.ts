@@ -10,7 +10,7 @@ import LiveProgramCardViewModel from '../../ViewModel/Live/LiveProgramCardViewMo
 class LiveProgramAddTimeButtonView extends View {
     private viewModel: LiveProgramCardViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <LiveProgramCardViewModel>this.getModel("LiveProgramCardViewModel");
 
         return m("div", {

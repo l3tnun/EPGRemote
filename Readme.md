@@ -122,7 +122,7 @@ vim config/config.json
             "id"     : 1,                //設定を一意に特定するためのID, 重複禁止
             "name"   : "1280x720(main)", //Web UI で表示される名前
             //ffmpeg コマンド
-            //ffmpeg と ffpreset のパスはフルパスで指定する
+            //ffmpeg や ffpreset 等のパスはフルパスで指定する
             "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode main -i <input> -f hls -hls_time 3 -hls_list_size 0 -hls_allow_cache 1 -hls_segment_filename  <streamFilesDir>/stream<streamNum>-%09d.ts -threads auto -acodec libfdk_aac -ar 48000 -ab 128k -ac 2 -vcodec libx264 -s 720x480 -aspect 16:9 -vb 1500k -fpre /hoge/libx264-hls.ffpreset <streamFilesDir>/stream<streamNum>.m3u8"
 
         }, ...
@@ -140,7 +140,7 @@ vim config/config.json
     ],
 
     //HLS の一時ファイルの保存ディレクトリパス、フルパスで指定する
-    //enableLiveStream と enableRecordedStream 両方が false の場合必要ない
+    //enableLiveStream と enableRecordedStream の両方が false の場合必要ない
     "streamFilePath" : "/hoge/streamfiles",
 
     //HLS の最大同時視聴数
@@ -149,7 +149,6 @@ vim config/config.json
 
     //epgrecUNA のデータベース(MySQL) にアクセスする設定
     "EpgrecDatabaseConfig" : {
-        "multipleStatements": true,
         "host": "localhost",
         "user": "epgrec",
         "password": "epgrec",
@@ -226,7 +225,7 @@ vim config/config.json
 
 ### epgrecUNA の設定 (推奨)
 * サムネイル作成の機能を有効化する (サムネイルのサイズ 320x180 以上に変更することを推奨)
-* epgrecUNA と epgremote のチューナーの取り合いを回避するため、BonDriverProxyEx + recbond のインストールする。
+* epgrecUNA と EPGRemote のチューナーの取り合いを回避するため、BonDriverProxyEx + recbond のインストールする。
 * トランスコード設定を有効化してスマホ等で録画済み番組を再生可能にする。
  * エンコードなしで ts ファイルを直接再生も可能ですが、スマートフォン、タブレット側にそれなりの性能が必要になります。
  * また、エンコードなしではPCで再生できません。(VLC の web plugin を入れれば別ですが)

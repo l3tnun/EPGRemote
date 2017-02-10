@@ -113,7 +113,7 @@ class AddKeywordEpgrecModuleModel extends EpgrecModuleModel implements AddKeywor
         m.request({
             method: "POST",
             url: `/api/keyword`,
-            data: m.route.buildQueryString(option)
+            data: m.buildQueryString(option)
         })
         .then((value) => {
             this.viewUpdate(value);
@@ -133,7 +133,7 @@ class AddKeywordEpgrecModuleModel extends EpgrecModuleModel implements AddKeywor
         this.snackbar.open(snackbarStr);
 
         setTimeout(() => {
-            m.route("/keyword");
+            m.route.set("/keyword");
         }, 1000);
     }
 }

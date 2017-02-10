@@ -29,8 +29,8 @@ class LogPageApiModel implements LogPageApiModelInterface {
             debug:  level3 ? 1 : 0
         }
 
-        m.request({ method: "GET", url: `/api/log?${ m.route.buildQueryString(query) }` })
-        .then((value) => {
+        m.request({ method: "GET", url: `/api/log?${ m.buildQueryString(query) }` })
+        .then((value: any[]) => {
             this.logList = value;
         },
         (error) => {

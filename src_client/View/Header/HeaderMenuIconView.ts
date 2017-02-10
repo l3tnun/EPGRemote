@@ -22,7 +22,7 @@ class HeaderMenuIconView extends View {
         this.id = this.options["id"];
     }
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         return m("label", {
             id: this.id,
             class: "header_menu_button"

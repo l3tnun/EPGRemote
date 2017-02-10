@@ -73,7 +73,12 @@ class KeywordModel extends ApiModel {
                 keyword["priority"] = result["priority"] //優先度
                 keyword["sft_start"] = result["sft_start"];
                 keyword["sft_end"] = result["sft_end"];
-                keyword["autorec_mode_name"] = recMode[result["autorec_mode"]].name; //録画モード
+                //録画モード
+                if(typeof recMode[result["autorec_mode"]] == "undefined") {
+                    keyword["autorec_mode_name"] = null;
+                } else {
+                    keyword["autorec_mode_name"] = recMode[result["autorec_mode"]].name;
+                }
                 keyword["autorec_mode"] = result["autorec_mode"]; //録画モード
                 keyword["firstGenre"] = result["first_genre"] == 1; //ジャンル全保持
                 keyword["directory"] = result["directory"];
@@ -133,13 +138,13 @@ class KeywordModel extends ApiModel {
 
     private getWeeks(weeks: number): { [key: number]: boolean } {
         let hash: { [key: number]: boolean } = {};
-        if((weeks | 0x1) == weeks)  { hash[0] = true; }
-        if((weeks | 0x2) == weeks)  { hash[1] = true; }
-        if((weeks | 0x4) == weeks)  { hash[2] = true; }
-        if((weeks | 0x8) == weeks)  { hash[3] = true; }
-        if((weeks | 0x10) == weeks) { hash[4] = true; }
-        if((weeks | 0x20) == weeks) { hash[5] = true; }
-        if((weeks | 0x40) == weeks) { hash[6] = true; }
+        hash[0] = ((weeks | 0x1) == weeks);
+        hash[1] = ((weeks | 0x2) == weeks);
+        hash[2] = ((weeks | 0x4) == weeks);
+        hash[3] = ((weeks | 0x8) == weeks);
+        hash[4] = ((weeks | 0x10) == weeks);
+        hash[5] = ((weeks | 0x20) == weeks);
+        hash[6] = ((weeks | 0x40) == weeks);
 
         return hash;
     }

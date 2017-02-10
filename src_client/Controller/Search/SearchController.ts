@@ -1,15 +1,11 @@
 "use strict";
 
 import ParentPageController from '../ParentPageController';
-import SearchViewModel from '../../ViewModel/Search/SearchViewModel';
 
 class SearchController extends ParentPageController {
-    private viewModel: SearchViewModel;
-
-    //ViewModel 初期化
     public initModel(): void {
-        this.viewModel = <SearchViewModel>this.getModel("SearchViewModel");
-        this.viewModel.init();
+        super.initModel();
+        this.getModel("SearchViewModel").init();
     }
 
     public enableSocketIoModules(): void {

@@ -11,7 +11,7 @@ import DateUtil from '../../../Util/DateUtil';
 class LiveWatchOtherStreamInfoView extends View {
     private viewModel: LiveWatchOtherStreamInfoViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <LiveWatchOtherStreamInfoViewModel>this.getModel("LiveWatchOtherStreamInfoViewModel");
 
         let info = this.viewModel.getOtherStreamInfo();
@@ -25,12 +25,12 @@ class LiveWatchOtherStreamInfoView extends View {
         ]);
     }
 
-    private createCard(info: any[]): Mithril.VirtualElement[] {
-        let result: Mithril.VirtualElement[] = [];
+    private createCard(info: any[]): Mithril.Vnode<any, any>[] {
+        let result: Mithril.Vnode<any, any>[] = [];
 
         info.map((data: { [key: string]: any }) => {
             result.push(
-                m("a", { class: "card-link", href: `/live/watch?stream=${ data["streamNumber"] }`, config: m.route }, [
+                m("a", { class: "card-link", href: `/live/watch?stream=${ data["streamNumber"] }`, oncreate: m.route.link }, [
                     m("div", { class: "program-station-name" }, data["name"]),
                     m("div", { class: "program-time" }, `${ this.getFormatedDate(data["starttime"]) } ~ ${ this.getFormatedDate(data["endtime"]) }`),
                     m("div", { class: "program-title" }, data["title"]),

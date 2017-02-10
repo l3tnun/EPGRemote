@@ -9,11 +9,13 @@ class CreateConnectionPool {
 
     public static getPool(): mysql.IPool {
         if(this.pool == null) {
-            let config: Configuration = Configuration.getInstance();
             let log = Logger.getLogger();
+            let config = Configuration.getInstance().getConfig().EpgrecDatabaseConfig;
+            config.multipleStatements = true;
+            if(typeof config.timeout == "undefined") { config.timeout = 5000; }
 
             log.system.info("create sql connection");
-            this.pool = mysql.createPool(config.getConfig().EpgrecDatabaseConfig);
+            this.pool = mysql.createPool(config);
         }
 
         return this.pool;

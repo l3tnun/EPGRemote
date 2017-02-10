@@ -6,7 +6,7 @@ import DateUtil from '../../Util/DateUtil';
 import RecordedMenuViewModel from '../../ViewModel/Recorded/RecordedMenuViewModel';
 
 class RecordedProgramInfoDialogView extends View {
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         let program = (<RecordedMenuViewModel>this.getModel("RecordedMenuViewModel")).program;
         if(program == null) { return m("div", "empty"); }
 

@@ -16,27 +16,41 @@ import ProgramStorageViewModel from '../../ViewModel/Program/ProgramStorageViewM
 class ProgramTimeView extends View {
     private viewModel: ProgramViewModel;
     private dialog: DialogViewModel;
-    private viewConfig: { [key: string]: any };
+    private viewConfig: { [key: string]: number };
     private infoDialogViewModel: ProgramInfoDialogViewModel;
     private storedGenre: { [key: number]: boolean; };
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <ProgramViewModel>this.getModel("ProgramViewModel");
         this.infoDialogViewModel = <ProgramInfoDialogViewModel>this.getModel("ProgramInfoDialogViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
 
-        this.viewConfig = this.viewModel.getViewConfig();
-        let time = this.viewModel.getTime();
+        let time = this.viewModel.getTime(); //プログラムの開始、終了時刻表示を取得
+        if(time == null || this.viewModel.getViewConfig() == null) { return m("div"); }
+        this.viewConfig = this.viewModel.getViewConfig()!;
 
         //表示ジャンル読み出し
         this.storedGenre = (<ProgramStorageViewModel>this.getModel("ProgramStorageViewModel")).get();
         if(this.storedGenre == null) { this.storedGenre = {}; }
 
-        let waitTime = Util.uaIsMobile ? 800 : 100;
+        //プログラム取得
+        let programs = this.viewModel.getProgram();
+        if(programs == null) { return m("div"); }
 
-        let result: Mithril.VirtualElement[] = [];
-        this.viewModel.getProgram().map((stationPrograms: { [key: string]: any }[], i: number) => {
-            if(stationPrograms.length == 0) { return; }
+        let programEnd: number = 0;
+        let programStart: number = -1;
+        programs.map((stationPrograms: { [key: string]: any }[], i: number) => {
+            //表示する要素がない
+            if(stationPrograms.length == 0 || time == null) { return; }
+            if(programStart == -1) { programStart = i; }
+            programEnd = i;
+        });
+
+        let result: Mithril.Vnode<any, any>[] = [];
+        programs.map((stationPrograms: { [key: string]: any }[], i: number) => {
+            //表示する要素がない
+            if(stationPrograms.length == 0 || time == null) { return; }
+
             let nextTime: number; //次の番組の開始時間
             let stationEndTime: number; //局の番組表示終了時間
 
@@ -53,47 +67,51 @@ class ProgramTimeView extends View {
 
             result.push( m("div", {
                 class: "station",
-                config: (element, isInit, context) => {
-                    if(!isInit) { context["updateTime"] = null; }
-
-                    //子要素の更新が必要
-                    if( context["updateTime"] == null || context["updateTime"] < this.viewModel.getUpdateTime()) {
-                        context["updateTime"] = this.viewModel.getUpdateTime();
-
-                        //キャッシュをリセットする
-                        if(i == 0) {
-                            this.viewModel.resetCache();
-                            //プログレスを非表示にする
-                            setTimeout(() => { this.viewModel.hiddenProgressStatus(); }, waitTime);
-                        }
-
-                        //remove child
-                        for (let i = element.childNodes.length - 1; i >= 0; i--) {
-                            element.removeChild(element.childNodes[i]);
-                        }
-
-                        //add new child
-                        let stationChild = this.createStationChild(nextTime, stationEndTime, stationPrograms);
-                        stationChild.map((child: HTMLElement) => {
-                            if(Util.uaIsMobile()) {
-                                setTimeout(() => { element.appendChild(child); }, waitTime);
-                            } else {
-                                element.appendChild(child);
-                            }
-                        });
-                    }
+                oncreate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                    this.stationConfig(vnode.dom, programStart, programEnd, i, nextTime, stationEndTime, stationPrograms);
+                },
+                onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                    this.stationConfig(vnode.dom, programStart, programEnd, i, nextTime, stationEndTime, stationPrograms);
                 }
             }) );
-        })
+        });
 
         return m("div", {
             id: "program_content",
-            class: "fadeIn",
             style: "margin-top: -2px;", //時刻線の分
-            config: (element, isInit) => {
-                this.addShowAnimetion(element, isInit);
-            }
         }, result);
+    }
+
+    private stationConfig(element: Element, programStart: number, programEnd: number, programCnt: number, nextTime: number, stationEndTime: number, stationPrograms: { [key: string]: any }[]): void {
+        //更新が必要でない
+        if(this.viewModel.programUpdateTime != null && this.viewModel.programUpdateTime >= this.viewModel.getUpdateTime()) { return; }
+
+        if(programCnt == programStart) {
+            //キャッシュをリセットする
+            this.viewModel.resetCache();
+            //プログレスを非表示にする
+            setTimeout(() => { this.viewModel.hiddenProgressStatus(); }, 200);
+        }
+
+        if(programCnt == programEnd) {
+            //updateTime を更新
+            this.viewModel.programUpdateTime = this.viewModel.getUpdateTime();
+        }
+
+        //remove child
+        for (let i = element.childNodes.length - 1; i >= 0; i--) {
+            element.removeChild(element.childNodes[i]);
+        }
+
+        //add new child
+        let stationChild = this.createStationChild(nextTime, stationEndTime, stationPrograms);
+        stationChild.map((child: HTMLElement) => {
+            if(Util.uaIsMobile()) {
+                setTimeout(() => { element.appendChild(child); }, 100);
+            } else {
+                element.appendChild(child);
+            }
+        });
     }
 
     /**
@@ -238,8 +256,11 @@ class ProgramTimeView extends View {
                 }
 
                 //get channel
+                let channels = this.viewModel.getChannel();
+                if(channels == null) { return; }
                 let channel: { [key: string]: any } | null = null;
-                this.viewModel.getChannel().map((c: { [key: string]: any }) => {
+
+                channels.map((c: { [key: string]: any }) => {
                     if(c["id"] == program["channel_id"]) { channel = c; }
                 });
 
@@ -256,8 +277,8 @@ class ProgramTimeView extends View {
                     this.viewModel.getRecModeDefaultId()
                 );
                 this.dialog.open(ProgramInfoDialogViewModel.infoDialogId);
-                m.redraw.strategy("diff");
-                m.redraw(true);
+                //m.redraw.strategy("diff");
+                m.redraw();
             }
         }, [
             //title

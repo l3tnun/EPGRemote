@@ -1,5 +1,6 @@
 "use strict";
 
+import * as m from 'mithril';
 import ViewModel from '../../ViewModel';
 import { LiveWatchStreamInfoApiModelInterface } from '../../../Model/Api/Live/Watch/LiveWatchStreamInfoApiModel';
 

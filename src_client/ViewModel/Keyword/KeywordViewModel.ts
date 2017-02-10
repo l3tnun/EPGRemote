@@ -27,6 +27,7 @@ class KeywordViewModel extends ViewModel {
     * controller からページ読み込み時に呼ばれる
     */
     public init(): void {
+        this.keywordApiModel.init();
         this.showStatus = null;
         let query = Util.getCopyQuery();
         this.page = (typeof query["page"] == "undefined") ? null : Number(query["page"]);
@@ -58,10 +59,10 @@ class KeywordViewModel extends ViewModel {
     public resize(): void {
         if((!this.showStatus || this.showStatus == null) && window.innerWidth < KeywordViewModel.viewChangeWidth) {
             this.showStatus = true;
-            m.redraw(true);
+            m.redraw();
         } else if((this.showStatus || this.showStatus == null) && window.innerWidth > KeywordViewModel.viewChangeWidth) {
             this.showStatus = false;
-            m.redraw(true);
+            m.redraw();
         }
     }
 

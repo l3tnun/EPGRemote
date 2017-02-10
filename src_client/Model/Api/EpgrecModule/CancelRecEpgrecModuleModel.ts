@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import Util from '../../../Util/Util';
 import EpgrecModuleModel from './EpgrecModuleModel';
 import { ProgramApiModelInterface } from '../Program/ProgramApiModel';
 import { SearchResultApiModelInterface } from '../Search/SearchResultApiModel';
@@ -37,7 +38,7 @@ class CancelRecEpgrecModuleModel extends EpgrecModuleModel implements CancelRecE
 
         m.request({
             method: "DELETE",
-            url: `/api/program/cancelrec?${ m.route.buildQueryString(query) }`
+            url: `/api/program/cancelrec?${ m.buildQueryString(query) }`
         })
         .then((_value) => {
             //this.viewUpdate(_value);
@@ -64,7 +65,7 @@ class CancelRecEpgrecModuleModel extends EpgrecModuleModel implements CancelRecE
 
         this.dialog.close();
 
-        let route = m.route().split("?")[0];
+        let route = Util.getRoute();
         if(route == "/program") {
             snackbarStr += (<HTMLElement>program.children[0]).innerText;
             this.programApiModel.update(true);

@@ -1,6 +1,7 @@
 "use strict";
 
 import Component from '../../Component';
+import LiveWatchStreamInfoController from '../../../Controller/Live/Watch/LiveWatchStreamInfoController';
 import LiveWatchStreamInfoView from '../../../View/Live/Watch/LiveWatchStreamInfoView';
 
 /**
@@ -8,7 +9,7 @@ import LiveWatchStreamInfoView from '../../../View/Live/Watch/LiveWatchStreamInf
 */
 class LiveWatchStreamInfoComponent extends Component {
     protected getController() {
-        return null;
+        return new LiveWatchStreamInfoController();
     }
 
     protected getView() {

@@ -12,7 +12,7 @@ class DiskMenuContentView extends View {
     private dialog: DialogViewModel;
     private viewModel: DiskDialogViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
         this.viewModel = <DiskDialogViewModel>this.getModel("DiskDialogViewModel");
 

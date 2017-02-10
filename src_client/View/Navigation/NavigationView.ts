@@ -11,11 +11,11 @@ import Util from '../../Util/Util';
 class NavigationView extends View {
     private viewModel: NavigationViewModel;
 
-    public execute(): Mithril.VirtualElement {
+    public execute(): Mithril.Vnode<any, any> {
         this.viewModel = <NavigationViewModel>this.getModel("NavigationViewModel");
 
         return m("div", { class: "mdl-layout__drawer",
-            config: (element, isInit, context) => { this.init(element, isInit, context); }
+            oncreate: () => { Util.upgradeMdl(); }
         }, [
             this.createLiveStreamContent(), //ライブ配信リンク
             this.createStreamingList(), //配信中リンク
@@ -35,16 +35,8 @@ class NavigationView extends View {
         ]);
     }
 
-    //view の初回描画時に呼び出される
-    private init(_element: Element, isInit: boolean, _context: Mithril.Context): void {
-        if(isInit) { return; }
-
-        Util.upgradeMdl();
-        this.viewModel.init();
-    }
-
     //ライブ配信用のリンクを作成する
-    private createLiveStreamContent(): Mithril.VirtualElement[] {
+    private createLiveStreamContent(): Mithril.Vnode<any, any>[] {
         //配信が無効
         if(!this.viewModel.enableLive()) { return []; }
 
@@ -61,9 +53,9 @@ class NavigationView extends View {
     }
 
     //配信中の一覧を作成する
-    private createStreamingList(): Mithril.VirtualElement[] {
+    private createStreamingList(): Mithril.Vnode<any, any>[] {
         let streamInfo = this.viewModel.getLiveOtherStreamInfoList();
-        let result: Mithril.VirtualElement[] = [];
+        let result: Mithril.Vnode<any, any>[] = [];
 
         streamInfo.map((data, index) => {
             result.push( this.createLink(`${data.name}`, `/live/watch?stream=${data.streamNumber}`) );
@@ -97,12 +89,16 @@ class NavigationView extends View {
     * @param name 表示されるリンクの名前
     * @param href リンクのアドレス
     */
-    private createLink(name: string, href: string): Mithril.VirtualElement {
+    private createLink(name: string, href: string): Mithril.Vnode<any, any> {
         return m("a", {
             class: "mdl-navigation__link",
-            href: href,
-            config: m.route,
-            onclick: () => { this.close() }
+            onclick: () => {
+                this.close();
+                setTimeout(() => {
+                    if(m.route.get() == href) { return; }
+                    m.route.set(href);
+                }, 100);
+            }
         }, name);
     }
 }

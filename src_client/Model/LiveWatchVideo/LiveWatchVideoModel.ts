@@ -1,5 +1,6 @@
 "use strict";
 
+import * as m from 'mithril';
 import Model from '../Model';
 
 interface LiveWatchVideoModelInterface extends Model {
@@ -24,8 +25,8 @@ class LiveWatchVideoModel implements LiveWatchVideoModelInterface {
         this.showStatus = true;
 
         //描画更新
-        m.redraw.strategy("diff");
-        m.redraw(true);
+        //m.redraw.strategy("diff");
+        m.redraw();
     }
 
     public get(): boolean {

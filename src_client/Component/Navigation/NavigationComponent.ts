@@ -2,10 +2,11 @@
 
 import Component from '../Component';
 import NavigationView from '../../View/Navigation/NavigationView';
+import NavigationController from '../../Controller/Navigation/NavigationController';
 
 class NavigationComponent extends Component {
     protected getController() {
-        return null;
+        return new NavigationController();
     }
 
     protected getView() {

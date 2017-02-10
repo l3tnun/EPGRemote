@@ -13,9 +13,7 @@ namespace Util {
     export const upgradeMdl = (): void => {
         componentHandler.upgradeDom();
         let el = document.getElementsByClassName( "mdl-layout__container" );
-        for(let i = 1; i < el.length; i++) {
-            el[i].parentNode!.removeChild(el[i]);
-        }
+        for(let i = 0; i < el.length - 1; i++) { el[i].parentNode!.removeChild(el[i]); }
     }
 
     /**
@@ -84,7 +82,22 @@ namespace Util {
     * query のコピーを返す
     */
     export const getCopyQuery = (): { [key: string]: any } => {
-        return JSON.parse(JSON.stringify(m.route.param('')));
+        return JSON.parse(JSON.stringify(m.route.param()));
+    }
+
+    /**
+    * query を文字列に変換する
+    * @param query query
+    */
+    export const buildQueryStr = (query: { [key: string]: any }): string => {
+        return m.buildQueryString(query);
+    }
+
+    /**
+    * 現在のページを取得する
+    */
+    export const getRoute = (): string => {
+        return m.route.get().split("?")[0];
     }
 
     /**
@@ -116,11 +129,11 @@ namespace Util {
     }
 
     /**
-    * Mithril で reload する
+    * page reload
     */
     export const reload = (): void => {
         (<DialogModelInterface>ModelFactory.getInstance().get("DialogModel")).close();
-        m.route(m.route());
+        setTimeout(() => { location.reload(); }, 100);
     }
 
     /**

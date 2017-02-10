@@ -1,6 +1,5 @@
 "use strict";
 
-import * as m from 'mithril';
 import SocketIoModule from '../SocketIoModule';
 import { ReservationApiModelInterface } from '../../../Model/Api/Reservation/ReservationApiModel';
 
@@ -31,9 +30,7 @@ class ReservationOtherEventSocketIoModule extends SocketIoModule {
     }
 
     public execute(_option: { [key: string]: any; }): void {
-        m.startComputation();
         this.reservationApiModel.update();
-        m.endComputation();
     }
 }
 

@@ -1,5 +1,6 @@
 "use strict";
 
+import * as m from 'mithril';
 import Model from '../Model';
 import Util from '../../Util/Util';
 import DialogStatus from './DialogStatus';
@@ -104,8 +105,8 @@ class DialogModel implements DialogModelInterface {
     private disableBack(): void {
         this.isPageBack = true;
         this.close();
-        m.redraw.strategy("diff");
-        m.redraw(true);
+        //m.redraw.strategy("diff");
+        m.redraw();
     }
 }
 

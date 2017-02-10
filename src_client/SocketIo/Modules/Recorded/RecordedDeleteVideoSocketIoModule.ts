@@ -1,6 +1,5 @@
 "use strict";
 
-import * as m from 'mithril';
 import SocketIoModule from '../SocketIoModule';
 import { DeleteVideoEpgrecModuleModelInterface } from '../../../Model/Api/EpgrecModule/DeleteVideoEpgrecModuleModel';
 
@@ -24,9 +23,7 @@ class RecordedDeleteVideoSocketIoModule extends SocketIoModule {
     }
 
     public execute(option: { [key: string]: any; }): void {
-        m.startComputation();
         this.deleteVideoEpgrecModule.viewUpdate(option);
-        m.endComputation();
     }
 }
 
