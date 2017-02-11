@@ -10,10 +10,10 @@ import ProgramInfoDialogViewModel from '../../ViewModel/Program/ProgramInfoDialo
 import ProgramStorageViewModel from '../../ViewModel/Program/ProgramStorageViewModel';
 
 /**
-* ProgramTime の View
+* ProgramContentView
 */
 
-class ProgramTimeView extends View {
+class ProgramContentView extends View {
     private viewModel: ProgramViewModel;
     private dialog: DialogViewModel;
     private viewConfig: { [key: string]: number };
@@ -315,5 +315,5 @@ class ProgramTimeView extends View {
     }
 }
 
-export default ProgramTimeView;
+export default ProgramContentView;
 
