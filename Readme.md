@@ -254,7 +254,9 @@ npm start
 
 具体的なアプリは LMT Launcher や Pie Control などが挙げられます。
 
-もしくは、Cyanogen がリリースしている Gello というブラウザでは問題は発生していないので、そちらで使用すると良いです。
+もしくは、LineageOS がリリースしている [Gello](https://github.com/LineageOS/android_packages_apps_Gello/releases) というブラウザでは問題は発生していないので、そちらで使用すると良いです。
+
+また、Google Play Store には Gello をベースにした [Pyrope Browser](https://play.google.com/store/apps/details?id=com.ninnix96.pyrope.browser) があるようなので、そちらでも良いと思います。
 
 <img src="https://github.com/l3tnun/EPGRemote/wiki/images/Readme/android6.0_accessibility.png" width="250px">
 
