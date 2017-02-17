@@ -26,7 +26,7 @@ abstract class Controller extends MithrilBase {
     */
     public onBeforeUpdate(): void {
         this.newQuery = Util.getCopyQuery();
-        if(Util.buildQueryStr(this.newQuery) == Util.buildQueryStr(this.query)) { return; }
+        if(Util.buildQueryStr(this.newQuery) == Util.buildQueryStr(this.query) || this.newQuery["reload"] == 1) { return; }
         this.queryChanged = true;
         this.onRemove();
     }
