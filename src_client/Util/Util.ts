@@ -137,6 +137,23 @@ namespace Util {
     }
 
     /**
+    * fake reload
+    * query に引数を変更してページを更新し、元のページに戻る
+    */
+    export const fakeReload = (): void => {
+        (<DialogModelInterface>ModelFactory.getInstance().get("DialogModel")).close();
+
+        setTimeout(() => {
+            let route = Util.getRoute();
+            let query = Util.getCopyQuery();
+            query["reload"] = 1;
+            m.route.set(route, query);
+        }, 100);
+
+        setTimeout(() => { history.back(); }, 500);
+    }
+
+    /**
     * 文字列を URL 用に変換する
     * @param str 文字列
     */

@@ -37,7 +37,7 @@ namespace SocketIoDisconnect {
 
         //再接続時 reload
         io.on('reconnect', () => {
-            Util.reload();
+            Util.fakeReload();
             if(busy != null) { setTimeout(() => { document.body.removeChild(busy!) }, 100);  }
         });
     }

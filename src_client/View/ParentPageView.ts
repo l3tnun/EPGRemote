@@ -111,7 +111,7 @@ abstract class ParentPageView extends View {
             },
             onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
                 let newQuery = Util.getCopyQuery();
-                if(Util.buildQueryStr(newQuery) != Util.buildQueryStr(this._query_)) {
+                if(Util.buildQueryStr(newQuery) != Util.buildQueryStr(this._query_) && newQuery["reload"] != 1) {
                     //query が違う
                     this._query_ = newQuery;
                     this.hideAnimetion(vnode.dom);
