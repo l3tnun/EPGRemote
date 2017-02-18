@@ -45,9 +45,23 @@ class ResponseSpecifiedFile extends View {
                     responseHeaders['Content-Length'] = stat.size;  // File size.
                     responseHeaders['Accept-Ranges'] = 'bytes';
 
-                    this.sendResponse(200, responseHeaders, fs.createReadStream(filePath));
+                    //Last-Modified と ETag を追加
+                    let mtime = stat.mtime.toUTCString();
+                    responseHeaders['Last-Modified'] = mtime;
+                    responseHeaders['ETag'] = mtime;
+
+                    if(this.request.headers['if-modified-since'] == mtime || this.request.headers['if-none-match'] == mtime) {
+                        //キャッシュ
+                        this.response.writeHead(304, responseHeaders);
+                        this.response.end();
+                    } else {
+                        //非キャッシュ
+                        this.sendResponse(200, responseHeaders, fs.createReadStream(filePath));
+                    }
                     return;
                 }
+
+                responseHeaders['Cache-Control'] = 'no-cache';
 
                 let start: number = rangeRequest.Start;
                 let end: number = rangeRequest.End;
@@ -61,7 +75,6 @@ class ResponseSpecifiedFile extends View {
                 responseHeaders['Content-Range'] = 'bytes ' + start + '-' + end + '/' + stat.size;
                 responseHeaders['Content-Length'] = start == end ? 0 : (end - start + 1);
                 responseHeaders['Accept-Ranges'] = 'bytes';
-                responseHeaders['Cache-Control'] = 'no-cache';
 
                 //typings で start と end の定義がないため、エラー回避
                 let option = { start: start, end: end };
