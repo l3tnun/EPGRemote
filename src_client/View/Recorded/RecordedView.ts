@@ -30,6 +30,7 @@ class RecordedView extends ParentPageView {
     private recordedMenuViewModel: RecordedMenuViewModel;
     private recordedVideoLinkViewModel: RecordedVideoLinkDialogViewModel;
     private recordedSearchMenuViewModel: RecordedSearchMenuViewModel;
+    private resizeListener = this.resize.bind(this);
 
     private paginationComponent = new PaginationComponent();
     private menuComponent = new MenuComponent();
@@ -107,22 +108,32 @@ class RecordedView extends ParentPageView {
         ]);
     }
 
-    //カードリスト表示、カードタイル表示を切り替える
-    private mainView(): Mithril.Vnode<any, any> | (Mithril.Vnode<any, any>[] | Mithril.Vnode<any, any>)[] {
-        if(this.viewModel.getShowStatus() == null) {
-            setTimeout(() => { this.viewModel.resize(); }, 1000); //for Gello
-            return m("div");
-        }
+    //main view
+    private mainView(): Mithril.Vnode<any, any> {
+        return m("div", {
+            id: RecordedView.mainViewId,
+            oncreate: () => {
+                window.addEventListener("resize", this.resizeListener, false);
+            },
+            onupdate: () => { this.resize(); },
+            onremove: () => {
+                window.removeEventListener("resize", this.resizeListener, false );
+            }
+        },[
+            this.createCardListView(),
+            m(this.paginationComponent)
+        ]);
+    }
 
-        //カードリスト表示
-        if(this.viewModel.getShowStatus()) {
-            return [
-                this.createCardListView(),
-                m(this.paginationComponent)
-            ];
-        } else { //表表示
-            return this.createCardTileView();
-        }
+    private resize(): void {
+        let element = <HTMLElement>document.getElementById(RecordedView.mainViewId);
+        if(element == null) { return; }
+
+        if(window.innerWidth <= RecordedView.gridChangeWidth) { element.style.width = ""; return; }
+
+        let width = Math.floor(window.innerWidth / RecordedView.gridCardWidth) * RecordedView.gridCardWidth || RecordedView.gridCardWidth;
+
+        element.style.width = width + "px";
     }
 
     //カードリスト表示
@@ -135,15 +146,12 @@ class RecordedView extends ParentPageView {
     //カードリストの中身
     private createCardListContent(program: { [key: string]: any }): Mithril.Vnode<any, any> {
         return m("div", { class: "recorded-list-program mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col" }, [
-            m("button", { class: "mdl-button mdl-js-button mdl-button--icon", style: "position: absolute; right: 0px;",
+            m("button", { class: "recorded-list-menu mdl-button mdl-js-button mdl-button--icon",
                 onclick: (e: Event) => { this.openMenu(program, <Element>(e.target)); }
             }, [
                 m("i", { class: "material-icons" }, "more_vert" )
             ]),
-            m("div", {
-                class: "list-container",
-                onclick: () => { this.openVideoLinkDialog(program); }
-            }, [
+            m("div", { onclick: () => { this.openVideoLinkDialog(program); } }, [
                 m("div", { class: "recorded-list-picture-container" }, [
                     m("img", { class: "recorded-list-picture", src: program["thumbs"] } ),
                 ]),
@@ -165,43 +173,6 @@ class RecordedView extends ParentPageView {
         return `${ DateUtil.format(start, "MM/dd(w) hh:mm") } ~ ${ DateUtil.format(end, "hh:mm") }(${ Math.floor(DateUtil.dateDiff(end, start) / 1000 / 60) }分)`;
     }
 
-    //カードタイル表示
-    private createCardTileView(): Mithril.Vnode<any, any> {
-        return m("div", {
-            id: "grid-container",
-            style: `width: ${ Math.floor(window.innerWidth / RecordedViewModel.cardWidth) * RecordedViewModel.cardWidth }px;`
-        }, [
-            this.viewModel.getRecordedList().map((program: { [key: string]: any }) => {
-                return this.createCardTileContent(program)
-            }),
-            m(this.paginationComponent)
-        ]);
-    }
-
-    //カードタイルの中身
-    private createCardTileContent(program: { [key: string]: any }): Mithril.Vnode<any, any> {
-        return  m("div", { class: "recorded-grid-program mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col" }, [
-            m("button", {
-                class: "mdl-button mdl-js-button mdl-button--icon",
-                style: "position: absolute; top: 4px; right: 4px; background: white;",
-                onclick: (e: Event) => { this.openMenu(program, <Element>(e.target)); }
-            }, [
-                m("i", { class: "material-icons" }, "more_vert" )
-            ]),
-            m("div", {
-                onclick: () => { this.openVideoLinkDialog(program); }
-            }, [
-                m("img", { class: "recorded-grid-program-picture", src: program["thumbs"] } ),
-                m("div", { class: "recorded-grid-text-container" }, [
-                    m("div", { class: "recorded-program-title" }, program["title"]),
-                    m("div", { class: "recorded-program-info" }, `${ program["channel_name"] }` ),
-                    m("div", { class: "recorded-program-info" }, this.getTimeStr(program["starttime"], program["endtime"])),
-                    m("div", { class: "recorded-program-description" }, program["description"])
-                ])
-            ])
-        ]);
-    }
-
     //番組カードのメニューを開く
     private openMenu(program: { [key: string]: any }, target: Element): void {
         this.recordedMenuViewModel.program = program;
@@ -213,6 +184,12 @@ class RecordedView extends ParentPageView {
         this.recordedVideoLinkViewModel.update(program["id"]);
         this.dialog.open(RecordedVideoLinkDialogViewModel.dialogId);
     }
+}
+
+namespace RecordedView {
+    export const mainViewId = "recorded-list-box";
+    export const gridCardWidth = 308;
+    export const gridChangeWidth = 616;
 }
 
 export default RecordedView;
