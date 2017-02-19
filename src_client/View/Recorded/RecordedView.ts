@@ -109,7 +109,10 @@ class RecordedView extends ParentPageView {
 
     //カードリスト表示、カードタイル表示を切り替える
     private mainView(): Mithril.Vnode<any, any> | (Mithril.Vnode<any, any>[] | Mithril.Vnode<any, any>)[] {
-        if(this.viewModel.getShowStatus() == null) { return m("div"); }
+        if(this.viewModel.getShowStatus() == null) {
+            setTimeout(() => { this.viewModel.resize(); }, 1000); //for Gello
+            return m("div");
+        }
 
         //カードリスト表示
         if(this.viewModel.getShowStatus()) {

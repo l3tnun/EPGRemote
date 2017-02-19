@@ -15,8 +15,6 @@ class RecordedController extends ParentPageController {
         this.viewModel.init();
 
         window.addEventListener('resize', this.resizeListener, false );
-
-        setTimeout(() => { this.viewModel.resize(); }, 100);
     }
 
     public enableSocketIoModules(): void {
