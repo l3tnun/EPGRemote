@@ -20,6 +20,7 @@ class RecordedViewModel extends ViewModel {
     }
 
     public init(): void {
+        this.showStatus = null;
         this.recordedApiModel.init();
         setTimeout(() => {
             this.setup(Util.getCopyQuery());
@@ -57,7 +58,7 @@ class RecordedViewModel extends ViewModel {
 
     //window resize 時の処理
     public resize(): void {
-         if((this.showStatus || this.showStatus == null) && window.innerWidth >= RecordedViewModel.cardWidth * 2) {
+        if((this.showStatus || this.showStatus == null) && window.innerWidth >= RecordedViewModel.cardWidth * 2) {
             this.showStatus = false;
             m.redraw();
             return;
