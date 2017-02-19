@@ -1,6 +1,5 @@
 "use strict";
 
-import * as m from 'mithril';
 import Util from '../../Util/Util';
 import ViewModel from '../ViewModel';
 import { RecordedApiModelParamsInterface, RecordedApiModelInterface} from '../../Model/Api/Recorded/RecordedApiModel';
@@ -12,7 +11,6 @@ import { RecordedApiModelParamsInterface, RecordedApiModelInterface} from '../..
 class RecordedViewModel extends ViewModel {
     private recordedApiModel: RecordedApiModelInterface;
     private options: RecordedApiModelParamsInterface = {};
-    private showStatus: boolean | null = null; //true: カードリスト表示, false: カードタイル表示
 
     constructor(_recordedApiModel: RecordedApiModelInterface) {
         super();
@@ -20,7 +18,6 @@ class RecordedViewModel extends ViewModel {
     }
 
     public init(): void {
-        this.showStatus = null;
         this.recordedApiModel.init();
         setTimeout(() => {
             this.setup(Util.getCopyQuery());
@@ -54,30 +51,6 @@ class RecordedViewModel extends ViewModel {
     public getRecordedLimit(): number {
         let value = this.recordedApiModel.getRecordedLimit();
         return value == null ? 0 : value;
-    }
-
-    //window resize 時の処理
-    public resize(): void {
-        if((this.showStatus || this.showStatus == null) && window.innerWidth >= RecordedViewModel.cardWidth * 2) {
-            this.showStatus = false;
-            m.redraw();
-            return;
-        } else if((!this.showStatus || this.showStatus == null) && window.innerWidth < RecordedViewModel.cardWidth * 2) {
-            this.showStatus = true;
-            m.redraw();
-            return;
-        }
-
-        //カードタイル描画のため
-        if(!this.showStatus) { m.redraw(); }
-    }
-
-    /**
-    * 表示状態
-    * null: 決まってない, true: カードリスト, false: カードタイル
-    */
-    public getShowStatus(): boolean | null {
-        return this.showStatus;
     }
 }
 

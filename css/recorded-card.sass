@@ -1,55 +1,70 @@
-.recorded-list-program.mdl-card
-    min-height: 92px;
-    max-height: 92px;
-    max-width: 586px;
-    margin-left: auto;
-    margin-right: auto;
+$window-width: 616px
 
-.list-container
-    width: auto;
+/*カード表示*/
+@media screen and (max-width: $window-width - 1)
+    .recorded-list-program.mdl-card
+        min-height: 92px;
+        max-height: 92px;
+        max-width: 586px;
+        margin-left: auto;
+        margin-right: auto;
 
-.recorded-list-picture
-    position: relative;
-    top: 50%;
-    left: 50%;
-    width: auto;
-    height: 100%;
-    -webkit-transform: translate(-50%,-50%);
-    -ms-transform: translate(-50%,-50%);
-    transform: translate(-50%,-50%);
+    .recorded-list-picture-container
+        height: 92px;
+        width: calc(28%);
+        text-align: left;
+        float: left;
+        clear: both;
+        overflow: hidden;
+        margin-right: 6px;
 
-.recorded-list-picture-container
-    height: 92px;
-    width: calc(28%);
-    text-align: left;
-    float: left;
-    clear: both;
-    overflow: hidden;
-    margin-right: 6px;
+    .recorded-list-picture
+        position: relative;
+        top: 50%;
+        left: 50%;
+        width: auto;
+        height: 100%;
+        -webkit-transform: translate(-50%,-50%);
+        -ms-transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%);
 
-.recorded-list-text-container
-    padding: 6px;
-    height: 92px;
+    .recorded-list-text-container
+        padding: 6px;
+        height: 92px;
 
-#grid-container
-    margin: 0px auto;
+    .recorded-list-menu
+        position: absolute;
+        right: 0px;
 
-.recorded-grid-program.mdl-card
-    max-width: 300px;
-    min-width: 300px;
-    min-height: 92px;
-    margin: 4px;
-    float: left;
+    .recorded-program-title-card
+        padding-right: 18px;
 
-.recorded-grid-program-picture
-    width: 100%;
-    height: 56%;
-    width: 300px;
-    height: 168px;
+/*グリッド表示*/
+@media screen and (min-width: $window-width)
+    #recorded-list-box
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 auto;
 
-.recorded-grid-text-container
-    padding: 12px;
-    height: 76px;
+    .recorded-list-program.mdl-card
+        width: 300px;
+        margin: 4px;
+
+    .recorded-list-text-container
+        padding: 12px;
+        height: 76px;
+
+    .recorded-list-picture
+        width: 100%;
+        height: 168px;
+
+    .recorded-list-menu
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        background: white;
+        &:hover
+            background: white;
 
 .recorded-program-title, .recorded-program-info, .recorded-program-description
     overflow: hidden;
@@ -59,9 +74,6 @@
 .recorded-program-title
     font-size: 12px;
     font-weight: bold;
-
-.recorded-program-title-card
-    padding-right: 18px;
 
 .recorded-program-info
     font-size: 12px;
