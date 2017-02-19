@@ -51,10 +51,7 @@ class RecordedView extends ParentPageView {
         //Pagintion setup
         this.paginationViewModel.setup(this.viewModel.getRecordedLimit(), this.viewModel.getRecordedTotalNum());
 
-        return m("div", {
-            class: "mdl-layout mdl-js-layout mdl-layout--fixed-header",
-            oncreate: () => { setTimeout(() => { this.viewModel.resize(); }, 100); }
-        }, [
+        return m("div", { class: "mdl-layout mdl-js-layout mdl-layout--fixed-header" }, [
             this.createHeader("録画済み一覧", [
                 //search menu button
                 m("label", {
