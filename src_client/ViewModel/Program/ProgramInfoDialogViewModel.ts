@@ -42,7 +42,7 @@ class ProgramInfoDialogViewModel extends ViewModel {
         this.deleteFile = false;
         this.discontinuity = false;
         this.recMode = this.getRecModeDefaultId();
-        this.autoRec = false;
+        this.autoRec = this.program["autorec"] == 0
     }
 
     public setProgram(
