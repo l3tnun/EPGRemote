@@ -34,29 +34,9 @@ class ProgramInfoDialogView extends View {
             m("div", { class: "program-dialog-time" }, this.createTimeStr() ),
             m("div", { class: "program-dialog-description" }, program["description"]),
 
-            m("div", {
-                style: "display: table; margin: 0 auto; position: relative; top: -12px;"
-            }, [
-                this.createPriority(), //優先度
+            this.createProperty(),
 
-                m("div", { style: "display: table-cell;" }, [
-                    //ts削除チェックボックス
-                    this.createCheckBox("ts削除",
-                        () => { return this.viewModel.deleteFile; },
-                        (value: boolean) => { this.viewModel.deleteFile = value; }
-                    ),
-                    //隣接禁止チェックボックス
-                    this.createCheckBox("隣接禁止",
-                        () => { return this.viewModel.discontinuity },
-                        (value: boolean) => { this.viewModel.discontinuity = value; }
-                    ),
-
-                    //録画モード
-                    this.createRecMode()
-                ])
-            ]),
-
-            m("div", { style: "text-align: center; position: relative; top: -30px; height: 0px;" }, [
+            m("div", { style: "text-align: center; position: relative;" }, [
                 this.createRecButton(), //予約ボタン
                 this.createAutorecButton(), //自動予約ボタン
                 this.createSearch() //検索ボタン
@@ -72,6 +52,41 @@ class ProgramInfoDialogView extends View {
         let end = DateUtil.getJaDate(new Date(program["endtime"]));
 
         return `${ DateUtil.format(start, "hh:mm:ss") } ~ ${ DateUtil.format(end, "hh:mm:ss") }`;
+    }
+
+    private createProperty(): Mithril.Vnode<any, any> {
+        if(this.viewModel.getProgram()["recorded"]) {
+            return m("div", {
+                style: "display: table; margin: 12px auto -10px; padding-right: 8px;"
+            }, [
+                this.createCheckBox("自動予約禁止",
+                    () => { return this.viewModel.autoRec; },
+                    (value: boolean) => { this.viewModel.autoRec = value; }
+                )
+            ]);
+        }
+
+        return m("div", {
+            style: "display: table; margin: -12px auto -18px auto;"
+        }, [
+            this.createPriority(), //優先度
+
+            m("div", { style: "display: table-cell;" }, [
+                //ts削除チェックボックス
+                this.createCheckBox("ts削除",
+                    () => { return this.viewModel.deleteFile; },
+                    (value: boolean) => { this.viewModel.deleteFile = value; }
+                ),
+                //隣接禁止チェックボックス
+                this.createCheckBox("隣接禁止",
+                    () => { return this.viewModel.discontinuity },
+                    (value: boolean) => { this.viewModel.discontinuity = value; }
+                ),
+
+                //録画モード
+                this.createRecMode()
+            ])
+        ]);
     }
 
     //優先度

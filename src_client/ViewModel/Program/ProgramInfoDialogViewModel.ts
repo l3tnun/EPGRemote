@@ -23,6 +23,7 @@ class ProgramInfoDialogViewModel extends ViewModel {
     public deleteFile: boolean;
     public discontinuity: boolean;
     public recMode: number;
+    public autoRec: boolean;
 
     constructor(
         _cancelRecEpgrecModuleModel: CancelRecEpgrecModuleModelInterface,
@@ -41,6 +42,7 @@ class ProgramInfoDialogViewModel extends ViewModel {
         this.deleteFile = false;
         this.discontinuity = false;
         this.recMode = this.getRecModeDefaultId();
+        this.autoRec = false;
     }
 
     public setProgram(
