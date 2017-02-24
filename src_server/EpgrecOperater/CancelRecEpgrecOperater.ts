@@ -7,13 +7,14 @@ class CancelRecEpgrecOperater extends EpgrecOperater {
         this.log.system.info('CancelRecEpgrecOperater was called');
 
         let program_id = option["program_id"];
+        let autorec = option["autorec"];
 
-        if(typeof program_id == "undefined") {
+        if(typeof program_id == "undefined" || typeof autorec == "undefined") {
             errCallback({ code: 415 });
             return;
         }
 
-        let url = `${this.hostUrl}/cancelReservation.php?program_id=${program_id}`;
+        let url = `${this.hostUrl}/cancelReservation.php?program_id=${ program_id }&autorec=${ autorec }`;
 
         this.httpGet(url, `CancelRecEpgrecOperater ${ program_id }`, callback, errCallback);
     }

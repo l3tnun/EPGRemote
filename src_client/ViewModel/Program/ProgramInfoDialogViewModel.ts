@@ -76,7 +76,7 @@ class ProgramInfoDialogViewModel extends ViewModel {
 
     //予約キャンセル
     public cancelRec(): void {
-        this.cancelRecEpgrecModuleModel.execute(this.program["id"]);
+        this.cancelRecEpgrecModuleModel.execute(this.program["id"], this.autoRec);
     }
 
     //自動予約許可 or キャンセル

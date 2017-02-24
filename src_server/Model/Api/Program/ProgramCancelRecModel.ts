@@ -12,7 +12,7 @@ class ProgramCancelRecModel extends ApiModel {
     }
 
     public execute(): void {
-        if(typeof this.option["program_id"] == "undefined") {
+        if(typeof this.option["program_id"] == "undefined" || typeof this.option["autorec"] == "undefined") {
             this.errors = 415;
             this.eventsNotify();
             return;
