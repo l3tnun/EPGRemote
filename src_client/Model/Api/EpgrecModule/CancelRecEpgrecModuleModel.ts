@@ -7,7 +7,7 @@ import { ProgramApiModelInterface } from '../Program/ProgramApiModel';
 import { SearchResultApiModelInterface } from '../Search/SearchResultApiModel';
 
 interface CancelRecEpgrecModuleModelInterface extends EpgrecModuleModel {
-    execute(program_id: number): void;
+    execute(program_id: number, autorec: boolean): void;
     viewUpdate(value: { [key: string]: any; }): void;
 }
 
@@ -31,9 +31,10 @@ class CancelRecEpgrecModuleModel extends EpgrecModuleModel implements CancelRecE
     * 予約削除
     * @param program_id program_id
     */
-    public execute(program_id: number): void {
+    public execute(program_id: number, autorec: boolean): void {
         let query = {
-            program_id: program_id
+            program_id: program_id,
+            autorec: autorec ? 1 : 0
         };
 
         m.request({

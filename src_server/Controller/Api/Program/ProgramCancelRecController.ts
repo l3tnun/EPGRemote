@@ -12,7 +12,10 @@ class ProgramCancelRecController extends Controller {
         this.log.access.info("controller 'ProgramCancelRecController' was called.");
 
         let model = this.modelFactory.get("ProgramCancelRecModel");
-        model.setOption({ program_id: Number(parsedUrl.query.program_id) });
+        model.setOption({
+            program_id: Number(parsedUrl.query.program_id),
+            autorec: Number(parsedUrl.query.autorec)
+        });
 
         let view = new NormalApiView(response, "ProgramCancelRecModel");
         view.setModels({ ProgramCancelRecModel: model });

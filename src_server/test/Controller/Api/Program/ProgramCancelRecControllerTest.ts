@@ -36,14 +36,16 @@ describe('ProgramCancelRecController', () => {
         modelFactory.add("ProgramCancelRecModel", () => {
             return new DummyApiModel((option: { [key: string]: any }) => {
                 assert.isNumber(option["program_id"]);
+                assert.isNumber(option["autorec"]);
                 assert.equal(option["program_id"], 1);
+                assert.equal(option["autorec"], 1);
             });
         });
 
         request.del(
             {
                 url: 'http://localhost:' + port,
-                qs: { program_id: 1 },
+                qs: { program_id: 1, autorec: 1 },
                 json :true
             },
             (_err: any, _res: http.IncomingMessage, _body: any) => {

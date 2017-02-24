@@ -23,6 +23,7 @@ class ProgramInfoDialogViewModel extends ViewModel {
     public deleteFile: boolean;
     public discontinuity: boolean;
     public recMode: number;
+    public autoRec: boolean;
 
     constructor(
         _cancelRecEpgrecModuleModel: CancelRecEpgrecModuleModelInterface,
@@ -41,6 +42,7 @@ class ProgramInfoDialogViewModel extends ViewModel {
         this.deleteFile = false;
         this.discontinuity = false;
         this.recMode = this.getRecModeDefaultId();
+        this.autoRec = this.program["autorec"] == 0
     }
 
     public setProgram(
@@ -74,7 +76,7 @@ class ProgramInfoDialogViewModel extends ViewModel {
 
     //予約キャンセル
     public cancelRec(): void {
-        this.cancelRecEpgrecModuleModel.execute(this.program["id"]);
+        this.cancelRecEpgrecModuleModel.execute(this.program["id"], this.autoRec);
     }
 
     //自動予約許可 or キャンセル
