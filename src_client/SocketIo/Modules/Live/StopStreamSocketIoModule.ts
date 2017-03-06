@@ -30,7 +30,7 @@ class StopStreamSocketIoModule extends SocketIoModule {
         let streamNumber = m.route.param("stream");
 
         if(typeof streamNumber != "undefined" && option["streamNumber"] == Number(streamNumber)) {
-            m.route.set('/');
+            window.history.back();
         }
     }
 }

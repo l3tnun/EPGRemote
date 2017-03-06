@@ -35,7 +35,7 @@ abstract class View extends MithrilBase {
     protected addShowAnimetion(element: Element): void {
         setTimeout(() => {
             (<HTMLElement>element).style.opacity = "1";
-        }, 100);
+        }, 250);
     }
 
     protected hideAnimetion(element: Element): void {
