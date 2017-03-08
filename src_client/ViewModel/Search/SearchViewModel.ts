@@ -96,6 +96,12 @@ class SearchViewModel extends ViewModel {
     public init(): void {
         //search config を取得
         this.searchConfigApiModel.update(() => {
+            //for android
+            if(Util.uaIsAndroid()) {
+                let mainLayout = <HTMLElement>(document.getElementsByClassName("mdl-layout__content")[0]);
+                setTimeout(() => { mainLayout.style.display = ""; }, 200);
+            }
+
             //search config 取得後の処理
             this.setBroadCastValueFromConfig(); //放送波設定
             this.initAddKeywordOption();

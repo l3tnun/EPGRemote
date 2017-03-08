@@ -2,6 +2,7 @@
 
 import * as m from 'mithril';
 import ParentPageView from '../ParentPageView';
+import Util from '../../Util/Util';
 import Scroll from '../../Util/Scroll';
 import SearchViewModel from '../../ViewModel/Search/SearchViewModel';
 import SearchOptionComponent from '../../Component/Search/SearchOptionComponent';
@@ -40,7 +41,12 @@ class SearchView extends ParentPageView {
                 m(this.searchOptionComponent),
                 m(this.searchResultComponent),
                 m(this.searchAddKeywordComponent)
-            ]),
+            ],
+            (vnode: Mithril.VnodeDOM<any, any>) => {
+                //for android
+                if(!Util.uaIsAndroid()) { return; }
+                (<HTMLElement>(vnode.dom)).style.display = "none";
+            }),
 
             //予約ダイアログ
             m(this.getDialogComponent(ProgramInfoDialogViewModel.infoDialogId), {

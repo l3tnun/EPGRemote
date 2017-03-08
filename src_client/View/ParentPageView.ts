@@ -102,10 +102,15 @@ abstract class ParentPageView extends View {
     * main layout
     * @param content content
     */
-    protected mainLayout(content: any): Mithril.Vnode<any, any> {
+    protected mainLayout(
+        content: any,
+        oncreate: ((vnode: Mithril.VnodeDOM<any, any>) => void) | null = null
+    ): Mithril.Vnode<any, any> {
         return m("main", {
             class: "fadeIn mdl-layout__content",
             oncreate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                if(oncreate != null) { oncreate(vnode); }
+
                 this._query_ = Util.getCopyQuery();
                 this.addShowAnimetion(vnode.dom);
             },
