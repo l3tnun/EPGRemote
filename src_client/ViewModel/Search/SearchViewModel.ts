@@ -385,9 +385,10 @@ class SearchViewModel extends ViewModel {
         };
 
         this.searchResultApiModel.setOption(option);
-        this.searchResultApiModel.update();
-        this.resultShowStatus = true;
-        this.scrollStatus = true;
+        this.searchResultApiModel.update(() => {
+            this.resultShowStatus = true;
+            this.scrollStatus = true;
+        });
     }
 
     public getGenres(): { [key: string]: any }[] {

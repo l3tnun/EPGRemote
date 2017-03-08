@@ -300,7 +300,7 @@ class SearchOptionView extends SearchOptionBaseView {
             //検索ボタン
             m("button", {
                 class: "no-hover mdl-button mdl-js-button mdl-button--primary",
-                onclick: () => { setTimeout(() => { this.viewModel.search(); }, 500); }
+                onclick: () => {this.viewModel.search(); }
             }, "検索" ),
 
             //キャンセル or 元に戻すボタン

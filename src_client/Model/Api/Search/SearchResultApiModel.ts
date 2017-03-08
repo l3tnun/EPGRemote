@@ -31,7 +31,7 @@ interface SearchResultOptionInterface {
 interface SearchResultApiModelInterface extends ApiModel {
     init(): void;
     setOption(option: SearchResultOptionInterface): void;
-    update(): void;
+    update(callback?: Function | null): void;
     getResult(): { [key: string]: any }[];
 }
 
@@ -50,7 +50,7 @@ class SearchResultApiModel implements SearchResultApiModelInterface {
         this.option = option;
     }
 
-    public update(): void {
+    public update(callback: Function | null = null): void {
         let query = {};
 
         if(this.option == null) {
@@ -92,6 +92,7 @@ class SearchResultApiModel implements SearchResultApiModelInterface {
             } else {
                 console.log("SearchResultApiModel update failed");
             }
+            if(callback != null) { callback(); }
         },
         (error) => {
             console.log("SearchResultApiModel update error");
