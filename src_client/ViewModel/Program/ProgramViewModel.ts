@@ -23,7 +23,6 @@ class ProgramViewModel extends ViewModel {
     private liveConfigEnableApiModel: LiveConfigEnableApiModelInterface;
     private headerHeight: number = 0;
     private windowWidth: number = 0;
-    private progressStatus: boolean = true; //プログレス true: 表示, false: 非表示
     //ProgramApiModel のアップデート時に差分更新をするために使用する
     private programCache: { [key: number]: ProgramCacheStructure } = {};
 
@@ -46,6 +45,7 @@ class ProgramViewModel extends ViewModel {
     * ParentPageController から呼ばれる
     */
     public init(): void {
+        this.showProgress();
         this.programUpdateTime = null;
         this.programApiModel.init(() => { this.diffUpdate(); });
         this.updateProgram();
@@ -53,7 +53,6 @@ class ProgramViewModel extends ViewModel {
         this.initUpdateTime();
         this.headerHeight = 0;
         this.windowWidth = 0;
-        this.progressStatus = true;
         this.resetCache();
     }
 
@@ -72,19 +71,22 @@ class ProgramViewModel extends ViewModel {
         return this.programApiModel.getUpdateTime();
     }
 
-    /**
-    * プログレスの状態を取得
-    * true: 表示, false: 非表示
-    */
-    public getProgressStatus(): boolean {
-        return this.progressStatus;
+    //プログレスを非表示にする
+    public hiddenProgress(): void {
+        let progress = document.getElementById(ProgramViewModel.programBusyId);
+        let program = document.getElementById(ProgramViewModel.programFrameId);
+        if(progress == null || program == null) { return; }
+        progress.style.display = "none";
+        program.style.display = "";
     }
 
-    //プログレスを非表示にする
-    public hiddenProgressStatus(): void {
-        this.progressStatus = false;
-        //m.redraw.strategy("diff");
-        m.redraw();
+    //プログレスを表示する
+    public showProgress(): void {
+        let progress = document.getElementById(ProgramViewModel.programBusyId);
+        let program = document.getElementById(ProgramViewModel.programFrameId);
+        if(progress == null || program == null) { return; }
+        progress.style.display = "block";
+        program.style.display = "none";
     }
 
     //program cache をリセットする
@@ -272,6 +274,7 @@ namespace ProgramViewModel {
     export const recordedClassStr = "tv_program_reced";
     export const autorecClassStr = "tv_program_freeze";
     export const timeDialogId = "program_time";
+    export const programBusyId = "program_busy";
 }
 
 export default ProgramViewModel;

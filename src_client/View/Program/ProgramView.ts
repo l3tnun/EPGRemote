@@ -89,8 +89,8 @@ class ProgramView extends ParentPageView {
 
                 //プログレスバー
                 m("div", {
-                    class: "program_busy",
-                    style:  this.viewModel.getProgressStatus() ? "display: block;" : "display: none;"
+                    id: ProgramViewModel.programBusyId,
+                    style:  "display: block;"
                 }, [
                     m("div", {
                         class: "mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active",
