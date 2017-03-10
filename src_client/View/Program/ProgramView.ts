@@ -188,14 +188,13 @@ class ProgramView extends ParentPageView {
     }
 
     private createNowBarStyle(): string {
-        let titles = document.getElementsByClassName("station_title");
-        if(typeof titles[2] == "undefined") { return "top: -100px;"; }
+        if(this.viewModel.stationCnt == 0) { return "top: -100px;"; }
 
         let viewConfig = this.viewModel.getViewConfig();
         let stationWidth = 0;
         if(viewConfig != null) { stationWidth = viewConfig["stationWidth"]; }
 
-        return `width: ${ (titles.length - 2) * stationWidth }px;`
+        return `width: ${ this.viewModel.stationCnt * stationWidth }px;`
             + `top: ${ this.getNowBarPosition() }px;`
     }
 

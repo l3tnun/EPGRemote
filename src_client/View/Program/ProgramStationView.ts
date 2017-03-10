@@ -84,6 +84,8 @@ class ProgramStationView extends View {
                 starttime += 1000 * 60 * 60 * 24;
             }
         }
+
+        this.viewModel.stationCnt = result.length;
         return result;
     }
 

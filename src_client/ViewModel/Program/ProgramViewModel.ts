@@ -29,6 +29,9 @@ class ProgramViewModel extends ViewModel {
     //ProgramContentView の更新時間を記録する
     public programUpdateTime: Date | null = null;
 
+    //表示されている局数を記憶する
+    public stationCnt = 0;
+
     constructor(
         _programApiModel: ProgramApiModelInterface,
         _programConfigApiModel: ProgramConfigApiModelInterface,
@@ -45,6 +48,7 @@ class ProgramViewModel extends ViewModel {
     * ParentPageController から呼ばれる
     */
     public init(): void {
+        this.stationCnt = 0;
         this.showProgress();
         this.programUpdateTime = null;
         this.programApiModel.init(() => { this.diffUpdate(); });
