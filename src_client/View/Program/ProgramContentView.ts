@@ -106,7 +106,10 @@ class ProgramContentView extends View {
             this.viewModel.programUpdateTime = this.viewModel.getUpdateTime();
 
             //プログレスを非表示にする
-            setTimeout(() => { this.viewModel.hiddenProgress(); }, 200);
+            setTimeout(() => {
+                m.redraw();
+                this.viewModel.hiddenProgress();
+            }, 200);
         }
     }
 
@@ -273,7 +276,6 @@ class ProgramContentView extends View {
                     this.viewModel.getRecModeDefaultId()
                 );
                 this.dialog.open(ProgramInfoDialogViewModel.infoDialogId);
-                //m.redraw.strategy("diff");
                 m.redraw();
             }
         }, [
