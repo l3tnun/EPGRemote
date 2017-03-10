@@ -40,8 +40,6 @@ class ProgramView extends ParentPageView {
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
         this.programStorageViewModel = <ProgramStorageViewModel>this.getModel("ProgramStorageViewModel");
 
-        let headerStyle = Util.uaIsAndroid() ? "overflow: visible;" : "overflow: hidden;";
-
         return m("div", [
             //header メニュー
             //ダイアログの後に置くと /log から移動してきたときに開けなくなる
@@ -58,7 +56,7 @@ class ProgramView extends ParentPageView {
 
             m("div", {
                 class: "mdl-layout mdl-js-layout mdl-layout--fixed-header",
-                style: "display: block; " + headerStyle
+                style: "display: block; overflow: hidden;"
             }, [
                 //header
                 this.createHeader(this.createTitleStr(), [

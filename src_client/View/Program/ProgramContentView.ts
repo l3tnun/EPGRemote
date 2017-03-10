@@ -2,7 +2,6 @@
 
 import * as m from 'mithril';
 import View from '../View';
-import Util from '../../Util/Util';
 import DateUtil from '../../Util/DateUtil';
 import ProgramViewModel from '../../ViewModel/Program/ProgramViewModel';
 import DialogViewModel from '../../ViewModel/Dialog/DialogViewModel';
@@ -86,17 +85,8 @@ class ProgramContentView extends View {
         //更新が必要でない
         if(this.viewModel.programUpdateTime != null && this.viewModel.programUpdateTime >= this.viewModel.getUpdateTime()) { return; }
 
-        if(programCnt == programStart) {
-            //キャッシュをリセットする
-            this.viewModel.resetCache();
-            //プログレスを非表示にする
-            setTimeout(() => { this.viewModel.hiddenProgressStatus(); }, 200);
-        }
-
-        if(programCnt == programEnd) {
-            //updateTime を更新
-            this.viewModel.programUpdateTime = this.viewModel.getUpdateTime();
-        }
+        //キャッシュをリセットする
+        if(programCnt == programStart) { this.viewModel.resetCache(); }
 
         //remove child
         for (let i = element.childNodes.length - 1; i >= 0; i--) {
@@ -104,14 +94,20 @@ class ProgramContentView extends View {
         }
 
         //add new child
+        let fragment = document.createDocumentFragment();
         let stationChild = this.createStationChild(nextTime, stationEndTime, stationPrograms);
         stationChild.map((child: HTMLElement) => {
-            if(Util.uaIsMobile()) {
-                setTimeout(() => { element.appendChild(child); }, 100);
-            } else {
-                element.appendChild(child);
-            }
+            fragment.appendChild(child);
         });
+        element.appendChild(fragment);
+
+        if(programCnt == programEnd) {
+            //updateTime を更新
+            this.viewModel.programUpdateTime = this.viewModel.getUpdateTime();
+
+            //プログレスを非表示にする
+            this.viewModel.hiddenProgressStatus();
+        }
     }
 
     /**
