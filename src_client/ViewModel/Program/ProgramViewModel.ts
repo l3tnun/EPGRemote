@@ -49,6 +49,7 @@ class ProgramViewModel extends ViewModel {
     */
     public init(): void {
         this.stationCnt = 0;
+        this.initScrollPosition();
         this.showProgress();
         this.programUpdateTime = null;
         this.programApiModel.init(() => { this.diffUpdate(); });
@@ -91,6 +92,19 @@ class ProgramViewModel extends ViewModel {
         if(progress == null || program == null) { return; }
         progress.style.display = "block";
         program.style.display = "none";
+    }
+
+    //スクロールポジションの初期化
+    public initScrollPosition(): void {
+        let frame = document.getElementById(ProgramViewModel.programFrameId);
+        let stationFrame =  document.getElementById(ProgramViewModel.stationFrameId);
+        let timeFrame = document.getElementById(ProgramViewModel.timeFrameId);
+        if(frame != null && stationFrame != null && timeFrame != null) {
+            frame.scrollLeft = 0;
+            frame.scrollTop = 0;
+            stationFrame.scrollLeft = 0;
+            timeFrame.scrollTop = 0;
+        }
     }
 
     //program cache をリセットする

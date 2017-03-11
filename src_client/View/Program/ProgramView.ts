@@ -79,8 +79,7 @@ class ProgramView extends ParentPageView {
                 m("div", {
                     id: ProgramViewModel.programFrameId,
                     style: this.createFrameStyle(),
-                    oncreate: (vnode: Mithril.VnodeDOM<any, any>) => { this.frameInit(vnode.dom, vnode.state); },
-                    onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.frameConfig(vnode.dom, vnode.state); }
+                    oncreate: (vnode: Mithril.VnodeDOM<any, any>) => { this.frameInit(vnode.dom, vnode.state); }
                 }, [
                     //時刻線
                     m("div", { id: "tableNowBar", style: this.createNowBarStyle() }, "now" ),
@@ -175,16 +174,6 @@ class ProgramView extends ParentPageView {
             stationFrame.scrollLeft = element.scrollLeft;
             timeFrame.scrollTop = element.scrollTop;
         }
-    }
-
-    private frameConfig(element: Element, context: { [key: string]: any }): void {
-        let qyeryStr = Util.getCopyQuery();
-        if(context["query"] != null || context["query"] == qyeryStr) { return; }
-
-        //init scroll position
-        context["query"] = qyeryStr;
-        (<HTMLElement>element).scrollLeft = 0;
-        (<HTMLElement>element).scrollTop = 0;
     }
 
     private createNowBarStyle(): string {
