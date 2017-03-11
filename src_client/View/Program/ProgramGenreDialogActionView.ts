@@ -40,6 +40,7 @@ class ProgramGenreDialogActionView extends View {
                     this.dialog.close();
                     this.viewModel.update();
                     this.programViewModel.resetCache();
+                    this.programViewModel.showProgress();
                     this.programViewModel.updateProgram();
                 }
             }, "更新"),
