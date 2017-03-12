@@ -106,10 +106,8 @@ class ProgramContentView extends View {
             this.viewModel.programUpdateTime = this.viewModel.getUpdateTime();
 
             //プログレスを非表示にする
-            setTimeout(() => {
-                this.viewModel.hiddenProgress();
-                setTimeout(() => { m.redraw(); }, 500);
-            }, 200);
+            this.viewModel.hiddenProgress();
+            m.redraw();
         }
     }
 
