@@ -484,6 +484,7 @@ Parameter
 |key        |必須 |memo                       |
 |:----------|----|---------------------------|
 |program_id |yes |program id                 |
+|autorec    |yes |0:自動予約許可, 1:自動予約禁止 |
 
 Format
 
