@@ -25,15 +25,31 @@ QSV や NVEnc 等のハードウェアエンコードを使うことをおすす
 ffmpeg の設定については [v42fg3g/TvRemoteViewer_VB](https://github.com/v42fg3g/TvRemoteViewer_VB/) を参考にさせていただきました。作者さんありがとうございます。
 
 ## スクリーンショット (タブレット UI)
-<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/top.png" width=430px>
-<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/live_program.png" width=430px>
-<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/live_watch.png" width=430px>
-<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/program.png" width=430px>
-<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/recorded.png" width=430px>
-<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/reservation.png" width=430px>
-<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/search.png" width=430px>
-<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/keyword.png"width=430px>
-<img src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/log.png" width=430px>
+<style>
+    @media (min-width:700px) {
+        .screenshot {
+            float:left;
+            width: calc(50% - 10px);
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+    }
+
+    .screenshot {
+         margin-Top: 5px;
+    }
+</style>
+
+<img class="screenshot" src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/top.png">
+<img class="screenshot" src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/live_program.png">
+<img class="screenshot" src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/live_watch.png">
+<img class="screenshot" src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/program.png">
+<img class="screenshot" src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/recorded.png">
+<img class="screenshot" src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/reservation.png">
+<img class="screenshot" src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/search.png">
+<img class="screenshot" src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/keyword.png">
+<img class="screenshot" src="https://github.com/l3tnun/EPGRemote/wiki/images/demo/log.png">
+<br clear="both"/>
 
 ## 使用ツール
 * Node.js v6.9.1 以降
