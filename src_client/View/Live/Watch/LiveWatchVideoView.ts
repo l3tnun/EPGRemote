@@ -45,7 +45,10 @@ class LiveWatchVideoView extends View {
                     (<HTMLMediaElement>(vnode.dom)).load();
                     (<HTMLMediaElement>(vnode.dom)).play();
                 },
-                onremove: () => {
+                onremove: (vnode: Mithril.VnodeDOM<any, any>) => {
+                    (<HTMLMediaElement>(vnode.dom)).pause();
+                    (<HTMLMediaElement>(vnode.dom)).src = "";
+                    (<HTMLMediaElement>(vnode.dom)).load();
                     this.viewModel.HlsDestroy();
                 }
             });
