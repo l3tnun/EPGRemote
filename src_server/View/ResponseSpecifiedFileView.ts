@@ -120,6 +120,10 @@ class ResponseSpecifiedFile extends View {
             readable.on('open', () => {
                 readable.pipe(this.response);
             });
+
+            readable.on('end', () => {
+                readable.close(); //ファイルを開放する
+            });
         }
     }
 
