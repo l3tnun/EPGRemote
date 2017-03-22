@@ -67,6 +67,12 @@ class RecordedVideoPathModel extends ApiModel {
                 })
             }
 
+            if(typeof this.option["windows"] != "undefined") {
+                this.results.push({
+                    RecordedStreamingWindowsURL: configJson.RecordedStreamingWindowsURL,
+                })
+            }
+
             this.eventsNotify();
         },
         (code) => {
