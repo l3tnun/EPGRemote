@@ -80,12 +80,19 @@ class RecordedVideoLinkDialogView extends View {
     private createHref(path: string): string {
         let iOSURL = this.viewModel.getiOSURL();
         let androidURL = this.viewModel.getAndroidURL();
+        let windowsURL = this.viewModel.getWindowsURL();
         let dlStatus = this.viewModel.getDlStatus();
 
         if(dlStatus) { path += "?mode=download"; }
 
+        //windows かつ IE or Edge
+        if(windowsURL != null) {
+            if(dlStatus) { return path; }
+            let url = windowsURL!["RecordedStreamingWindowsURL"];
+            return typeof url == "undefined" ? path : url.replace("ADDRESS", window.location.host + path);
+        }
         //非 Mobile 端末
-        if(iOSURL == null && androidURL == null) {  return path; }
+        else if(iOSURL == null && androidURL == null) {  return path; }
 
         //Mobile 端末
         let mobilePath = window.location.host + path;
