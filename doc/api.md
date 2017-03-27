@@ -98,9 +98,10 @@ Format
 
 Parameters
 
-|key   |必須 |memo                                     |
-|:-----|----|------------------------------------------|
-|type  |no  |放送波を指定(GR, BS, CS, EX, recorded)      |
+|key    |必須 |memo                                     |
+|:------|----|------------------------------------------|
+|type   |no  |放送波を指定(GR, BS, CS, EX, recorded)      |
+|method |no  |http視聴用(http-live)                      |
 
 Format
 
@@ -112,7 +113,7 @@ Format
             {
                 id:       1,       //チューナー識別id
                 name:     "PT3-T0" //チューナー名
-                streamId: 1,       //ストリーム番号(該当する streamId がなければ -1)
+                streamId: 1,       //ストリーム番号(該当する streamId がなければ -1, http 視聴で使用している場合は -2)
             }, ....
         ],
 
