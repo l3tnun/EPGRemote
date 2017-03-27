@@ -13,6 +13,7 @@ import LiveConfigController from './Controller/Api/Live/LiveConfigController';
 import LiveWatchGetController from './Controller/Api/Live/LiveWatchGetController';
 import LiveWatchDeleteController from './Controller/Api/Live/LiveWatchDeleteController';
 import LiveWatchPostController from './Controller/Api/Live/LiveWatchPostController';
+import LivehttpWatchController from './Controller/Api/Live/LivehttpWatchController';
 
 import ProgramController from './Controller/Api/Program/ProgramController';
 import ProgramConfigController from './Controller/Api/Program/ProgramConfigController';
@@ -61,6 +62,7 @@ class CreateHandler {
         handle["/api/live/watch:GET"] = new LiveWatchGetController();
         handle["/api/live/watch:DELETE"] = new LiveWatchDeleteController();
         handle["/api/live/watch:POST"] = new LiveWatchPostController();
+        handle["/api/live/http/watch:GET"] = new LivehttpWatchController();
 
         handle["/api/program:GET"] = new ProgramController();
         handle["/api/program/config:GET"] = new ProgramConfigController();

@@ -10,6 +10,7 @@ import LiveWatchChangeStreamModel from './Api/Live/LiveWatchChangeStreamModel';
 import LiveWatchStartStreamModel from './Api/Live/LiveWatchStartStreamModel';
 import LiveWatchStopStreamModel from './Api/Live/LiveWatchStopStreamModel';
 import LiveWatchStreamInfoModel from './Api/Live/LiveWatchStreamInfoModel';
+import LiveHttpWatchModel from './Api/Live/LiveHttpWatchModel';
 import RecordedWatchStartStreamModel from './Api/Live/RecordedWatchStartStreamModel';
 import ProgramAutorecModel from './Api/Program/ProgramAutorecModel';
 import ProgramCancelRecModel from './Api/Program/ProgramCancelRecModel';
@@ -35,8 +36,9 @@ import LogModel from './Api/Log/LogModel';
 import EPGSingleUpdateModel from './Api/Epg/EPGSingleUpdateModel';
 import DiskModel from './Api/Disk/DiskModel';
 
-import LiveStream from '../Stream/LiveStream/LiveStream'
-import RecordedStream from '../Stream/RecordedStream/RecordedStream'
+import LiveStream from '../Stream/LiveStream/LiveStream';
+import HttpStream from '../Stream/HttpStream/HttpStream';
+import RecordedStream from '../Stream/RecordedStream/RecordedStream';
 
 import GetLiveProgramListSql from '../Sql/GetLiveProgramListSql';
 import GetRecordedStreamInfoSql from '../Sql/GetRecordedStreamInfoSql';
@@ -92,6 +94,12 @@ namespace ModelFactoryAdd {
                 return new LiveStream(channel, sid, tunerId, videoId);
             }
         ); });
+        factory.add("LiveHttpWatchModel", () => { return new LiveHttpWatchModel(
+            (channel: string, sid: string, tunerId: number, videoId: number) => {
+                return new HttpStream(channel, sid, tunerId, videoId);
+            }
+        ); });
+
         factory.add("LiveWatchStopStreamModel", () => { return new LiveWatchStopStreamModel(); });
         factory.add("LiveWatchStreamInfoModel", () => {
             return new LiveWatchStreamInfoModel(

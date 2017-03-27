@@ -113,7 +113,7 @@ Format
             {
                 id:       1,       //チューナー識別id
                 name:     "PT3-T0" //チューナー名
-                streamId: 1,       //ストリーム番号(該当する streamId がなければ -1, http 視聴で使用している場合は -2)
+                streamId: 1,       //ストリーム番号(該当する streamId がなければ -1)
             }, ....
         ],
 
@@ -145,7 +145,7 @@ Format
         streamNumber:,        1,                           //ストリーム番号
         viewStatus:           true,                        //再生可能な状態ならtrue
         changeChannelStatus:  true,                        //チャンネル変更が可能ならtrue
-        streamType:           "live",                      //ライブ配信なら live, 録画配信なら recorded
+        streamType:           "live",                      //HLS リアルタイム視聴なら live, 録画配信なら recorded, http リアルタイム視聴なら http-live
         sid,                  "1032",                      //sid
         channel,              "13",                         //channel
         name:                 "ＮＨＫ",                     //局名
@@ -188,7 +188,7 @@ Format
 ```
 
 #####Methods: POST
-ライブ配信を開始
+HLS でリアルタイム配信を開始
 
 Parameters
 
@@ -249,6 +249,22 @@ Parameters
 |:------|----|--------|
 |stream |yes |sid     |
 
+---
+### /live/http/watch
+
+#####Methods: GET
+http でリアルタイム視聴を開始する
+
+接続が切断されると停止する
+
+Parameter
+
+|key     |必須 |memo    |
+|:-------|----|--------|
+|sid     |yes |sid     |
+|channel |yes |channel |
+|tunerId |yes |tunerId |
+|videoId |yes |videId  |
 ---
 ###/program
 
