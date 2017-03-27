@@ -4,11 +4,13 @@ import * as http from 'http';
 import * as child_process from 'child_process';
 import ApiView from '../ApiView';
 import StreamManager from '../../../Stream/StreamManager';
+import Stream from '../../../Stream/Stream'
 
 class LiveHttpWatchView extends ApiView {
     private request: http.ServerRequest;
     private encChild: child_process.ChildProcess;
     private recChild: child_process.ChildProcess;
+    private stream: Stream;
     private streamId: number;
     private streamManager: StreamManager = StreamManager.getInstance();
 
@@ -34,6 +36,7 @@ class LiveHttpWatchView extends ApiView {
             return;
         }
 
+        this.stream = model.getResults()["stream"];
         this.streamId = model.getResults()["streamId"];
         this.encChild = model.getResults()["encChild"];
         this.recChild = model.getResults()["recChild"];
@@ -49,17 +52,19 @@ class LiveHttpWatchView extends ApiView {
             "Pragma": "no-cache"
         });
         this.encChild.stdout.pipe(this.response);
+        this.stream.countUp();
 
         //切断時
         this.request.on('close', () => {
+            this.stream.countDown();
             this.streamManager.stopStream(this.streamId); //配信停止
         });
     }
 
     //child エラー発生時処理
     private setChildErrorProcessing(child: child_process.ChildProcess) {
-        child.on("exit", () => { this.response.end(); });
-        child.stdin.on("error", () => { this.response.end(); });
+        child.on("exit", () => { this.stream.resetCount(); this.response.end(); });
+        child.stdin.on("error", () => { this.stream.resetCount(); this.response.end(); });
     }
 }
 

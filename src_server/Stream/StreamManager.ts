@@ -40,8 +40,19 @@ class StreamManager extends Base {
         result["viewStatus"] = this.streamStatus[num].viewStatus;
         result["changeChannelStatus"] = this.streamStatus[num].changeChannelStatus;
         result["streamType"] = this.streamStatus[num].stream!.getType();
+        result["viewCnt"] = this.streamStatus[num].stream!.getCount();
 
         return result;
+    }
+
+    /**
+    * 指定されたストリームの Stream を本体を取得する
+    * @param num: stream id
+    */
+    public getStream(num: number): Stream | null {
+        if(typeof this.streamStatus[num] == "undefined" || this.streamStatus[num].stream == null) { return null; }
+
+        return this.streamStatus[num].stream!;
     }
 
     /**
@@ -116,7 +127,11 @@ class StreamManager extends Base {
             return;
         }
 
-        this.streamStatus[streamNumber].stream!.stop();
+        let stream = this.streamStatus[streamNumber].stream!;
+
+        //カウントが 0 なら停止する
+        if(stream.getCount() > 0) { return; }
+        stream.stop();
 
         if(this.streamStatus[streamNumber].changeChannelStatus) {
             delete this.streamStatus[streamNumber];

@@ -4,6 +4,8 @@ import Base from '../Base';
 import StreamManager from './StreamManager'
 
 abstract class Stream extends Base {
+    private viewerCnt: number = 0;
+
     public abstract start(streamNumber: number): void;
     public abstract stop(): void;
     public abstract getStatus(): { [key: string]: any }; //Stream 固有の情報を返す
@@ -22,6 +24,11 @@ abstract class Stream extends Base {
             streamManager.stopStream(streamNumber);
         }
     }
+
+    public countUp(): void { this.viewerCnt += 1; }
+    public countDown(): void { this.viewerCnt -= 1; }
+    public resetCount(): number { this.viewerCnt = 0; }
+    public getCount(): number { return this.viewerCnt; }
 }
 
 export default Stream;

@@ -60,7 +60,9 @@ class HttpStream extends Stream {
     public getStatus(): { [key: string]: any } {
         return {
             channel: this.channel,
-            sid: this.sid
+            sid: this.sid,
+            tunerId: this.tunerId,
+            videoId: this.videoId
         };
     }
 

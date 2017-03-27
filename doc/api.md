@@ -263,8 +263,8 @@ Parameter
 |:-------|----|--------|
 |sid     |yes |sid     |
 |channel |yes |channel |
-|tunerId |yes |tunerId |
-|videoId |yes |videId  |
+|tuner   |yes |tunerId |
+|video   |yes |videId  |
 ---
 ###/program
 

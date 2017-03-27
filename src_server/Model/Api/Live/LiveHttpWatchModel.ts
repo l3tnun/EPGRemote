@@ -26,10 +26,29 @@ class LiveHttpWatchModel extends ApiModel {
         }
 
         try {
-            let stream = this.createStream(channel, sid, tunerId, videoId);
-            let streamId = StreamManager.getInstance().startStream(stream);
+            let manager = StreamManager.getInstance();
+            let stream: HttpStream | null = null;
+            let streamId: number | null = null;
+
+            //同一パラメーターの Stream を探す
+            manager.getStreamAllStatus().map((info: { [key: string]: any }) => {
+                if(info["streamType"] != "http-live") { return; }
+                if(info["channel"] == channel && info["sid"] == sid && info["tunerId"] == tunerId && info["videoId"] == videoId) {
+                    stream = <HttpStream>manager.getStream(info["streamNumber"]);
+                    streamId = info["streamNumber"];
+                    console.log(stream);
+              }
+            });
+
+            //同一パラメーターの Stream が見つからない場合
+            if(stream == null || streamId == null) {
+                stream = this.createStream(channel, sid, tunerId, videoId);
+                streamId = manager.startStream(stream);
+            }
+
             this.results = {
                 streamId: streamId,
+                stream: stream,
                 encChild: stream.getEncChild(),
                 recChild: stream.getRecChild()
             };
