@@ -218,7 +218,13 @@ vim config/config.json
     //下記の設定の場合、視聴には MX Player が DL では Advanced Download Manager が起動する
     //必要なければ削除しても良い
     "RecordedStreamingAndroidURL": "android-app://com.mxtech.videoplayer.ad/http/ADDRESS",
-    "RecordedDownloadAndroidURL": "android-app://com.dv.adm/http/ADDRESS"
+    "RecordedDownloadAndroidURL": "android-app://com.dv.adm/http/ADDRESS",
+
+
+    //Windows 用のカスタム URL Scheme の設定
+    //IE or Edge でしか正常に動作しない
+    //必要なければ削除しても良い
+    "RecordedStreamingWindowsURL": "custom:///http://ADDRESS"
 
 }
 ````

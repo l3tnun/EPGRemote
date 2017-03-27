@@ -59,6 +59,13 @@ namespace Util {
     }
 
     /**
+    * UA が IE か判定
+    */
+    export const uaIsIE = (): boolean => {
+        return /msie|MSIE/.test(navigator.userAgent) || /Trident/.test(navigator.userAgent);
+    }
+
+    /**
     * UA が Mobile か判定
     */
     export const uaIsMobile = (): boolean => {
