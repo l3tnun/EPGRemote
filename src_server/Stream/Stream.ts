@@ -27,7 +27,7 @@ abstract class Stream extends Base {
 
     public countUp(): void { this.viewerCnt += 1; }
     public countDown(): void { this.viewerCnt -= 1; }
-    public resetCount(): number { this.viewerCnt = 0; }
+    public resetCount(): void { this.viewerCnt = 0; }
     public getCount(): number { return this.viewerCnt; }
 }
 
