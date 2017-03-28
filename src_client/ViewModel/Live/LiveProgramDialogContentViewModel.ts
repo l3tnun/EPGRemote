@@ -49,19 +49,21 @@ class LiveProgramDialogContentViewModel extends ViewModel {
     * @param chanelDisk channelDisk
     */
     public setup(title: string, type: string, channel: string, sid: string, channelDisk: string | null = null): void {
+        this.changeHttpView = !this.enableHLSLive();
         this.title = title;
         this.channel = channel;
         this.sid = sid;
-        this.liveConfigApiModel.setup(type);
+        this.liveConfigApiModel.setType(type);
+        this.liveConfigApiModel.setHttp(this.changeHttpView);
         this.channelDisk = channelDisk;
         this.enableNewStream = false;
-        this.changeHttpView = !this.enableHLSLive();
     }
 
     /**
     * tuner, video List を取得
     */
     public configListUpdate(): void {
+        this.liveConfigApiModel.setHttp(this.changeHttpView);
         this.liveConfigApiModel.update();
     }
 

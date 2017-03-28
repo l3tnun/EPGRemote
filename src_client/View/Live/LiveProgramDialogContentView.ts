@@ -161,6 +161,7 @@ class LiveProgramDialogContentView extends View {
                 checked: this.dialogContentViewModel.changeHttpView,
                 onchange: m.withAttr("checked", (value) => {
                     this.dialogContentViewModel.changeHttpView = value;
+                    this.dialogContentViewModel.configListUpdate();
                 }),
                 onreate: () => { this.checkboxInit(); },
                 onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.checkboxConfig(<HTMLInputElement>(vnode.dom)); }

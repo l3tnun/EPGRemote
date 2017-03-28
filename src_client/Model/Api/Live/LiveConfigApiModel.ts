@@ -5,7 +5,8 @@ import ApiModel from '../ApiModel';
 
 interface LiveConfigApiModelInterface extends ApiModel {
     update(): void;
-    setup(type: string): void;
+    setType(type: string): void;
+    setHttp(http: boolean): void;
     getTunerList(): any[];
     getVideoList(): any[];
 }
@@ -15,6 +16,7 @@ interface LiveConfigApiModelInterface extends ApiModel {
 */
 class LiveConfigApiModel implements LiveConfigApiModelInterface {
     private type: string | null = null;
+    private http: boolean;
     private tunerList: any[] = [];
     private videoList: any[] = [];
 
@@ -23,6 +25,8 @@ class LiveConfigApiModel implements LiveConfigApiModelInterface {
         if(this.type == null) { return; }
 
         let query = { type: this.type }
+        if(this.http) { query["method"] = "http-live"; }
+
         m.request({ method: "GET", url: `/api/live/config?${ m.buildQueryString(query) }` })
         .then((value) => {
             this.tunerList = value["tunerList"];
@@ -35,11 +39,19 @@ class LiveConfigApiModel implements LiveConfigApiModelInterface {
     }
 
     /**
-    * setup
+    * 放送波を設定
     * @param type 放送波
     */
-    public setup(type: string): void {
+    public setType(type: string): void {
         this.type = type;
+    }
+
+    /**
+    * 配信方法を設定
+    * @param http true: http 配信, false: HLS 配信
+    */
+    public setHttp(http: boolean): void {
+        this.http = http;
     }
 
     public getTunerList(): any[] {
