@@ -13,6 +13,7 @@ import { LiveConfigApiModel } from '../Model/Api/Live/LiveConfigApiModel';
 import { LiveStartWatchApiModel } from '../Model/Api/Live/Watch/LiveStartWatchApiModel';
 import { LiveRecordedStartWatchApiModel } from '../Model/Api/Live/Watch/LiveRecordedStartWatchApiModel';
 import { LiveConfigEnableApiModel } from '../Model/Api/Live/LiveConfigEnableApiModel';
+import { LiveHttpConfigApiModel } from '../Model/Api/Live/LiveHttpConfigApiModel';
 import { KeywordApiModel } from '../Model/Api/Keyword/KeywordApiModel';
 import { LogPageApiModel } from '../Model/Api/LogPage/LogPageApiModel';
 import { RecordedApiModel } from '../Model/Api/Recorded/RecordedApiModel';
@@ -60,6 +61,7 @@ namespace ModelFactoryAdd {
         let liveStartWatchApiModel = new LiveStartWatchApiModel();
         let liveRecordedStartWatchApiModel = new LiveRecordedStartWatchApiModel();
         let liveConfigEnableApiModel = new LiveConfigEnableApiModel();
+        let liveHttpConfigApiModel = new LiveHttpConfigApiModel();
         let keywordApiModel = new KeywordApiModel();
         let logPageApiModel = new LogPageApiModel();
         let recordedApiModel = new RecordedApiModel();
@@ -99,6 +101,7 @@ namespace ModelFactoryAdd {
         factory.add("LiveStartWatchApiModel", liveStartWatchApiModel);
         factory.add("LiveRecordedStartWatchApiModel", liveRecordedStartWatchApiModel);
         factory.add("LiveConfigEnableApiModel", liveConfigEnableApiModel);
+        factory.add("LiveHttpConfigApiModel", liveHttpConfigApiModel);
         factory.add("KeywordApiModel", keywordApiModel);
         factory.add("LogPageApiModel", logPageApiModel);
         factory.add("RecordedApiModel", recordedApiModel);
