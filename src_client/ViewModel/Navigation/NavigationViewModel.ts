@@ -1,5 +1,6 @@
 "use strict";
 
+import Util from '../../Util/Util';
 import ViewModel from '../ViewModel';
 import { BroadCastApiModelInterface } from '../../Model/Api/BroadCastApiModel';
 import { LiveOtherStreamInfoApiModelInterface } from '../../Model/Api/Live/LiveOtherStreamInfoApiModel';
@@ -51,7 +52,12 @@ class NavigationViewModel extends ViewModel {
     * 有効 true, 無効 false
     */
     public enableLive(): boolean {
-        return this.liveConfigEnableApiModel.getHLSLive() || this.liveConfigEnableApiModel.getHttpLive();
+        if(Util.uaIsiOS() || Util.uaIsAndroid()) {
+            //ios or android の場合
+            return this.liveConfigEnableApiModel.getHLSLive() || this.liveConfigEnableApiModel.getHttpLive();
+        } else {
+            return this.liveConfigEnableApiModel.getHLSLive();
+        }
     }
 
     /**
