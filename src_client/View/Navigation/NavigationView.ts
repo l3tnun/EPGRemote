@@ -58,7 +58,11 @@ class NavigationView extends View {
         let result: Mithril.Vnode<any, any>[] = [];
 
         streamInfo.map((data, index) => {
-            result.push( this.createLink(`${data.name}`, `/live/watch?stream=${data.streamNumber}`) );
+            if(data["streamType"] == "live") {
+                result.push( this.createLink(`${data.name}`, `/live/watch?stream=${data.streamNumber}`) );
+            } else if(data["streamType"] == "http-live") {
+                result.push( this.createHttpViewLink(data) );
+            }
 
             if(streamInfo.length == index + 1) {
                 result.push(m("div", { class: "drawer-separator" }))
@@ -100,6 +104,36 @@ class NavigationView extends View {
                 }, 100);
             }
         }, name);
+    }
+
+    private createHttpViewLink(data: { [key: string]: any }): Mithril.Vnode<any, any> {
+        return m("a", {
+            class: "mdl-navigation__link",
+            onclick: () => {
+                let query = Util.buildQueryStr({
+                    channel: data.channel,
+                    sid: data.sid,
+                    tuner: data.tunerId,
+                    video: data.videoId
+                });
+
+                let path = window.location.host + `/api/live/http/watch?${ query }`;
+                let mobilePath = window.location.host + encodeURIComponent(`/api/live/http/watch?${ query }`);
+
+                if(Util.uaIsiOS()) {
+                    let url = this.viewModel.getHttpViewIOSURL();
+                    if(url == null) { alert("HttpLiveViewiOSURL の設定をしてください。"); return; }
+                    location.href = url.replace("ADDRESS", mobilePath);
+
+                } else if(Util.uaIsAndroid()) {
+                    let url = this.viewModel.getHttpViewAndroidURL();
+                    if(url == null) { alert("HttpLiveViewAndroidURL の設定をしてください。"); return; }
+                    location.href = url.replace("ADDRESS", path);
+                } else {
+                    alert(`お使いの端末は http 再生に対応していません。VLC Media Player 等で次のリンクを開いてください。${ location.protocol }//${ path }`);
+                }
+            }
+        }, data.name);
     }
 }
 
