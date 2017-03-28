@@ -43,6 +43,7 @@ import { LiveConfigApiModelInterface } from '../Model/Api/Live/LiveConfigApiMode
 import { LiveStartWatchApiModelInterface } from '../Model/Api/Live/Watch/LiveStartWatchApiModel';
 import { LiveRecordedStartWatchApiModelInterface } from '../Model/Api/Live/Watch/LiveRecordedStartWatchApiModel';
 import { LiveConfigEnableApiModelInterface } from '../Model/Api/Live/LiveConfigEnableApiModel';
+import { LiveHttpConfigApiModelInterface } from '../Model/Api/Live/LiveHttpConfigApiModel';
 import { KeywordApiModelInterface } from '../Model/Api/Keyword/KeywordApiModel';
 import { LogPageApiModelInterface } from '../Model/Api/LogPage/LogPageApiModel';
 import { RecordedApiModelInterface } from '../Model/Api/Recorded/RecordedApiModel';
@@ -119,6 +120,7 @@ namespace Container {
         let liveStartWatchApiModel = <LiveStartWatchApiModelInterface>factory.get("LiveStartWatchApiModel");
         let liveRecordedStartWatchApiModel = <LiveRecordedStartWatchApiModelInterface>factory.get("LiveRecordedStartWatchApiModel");
         let liveConfigEnableApiModel = <LiveConfigEnableApiModelInterface>factory.get("LiveConfigEnableApiModel");
+        let liveHttpConfigApiModel = <LiveHttpConfigApiModelInterface>factory.get("LiveHttpConfigApiModel");
         let keywordApiModel = <KeywordApiModelInterface>factory.get("KeywordApiModel");
         let logPageApiModel = <LogPageApiModelInterface>factory.get("LogPageApiModel");
         let recordedApiModel = <RecordedApiModelInterface>factory.get("RecordedApiModel");
@@ -149,7 +151,8 @@ namespace Container {
         set("NavigationViewModel", new NavigationViewModel(
             broadCastApiModel,
             liveOtherStreamInfoApiModel,
-            liveConfigEnableApiModel
+            liveConfigEnableApiModel,
+            liveHttpConfigApiModel
         ));
 
         //dialog
@@ -186,7 +189,9 @@ namespace Container {
             new LiveProgramDialogContentViewModel(
                 liveConfigApiModel,
                 liveStartWatchApiModel,
-                epgSingleUpdateEpgrecModuleModel
+                epgSingleUpdateEpgrecModuleModel,
+                liveConfigEnableApiModel,
+                liveHttpConfigApiModel
             )
         );
 

@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import Util from '../../Util/Util';
 import View from '../View';
 import LiveProgramDialogContentViewModel from '../../ViewModel/Live/LiveProgramDialogContentViewModel';
 import DialogViewModel from '../../ViewModel/Dialog/DialogViewModel';
@@ -31,6 +32,9 @@ class LiveProgramDialogContentView extends View {
                 this.tunerPulldown(),
                 this.videoPulldown()
             ]),
+
+            //HLS と http 切り替え
+            this.createHttpCheckBox(),
 
             //下部ボタン
             m("div", {
@@ -136,12 +140,53 @@ class LiveProgramDialogContentView extends View {
         if((changeFlg || !this.dialogContentViewModel.enableNewStream) && streamNum != null) {
             //チャンネル変更
             this.dialogContentViewModel.changeStream(tuner, video, streamNum);
-        } else {
-            //新規ストリーム開始
+        } else if(this.dialogContentViewModel.enableHLSLive() && !this.dialogContentViewModel.changeHttpView) {
+            //HLS 新規ストリーム開始
             this.dialogContentViewModel.startStream(tuner, video);
+        } else {
+            //http 新規ストリーム開始
+            this.dialogViewModel.close();
+
+            let href = this.dialogContentViewModel.createHttpLiveLink(tuner, video);
+            if(href != null) {
+                setTimeout(() => { location.href = href!; }, 200);
+            } else if(Util.uaIsiOS()) {
+                alert("HttpLiveViewiOSURL の設定をしてください。");
+            } else if(Util.uaIsAndroid()) {
+                alert("HttpLiveViewAndroidURL の設定をしてください。");
+            } else {
+                alert(`お使いの端末は http 再生に対応していません。`);
+            }
         }
 
         this.dialogViewModel.close();
+    }
+
+    //HLS と http 切り替えチェックボックス
+    private createHttpCheckBox(): Mithril.Vnode<any, any> | null {
+        if(!this.dialogContentViewModel.enableHttpLive()
+            || !this.dialogContentViewModel.enableHLSLive()
+            || location.href.indexOf("/live/watch") != -1
+            || (!Util.uaIsiOS() && !Util.uaIsAndroid())
+        ) { return null; }
+
+        return m("label", {
+            class: "mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect",
+            style: "width: auto; height: 24px; top: 12px; left: 18px;"
+        }, [
+            m("input", {
+                type: "checkbox",
+                class: "mdl-checkbox__input",
+                checked: this.dialogContentViewModel.changeHttpView,
+                onchange: m.withAttr("checked", (value) => {
+                    this.dialogContentViewModel.changeHttpView = value;
+                    this.dialogContentViewModel.configListUpdate();
+                }),
+                onreate: () => { this.checkboxInit(); },
+                onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.checkboxConfig(<HTMLInputElement>(vnode.dom)); }
+            }),
+            m("span", { class: "mdl-checkbox__label" }, "http 配信")
+        ]);
     }
 
     //単局、EPG 更新ボタン、新規ストリームチェックボックス

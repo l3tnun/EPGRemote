@@ -33,6 +33,19 @@ class VideoConfigManager extends Base {
     }
 
     /**
+    * http Live 配信用の設定を取得
+    */
+    public getAllLiveHttpVideoConfig(): any {
+        let config = this.config.getConfig().liveHttpVideoSetting;
+
+        if(typeof config == "undefined" || typeof config.length == "undefined" || config.length == 0) {
+            return [];
+        }
+
+        return config;
+    }
+
+    /**
     * 録画済みビデオ配信用の設定を取得
     */
     public getAllRecordedVideoConfig(): any {

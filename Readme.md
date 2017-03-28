@@ -5,12 +5,12 @@ epgrecUNA の HLS View + スマートフォン & タブレット用 Web UI (Node
 
 ## これはなに？
 
-epgrecUNA 用の後方支援プログラムです。epgrecUNA の番組情報を使用して HLS(HTTP Live Streaming) でリアルタイムに視聴可能にします。
+epgrecUNA 用の後方支援プログラムです。epgrecUNA の番組情報を使用して HLS(HTTP Live Streaming) や http でリアルタイムに視聴可能にします。
 
 [dailymotion/hls.js](https://github.com/dailymotion/hls.js/tree/master) を使用しているため、HLS 非対応ブラウザ(Desktop版 Chrome, Firefox など)でも視聴可能です。
 
-*  現在放送中の番組のリアルタイム配信(HLS)
-*  録画済みの番組の配信(HLS)
+*  現在放送中の番組のリアルタイム配信(HLS or http)
+*  録画済みの番組の配信(HLS or http)
 *  スマートフォン & タブレット用の epgrecUNA の Web UI
     * 番組表一覧
     * 録画済み一覧
@@ -19,8 +19,11 @@ epgrecUNA 用の後方支援プログラムです。epgrecUNA の番組情報を
     * 自動録画キーワードの管理
     * epgrecUNA 動作ログ表示機能
 
-HLSでのリアルタイム視聴は CPU にとってかなり重たい処理となります。スペックに余裕があるマシンで動かしてください。
+HLS でのリアルタイム視聴は CPU にとってかなり重たい処理となります。スペックに余裕があるマシンで動かしてください。
 QSV や NVEnc 等のハードウェアエンコードを使うことをおすすめします。
+
+http 配信の場合は iOS や Android しか再生できませんが、mpeg2ts をそのまま配信可能なので低スペックマシンでも配信が可能になります。
+その分クライアントでの再生が大変ですが、Android で mpeg2 デコーダーが搭載されたものであれば問題無いはずです。
 
 ffmpeg の設定については [v42fg3g/TvRemoteViewer_VB](https://github.com/v42fg3g/TvRemoteViewer_VB/) を参考にさせていただきました。作者さんありがとうございます。
 
@@ -97,6 +100,8 @@ vim config/config.json
 
     //放送中番組の HLS 配信を有効にするか true: 有効, false: 無効
     "enableLiveStream" : true,
+    //放送中番組の http 配信を有効にするか true: 有効, false: 無効
+    "enableLiveHttpStream" : true,
     //録画済みファイルの HLS 配信を有効にするか true: 有効, false: 無効
     "enableRecordedStream" : true,
 
@@ -115,6 +120,17 @@ vim config/config.json
          }, ...
     ],
 
+	//放送中番組の http 配信で使用される ffmpeg の設定
+    //enableLiveHttpStream が false の場合必要ない
+    "liveHttpVideoSetting" : [
+        {
+            "id"      : 1,              //設定を一意に特定するためのID, 重複禁止
+            "name"    : "無変換(主音声)", //Web UI で表示される名前
+            //ffmpeg コマンド
+            "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode main -i pipe:0 -acodec libfdk_aac -ar 48000 -ab 192k -ac 2 -vcodec copy -f mpegts -movflags frag_keyframe+empty_moov pipe:1"
+        }, ...
+    ],
+
     //録画済みファイルの HLS 配信で使用される ffmpeg の設定
     //enableRecordedStream が false の場合必要ない
     "recordedVideoSetting" : [
@@ -127,6 +143,7 @@ vim config/config.json
 
         }, ...
     ]
+
     //HLS で使用する配信時のチューナー設定
     //enableLiveStream が false の場合必要ない
     "tuners": [
@@ -220,6 +237,12 @@ vim config/config.json
     "RecordedStreamingAndroidURL": "android-app://com.mxtech.videoplayer.ad/http/ADDRESS",
     "RecordedDownloadAndroidURL": "android-app://com.dv.adm/http/ADDRESS",
 
+
+    //http 配信の視聴アプリの設定
+    //enableLiveHttpStream が true の場合必須
+    //iOS は VLC, Android は MX Player で動作確認済み
+    "HttpLiveViewiOSURL" : "vlc-x-callback://x-callback-url/stream?url=http://ADDRESS",
+    "HttpLiveViewAndroidURL": "intent://ADDRESS#Intent;package=com.mxtech.videoplayer.ad;type=video;scheme=http;end",
 
     //Windows 用のカスタム URL Scheme の設定
     //IE or Edge でしか正常に動作しない

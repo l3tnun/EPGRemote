@@ -5,7 +5,8 @@ import ApiModel from '../ApiModel';
 
 interface LiveConfigEnableApiModelInterface extends ApiModel {
     update(): void;
-    getLive(): boolean;
+    getHLSLive(): boolean;
+    getHttpLive(): boolean;
     getRecorded(): boolean;
 }
 
@@ -13,14 +14,16 @@ interface LiveConfigEnableApiModelInterface extends ApiModel {
 * ライブ配信、録画配信が有効になっているかサーバから取得する
 */
 class LiveConfigEnableApiModel implements LiveConfigEnableApiModelInterface {
-    private enableLive: boolean = false;
+    private enableHLSLive: boolean = false;
     private enableRecorded: boolean = false;
+    private enableHttpLive: boolean = false;
 
     public update(): void {
         m.request({ method: "GET", url: `/api/live/config/enable` })
         .then((value) => {
-            this.enableLive = value["enableLiveStream"];
+            this.enableHLSLive = value["enableLiveStream"];
             this.enableRecorded = value["enableRecordedStream"];
+            this.enableHttpLive = value["enableLiveHttpStream"];
         },
         (error) => {
             console.log('LiveConfigEnableApiModel update error');
@@ -29,11 +32,19 @@ class LiveConfigEnableApiModel implements LiveConfigEnableApiModelInterface {
     }
 
     /**
-    * ライブ視聴が有効か返す
+    * HLS リアルタイム視聴が有効か返す
     * 有効なら true, 無効なら false
     */
-    public getLive(): boolean {
-        return this.enableLive;
+    public getHLSLive(): boolean {
+        return this.enableHLSLive;
+    }
+
+    /**
+    * http リアルタイム視聴が有効か返す
+    * 有効なら true, 無効なら false
+    */
+    public getHttpLive(): boolean {
+        return this.enableHttpLive;
     }
 
     /**

@@ -184,7 +184,7 @@ class ProgramViewModel extends ViewModel {
     * true: 有効, false: 無効
     */
     public getLiveEnableStatus(): boolean {
-        return this.liveConfigEnableApiModel.getLive();
+        return this.liveConfigEnableApiModel.getHLSLive() || this.liveConfigEnableApiModel.getHttpLive();
     }
 
     //window resize 時の処理

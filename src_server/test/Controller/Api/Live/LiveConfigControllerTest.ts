@@ -36,10 +36,12 @@ describe('LiveConfigController', () => {
             return new DummyApiModel((option: { [key: string]: any }) => {
                 assert.isString(option["type"]);
                 assert.equal(option["type"], "GR");
+                assert.isString(option["method"]);
+                assert.equal(option["method"], "http-live");
             });
         });
 
-        http.get('http://localhost:' + port + "?type=GR", (res) => {
+        http.get('http://localhost:' + port + "?type=GR&method=http-live", (res) => {
             assert.equal(200, res.statusCode);
             done();
         });
