@@ -51,7 +51,7 @@ class NavigationViewModel extends ViewModel {
     * 有効 true, 無効 false
     */
     public enableLive(): boolean {
-        return this.liveConfigEnableApiModel.getLive();
+        return this.liveConfigEnableApiModel.getHLSLive() || this.liveConfigEnableApiModel.getHttpLive();
     }
 
     /**
