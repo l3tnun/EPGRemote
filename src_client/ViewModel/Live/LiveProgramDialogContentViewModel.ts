@@ -165,12 +165,12 @@ class LiveProgramDialogContentViewModel extends ViewModel {
     /**
     * http live view 用の link を生成する
     */
-    public createHttpLiveLink(channel: string, sid: number, tunerId: number, videoId: number): string | null {
+    public createHttpLiveLink(tuner: number, video: number): string | null {
         let query = Util.buildQueryStr({
-            channel: channel,
-            sid: sid,
-            tuner: tunerId,
-            video: videoId
+            channel: this.channel,
+            sid: this.sid,
+            tuner: tuner,
+            video: video
         });
         let path = window.location.host + `/api/live/http/watch?${ query }`;
         let iOSPath = window.location.host + encodeURIComponent(`/api/live/http/watch?${ query }`);
