@@ -36,7 +36,6 @@ class LiveHttpWatchModel extends ApiModel {
                 if(info["channel"] == channel && info["sid"] == sid && info["tunerId"] == tunerId && info["videoId"] == videoId) {
                     stream = <HttpStream>manager.getStream(info["streamNumber"]);
                     streamId = info["streamNumber"];
-                    console.log(stream);
               }
             });
 
