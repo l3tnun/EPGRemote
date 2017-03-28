@@ -9,19 +9,21 @@ class LiveConfigModel extends ApiModel {
         let configJson = this.config.getConfig();
         this.results = {}
 
-        //HLS が無効
-        if(configJson.enableLiveStream == false && configJson.enableRecordedStream == false) {
-            this.log.system.error("LiveConfigModel stream is not true.");
-            this.errors = 500;
-            this.eventsNotify();
+        if(!configJson.enableLiveStream && !configJson.enableRecordedStream && !configJson.enableLiveHttpStream) {
+            //全て無効
+            this.setError("stream");
             return;
-        }
-
-        //録画配信が無効
-        if(configJson.enableRecordedStream == false && this.option["type"] == "recorded") {
-            this.log.system.error("LiveConfigModel enableRecordedStream is not true.");
-            this.errors = 500;
-            this.eventsNotify();
+        } else if(!configJson.enableRecordedStream && this.option["type"] == "recorded") {
+            //録画配信が無効
+            this.setError("enableRecordedStream");
+            return;
+        } else if(!configJson.enableLiveHttpStream && this.option["method"] == "http-live") {
+            //http リアルタイム視聴が無効
+            this.setError("enableLiveHttpStream");
+            return;
+        } else if(!configJson.enableLiveStream && typeof this.option["method"] == "undefined") {
+            //HLS リアルタイム視聴が無効
+            this.setError("enableLiveStream");
             return;
         }
 
@@ -36,7 +38,14 @@ class LiveConfigModel extends ApiModel {
             } else {
                 this.results["tunerList"] = [];
             }
-            this.results["videoConfig"] = VideoConfigManager.getInstance().getAllLiveVideoConfig();
+
+            if(typeof this.option["method"] != "undefined" && this.option["method"] == "http-live") {
+                //http リアルタイム視聴
+                this.results["videoConfig"] = VideoConfigManager.getInstance().getAllLiveHttpVideoConfig();
+            } else {
+                //HLS リアルタイム視聴
+                this.results["videoConfig"] = VideoConfigManager.getInstance().getAllLiveVideoConfig();
+            }
         }
 
         //command を削除
@@ -51,6 +60,16 @@ class LiveConfigModel extends ApiModel {
         for(let key in this.results[name]) {
             delete this.results[name][key]["command"];
         }
+    }
+
+    /**
+    * エラーをセットする
+    * @param message : エラーメッセージ
+    */
+    private setError(message: string): void {
+        this.log.system.error(`LiveConfigModel ${ message } is not true.`);
+        this.errors = 500;
+        this.eventsNotify();
     }
 }
 

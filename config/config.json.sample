@@ -2,6 +2,7 @@
     "serverPort" : "8888",
 
     "enableLiveStream" : true,
+    "enableLiveHttpStream" : false,
     "enableRecordedStream" : true,
 
     "broadcast" :  { "GR" : true, "BS" : true, "CS" : true, "EX" : false },
@@ -16,6 +17,29 @@
             "id"      : 2,
             "name"    : "1280x720(sub)",
             "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode sub -i pipe:0 -f hls -hls_time 3 -hls_list_size 17 -hls_allow_cache 1 -hls_segment_filename  <streamFilesDir>/stream<streamNum>-%09d.ts -threads auto -acodec libfdk_aac -ar 48000 -ab 192k -ac 2 -vcodec libx264 -s 1280x720 -filter:v yadif -aspect 16:9 -vb 3000k -fpre /hoge/libx264-hls.ffpreset <streamFilesDir>/stream<streamNum>.m3u8"
+        }
+    ],
+
+    "liveHttpVideoSetting" : [
+        {
+            "id"      : 1,
+            "name"    : "無変換(main)",
+            "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode main -i pipe:0 -acodec libfdk_aac -ar 48000 -ab 192k -ac 2 -vcodec copy -f mpegts -movflags frag_keyframe+empty_moov pipe:1"
+        },
+        {
+            "id"      : 2,
+            "name"    : "無変換(sub)",
+            "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode sub -i pipe:0 -acodec libfdk_aac -ar 48000 -ab 192k -ac 2 -vcodec copy -f mpegts -movflags frag_keyframe+empty_moov pipe:1"
+        },
+        {
+            "id"      : 3,
+            "name"    : "720x480(main)",
+            "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode main -i pipe:0 -acodec libfdk_aac -ar 48000 -ab 192k -ac 2 -vcodec libx264 -s 720x480 -filter:v yadif -aspect 16:9 -vb 1500k -f mpegts -movflags frag_keyframe+empty_moov pipe:1"
+        },
+        {
+            "id"      : 4,
+            "name"    : "720x480(sub)",
+            "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode sub -i pipe:0 -acodec libfdk_aac -ar 48000 -ab 192k -ac 2 -vcodec libx264 -s 720x480 -filter:v yadif -aspect 16:9 -vb 1500k -f mpegts -movflags frag_keyframe+empty_moov pipe:1"
         }
     ],
 
@@ -117,7 +141,10 @@
 
     "RecordedStreamingiOSURL": "infuse://x-callback-url/play?url=http://ADDRESS",
     "RecordedDownloadiOSURL": "vlc-x-callback://x-callback-url/download?url=http://ADDRESS",
-    "RecordedStreamingAndroidURL": "android-app://com.mxtech.videoplayer.ad/http/ADDRESS",
-    "RecordedDownloadAndroidURL": "android-app://com.dv.adm/http/ADDRESS"
+    "RecordedStreamingAndroidURL": "intent://ADDRESS#Intent;package=com.mxtech.videoplayer.ad;type=video;scheme=http;end",
+    "RecordedDownloadAndroidURL": "android-app://com.dv.adm/http/ADDRESS",
+
+    "HttpLiveViewiOSURL" : "vlc-x-callback://x-callback-url/stream?url=http://ADDRESS",
+    "HttpLiveViewAndroidURL": "intent://ADDRESS#Intent;package=com.mxtech.videoplayer.ad;type=video;scheme=http;end"
 }
 

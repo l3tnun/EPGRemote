@@ -39,7 +39,12 @@ class LiveWatchStreamInfoModel extends ApiModel {
 
         this.streamStatus.map((data: { [key: string]: any }) => {
             if(data["streamType"] == "live") { this.setLiveStreamInfo(data); }
-            else { this.setRecordedStreamInfo(data); }
+            else if(data["streamType"] == "recorded") { this.setRecordedStreamInfo(data); }
+            else if(data["streamType"] == "http-live") { this.setHttpLiveStreamInfo(data); }
+            else {
+                this.results.push(data);
+                this.checkDone();
+            }
         });
     }
 
@@ -75,6 +80,29 @@ class LiveWatchStreamInfoModel extends ApiModel {
             data["description"] = rows["description"];
 
             this.results.push(data);
+
+            this.checkDone();
+        },
+        (code) => {
+            this.errors = code;
+            this.eventsNotify();
+        });
+    }
+
+    private setHttpLiveStreamInfo(data: any): void {
+        let nowDate = new Date().getTime();
+
+        this.getLiveProgramListSql.execute({sid: data["sid"], channel: data["channel"]}, (rows) => {
+            data["name"] = rows["name"];
+            data["title"] = rows["title"];
+            data["starttime"] = rows["starttime"];
+            data["endtime"] = rows["endtime"];
+            data["description"] = rows["description"];
+
+            this.results.push(data);
+
+            let endtime = new Date(data["endtime"]).getTime() - nowDate;
+            if(this.minEndtime > endtime) { this.minEndtime = endtime; }
 
             this.checkDone();
         },

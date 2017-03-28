@@ -49,7 +49,7 @@ class LiveWatchViewModel extends ViewModel {
     * live stream が有効か返す true: 有効, false: 無効
     */
     public liveIsEnable(): boolean {
-        return this.liveConfigEnableApiModel.getLive();
+        return this.liveConfigEnableApiModel.getHLSLive();
     }
 }
 
