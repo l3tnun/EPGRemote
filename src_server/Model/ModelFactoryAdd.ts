@@ -5,6 +5,7 @@ import ResponseSpecifiedFileModel from './ResponseSpecifiedFileModel';
 import BroadcastModel from './Api/Broadcast/BroadcastModel';
 import LiveConfigModel from './Api/Live/LiveConfigModel';
 import LiveEnableConfigModel from './Api/Live/LiveEnableConfigModel';
+import LiveHttpConfigModel from './Api/Live/LiveHttpConfigModel';
 import LiveProgramModel from './Api/Live/LiveProgramModel';
 import LiveWatchChangeStreamModel from './Api/Live/LiveWatchChangeStreamModel';
 import LiveWatchStartStreamModel from './Api/Live/LiveWatchStartStreamModel';
@@ -81,6 +82,7 @@ namespace ModelFactoryAdd {
         //Live
         factory.add("LiveConfigModel", () => { return new LiveConfigModel(); });
         factory.add("LiveEnableConfigModel", () => { return new LiveEnableConfigModel(); });
+        factory.add("LiveHttpConfigModel", () => { return new LiveHttpConfigModel(); });
         factory.add("LiveProgramModel", () => {
             return new LiveProgramModel(new GetLiveProgramListSql());
         });

@@ -8,6 +8,7 @@ import ResponseSpecifiedFileController from './Controller/ResponseSpecifiedFileC
 
 import BroadcastController from './Controller/Api/Broadcast/BroadcastController'
 import LiveEnableConfigController from './Controller/Api/Live/LiveEnableConfigController';
+import LiveHttpConfigController from './Controller/Api/Live/LiveHttpConfigController';
 import LiveProgramController from './Controller/Api/Live/LiveProgramController';
 import LiveConfigController from './Controller/Api/Live/LiveConfigController';
 import LiveWatchGetController from './Controller/Api/Live/LiveWatchGetController';
@@ -62,6 +63,7 @@ class CreateHandler {
         handle["/api/live/watch:GET"] = new LiveWatchGetController();
         handle["/api/live/watch:DELETE"] = new LiveWatchDeleteController();
         handle["/api/live/watch:POST"] = new LiveWatchPostController();
+        handle["/api/live/http/config:GET"] = new LiveHttpConfigController();
         handle["/api/live/http/watch:GET"] = new LivehttpWatchController();
 
         handle["/api/program:GET"] = new ProgramController();
