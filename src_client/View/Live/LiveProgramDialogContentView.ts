@@ -32,6 +32,9 @@ class LiveProgramDialogContentView extends View {
                 this.videoPulldown()
             ]),
 
+            //HLS と http 切り替え
+            this.createHttpCheckBox(),
+
             //下部ボタン
             m("div", {
                 class: "mdl-dialog__actions",
@@ -142,6 +145,28 @@ class LiveProgramDialogContentView extends View {
         }
 
         this.dialogViewModel.close();
+    }
+
+    //HLS と http 切り替えチェックボックス
+    private createHttpCheckBox(): Mithril.Vnode<any, any> | null {
+        if(!this.dialogContentViewModel.enableHttpLive() || !this.dialogContentViewModel.enableHLSLive()) { return null; }
+
+        return m("label", {
+            class: "mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect",
+            style: "width: auto; height: 24px; top: 12px; left: 18px;"
+        }, [
+            m("input", {
+                type: "checkbox",
+                class: "mdl-checkbox__input",
+                checked: this.dialogContentViewModel.changeHttpView,
+                onchange: m.withAttr("checked", (value) => {
+                    this.dialogContentViewModel.changeHttpView = value;
+                }),
+                onreate: () => { this.checkboxInit(); },
+                onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.checkboxConfig(<HTMLInputElement>(vnode.dom)); }
+            }),
+            m("span", { class: "mdl-checkbox__label" }, "http 配信")
+        ]);
     }
 
     //単局、EPG 更新ボタン、新規ストリームチェックボックス

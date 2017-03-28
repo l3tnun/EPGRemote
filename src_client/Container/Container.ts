@@ -189,7 +189,9 @@ namespace Container {
             new LiveProgramDialogContentViewModel(
                 liveConfigApiModel,
                 liveStartWatchApiModel,
-                epgSingleUpdateEpgrecModuleModel
+                epgSingleUpdateEpgrecModuleModel,
+                liveConfigEnableApiModel,
+                liveHttpConfigApiModel
             )
         );
 

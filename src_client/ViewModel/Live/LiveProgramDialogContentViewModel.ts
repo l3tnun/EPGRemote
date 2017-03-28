@@ -1,9 +1,12 @@
 "use strict";
 
+import Util from '../../Util/Util';
 import ViewModel from '../ViewModel';
 import { LiveConfigApiModelInterface } from '../../Model/Api/Live/LiveConfigApiModel';
 import { LiveStartWatchApiModelInterface } from '../../Model/Api/Live/Watch/LiveStartWatchApiModel';
 import { EPGSingleUpdateEpgrecModuleModelInterface } from '../../Model/Api/EpgrecModule/EPGSingleUpdateEpgrecModuleModel';
+import { LiveConfigEnableApiModelInterface } from '../../Model/Api/Live/LiveConfigEnableApiModel';
+import { LiveHttpConfigApiModelInterface } from '../../Model/Api/Live/LiveHttpConfigApiModel';
 
 /**
 * LiveConfig の ViewModel
@@ -12,22 +15,29 @@ class LiveProgramDialogContentViewModel extends ViewModel {
     private liveConfigApiModel: LiveConfigApiModelInterface;
     private liveStartWatchApiModel: LiveStartWatchApiModelInterface;
     private epgSingleUpdateEpgrecModuleModel: EPGSingleUpdateEpgrecModuleModelInterface;
+    private liveConfigEnableApiModel: LiveConfigEnableApiModelInterface;
+    private liveHttpConfigApiModel: LiveHttpConfigApiModelInterface;
     private title: string = "";
     private sid: string;
     private channel: string;
     private channelDisk: string | null = null;
     public enableNewStream: boolean = false; //新規ストリームチェックボックス
+    public changeHttpView: boolean = false; //false: HLS, true: http
 
     constructor(
         _liveConfigApiModel: LiveConfigApiModelInterface,
         _liveStartWatchApiModel :LiveStartWatchApiModelInterface,
-        _epgSingleUpdateEpgrecModuleModel: EPGSingleUpdateEpgrecModuleModelInterface
+        _epgSingleUpdateEpgrecModuleModel: EPGSingleUpdateEpgrecModuleModelInterface,
+        _liveConfigEnableApiModel: LiveConfigEnableApiModelInterface,
+        _liveHttpConfigApiModel: LiveHttpConfigApiModelInterface
     ) {
         super();
 
         this.liveConfigApiModel = _liveConfigApiModel;
         this.liveStartWatchApiModel = _liveStartWatchApiModel;
         this.epgSingleUpdateEpgrecModuleModel = _epgSingleUpdateEpgrecModuleModel;
+        this.liveConfigEnableApiModel = _liveConfigEnableApiModel;
+        this.liveHttpConfigApiModel = _liveHttpConfigApiModel;
     }
 
     /**
@@ -45,6 +55,7 @@ class LiveProgramDialogContentViewModel extends ViewModel {
         this.liveConfigApiModel.setup(type);
         this.channelDisk = channelDisk;
         this.enableNewStream = false;
+        this.changeHttpView = !this.enableHLSLive();
     }
 
     /**
@@ -131,6 +142,47 @@ class LiveProgramDialogContentViewModel extends ViewModel {
     public epgUpdate(): void {
         if(this.channelDisk == null) { return; }
         this.epgSingleUpdateEpgrecModuleModel.execute(this.channelDisk);
+    }
+
+    /**
+    * HLS リアルタイム視聴が有効か返す
+    * true: 有効 false: 無効
+    */
+    public enableHLSLive(): boolean {
+        return this.liveConfigEnableApiModel.getHLSLive();
+    }
+
+    /**
+    * http リアルタイム視聴が有効か返す
+    * true: 有効 false: 無効
+    */
+    public enableHttpLive(): boolean {
+        return this.liveConfigEnableApiModel.getHttpLive();
+    }
+
+    /**
+    * http live view 用の link を生成する
+    */
+    public createHttpLiveLink(channel: string, sid: number, tunerId: number, videoId: number): string | null {
+        let query = Util.buildQueryStr({
+            channel: channel,
+            sid: sid,
+            tuner: tunerId,
+            video: videoId
+        });
+        let path = window.location.host + `/api/live/http/watch?${ query }`;
+        let iOSPath = window.location.host + encodeURIComponent(`/api/live/http/watch?${ query }`);
+
+        let iOSUrl = this.liveHttpConfigApiModel.getIOS();
+        let androidUrl = this.liveHttpConfigApiModel.getAndroid();
+
+        if(Util.uaIsiOS() && iOSUrl != null) {
+            return iOSUrl.replace("ADDRESS", iOSPath);
+        } else if(Util.uaIsAndroid() && androidUrl != null) {
+            return androidUrl.replace("ADDRESS", path);
+        } else {
+            return null;
+        }
     }
 }
 

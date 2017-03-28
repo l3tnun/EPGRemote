@@ -16,6 +16,7 @@ abstract class View extends MithrilBase {
     }
 
     protected checkboxConfig(element: HTMLInputElement): void {
+        Util.upgradeMdl();
         if(element.checked && (<Element>element.parentNode).className.indexOf("is-checked") == -1 ) {
             (<Element>element.parentNode).classList.add('is-checked');
         } else if(!element.checked && (<Element>element.parentNode).className.indexOf("is-checked") != -1) {
