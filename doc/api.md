@@ -126,6 +126,25 @@ Format
 ]
 ```
 ---
+### /live/config/enable
+
+#####Methods: GET
+#####Formats: json
+
+#####Methods: GET
+
+config.json でストリーミング再生が有効になっているかを返す
+
+Format
+
+```
+{
+    enableLiveStream:     true, //HLS リアルタイム視聴
+    enableLiveHttpStream: true, //http リアルタイム視聴
+    enableRecordedStream: true  //HLS 録画視聴
+}
+```
+---
 ###/live/watch
 
 ライブ視聴
@@ -253,6 +272,9 @@ Parameters
 ### /live/http/watch
 
 #####Methods: GET
+
+#####Formats: mpegts
+
 http でリアルタイム視聴を開始する
 
 接続が切断されると停止する
@@ -265,6 +287,27 @@ Parameter
 |channel |yes |channel |
 |tuner   |yes |tunerId |
 |video   |yes |videId  |
+---
+### /live/http/config
+
+#####Methods: GET
+#####Formats: json
+
+http でリアルタイム視聴する際に必要な設定を返す
+
+Format
+
+```
+{
+    //iOS 用設定
+    "HttpLiveViewiOSURL": "infuse://x-callback-url/play?url=http://ADDRESS",
+    //Android 用設定
+    "HttpLiveViewAndroidURL": "intent://ADDRESS#Intent;package=com.mxtech.videoplayer.ad;type=video;scheme=http;end"
+
+}
+```
+
+
 ---
 ###/program
 
