@@ -21,7 +21,7 @@ class LiveConfigModel extends ApiModel {
             //http リアルタイム視聴が無効
             this.setError("enableLiveHttpStream");
             return;
-        } else if(!configJson.enableLiveStream && typeof this.option["method"] == "undefined") {
+        } else if(!configJson.enableLiveStream && typeof this.option["method"] == "undefined" && this.option["type"] != "recorded") {
             //HLS リアルタイム視聴が無効
             this.setError("enableLiveStream");
             return;
