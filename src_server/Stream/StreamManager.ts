@@ -152,7 +152,9 @@ class StreamManager extends Base {
 
         this.streamStatus[streamNumber].stream = stream;
 
-        this.checkStreamEnable(streamNumber); //視聴可能になるまで監視
+        if(stream!.getType() != "live-http") {
+            this.checkStreamEnable(streamNumber); //視聴可能になるまで監視
+        }
         this.streamStatus[streamNumber].changeChannelStatus = true;
         this.log.stream.info(`start stream No. ${streamNumber}`);
 
