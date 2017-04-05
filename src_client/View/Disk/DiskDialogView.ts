@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode } from 'mithril';
 import View from '../View';
 import DiskDialogViewModel from '../../ViewModel/Disk/DiskDialogViewModel';
 
@@ -10,7 +11,7 @@ import DiskDialogViewModel from '../../ViewModel/Disk/DiskDialogViewModel';
 class DiskDialogView extends View {
     private viewModel: DiskDialogViewModel;
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <DiskDialogViewModel>this.getModel("DiskDialogViewModel");
 
         return m("div", [

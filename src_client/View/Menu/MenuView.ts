@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode, VnodeDOM } from 'mithril';
 import Util from '../../Util/Util';
 import View from '../View';
 import MenuViewModel from '../../ViewModel/Menu/MenuViewModel';
@@ -13,7 +14,7 @@ import MenuViewModel from '../../ViewModel/Menu/MenuViewModel';
 */
 class MenuView extends View {
     private id: string;
-    private content: Mithril.Vnode<any, any>;
+    private content: Vnode<any, any>;
     private viewModel: MenuViewModel;
 
     /**
@@ -28,15 +29,15 @@ class MenuView extends View {
         this.content = this.options["content"];
     }
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <MenuViewModel>this.getModel("MenuViewModel");
 
         return m("div", [
             m("div", {
                 id: this.id,
                 class: "menu-list mdl-shadow--2dp",
-                oncreate: (vnode: Mithril.VnodeDOM<any, any>) => { this.menuConfig(vnode.dom); },
-                onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.menuConfig(vnode.dom); }
+                oncreate: (vnode: VnodeDOM<any, any>) => { this.menuConfig(vnode.dom); },
+                onupdate: (vnode: VnodeDOM<any, any>) => { this.menuConfig(vnode.dom); }
             }, this.content ),
             m("div", {
                 class: MenuViewModel.backgroundClass,

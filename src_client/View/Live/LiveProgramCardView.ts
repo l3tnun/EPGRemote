@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode } from 'mithril';
 import View from '../View';
 import LiveProgramCardViewModel from '../../ViewModel/Live/LiveProgramCardViewModel';
 import DialogViewModel from '../../ViewModel/Dialog/DialogViewModel';
@@ -29,7 +30,7 @@ class LiveProgramCardView extends View {
         this.viewSingle = this.options["single"];
     }
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <LiveProgramCardViewModel>this.getModel("LiveProgramCardViewModel");
         this.dialogViewModel = <DialogViewModel>this.getModel("DialogViewModel");
         this.dialogContentViewModel = <LiveProgramDialogContentViewModel>this.getModel("LiveProgramDialogContentViewModel");
@@ -44,10 +45,10 @@ class LiveProgramCardView extends View {
     }
 
     //単一カード表示
-    private singleCardView(): Mithril.Vnode<any, any> {
+    private singleCardView(): Vnode<any, any> {
         if(this.viewModel.getList().length == 0) { return m("div"); }
 
-        let result: Mithril.Vnode<any, any>[] = [];
+        let result: Vnode<any, any>[] = [];
         this.viewModel.getList().map((data, index, array) => {
             result.push(this.createCardContent(data));
             if(array.length - 1 > index) { result.push(m("hr", { class: "card-line" } )); }
@@ -57,7 +58,7 @@ class LiveProgramCardView extends View {
     }
 
     //複数カード表示
-    private multipleCardView(): Mithril.Vnode<any, any>[] {
+    private multipleCardView(): Vnode<any, any>[] {
         return this.viewModel.getList().map((data: { [key: string]: any }) => {
             return m("div", { class: LiveProgramCardView.cardClassStr }, [
                 this.createCardContent(data)
@@ -66,7 +67,7 @@ class LiveProgramCardView extends View {
     }
 
     //1局ごとの番組情報
-    private createCardContent(data: { [key: string]: any }): Mithril.Vnode<any, any> {
+    private createCardContent(data: { [key: string]: any }): Vnode<any, any> {
         return m("div", {
             class: "mdl-card__supporting-text card-link",
             onclick: () => {

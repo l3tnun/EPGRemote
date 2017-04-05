@@ -3,6 +3,7 @@
 /// <reference path="../../../../extendedTypings/HLS.d.ts" />
 
 import * as m from 'mithril';
+import { Vnode, VnodeDOM } from 'mithril';
 import View from '../../View';
 import Util from '../../../Util/Util';
 import LiveWatchVideoViewModel from '../../../ViewModel/Live/Watch/LiveWatchVideoViewModel';
@@ -13,7 +14,7 @@ import LiveWatchVideoViewModel from '../../../ViewModel/Live/Watch/LiveWatchVide
 class LiveWatchVideoView extends View {
     private viewModel: LiveWatchVideoViewModel;
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         let streamId = m.route.param("stream");
         this.viewModel = <LiveWatchVideoViewModel>this.getModel("LiveWatchVideoViewModel");
 
@@ -26,7 +27,7 @@ class LiveWatchVideoView extends View {
                 width: "100%",
                 controls: " ",
                 playsinline: " ",
-                oncreate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                oncreate: (vnode: VnodeDOM<any, any>) => {
                     //HLS.js
                     //Edge では HLS.js が動作しない
                     //Android では一部のチャンネルで音が途切れる
@@ -45,7 +46,7 @@ class LiveWatchVideoView extends View {
                     (<HTMLMediaElement>(vnode.dom)).load();
                     (<HTMLMediaElement>(vnode.dom)).play();
                 },
-                onremove: (vnode: Mithril.VnodeDOM<any, any>) => {
+                onremove: (vnode: VnodeDOM<any, any>) => {
                     (<HTMLMediaElement>(vnode.dom)).pause();
                     (<HTMLMediaElement>(vnode.dom)).src = "";
                     (<HTMLMediaElement>(vnode.dom)).load();

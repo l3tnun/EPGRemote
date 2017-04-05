@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode } from 'mithril';
 import View from '../View';
 import ReservationMenuViewModel from '../../ViewModel/Reservation/ReservationMenuViewModel';
 import MenuViewModel from '../../ViewModel/Menu/MenuViewModel';
@@ -8,7 +9,7 @@ import DialogViewModel from '../../ViewModel/Dialog/DialogViewModel';
 import ReservationDeleteDialogContentViewModel from '../../ViewModel/Reservation/ReservationDeleteDialogContentViewModel';
 
 class ReservationMenuContentView extends View {
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         let viewModel = <ReservationMenuViewModel>this.getModel("ReservationMenuViewModel");
         let menuViewModel = <MenuViewModel>this.getModel("MenuViewModel");
         let dialog = <DialogViewModel>this.getModel("DialogViewModel");

@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode } from 'mithril';
 import View from '../View';
 
 /**
@@ -22,7 +23,7 @@ class HeaderMenuIconView extends View {
         this.id = this.options["id"];
     }
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         return m("label", {
             id: this.id,
             class: "header_menu_button"

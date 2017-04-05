@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode } from 'mithril';
 import ParentPageView from '../ParentPageView';
 import DateUtil from '../../Util/DateUtil';
 import DialogViewModel from '../../ViewModel/Dialog/DialogViewModel';
@@ -40,7 +41,7 @@ class RecordedView extends ParentPageView {
     private recordedVideoLinkDialogComponent = new RecordedVideoLinkDialogComponent();
     private recordedSearchMenuComponent = new RecordedSearchMenuComponent();
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <RecordedViewModel>this.getModel("RecordedViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
         this.paginationViewModel = <PaginationViewModel>this.getModel("PaginationViewModel");
@@ -109,7 +110,7 @@ class RecordedView extends ParentPageView {
     }
 
     //main view
-    private mainView(): Mithril.Vnode<any, any> {
+    private mainView(): Vnode<any, any> {
         return m("div", {
             id: RecordedView.mainViewId,
             oncreate: () => {
@@ -137,14 +138,14 @@ class RecordedView extends ParentPageView {
     }
 
     //カードリスト表示
-    private createCardListView(): Mithril.Vnode<any, any>[] {
+    private createCardListView(): Vnode<any, any>[] {
         return this.viewModel.getRecordedList().map((program: { [key: string]: any }) => {
             return this.createCardListContent(program);
         });
     }
 
     //カードリストの中身
-    private createCardListContent(program: { [key: string]: any }): Mithril.Vnode<any, any> {
+    private createCardListContent(program: { [key: string]: any }): Vnode<any, any> {
         return m("div", { class: "recorded-list-program mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col" }, [
             m("button", { class: "recorded-list-menu mdl-button mdl-js-button mdl-button--icon",
                 onclick: (e: Event) => { this.openMenu(program, <Element>(e.target)); }

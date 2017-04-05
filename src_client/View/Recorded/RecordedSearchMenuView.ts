@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode, VnodeDOM } from 'mithril';
 import View from '../View';
 import Util from '../../Util/Util';
 import RecordedSearchMenuViewModel from '../../ViewModel/Recorded/RecordedSearchMenuViewModel';
@@ -8,7 +9,7 @@ import RecordedSearchMenuViewModel from '../../ViewModel/Recorded/RecordedSearch
 class RecordedSearchMenuView extends View {
     private viewModel: RecordedSearchMenuViewModel;
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <RecordedSearchMenuViewModel>this.getModel("RecordedSearchMenuViewModel");
 
         return m("div", [
@@ -38,7 +39,7 @@ class RecordedSearchMenuView extends View {
     }
 
     //search text field を生成する
-    private createSearchTextField(): Mithril.Vnode<any, any> {
+    private createSearchTextField(): Vnode<any, any> {
         return m("div", { class: "recorded-search-textfield mdl-textfield mdl-js-textfield" }, [
             //search textfield
             m("input", {
@@ -49,7 +50,7 @@ class RecordedSearchMenuView extends View {
                     this.viewModel.categoryUpdate();
                     this.viewModel.channelUpdate();
                 }),
-                oncreate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                oncreate: (vnode: VnodeDOM<any, any>) => {
                     //enter key で検索
                     (<HTMLInputElement>(vnode.dom)).onkeydown = (e) => {
                         if(e.keyCode == 13) {
@@ -64,7 +65,7 @@ class RecordedSearchMenuView extends View {
     }
 
     //keyword selector
-    private createKeywordSelector(): Mithril.Vnode<any, any>[] {
+    private createKeywordSelector(): Vnode<any, any>[] {
         return [
             m("div", "自動録画キーワード"),
             m("div", { class: "pulldown mdl-layout-spacer", style: "width: 100%;" }, [
@@ -78,7 +79,7 @@ class RecordedSearchMenuView extends View {
                         this.viewModel.categoryUpdate();
                         this.viewModel.channelUpdate();
                     }),
-                    onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                    onupdate: (vnode: VnodeDOM<any, any>) => {
                         this.selectConfig(<HTMLInputElement>(vnode.dom), this.viewModel.keyword_id);
                     }
                 }, [
@@ -92,7 +93,7 @@ class RecordedSearchMenuView extends View {
     }
 
     //放送局 selector
-    private createChannelSelector(): Mithril.Vnode<any, any>[] {
+    private createChannelSelector(): Vnode<any, any>[] {
         return [
             m("div", { style: "margin-top: 10px;" }, "放送局"),
             m("div", { class: "pulldown mdl-layout-spacer", style: "width: 100%;" }, [
@@ -103,7 +104,7 @@ class RecordedSearchMenuView extends View {
                         if(this.viewModel.channel_id == -1) { this.viewModel.channelUpdate(); }
                         if(this.viewModel.category_id == -1) {  this.viewModel.categoryUpdate(); }
                     }),
-                    onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                    onupdate: (vnode: VnodeDOM<any, any>) => {
                         this.selectConfig(<HTMLInputElement>(vnode.dom), this.viewModel.channel_id);
                     }
                 }, [
@@ -117,7 +118,7 @@ class RecordedSearchMenuView extends View {
     }
 
     //ジャンル selector
-    private createCategorySelector(): Mithril.Vnode<any, any>[] {
+    private createCategorySelector(): Vnode<any, any>[] {
         return [
             m("div", { style: "margin-top: 10px;" }, "ジャンル"),
             m("div", { class: "pulldown mdl-layout-spacer", style: "width: 100%;" }, [
@@ -128,7 +129,7 @@ class RecordedSearchMenuView extends View {
                         if(this.viewModel.channel_id == -1) { this.viewModel.channelUpdate(); }
                         if(this.viewModel.category_id == -1) {  this.viewModel.categoryUpdate(); }
                     }),
-                    onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                    onupdate: (vnode: VnodeDOM<any, any>) => {
                         this.selectConfig(<HTMLInputElement>(vnode.dom), this.viewModel.category_id);
                     }
                 }, [
@@ -142,7 +143,7 @@ class RecordedSearchMenuView extends View {
     }
 
     //アクションボタン
-    private createActionButtons(): Mithril.Vnode<any, any> {
+    private createActionButtons(): Vnode<any, any> {
         return m("div", {
             class: "mdl-dialog__actions mdl-card__actions mdl-card--border",
             style: "margin-top: 12px; border-top: none;"

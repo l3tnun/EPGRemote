@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode, VnodeDOM } from 'mithril';
 import View from '../View';
 import RecordedVideoLinkDialogViewModel from '../../ViewModel/Recorded/RecordedVideoLinkDialogViewModel';
 import DialogViewModel from '../../ViewModel/Dialog/DialogViewModel';
@@ -9,7 +10,7 @@ class RecordedVideoLinkDialogView extends View {
     private viewModel: RecordedVideoLinkDialogViewModel;
     private dialog: DialogViewModel;
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <RecordedVideoLinkDialogViewModel>this.getModel("RecordedVideoLinkDialogViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
 
@@ -31,7 +32,7 @@ class RecordedVideoLinkDialogView extends View {
                 let name = this.createVideoLinkName(videoLink["name"], status);
                 let href = status == 2 ? this.createHref(videoLink["path"]) : null;
 
-                let result: Mithril.Vnode<any, any>[] = [];
+                let result: Vnode<any, any>[] = [];
                 //ビデオリンクボタン
                 result.push(this.createVideoLinkButton(name, href));
 
@@ -48,19 +49,19 @@ class RecordedVideoLinkDialogView extends View {
     }
 
     //配信用ビデオセレクタ
-    private createVideoSelector(): Mithril.Vnode<any, any> {
+    private createVideoSelector(): Vnode<any, any> {
         //録画配信が有効でない or ダウンロードなら表示しない
         if(!this.viewModel.getStreamStatus() || this.viewModel.getDlStatus()) { return m("div"); }
 
         return m("div", { class: "pulldown mdl-layout-spacer", style: "width: 100%;" }, [
             m("select", {
                 value: this.viewModel.videoSelectorValue,
-                oncreate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                oncreate: (vnode: VnodeDOM<any, any>) => {
                     if(this.viewModel.videoSelectorValue == null) { return; }
                     this.selectConfig((<HTMLInputElement>(vnode.dom)), this.viewModel.videoSelectorValue);
                 },
                 onchange: m.withAttr("value", (value) => { this.viewModel.videoSelectorValue = Number(value); }),
-                onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                onupdate: (vnode: VnodeDOM<any, any>) => {
                     let video = this.viewModel.videoSelectorValue;
                     if(video == null) { return; }
                     this.selectConfig(<HTMLInputElement>(vnode.dom), video);
@@ -117,7 +118,7 @@ class RecordedVideoLinkDialogView extends View {
     }
 
     //ビデオリンクを生成する
-    private createVideoLinkButton(name: string, href: string | null): Mithril.Vnode<any, any> {
+    private createVideoLinkButton(name: string, href: string | null): Vnode<any, any> {
         let buttonClass = (!this.viewModel.getDlStatus() && this.viewModel.getStreamStatus() ) ? "recorded-video-view-link-button" : "recorded-video-dl-link-button";
 
         if(href == null) {
@@ -137,7 +138,7 @@ class RecordedVideoLinkDialogView extends View {
         }, name);
     }
 
-    private createStreamLink(id: number, type: number): Mithril.Vnode<any, any> {
+    private createStreamLink(id: number, type: number): Vnode<any, any> {
         //配信用リンク
         return m("label", {
             class: "mdl-button mdl-js-button mdl-button--icon",

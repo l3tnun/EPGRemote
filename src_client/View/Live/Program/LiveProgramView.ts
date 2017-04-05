@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode } from 'mithril';
 import ParentPageView from '../../ParentPageView';
 import LiveProgramCardComponent from '../../../Component/Live/LiveProgramCardComponent';
 import LiveProgramDialogContentComponent from '../../../Component/Live/LiveProgramDialogContentComponent';
@@ -15,7 +16,7 @@ class LiveProgramView extends ParentPageView {
     private liveProgramDialogContentComponent = new LiveProgramDialogContentComponent();
     private liveProgramAddTimeButtonComponent = new LiveProgramAddTimeButtonComponent();
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         return m("div", { class: "mdl-layout mdl-js-layout mdl-layout--fixed-header"}, [
             this.createHeader("番組表"),
             this.createHeaderMenu(),

@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode } from 'mithril';
 import View from '../View';
 import Util from '../../Util/Util';
 import NavigationComponent from '../../Component/Navigation/NavigationComponent';
@@ -14,7 +15,7 @@ class TopPageView extends View {
     private headerComponent = new HeaderComponent();
     private navigationComponent = new NavigationComponent();
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         return m("div", {
             class: "mdl-layout mdl-js-layout mdl-layout--fixed-header",
             oncreate: () => {
@@ -28,7 +29,7 @@ class TopPageView extends View {
                 document.getElementsByTagName("head")[0].appendChild(meta);
             },
         }, [
-            m(<Mithril.Component<{ title: string; }, {}>>this.headerComponent, { title: "EPGRemote" }),
+            m(this.headerComponent, { title: "EPGRemote" }),
             m(this.navigationComponent)
         ]);
     }

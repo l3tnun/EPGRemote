@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode, VnodeDOM } from 'mithril';
 import ParentPageView from '../ParentPageView';
 import Util from '../../Util/Util';
 import PaginationComponent from '../../Component/Pagination/PaginationComponent';
@@ -25,7 +26,7 @@ class KeywordView extends ParentPageView {
     private keywordInfoDialogComponent = new KeywordInfoDialogComponent();
     private keywordDeleteDialogComponent = new KeywordDeleteDialogComponent();
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <KeywordViewModel>this.getModel("KeywordViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
         this.keywordInfoDialogViewModel = <KeywordInfoDialogViewModel>this.getModel("KeywordInfoDialogViewModel");
@@ -74,7 +75,7 @@ class KeywordView extends ParentPageView {
     }
 
     //カード表示と表表示を切り替え
-    private mainView(): Mithril.Vnode<any, any>[] {
+    private mainView(): Vnode<any, any>[] {
         if(this.viewModel.getShowStatus() == null) { return []; }
 
         if(this.viewModel.getShowStatus()) {
@@ -85,14 +86,14 @@ class KeywordView extends ParentPageView {
     }
 
     //カード表示
-    private createCardView(): Mithril.Vnode<any, any>[] {
+    private createCardView(): Vnode<any, any>[] {
         return this.viewModel.getKeywords().map((keyword: { [key: string]: any }) => {
             return this.createCardContent(keyword);
         });
     }
 
     //カードの中身
-    private createCardContent(keyword: { [key: string]: any }): Mithril.Vnode<any, any> {
+    private createCardContent(keyword: { [key: string]: any }): Vnode<any, any> {
         return m("div", {
             class: "keyword-card mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col",
             oncreate: () => { Util.upgradeMdl(); },
@@ -108,7 +109,7 @@ class KeywordView extends ParentPageView {
                 m("div", { class: "keyword-card-title" }, keyword["keyword"]),
                 m("label", {
                     class: "keyword-card-toggle mdl-switch mdl-js-switch mdl-js-ripple-effect",
-                    onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                    onupdate: (vnode: VnodeDOM<any, any>) => {
                         //toggle の設定
                         if(keyword["kw_enable"] && vnode.dom.className.indexOf("is-checked") == -1) {
                             vnode.dom.classList.add("is-checked");
@@ -133,7 +134,7 @@ class KeywordView extends ParentPageView {
     }
 
     //表表示
-    private createTableView(): Mithril.Vnode<any, any> {
+    private createTableView(): Vnode<any, any> {
         let keywords = this.viewModel.getKeywords();
         if(keywords.length == 0) { return m("div"); }
 
@@ -165,7 +166,7 @@ class KeywordView extends ParentPageView {
     }
 
     //表の中身
-    private createTableContent(keyword: { [key: string]: any }): Mithril.Vnode<any, any> {
+    private createTableContent(keyword: { [key: string]: any }): Vnode<any, any> {
         let option = keyword["option"].split(":");
         let listAddClass = keyword["kw_enable"] ? "" : "keyword-list-disable";
 
