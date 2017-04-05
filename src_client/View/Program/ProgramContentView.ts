@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode, VnodeDOM } from 'mithril';
 import View from '../View';
 import DateUtil from '../../Util/DateUtil';
 import ProgramViewModel from '../../ViewModel/Program/ProgramViewModel';
@@ -19,7 +20,7 @@ class ProgramContentView extends View {
     private infoDialogViewModel: ProgramInfoDialogViewModel;
     private storedGenre: { [key: number]: boolean; };
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <ProgramViewModel>this.getModel("ProgramViewModel");
         this.infoDialogViewModel = <ProgramInfoDialogViewModel>this.getModel("ProgramInfoDialogViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
@@ -45,7 +46,7 @@ class ProgramContentView extends View {
             programEnd = i;
         });
 
-        let result: Mithril.Vnode<any, any>[] = [];
+        let result: Vnode<any, any>[] = [];
         programs.map((stationPrograms: { [key: string]: any }[], i: number) => {
             //表示する要素がない
             if(stationPrograms.length == 0 || time == null) { return; }
@@ -66,10 +67,10 @@ class ProgramContentView extends View {
 
             result.push( m("div", {
                 class: "station",
-                oncreate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                oncreate: (vnode: VnodeDOM<any, any>) => {
                     this.stationConfig(vnode.dom, programStart, programEnd, i, nextTime, stationEndTime, stationPrograms);
                 },
-                onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                onupdate: (vnode: VnodeDOM<any, any>) => {
                     this.stationConfig(vnode.dom, programStart, programEnd, i, nextTime, stationEndTime, stationPrograms);
                 }
             }) );

@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode, VnodeDOM } from 'mithril';
 import Util from '../Util/Util';
 import View from './View';
 import NavigationComponent from '../Component/Navigation/NavigationComponent';
@@ -30,7 +31,7 @@ abstract class ParentPageView extends View {
     private _query_: { [key: string]: any } = {};
 
     //Mithril へ渡される部分
-    public abstract execute(): Mithril.Vnode<any, any>
+    public abstract execute(): Vnode<any, any>
 
     /**
     * DialogComponent を生成する
@@ -49,7 +50,7 @@ abstract class ParentPageView extends View {
     * @param title title
     * @param leftButton leftButton content
     */
-    protected createHeader(title: string, leftButton: any[] = []): Mithril.Vnode<any, any> {
+    protected createHeader(title: string, leftButton: any[] = []): Vnode<any, any> {
         leftButton.push(m(this.headerMenuIconComponent, {
             id: ParentPageView.headerMenuId
         }));
@@ -64,7 +65,7 @@ abstract class ParentPageView extends View {
     * header メニュー作成
     * @param content メニューコンテント
     */
-    protected createHeaderMenu(content: any[] = []): Mithril.Vnode<any, any> {
+    protected createHeaderMenu(content: any[] = []): Vnode<any, any> {
         content.push(m(this.diskMenuContentComponent)); //ディスク空き容量メニュー
 
         return m(this.headerMenuListComponent, {
@@ -76,14 +77,14 @@ abstract class ParentPageView extends View {
     /**
     * Navigation 作成
     */
-    protected createNavigation(): Mithril.Vnode<any, any> {
+    protected createNavigation(): Vnode<any, any> {
         return m(this.navigationComponent)
     }
 
     /**
     * ディスク空き容量ダイアログ
     */
-    protected createDiskDialog(): Mithril.Vnode<any, any> {
+    protected createDiskDialog(): Vnode<any, any> {
         return m(this.getDialogComponent(DiskDialogViewModel.dialogId), {
             id: DiskDialogViewModel.dialogId,
             width: 250,
@@ -94,7 +95,7 @@ abstract class ParentPageView extends View {
     /**
     * SnackbarComponent 生成
     */
-    protected createSnackbar(): Mithril.Vnode<any, any> {
+    protected createSnackbar(): Vnode<any, any> {
         return m(this.snackbarComponent);
     }
 
@@ -104,17 +105,17 @@ abstract class ParentPageView extends View {
     */
     protected mainLayout(
         content: any,
-        oncreate: ((vnode: Mithril.VnodeDOM<any, any>) => void) | null = null
-    ): Mithril.Vnode<any, any> {
+        oncreate: ((vnode: VnodeDOM<any, any>) => void) | null = null
+    ): Vnode<any, any> {
         return m("main", {
             class: "fadeIn mdl-layout__content",
-            oncreate: (vnode: Mithril.VnodeDOM<any, any>) => {
+            oncreate: (vnode: VnodeDOM<any, any>) => {
                 if(oncreate != null) { oncreate(vnode); }
 
                 this._query_ = Util.getCopyQuery();
                 this.addShowAnimetion(vnode.dom);
             },
-            onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
+            onupdate: (vnode: VnodeDOM<any, any>) => {
                 let newQuery = Util.getCopyQuery();
                 if(Util.buildQueryStr(newQuery) != Util.buildQueryStr(this._query_) && newQuery["reload"] != 1) {
                     //query が違う

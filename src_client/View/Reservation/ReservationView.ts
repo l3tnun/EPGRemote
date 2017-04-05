@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode } from 'mithril';
 import ParentPageView from '../ParentPageView';
 import DateUtil from '../../Util/DateUtil';
 import DialogViewModel from '../../ViewModel/Dialog/DialogViewModel';
@@ -31,7 +32,7 @@ class ReservationView extends ParentPageView {
     private menuComponent = new MenuComponent();
     private reservationMenuContentComponent = new ReservationMenuContentComponent();
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <ReservationViewModel>this.getModel("ReservationViewModel");
         this.dialogViewModel = <DialogViewModel>this.getModel("DialogViewModel");
         this.paginationViewModel = <PaginationViewModel>this.getModel("PaginationViewModel");
@@ -75,7 +76,7 @@ class ReservationView extends ParentPageView {
     }
 
     //カード表示、表表示を切り替える
-    private mainView(): Mithril.Vnode<any, any> | (Mithril.Vnode<any, any> | Mithril.Vnode<any, any>[])[] {
+    private mainView(): Vnode<any, any> | (Vnode<any, any> | Vnode<any, any>[])[] {
         if(this.viewModel.getShowStatus() == null) { return m("div"); }
 
         //カード表示
@@ -94,7 +95,7 @@ class ReservationView extends ParentPageView {
     }
 
     //カード表示
-    private createCardView(): Mithril.Vnode<any, any>[] {
+    private createCardView(): Vnode<any, any>[] {
         return this.viewModel.getPrograms().map((program: { [key: string]: any }) => {
             return m("div", { class: "reservation-card mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col" }, [
                 m("button", {
@@ -132,7 +133,7 @@ class ReservationView extends ParentPageView {
     }
 
     //表表示
-    private createTableView(): Mithril.Vnode<any, any> {
+    private createTableView(): Vnode<any, any> {
         let programs = this.viewModel.getPrograms();
         if(programs.length == 0) { return m("div"); }
 
@@ -158,7 +159,7 @@ class ReservationView extends ParentPageView {
         ]);
     }
 
-    private createTableContent(program: { [key: string]: any }): Mithril.Vnode<any, any> {
+    private createTableContent(program: { [key: string]: any }): Vnode<any, any> {
         return m("tr", [
             m("th", { class: "reservation-list-th reservation-list-channel-name mdl-data-table__cell--non-numeric" }, program["channel_name"]),
             m("th", { class: "reservation-list-th reservation-list-date mdl-data-table__cell--non-numeric" }, `${ this.getTableDateStr(program["starttime"]) }`),

@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode } from 'mithril';
 import View from '../View';
 import NavigationViewModel from '../../ViewModel/Navigation/NavigationViewModel';
 import Util from '../../Util/Util';
@@ -11,7 +12,7 @@ import Util from '../../Util/Util';
 class NavigationView extends View {
     private viewModel: NavigationViewModel;
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <NavigationViewModel>this.getModel("NavigationViewModel");
 
         return m("div", { class: "mdl-layout__drawer",
@@ -36,7 +37,7 @@ class NavigationView extends View {
     }
 
     //ライブ配信用のリンクを作成する
-    private createLiveStreamContent(): Mithril.Vnode<any, any>[] {
+    private createLiveStreamContent(): Vnode<any, any>[] {
         //配信が無効
         if(!this.viewModel.enableLive()) { return []; }
 
@@ -53,12 +54,12 @@ class NavigationView extends View {
     }
 
     //配信中の一覧を作成する
-    private createStreamingList(): Mithril.Vnode<any, any>[] {
+    private createStreamingList(): Vnode<any, any>[] {
         let streamInfo = this.viewModel.getLiveOtherStreamInfoList();
-        let result: Mithril.Vnode<any, any>[] = [];
+        let result: Vnode<any, any>[] = [];
 
         streamInfo.map((data, index) => {
-            if(data["streamType"] == "live") {
+            if(data["streamType"] == "live" || data["streamType"] == "recorded") {
                 result.push( this.createLink(`${data.name}`, `/live/watch?stream=${data.streamNumber}`) );
             } else if(data["streamType"] == "http-live") {
                 result.push( this.createHttpViewLink(data) );
@@ -93,7 +94,7 @@ class NavigationView extends View {
     * @param name 表示されるリンクの名前
     * @param href リンクのアドレス
     */
-    private createLink(name: string, href: string): Mithril.Vnode<any, any> {
+    private createLink(name: string, href: string): Vnode<any, any> {
         return m("a", {
             class: "mdl-navigation__link",
             onclick: () => {
@@ -106,7 +107,7 @@ class NavigationView extends View {
         }, name);
     }
 
-    private createHttpViewLink(data: { [key: string]: any }): Mithril.Vnode<any, any> {
+    private createHttpViewLink(data: { [key: string]: any }): Vnode<any, any> {
         return m("a", {
             class: "mdl-navigation__link",
             onclick: () => {

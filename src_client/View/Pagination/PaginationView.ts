@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode, VnodeDOM } from 'mithril';
 import View from '../View';
 import PaginationViewModel from '../../ViewModel/Pagination/PaginationViewModel';
 /**
@@ -17,7 +18,7 @@ class PaginationView extends View {
         }
     }
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <PaginationViewModel>this.getModel("PaginationViewModel");
         let maxWidthStr = (this.maxWidth == null) ? "" : `max-width: ${ this.maxWidth }px;`;
 
@@ -32,11 +33,11 @@ class PaginationView extends View {
                 m("a", {
                     class: "pagination-button hover material-icons",
                     href: this.createLink(this.viewModel.prev),
-                    oncreate : (vnode: Mithril.VnodeDOM<any, any>) => {
+                    oncreate : (vnode: VnodeDOM<any, any>) => {
                         m.route.link(vnode);
                         this.hidden(<HTMLElement>(vnode.dom), this.viewModel.prev);
                     },
-                    onupdate : (vnode: Mithril.VnodeDOM<any, any>) => {
+                    onupdate : (vnode: VnodeDOM<any, any>) => {
                         this.hidden(<HTMLElement>(vnode.dom), this.viewModel.prev);
                     }
                 }, "navigate_before"),
@@ -48,11 +49,11 @@ class PaginationView extends View {
                 m("a", {
                     class: "pagination-button hover material-icons",
                     href: this.createLink(this.viewModel.next),
-                    oncreate : (vnode: Mithril.VnodeDOM<any, any>) => {
+                    oncreate : (vnode: VnodeDOM<any, any>) => {
                         m.route.link(vnode);
                         this.hidden(<HTMLElement>(vnode.dom), this.viewModel.next);
                     },
-                    onupdate : (vnode: Mithril.VnodeDOM<any, any>) => {
+                    onupdate : (vnode: VnodeDOM<any, any>) => {
                         this.hidden(<HTMLElement>(vnode.dom), this.viewModel.next);
                     }
                 }, "navigate_next")

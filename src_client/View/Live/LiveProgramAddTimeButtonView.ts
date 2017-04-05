@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode } from 'mithril';
 import View from '../View';
 import LiveProgramCardViewModel from '../../ViewModel/Live/LiveProgramCardViewModel';
 
@@ -10,7 +11,7 @@ import LiveProgramCardViewModel from '../../ViewModel/Live/LiveProgramCardViewMo
 class LiveProgramAddTimeButtonView extends View {
     private viewModel: LiveProgramCardViewModel;
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <LiveProgramCardViewModel>this.getModel("LiveProgramCardViewModel");
 
         return m("div", {

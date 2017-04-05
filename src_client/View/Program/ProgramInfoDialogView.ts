@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode, VnodeDOM } from 'mithril';
 import View from '../View';
 import Util from '../../Util/Util';
 import DateUtil from '../../Util/DateUtil';
@@ -14,7 +15,7 @@ class ProgramInfoDialogView extends View {
     private dialog: DialogViewModel;
     private viewModel: ProgramInfoDialogViewModel;
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
         this.viewModel = <ProgramInfoDialogViewModel>this.getModel("ProgramInfoDialogViewModel");
 
@@ -54,7 +55,7 @@ class ProgramInfoDialogView extends View {
         return `${ DateUtil.format(start, "hh:mm:ss") } ~ ${ DateUtil.format(end, "hh:mm:ss") }`;
     }
 
-    private createProperty(): Mithril.Vnode<any, any> {
+    private createProperty(): Vnode<any, any> {
         if(this.viewModel.getProgram()["recorded"]) {
             return m("div", {
                 style: "display: table; margin: 12px auto -10px; padding-right: 8px;"
@@ -90,8 +91,8 @@ class ProgramInfoDialogView extends View {
     }
 
     //優先度
-    private createPriority(): Mithril.Vnode<any, any>[] {
-        let options: Mithril.Vnode<any, any>[] = [];
+    private createPriority(): Vnode<any, any>[] {
+        let options: Vnode<any, any>[] = [];
         for(let i = 20; i > 0; i--) { options.push(m("option", { value: i }, String(i))); }
 
         return [
@@ -109,7 +110,7 @@ class ProgramInfoDialogView extends View {
                     class: "mdl-textfield__input program-dialog-label",
                     value: this.viewModel.priority,
                     onchange: m.withAttr("value", (value) => { this.viewModel.priority = Number(value); }),
-                    onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                    onupdate: (vnode: VnodeDOM<any, any>) => {
                         this.selectConfig(<HTMLInputElement>(vnode.dom), this.viewModel.priority);
                     }
                 }, options)
@@ -118,7 +119,7 @@ class ProgramInfoDialogView extends View {
     }
 
     //チェックボックス生成
-    private createCheckBox(label: string, checked: Function, onchange: Function): Mithril.Vnode<any, any> {
+    private createCheckBox(label: string, checked: Function, onchange: Function): Vnode<any, any> {
         return m("div", {
             style: "display: table-cell; padding-left: 8px;"
         }, [
@@ -131,7 +132,7 @@ class ProgramInfoDialogView extends View {
                     checked: checked(),
                     onchange: m.withAttr("checked", (value) => { onchange(value) }),
                     oncreate: () => { this.checkboxInit(); },
-                    onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.checkboxConfig(<HTMLInputElement>(vnode.dom)) }
+                    onupdate: (vnode: VnodeDOM<any, any>) => { this.checkboxConfig(<HTMLInputElement>(vnode.dom)) }
                 }),
                 m("span", {
                     class: "mdl-checkbox__label program-dialog-label"
@@ -141,7 +142,7 @@ class ProgramInfoDialogView extends View {
     }
 
     //録画モードセレクタ
-    private createRecMode(): Mithril.Vnode<any, any> {
+    private createRecMode(): Vnode<any, any> {
         let recMode = this.viewModel.getRecModeList();
 
         return m("div", {
@@ -156,7 +157,7 @@ class ProgramInfoDialogView extends View {
                     class: "mdl-textfield__input program-dialog-label",
                     value: this.viewModel.recMode,
                     onchange: m.withAttr("value", (value) => { this.viewModel.recMode = Number(value); }),
-                    onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                    onupdate: (vnode: VnodeDOM<any, any>) => {
                         this.selectConfig(<HTMLInputElement>(vnode.dom), this.viewModel.recMode);
                     }
                  },
@@ -168,7 +169,7 @@ class ProgramInfoDialogView extends View {
     }
 
     //予約ボタン
-    private createRecButton(): Mithril.Vnode<any, any> {
+    private createRecButton(): Vnode<any, any> {
         let program = this.viewModel.getProgram();
         let recModeDefaultId = this.viewModel.getRecModeDefaultId();
 
@@ -196,7 +197,7 @@ class ProgramInfoDialogView extends View {
     }
 
     //自動予約ボタン
-    private createAutorecButton(): Mithril.Vnode<any, any> {
+    private createAutorecButton(): Vnode<any, any> {
         let program = this.viewModel.getProgram();
 
         return  m("button", {
@@ -208,7 +209,7 @@ class ProgramInfoDialogView extends View {
     }
 
     //検索ボタン
-    private createSearch(): Mithril.Vnode<any, any> {
+    private createSearch(): Vnode<any, any> {
         return m("button", { class: "mdl-button mdl-js-button mdl-button--primary",
             onclick: () => {
                 this.dialog.close();
@@ -217,7 +218,7 @@ class ProgramInfoDialogView extends View {
                     m.route.set("/search", this.createSearchQuery());
                 }, 0);
             },
-            oncreate: (vnode: Mithril.VnodeDOM<any, any>) => {
+            oncreate: (vnode: VnodeDOM<any, any>) => {
                 if(Util.getRoute() != "/search") { return; }
                 (<HTMLElement>(vnode.dom)).style.display = "none";
 

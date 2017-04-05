@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode } from 'mithril';
 import View from '../View';
 import Util from '../../Util/Util';
 import DateUtil from '../../Util/DateUtil';
@@ -15,7 +16,7 @@ class ProgramTimeDialogView extends View {
     private viewModel: ProgramViewModel;
     private dialog: DialogViewModel;
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <ProgramViewModel>this.getModel("ProgramViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
 
@@ -36,14 +37,14 @@ class ProgramTimeDialogView extends View {
     }
 
     //時刻
-    private createTime(): Mithril.Vnode<any, any>[] {
-        let result: Mithril.Vnode<any, any>[] = [];
+    private createTime(): Vnode<any, any>[] {
+        let result: Vnode<any, any>[] = [];
         for(let i = 0; i < 23; i += 2) { result.push(this.createTimeContent(i)); }
 
         return result;
     }
 
-    private createTimeContent(i: number): Mithril.Vnode<any, any> {
+    private createTimeContent(i: number): Vnode<any, any> {
         let query = Util.getCopyQuery();
         let text = Util.strZeroPlus(i, 2);
 
@@ -59,8 +60,8 @@ class ProgramTimeDialogView extends View {
     }
 
     //日付
-    private createDay(): Mithril.Vnode<any, any>[] {
-        let result: Mithril.Vnode<any, any>[] = [];
+    private createDay(): Vnode<any, any>[] {
+        let result: Vnode<any, any>[] = [];
 
         result.push(this.createDayContent("現在"));
 
@@ -78,7 +79,7 @@ class ProgramTimeDialogView extends View {
         return result;
     }
 
-    private createDayContent(name: string, timeQuery: string | null = null): Mithril.Vnode<any, any> {
+    private createDayContent(name: string, timeQuery: string | null = null): Vnode<any, any> {
         let query = Util.getCopyQuery();
 
         if(query["time"] == timeQuery) { return this.createNowElement(name); }
@@ -89,14 +90,14 @@ class ProgramTimeDialogView extends View {
         return this.createElement(name, <{ [key: string]: string; }>query);
     }
 
-    private createNowElement(name: string): Mithril.Vnode<any, any> {
+    private createNowElement(name: string): Vnode<any, any> {
         return m("a", {
             class: "program-time-dialog-time",
             onclick: () => { this.dialog.close(); }
         }, name);
     }
 
-    private createElement(name: string, query: { [key: string]: string }): Mithril.Vnode<any, any> {
+    private createElement(name: string, query: { [key: string]: string }): Vnode<any, any> {
         return m("a", {
             class: "program-time-dialog-time",
             onclick: () => {

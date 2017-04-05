@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode } from 'mithril';
 import View from '../../View';
 import LiveWatchStreamInfoViewModel from '../../../ViewModel/Live/Watch/LiveWatchStreamInfoViewModel';
 import DateUtil from '../../../Util/DateUtil';
@@ -11,7 +12,7 @@ import DateUtil from '../../../Util/DateUtil';
 class LiveWatchStreamInfoView extends View {
     private viewModel: LiveWatchStreamInfoViewModel;
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <LiveWatchStreamInfoViewModel>this.getModel("LiveWatchStreamInfoViewModel");
 
         let info = this.viewModel.getInfo();

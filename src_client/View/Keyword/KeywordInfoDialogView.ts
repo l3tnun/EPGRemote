@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode } from 'mithril';
 import View from '../View';
 import DialogViewModel from '../../ViewModel/Dialog/DialogViewModel';
 import KeywordInfoDialogViewModel from '../../ViewModel/Keyword/KeywordInfoDialogViewModel';
@@ -16,7 +17,7 @@ class KeywordInfoDialogView extends View {
     private keywordDeleteDialogViewModel: KeywordDeleteDialogViewModel;
     private dialog: DialogViewModel;
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <KeywordInfoDialogViewModel>this.getModel("KeywordInfoDialogViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
         this.keywordViewModel = <KeywordViewModel>this.getModel("KeywordViewModel");

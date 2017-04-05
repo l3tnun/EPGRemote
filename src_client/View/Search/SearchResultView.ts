@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode, VnodeDOM } from 'mithril';
 import View from '../View';
 import Scroll from '../../Util/Scroll';
 import SearchViewModel from '../../ViewModel/Search/SearchViewModel';
@@ -16,7 +17,7 @@ class SearchResultView extends View {
     private dialog: DialogViewModel;
     private programInfoDialogViewModel: ProgramInfoDialogViewModel;
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <SearchViewModel>this.getModel("SearchViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
         this.programInfoDialogViewModel = <ProgramInfoDialogViewModel>this.getModel("ProgramInfoDialogViewModel");
@@ -28,8 +29,8 @@ class SearchResultView extends View {
             //ヒット件数
             m("div", {
                 class: "search-result-hit-num",
-                oncreate: (vnode: Mithril.VnodeDOM<any, any>) => { this.scroll(vnode.dom); },
-                onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.scroll(vnode.dom); }
+                oncreate: (vnode: VnodeDOM<any, any>) => { this.scroll(vnode.dom); },
+                onupdate: (vnode: VnodeDOM<any, any>) => { this.scroll(vnode.dom); }
             }, this.viewModel.getResult().length + "件ヒットしました。"),
 
             //検索結果
@@ -50,7 +51,7 @@ class SearchResultView extends View {
         setTimeout(() => { Scroll.scrollTo(mainLayout, start, end); }, 100);
     }
 
-    private createContent(program: { [key: string]: any }): Mithril.Vnode<any, any> {
+    private createContent(program: { [key: string]: any }): Vnode<any, any> {
         let addClass = "";
         if(program["autorec"] == 0) { addClass += " tv_program_freeze "; }
         if(program["recorded"]) { addClass += " tv_program_reced "; }

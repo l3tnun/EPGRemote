@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode } from 'mithril';
 import View from '../View';
 import DateUtil from '../../Util/DateUtil';
 import ProgramViewModel from '../../ViewModel/Program/ProgramViewModel';
@@ -16,7 +17,7 @@ class ProgramStationView extends View {
     private liveProgramDialogContentViewModel: LiveProgramDialogContentViewModel;
     private dialog: DialogViewModel;
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <ProgramViewModel>this.getModel("ProgramViewModel");
         this.liveProgramDialogContentViewModel = <LiveProgramDialogContentViewModel>this.getModel("LiveProgramDialogContentViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
@@ -42,8 +43,8 @@ class ProgramStationView extends View {
     }
 
     //局名を生成する
-    private createTitle(viewConfig:  { [key: string]: number }): Mithril.Vnode<any, any>[] {
-        let result: Mithril.Vnode<any, any>[] = [];
+    private createTitle(viewConfig:  { [key: string]: number }): Vnode<any, any>[] {
+        let result: Vnode<any, any>[] = [];
         let chennels = this.viewModel.getChannel();
         if(chennels == null) { return []; }
 
@@ -90,7 +91,7 @@ class ProgramStationView extends View {
     }
 
     //非単局表示の中身を生成する
-    private createContent(name: string, width: number, height: number, fontSize: number, channel: { [key: string]: any }): Mithril.Vnode<any, any> {
+    private createContent(name: string, width: number, height: number, fontSize: number, channel: { [key: string]: any }): Vnode<any, any> {
         return m("div", {
             class: "station_title",
             style: `max-width: ${ width }px;`

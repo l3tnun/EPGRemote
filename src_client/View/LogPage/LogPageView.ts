@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode, VnodeDOM } from 'mithril';
 import ParentPageView from '../ParentPageView';
 import Util from '../../Util/Util';
 import DateUtil from '../../Util/DateUtil';
@@ -20,7 +21,7 @@ class LogPageView extends ParentPageView {
 
     private logPageActionDialogContentComponent = new LogPageActionDialogContentComponent();
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <LogPageViewModel>this.getModel("LogPageViewModel");
         this.dialogViewModel = <DialogViewModel>this.getModel("DialogViewModel");
         this.actionViewModel = <LogPageActionDialogViewModel>this.getModel("LogPageActionDialogViewModel");
@@ -58,7 +59,7 @@ class LogPageView extends ParentPageView {
     }
 
     //option 部分
-    private createOption(): Mithril.Vnode<any, any> {
+    private createOption(): Vnode<any, any> {
         return m("div", { class: "log-card mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col" }, [
             m("div", { class: "mdl-card__supporting-text" }, [
                 this.createCheckBox("情報", this.viewModel.info, (value) => { this.viewModel.info = value }),
@@ -70,7 +71,7 @@ class LogPageView extends ParentPageView {
     }
 
     //chekcbox 作成
-    private createCheckBox(labelName: string, value: boolean, callback:(value: boolean) => void): Mithril.Vnode<any, any> {
+    private createCheckBox(labelName: string, value: boolean, callback:(value: boolean) => void): Vnode<any, any> {
         return m("label", { class: "log-card-checkbox mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" }, [
             m("input", {
                 class: "mdl-checkbox__input",
@@ -78,21 +79,21 @@ class LogPageView extends ParentPageView {
                 checked: value,
                 onchange: m.withAttr("checked", (value) => { callback(value); this.viewModel.update(); } ),
                 oncreate: () => { this.checkboxInit(); },
-                onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.checkboxConfig(<HTMLInputElement>(vnode.dom)); }
+                onupdate: (vnode: VnodeDOM<any, any>) => { this.checkboxConfig(<HTMLInputElement>(vnode.dom)); }
             }),
             m("span", { class: "mdl-checkbox__label" }, labelName )
         ]);
     }
 
     //card list 作成
-    private createList(): Mithril.Vnode<any, any>[] {
+    private createList(): Vnode<any, any>[] {
         return this.viewModel.getLogList().map((data: { [key: string]: any }) => {
             return this.createListContent(data);
         })
     }
 
     //card の中身
-    private createListContent(data: { [key: string]: any }): Mithril.Vnode<any, any> {
+    private createListContent(data: { [key: string]: any }): Vnode<any, any> {
         return m("div", {
             class: `log-card-level${ data["level"] } log-card mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col`,
             onclick: () => {
@@ -114,7 +115,7 @@ class LogPageView extends ParentPageView {
     }
 
     //icon
-    private createAnnouncementIcon(link: {}): Mithril.Vnode<any, any> {
+    private createAnnouncementIcon(link: {}): Vnode<any, any> {
         if(typeof link == "undefined" || Util.hashSize(link) == 0) { return m("div"); }
 
         return m("i", { class: "log-dialog-icon material-icons" }, "announcement");

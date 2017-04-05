@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode, VnodeDOM } from 'mithril';
 import Util from '../../Util/Util';
 import View from '../View';
 import LiveProgramDialogContentViewModel from '../../ViewModel/Live/LiveProgramDialogContentViewModel';
@@ -15,7 +16,7 @@ class LiveProgramDialogContentView extends View {
     private dialogViewModel: DialogViewModel;
     private snackbarViewModel: SnackbarViewModel;
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.dialogContentViewModel = <LiveProgramDialogContentViewModel>this.getModel("LiveProgramDialogContentViewModel");
         this.dialogViewModel = <DialogViewModel>this.getModel("DialogViewModel");
         this.snackbarViewModel = <SnackbarViewModel>this.getModel("SnackbarViewModel");
@@ -64,7 +65,7 @@ class LiveProgramDialogContentView extends View {
     }
 
     //tuner pulldown の生成
-    private tunerPulldown(): Mithril.Vnode<any, any> {
+    private tunerPulldown(): Vnode<any, any> {
         return m("div", { style: "display: flex; width: 50%; float: left;" }, [
             m("div", { class: "pulldown mdl-layout-spacer" }, [
                 m("select", { id: LiveProgramDialogContentView.tunerPullDownId }, [
@@ -82,7 +83,7 @@ class LiveProgramDialogContentView extends View {
     }
 
     //video pulldown の生成
-    private videoPulldown(): Mithril.Vnode<any, any> {
+    private videoPulldown(): Vnode<any, any> {
         return m("div", { style: "display: flex; width: 50%;" }, [
             m("div", { class: "pulldown mdl-layout-spacer" }, [
                 m("select", { id: LiveProgramDialogContentView.videoPullDownId }, [
@@ -96,7 +97,7 @@ class LiveProgramDialogContentView extends View {
     * pulldown の中身を生成する
     * @param array { id: 1, name: "hoge" } の形になっている array
     */
-    private createPulldownContent(array: any[]): Mithril.Vnode<any, any>[] {
+    private createPulldownContent(array: any[]): Vnode<any, any>[] {
         return array.map((data: { [key: string]: any }) => {
             return m("option", { value: data["id"] }, data["name"] )
         });
@@ -163,7 +164,7 @@ class LiveProgramDialogContentView extends View {
     }
 
     //HLS と http 切り替えチェックボックス
-    private createHttpCheckBox(): Mithril.Vnode<any, any> | null {
+    private createHttpCheckBox(): Vnode<any, any> | null {
         if(!this.dialogContentViewModel.enableHttpLive()
             || !this.dialogContentViewModel.enableHLSLive()
             || location.href.indexOf("/live/watch") != -1
@@ -183,14 +184,14 @@ class LiveProgramDialogContentView extends View {
                     this.dialogContentViewModel.configListUpdate();
                 }),
                 onreate: () => { this.checkboxInit(); },
-                onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.checkboxConfig(<HTMLInputElement>(vnode.dom)); }
+                onupdate: (vnode: VnodeDOM<any, any>) => { this.checkboxConfig(<HTMLInputElement>(vnode.dom)); }
             }),
             m("span", { class: "mdl-checkbox__label" }, "http 配信")
         ]);
     }
 
     //単局、EPG 更新ボタン、新規ストリームチェックボックス
-    private createSubButton():  Mithril.Vnode<any, any>[] {
+    private createSubButton():  Vnode<any, any>[] {
         if(location.href.indexOf("/program") > 0 && location.href.indexOf("/live") == -1 && typeof m.route.param("ch") == "undefined") {
             //番組表
             let query = typeof m.route.param("time") == "undefined" ? {} : { time: m.route.param("time") };
@@ -236,7 +237,7 @@ class LiveProgramDialogContentView extends View {
                             this.dialogContentViewModel.enableNewStream = value;
                         }),
                         onreate: () => { this.checkboxInit(); },
-                        onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.checkboxConfig(<HTMLInputElement>(vnode.dom)); }
+                        onupdate: (vnode: VnodeDOM<any, any>) => { this.checkboxConfig(<HTMLInputElement>(vnode.dom)); }
                     }),
                     m("span", { class: "mdl-checkbox__label" }, "新規ストリーム")
                 ])

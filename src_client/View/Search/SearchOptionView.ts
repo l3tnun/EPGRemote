@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode, VnodeDOM } from 'mithril';
 import SearchOptionBaseView from './SearchOptionBaseView';
 import SearchViewModel from '../../ViewModel/Search/SearchViewModel';
 
@@ -10,7 +11,7 @@ import SearchViewModel from '../../ViewModel/Search/SearchViewModel';
 class SearchOptionView extends SearchOptionBaseView {
     private viewModel: SearchViewModel;
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <SearchViewModel>this.getModel("SearchViewModel");
 
         return m("div", { class: "search-option-card mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col" }, [
@@ -25,7 +26,7 @@ class SearchOptionView extends SearchOptionBaseView {
     }
 
     //キーワード部分
-    private createKeyword(): Mithril.Vnode<any, any> {
+    private createKeyword(): Vnode<any, any> {
         return this.createContentFrame("キーワード", [
             m("div", { class: "search-option-text-box mdl-cell--12-col mdl-textfield mdl-js-textfield" }, [
                  m("input", {
@@ -33,7 +34,7 @@ class SearchOptionView extends SearchOptionBaseView {
                     type: "text",
                     value: this.viewModel.keyword,
                     onchange: m.withAttr("value", (value) => { this.viewModel.keyword = value; }),
-                    onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                    onupdate: (vnode: VnodeDOM<any, any>) => {
                          //enter key で検索
                         (<HTMLInputElement>vnode.dom).onkeydown = (e) => {
                             if(e.keyCode == 13) {
@@ -75,7 +76,7 @@ class SearchOptionView extends SearchOptionBaseView {
     }
 
     //放送局
-    private createBroadcaster(): Mithril.Vnode<any, any> {
+    private createBroadcaster(): Vnode<any, any> {
         return this.createContentFrame("放送局", [
             //放送局プルダウン
             m("div", { style: "display: flex; width: 100%;" }, [
@@ -101,9 +102,9 @@ class SearchOptionView extends SearchOptionBaseView {
     }
 
     //放送波のチェックボックス生成
-    private createBroadCastCheckBox(): Mithril.Vnode<any, any>[] {
+    private createBroadCastCheckBox(): Vnode<any, any>[] {
         let broadcast = this.viewModel.getBroadcast();
-        let result: Mithril.Vnode<any, any>[] = [];
+        let result: Vnode<any, any>[] = [];
 
         if(broadcast["GR"]) { result.push(
             this.createCheckBox(
@@ -138,7 +139,7 @@ class SearchOptionView extends SearchOptionBaseView {
     }
 
     //対象ジャンル
-    private createGenres(): Mithril.Vnode<any, any> {
+    private createGenres(): Vnode<any, any> {
         return this.createContentFrame("対象ジャンル", [
             //ジャンルセレクタ
             m("div", { style: "display: flex; width: 50%; float: left;" }, [
@@ -184,8 +185,8 @@ class SearchOptionView extends SearchOptionBaseView {
     }
 
     //サブジャンルセレクタの中身を生成
-    private createSubGenreOption(): Mithril.Vnode<any, any>[] {
-        let result: Mithril.Vnode<any, any>[] = [];
+    private createSubGenreOption(): Vnode<any, any>[] {
+        let result: Vnode<any, any>[] = [];
         let subGenres = this.viewModel.getSubGenre()[this.viewModel.genreValue];
 
         for(let id in subGenres) {
@@ -205,7 +206,7 @@ class SearchOptionView extends SearchOptionBaseView {
     }
 
     //対象時刻
-    private createTimes(): Mithril.Vnode<any, any> {
+    private createTimes(): Vnode<any, any> {
         return this.createContentFrame("対象時刻", [
             //開始時刻セレクタ
             m("div", { style: "display: flex; width: float: left;" }, [
@@ -280,7 +281,7 @@ class SearchOptionView extends SearchOptionBaseView {
     }
 
     //開始時刻セレクタの中身を生成
-    public createProgramTimeOption():  Mithril.Vnode<any, any>[] {
+    public createProgramTimeOption():  Vnode<any, any>[] {
         let result = [ m("option", { value: 24 }, "なし") ];
         for(let i = 0; i < 24; i++) { result.push( m("option", { value: i }, `${ i }時`) ) }
 
@@ -288,14 +289,14 @@ class SearchOptionView extends SearchOptionBaseView {
     }
 
     //時刻幅セレクタの中身
-    public createPeriodOption():  Mithril.Vnode<any, any>[] {
-        let result: Mithril.Vnode<any, any>[] = [];
+    public createPeriodOption():  Vnode<any, any>[] {
+        let result: Vnode<any, any>[] = [];
         for(let i = 1; i < 24; i++) { result.push( m("option", { value: i }, i + "時間") ); }
         return result;
     }
 
     //アクションボタン
-    public createActionButtons(): Mithril.Vnode<any, any> {
+    public createActionButtons(): Vnode<any, any> {
         return m("div", { class: "mdl-dialog__actions mdl-card__actions mdl-card--border" }, [
             //検索ボタン
             m("button", {
