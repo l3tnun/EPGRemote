@@ -4,19 +4,20 @@ import View from '../View/View';
 import Controller from '../Controller/Controller';
 import ViewModel from '../ViewModel/ViewModel';
 import Container from '../Container/Container';
+import { ClassComponent, CVnode, Vnode, VnodeDOM } from 'mithril';
 
 /**
 * Controller, View, Model の依存設定を書く
 * create() で Mithril の route, component へ渡す
 */
-abstract class Component implements Mithril.Component<{ [key: string]: any; }, any> {
+abstract class Component implements ClassComponent<{ [key: string]: any; }> {
     protected container = Container;
 
-    public view: (this: any, vnode: Mithril.Vnode<{ [key: string]: any; }, any>) => Mithril.Vnode<any, any>;
-    public oninit: (this: any, vnode: Mithril.Vnode<{ [key: string]: any; }, any>) => void;
-    public onbeforeupdate: (this: any, vnode: Mithril.Vnode<{ [key: string]: any; }, any>, old: Mithril.Vnode<{ [key: string]: any; }, any>) => boolean;
-    public onupdate: (this: any, vnode: Mithril.Vnode<{ [key: string]: any; }, any>) => void;
-    public onremove: (this: any, vnode: Mithril.Vnode<{ [key: string]: any; }, any>) => void;
+    public view: (attrs: CVnode<{ [key: string]: any; }>) => Vnode<any, any>;
+    public oninit: (this: any, vnode: Vnode<{ [key: string]: any; }, any>) => void;
+    public onbeforeupdate: (this: any, vnode: VnodeDOM<{ [key: string]: any; }, any>, old: VnodeDOM<{ [key: string]: any; }, any>) => boolean;
+    public onupdate: (this: any, vnode: VnodeDOM<{ [key: string]: any; }, any>) => void;
+    public onremove: (this: any, vnode: VnodeDOM<{ [key: string]: any; }, any>) => void;
 
     constructor() {
         let controllerInstance = this.getController();
@@ -32,7 +33,7 @@ abstract class Component implements Mithril.Component<{ [key: string]: any; }, a
         }
 
         //view のセット
-        this.view = (vnode: Mithril.Vnode<{ [key: string]: any }, any>): Mithril.Vnode<any, any> => {
+        this.view = (vnode: CVnode<{ [key: string]: any; }>): Vnode<any, any> => {
             if(typeof vnode.attrs != "undefined") {
                 viewInstance.setOptions(vnode.attrs);
             }
@@ -43,7 +44,7 @@ abstract class Component implements Mithril.Component<{ [key: string]: any; }, a
         if(controllerInstance == null) { return; }
 
         //oninit
-        this.oninit = (vnode: Mithril.Vnode<{ [key: string]: any }, any>): void => {
+        this.oninit = (vnode: Vnode<{ [key: string]: any }, any>): void => {
             if(typeof vnode.attrs != "undefined") {
                 controllerInstance!.setOptions(vnode.attrs); //args のセット
             }
