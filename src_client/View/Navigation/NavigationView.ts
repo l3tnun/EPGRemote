@@ -59,7 +59,7 @@ class NavigationView extends View {
         let result: Vnode<any, any>[] = [];
 
         streamInfo.map((data, index) => {
-            if(data["streamType"] == "live") {
+            if(data["streamType"] == "live" || data["streamType"] == "recorded") {
                 result.push( this.createLink(`${data.name}`, `/live/watch?stream=${data.streamNumber}`) );
             } else if(data["streamType"] == "http-live") {
                 result.push( this.createHttpViewLink(data) );
