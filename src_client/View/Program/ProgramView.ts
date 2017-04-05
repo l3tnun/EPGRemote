@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode, VnodeDOM } from 'mithril';
 import ParentPageView from '../ParentPageView';
 import Util from '../../Util/Util';
 import DateUtil from '../../Util/DateUtil';
@@ -35,7 +36,7 @@ class ProgramView extends ParentPageView {
     private programGenreDialogComponent = new ProgramGenreDialogComponent();
     private programGenreDialogActionComponent = new ProgramGenreDialogActionComponent();
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <ProgramViewModel>this.getModel("ProgramViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
         this.programStorageViewModel = <ProgramStorageViewModel>this.getModel("ProgramStorageViewModel");
@@ -79,7 +80,7 @@ class ProgramView extends ParentPageView {
                 m("div", {
                     id: ProgramViewModel.programFrameId,
                     style: this.createFrameStyle(),
-                    oncreate: (vnode: Mithril.VnodeDOM<any, any>) => { this.frameInit(vnode.dom, vnode.state); }
+                    oncreate: (vnode: VnodeDOM<any, any>) => { this.frameInit(vnode.dom, vnode.state); }
                 }, [
                     //時刻線
                     m("div", { id: "tableNowBar", style: this.createNowBarStyle() }, "now" ),

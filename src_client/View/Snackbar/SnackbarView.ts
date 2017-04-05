@@ -2,6 +2,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode, VnodeDOM } from 'mithril';
 import View from '../View';
 import SnackbarViewModel from '../../ViewModel/Snackbar/SnackbarViewModel';
 
@@ -11,13 +12,13 @@ import SnackbarViewModel from '../../ViewModel/Snackbar/SnackbarViewModel';
 class SnackbarView extends View {
     private viewModel: SnackbarViewModel;
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <SnackbarViewModel>this.getModel("SnackbarViewModel");
 
         return m("div", {
                 id: SnackbarViewModel.id,
                 class: "mdl-js-snackbar mdl-snackbar",
-                onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                onupdate: (vnode: VnodeDOM<any, any>) => {
                     let message = this.viewModel.get();
                     if(message == null) { return; }
                     (<MaterialSnackbar>(vnode.dom)).MaterialSnackbar.showSnackbar({ message: message });

@@ -1,13 +1,14 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode } from 'mithril';
 import View from '../View';
 import RecordedMenuViewModel from '../../ViewModel/Recorded/RecordedMenuViewModel';
 import DialogViewModel from '../../ViewModel/Dialog/DialogViewModel';
 import RecordedDeleteVideoViewModel from '../../ViewModel/Recorded/RecordedDeleteVideoViewModel';
 
 class RecordedDeleteVideoDialogView extends View {
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         let viewModel = <RecordedDeleteVideoViewModel>this.getModel("RecordedDeleteVideoViewModel");
         let dialog = <DialogViewModel>this.getModel("DialogViewModel");
         let program = (<RecordedMenuViewModel>this.getModel("RecordedMenuViewModel")).program;

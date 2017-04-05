@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode } from 'mithril';
 import View from '../View';
 import Util from '../../Util/Util';
 import RecordedMenuViewModel from '../../ViewModel/Recorded/RecordedMenuViewModel';
@@ -14,7 +15,7 @@ class RecordedMenuContentView extends View {
     private dialog: DialogViewModel;
     private videoLinkViewModel: RecordedVideoLinkDialogViewModel;
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <RecordedMenuViewModel>this.getModel("RecordedMenuViewModel");
         this.menuViewModel = <MenuViewModel>this.getModel("MenuViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
@@ -51,7 +52,7 @@ class RecordedMenuContentView extends View {
         ]);
     }
 
-    private createItem(option: { [key: string]: any }, iconName: string, text: string): Mithril.Vnode<any, any> {
+    private createItem(option: { [key: string]: any }, iconName: string, text: string): Vnode<any, any> {
         option["class"] = "menu-item";
 
         return m("div", option, [
@@ -60,7 +61,7 @@ class RecordedMenuContentView extends View {
         ]);
     }
 
-    private searchItem(): Mithril.Vnode<any, any>[] | Mithril.Vnode<any, any> {
+    private searchItem(): Vnode<any, any>[] | Vnode<any, any> {
         if(this.viewModel.program == null) { return m("div"); }
 
         let query = {};

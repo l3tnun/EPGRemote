@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode, VnodeDOM } from 'mithril';
 import View from '../View';
 import Util from '../../Util/Util';
 import ReservationDeleteDialogContentViewModel from '../../ViewModel/Reservation/ReservationDeleteDialogContentViewModel';
@@ -10,7 +11,7 @@ class ReservationDeleteDialogContentView extends View {
     private viewModel: ReservationDeleteDialogContentViewModel;
     private dialog: DialogViewModel;
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <ReservationDeleteDialogContentViewModel>this.getModel("ReservationDeleteDialogContentViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
 
@@ -27,7 +28,7 @@ class ReservationDeleteDialogContentView extends View {
                     checked: this.viewModel.deleteCheckBox,
                     onchange: m.withAttr("checked", (value) => { this.viewModel.deleteCheckBox = value; }),
                     oncreate: () => { this.checkboxInit(); },
-                    onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.checkboxConfig(<HTMLInputElement>(vnode.dom)); }
+                    onupdate: (vnode: VnodeDOM<any, any>) => { this.checkboxConfig(<HTMLInputElement>(vnode.dom)); }
                 }),
                 m("span", { class: "mdl-checkbox__label" }, "自動予約禁止")
             ]),

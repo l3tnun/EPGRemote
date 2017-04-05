@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode, VnodeDOM } from 'mithril';
 import View from '../View';
 import Util from '../../Util/Util';
 import ProgramStorageViewModel from '../../ViewModel/Program/ProgramStorageViewModel';
@@ -14,7 +15,7 @@ class ProgramGenreDialogView extends View {
     private viewModel: ProgramStorageViewModel;
     private programViewModel: ProgramViewModel;
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <ProgramStorageViewModel>this.getModel("ProgramStorageViewModel");
         this.programViewModel = <ProgramViewModel>this.getModel("ProgramViewModel");
 
@@ -30,7 +31,7 @@ class ProgramGenreDialogView extends View {
     }
 
     //ジャンルリストを生成
-    private createGenreList(): Mithril.Vnode<any, any>[] {
+    private createGenreList(): Vnode<any, any>[] {
         let genres = this.programViewModel.getGenre();
         if(genres == null || this.viewModel.tmpGenre == null) { return [ m("div", "empty") ] }
 
@@ -40,7 +41,7 @@ class ProgramGenreDialogView extends View {
                 m("span", { class: "program-genre-dialog-toggle mdl-list__item-secondary-action" }, [
                     m("label", {
                         class: "mdl-switch mdl-js-switch mdl-js-ripple-effect",
-                        onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                        onupdate: (vnode: VnodeDOM<any, any>) => {
                             if(this.viewModel.tmpGenre == null) { return; }
                             if(this.viewModel.tmpGenre[genre["id"]] && vnode.dom.className.indexOf("is-checked") == -1) {
                                 vnode.dom.classList.add("is-checked");

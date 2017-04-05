@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode } from 'mithril';
 import View from '../View';
 import Util from '../../Util/Util';
 
@@ -11,7 +12,7 @@ import Util from '../../Util/Util';
 */
 class HeaderView extends View {
     private static title: string = "";
-    private leftButtons:  Mithril.Vnode<any, any>[] = [];
+    private leftButtons:  Vnode<any, any>[] = [];
 
     /**
     * @throw HeaderView option Error options が正しくない場合発生
@@ -32,7 +33,7 @@ class HeaderView extends View {
         }
     }
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         return m("header", { class: "mdl-layout__header" }, [
             m("div", { class: "mdl-layout__header-row", style: "padding-right: 8px;" }, [
                 m("span", {

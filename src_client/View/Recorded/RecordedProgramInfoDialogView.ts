@@ -1,12 +1,13 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode } from 'mithril';
 import View from '../View';
 import DateUtil from '../../Util/DateUtil';
 import RecordedMenuViewModel from '../../ViewModel/Recorded/RecordedMenuViewModel';
 
 class RecordedProgramInfoDialogView extends View {
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         let program = (<RecordedMenuViewModel>this.getModel("RecordedMenuViewModel")).program;
         if(program == null) { return m("div", "empty"); }
 

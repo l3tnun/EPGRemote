@@ -1,13 +1,14 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode, VnodeDOM } from 'mithril';
 import View from '../View';
 
 /**
 * Search Option と Add Keyword のベースクラス
 */
 abstract class SearchOptionBaseView extends View {
-    protected createContentFrame(name: string, content: Mithril.Vnode<any, any>[]): Mithril.Vnode<any, any> {
+    protected createContentFrame(name: string, content: Vnode<any, any>[]): Vnode<any, any> {
         return m("div", {
             class: "search-option-content mdl-cell mdl-cell--12-col mdl-grid mdl-grid--no-spacing"
         }, [
@@ -21,7 +22,7 @@ abstract class SearchOptionBaseView extends View {
     }
 
     //チェックボックス生成
-    protected createCheckBox(labelName: string, checked: Function, onchange: Function): Mithril.Vnode<any, any> {
+    protected createCheckBox(labelName: string, checked: Function, onchange: Function): Vnode<any, any> {
         return m("label", { class: "search-option-checkbox mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" }, [
             m("input", {
                 type: "checkbox",
@@ -29,7 +30,7 @@ abstract class SearchOptionBaseView extends View {
                 checked: checked(),
                 onchange: m.withAttr("checked", (value) => { onchange(value); }),
                 oncreate: () => { this.checkboxInit(); },
-                onupdate: (vnode: Mithril.VnodeDOM<any, any>) => {
+                onupdate: (vnode: VnodeDOM<any, any>) => {
                     this.checkboxConfig(<HTMLInputElement>(vnode.dom));
                 }
             }),

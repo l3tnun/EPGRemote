@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode, VnodeDOM } from 'mithril';
 import ParentPageView from '../ParentPageView';
 import Util from '../../Util/Util';
 import Scroll from '../../Util/Scroll';
@@ -21,7 +22,7 @@ class SearchView extends ParentPageView {
     private searchAddKeywordComponent = new SearchAddKeywordComponent();
     private programInfoDialogComponent = new ProgramInfoDialogComponent();
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <SearchViewModel>this.getModel("SearchViewModel");
 
         return m("div", { class: "mdl-layout mdl-js-layout mdl-layout--fixed-header" }, [
@@ -42,7 +43,7 @@ class SearchView extends ParentPageView {
                 m(this.searchResultComponent),
                 m(this.searchAddKeywordComponent)
             ],
-            (vnode: Mithril.VnodeDOM<any, any>) => {
+            (vnode: VnodeDOM<any, any>) => {
                 //for android
                 if(!Util.uaIsAndroid()) { return; }
                 (<HTMLElement>(vnode.dom)).style.display = "none";

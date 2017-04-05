@@ -2,6 +2,7 @@
 
 import MithrilBase from '../MithrilBase';
 import Util from '../Util/Util';
+import { Vnode } from 'mithril';
 
 /**
 * View 抽象クラス
@@ -9,7 +10,7 @@ import Util from '../Util/Util';
 */
 abstract class View extends MithrilBase {
     //Mithril へ渡される部分
-    public abstract execute(): Mithril.Vnode<any,any>
+    public abstract execute(): Vnode<any,any>
 
     protected checkboxInit(): void {
         Util.upgradeMdl();

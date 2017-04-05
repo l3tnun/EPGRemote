@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode } from 'mithril';
 import View from '../View';
 import DialogViewModel from '../../ViewModel/Dialog/DialogViewModel';
 import ProgramStorageViewModel from '../../ViewModel/Program/ProgramStorageViewModel';
@@ -16,7 +17,7 @@ class ProgramGenreDialogActionView extends View {
     private programViewModel: ProgramViewModel;
     private storedGenre: { [key: number]: boolean; };
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <ProgramStorageViewModel>this.getModel("ProgramStorageViewModel");
         this.dialog = <DialogViewModel>this.getModel("DialogViewModel");
         this.programViewModel = <ProgramViewModel>this.getModel("ProgramViewModel");
@@ -31,7 +32,7 @@ class ProgramGenreDialogActionView extends View {
     }
 
     //更新、キャンセルボタン
-    public createActionButton(): Mithril.Vnode<any, any> {
+    public createActionButton(): Vnode<any, any> {
          return m("div", { class: "mdl-dialog__actions", style: "height: 36px;" }, [
             //更新ボタン
             m("button", {

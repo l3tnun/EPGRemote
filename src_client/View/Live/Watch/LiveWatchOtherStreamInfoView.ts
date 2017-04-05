@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode } from 'mithril';
 import View from '../../View';
 import LiveWatchOtherStreamInfoViewModel from '../../../ViewModel/Live/Watch/LiveWatchOtherStreamInfoViewModel';
 import DateUtil from '../../../Util/DateUtil';
@@ -11,7 +12,7 @@ import DateUtil from '../../../Util/DateUtil';
 class LiveWatchOtherStreamInfoView extends View {
     private viewModel: LiveWatchOtherStreamInfoViewModel;
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.viewModel = <LiveWatchOtherStreamInfoViewModel>this.getModel("LiveWatchOtherStreamInfoViewModel");
 
         let info = this.viewModel.getOtherStreamInfo();
@@ -25,8 +26,8 @@ class LiveWatchOtherStreamInfoView extends View {
         ]);
     }
 
-    private createCard(info: any[]): Mithril.Vnode<any, any>[] {
-        let result: Mithril.Vnode<any, any>[] = [];
+    private createCard(info: any[]): Vnode<any, any>[] {
+        let result: Vnode<any, any>[] = [];
 
         info.map((data: { [key: string]: any }) => {
             result.push(

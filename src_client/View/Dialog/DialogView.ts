@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import { Vnode, VnodeDOM } from 'mithril';
 import View from '../View';
 import DialogViewModel from "../../ViewModel/Dialog/DialogViewModel";
 
@@ -16,8 +17,8 @@ import DialogViewModel from "../../ViewModel/Dialog/DialogViewModel";
 */
 class DialogView extends View {
     private id: string;
-    private content: Mithril.Vnode<any, any>;
-    private action: Mithril.Vnode<any, any> | null = null;
+    private content: Vnode<any, any>;
+    private action: Vnode<any, any> | null = null;
     private width: number;
     private autoScroll: boolean = true;
     private scrollOffset: number = 60;
@@ -41,7 +42,7 @@ class DialogView extends View {
         if(this.typeCheck("scrollOffset", "number")) { this.scrollOffset = this.options["scrollOffset"]; }
     }
 
-    public execute(): Mithril.Vnode<any, any> {
+    public execute(): Vnode<any, any> {
         this.dialogViewModel = <DialogViewModel>this.getModel("DialogViewModel");
 
         let child = [this.content];
@@ -51,7 +52,7 @@ class DialogView extends View {
             id: this.getDialogId(),
             class: "dialog",
             oninit: () => { this.dialogStatus = false; },
-            onupdate: (vnode: Mithril.VnodeDOM<any, any>) => { this.dialogConfig(vnode.dom); },
+            onupdate: (vnode: VnodeDOM<any, any>) => { this.dialogConfig(vnode.dom); },
             onclick: (e: Event) => { this.onclick(e) }
         }, [
             m("div", {
