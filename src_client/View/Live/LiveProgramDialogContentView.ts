@@ -99,7 +99,7 @@ class LiveProgramDialogContentView extends View {
     */
     private createPulldownContent(array: any[]): Vnode<any, any>[] {
         return array.map((data: { [key: string]: any }) => {
-            return m("option", { value: data["id"] }, data["name"] )
+            return m("option", { value: `${ data["id"] }` }, data["name"] )
         });
     }
 
