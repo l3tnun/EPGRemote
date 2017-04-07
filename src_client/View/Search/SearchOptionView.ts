@@ -85,9 +85,9 @@ class SearchOptionView extends SearchOptionBaseView {
                         value: this.viewModel.channelValue,
                         onchange: m.withAttr("value", (value) => { this.viewModel.channelValue = Number(value); })
                     }, [
-                        m("option", { value: 0 }, "すべて"),
+                        m("option", { value: "0" }, "すべて"),
                         this.viewModel.getChannel().map((channel: { [key: string]: any }) => {
-                            return m("option", { value: channel["id"] }, channel["name"]);
+                            return m("option", { value: `${ channel["id"] }` }, channel["name"]);
                         })
                     ])
                 ])
@@ -151,9 +151,9 @@ class SearchOptionView extends SearchOptionBaseView {
                             this.viewModel.isInitSubGenre = false;
                         })
                     },
-                        m("option", { value: 0 }, "すべて"),
+                        m("option", { value: "0" }, "すべて"),
                         this.viewModel.getGenres().map((genres: { [key: string]: any }) => {
-                            return m("option", { value: genres["id"] }, genres["name_jp"] );
+                            return m("option", { value: `${ genres["id"] }` }, genres["name_jp"] );
                         })
                     )
                 ])
@@ -191,14 +191,14 @@ class SearchOptionView extends SearchOptionBaseView {
 
         for(let id in subGenres) {
             if(subGenres[id] == "すべて") {
-                result.unshift( m("option", { value: id }, subGenres[id]) );
+                result.unshift( m("option", { value: `${ id }` }, subGenres[id]) );
                 if(!this.viewModel.isInitSubGenre) {
                     this.viewModel.isInitSubGenre = true;
                     this.viewModel.subGenreValue = Number(id);
                     setTimeout(() => { m.redraw(); }, 0);
                 }
             } else {
-                result.push( m("option", { value: id }, subGenres[id]) );
+                result.push( m("option", { value: `${ id }` }, subGenres[id]) );
             }
         }
 
@@ -282,8 +282,8 @@ class SearchOptionView extends SearchOptionBaseView {
 
     //開始時刻セレクタの中身を生成
     public createProgramTimeOption():  Vnode<any, any>[] {
-        let result = [ m("option", { value: 24 }, "なし") ];
-        for(let i = 0; i < 24; i++) { result.push( m("option", { value: i }, `${ i }時`) ) }
+        let result = [ m("option", { value: "24" }, "なし") ];
+        for(let i = 0; i < 24; i++) { result.push( m("option", { value: `${ i }` }, `${ i }時`) ) }
 
         return result;
     }
@@ -291,7 +291,7 @@ class SearchOptionView extends SearchOptionBaseView {
     //時刻幅セレクタの中身
     public createPeriodOption():  Vnode<any, any>[] {
         let result: Vnode<any, any>[] = [];
-        for(let i = 1; i < 24; i++) { result.push( m("option", { value: i }, i + "時間") ); }
+        for(let i = 1; i < 24; i++) { result.push( m("option", { value: `${ i }` }, i + "時間") ); }
         return result;
     }
 
