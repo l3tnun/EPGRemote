@@ -71,7 +71,7 @@ class RecordedVideoLinkDialogView extends View {
                     if(this.viewModel.videoSelectorValue == null) {
                         this.viewModel.videoSelectorValue = <number>(config["id"]);
                     }
-                    return m("option", { value: config["id"] }, config["name"]);
+                    return m("option", { value: `${ config["id"] }` }, config["name"]);
                 })
             ])
         ]);
