@@ -196,7 +196,7 @@ class SearchAddKeywordView extends SearchOptionBaseView {
                             this.viewModel.transConfig[num]["mode"] = Number(value);
                         })
                     }, [
-                        m("option", { value: 0 }, "未指定"),
+                        m("option", { value: "0" }, "未指定"),
                         this.createRecModeOption(startTranscodeId)
                     ])
                 ])
@@ -222,7 +222,7 @@ class SearchAddKeywordView extends SearchOptionBaseView {
         let result: Vnode<any, any>[] = [];
         this.viewModel.getRecMode().map((recMode: { [key: string]: any }) => {
             if(recMode["id"] >= startId) {
-                result.push( m("option", { value: recMode["id"] }, recMode["name"]) );
+                result.push( m("option", { value: `${ recMode["id"] }` }, recMode["name"]) );
             }
         });
 

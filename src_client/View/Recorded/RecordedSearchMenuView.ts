@@ -83,9 +83,9 @@ class RecordedSearchMenuView extends View {
                         this.selectConfig(<HTMLInputElement>(vnode.dom), this.viewModel.keyword_id);
                     }
                 }, [
-                    m("option", { value: -1 }, "自動キーワード選択"),
+                    m("option", { value: "-1" }, "自動キーワード選択"),
                     this.viewModel.getKeyword().map((data: { [key: string]: any }) => {
-                        return m("option", { value: data["id"] }, `${ data["name"] }`);
+                        return m("option", { value: `${ data["id"] }` }, `${ data["name"] }`);
                     })
                 ])
             ])
@@ -108,9 +108,9 @@ class RecordedSearchMenuView extends View {
                         this.selectConfig(<HTMLInputElement>(vnode.dom), this.viewModel.channel_id);
                     }
                 }, [
-                    m("option", { value: -1 }, "すべて"),
+                    m("option", { value: "-1" }, "すべて"),
                     this.viewModel.getChannel().map((data: { [key: string]: any }) => {
-                        return m("option", { value: data["id"] }, `${ data["name"] }(${ data["count"] })`);
+                        return m("option", { value: `${ data["id"] }` }, `${ data["name"] }(${ data["count"] })`);
                     })
                 ])
             ])
@@ -133,9 +133,9 @@ class RecordedSearchMenuView extends View {
                         this.selectConfig(<HTMLInputElement>(vnode.dom), this.viewModel.category_id);
                     }
                 }, [
-                    m("option", { value: -1 }, "すべて"),
+                    m("option", { value: "-1" }, "すべて"),
                     this.viewModel.getCategory().map((data: { [key: string]: any }) => {
-                        return m("option", { value: data["id"] }, `${ data["name"] }(${ data["count"] })`);
+                        return m("option", { value: `${ data["id"] }` }, `${ data["name"] }(${ data["count"] })`);
                     })
                 ])
             ])

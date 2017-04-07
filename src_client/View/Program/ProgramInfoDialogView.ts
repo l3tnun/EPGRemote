@@ -93,7 +93,7 @@ class ProgramInfoDialogView extends View {
     //優先度
     private createPriority(): Vnode<any, any>[] {
         let options: Vnode<any, any>[] = [];
-        for(let i = 20; i > 0; i--) { options.push(m("option", { value: i }, String(i))); }
+        for(let i = 20; i > 0; i--) { options.push(m("option", { value: `${ i }` }, String(i))); }
 
         return [
             m("div", {
@@ -162,7 +162,7 @@ class ProgramInfoDialogView extends View {
                     }
                  },
                  recMode.map((rec: { [key: string]: any }) => {
-                     return m("option", { value: rec["id"] }, rec["name"]);
+                     return m("option", { value: `${ rec["id"] }` }, rec["name"]);
                  }))
             ])
         ])

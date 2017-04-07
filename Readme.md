@@ -60,7 +60,7 @@ cp -r php/epgremote /var/www/epgrec/
 
 * HLSでリアルタイム視聴を行う場合、ffmpeg と recpt1 (BondriverProxyEx + recbond 推奨) 等が必要です
 
-##アップデート方法
+## アップデート方法
 * 以下のコマンドを実行後に EPGRemote を再起動する
 
 ```
@@ -289,7 +289,7 @@ npm start
 
 <img src="https://github.com/l3tnun/EPGRemote/wiki/images/Readme/android6.0_accessibility.png" width="250px">
 
-##動作確認済みブラウザ
+## 動作確認済みブラウザ
 * Firefox (Android 版は一応動作可)
 * Chrome (Android 版を含む)
 * Safari (iOS 版を含む)
