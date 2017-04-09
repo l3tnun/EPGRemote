@@ -61,8 +61,6 @@ abstract class Component implements ClassComponent<{ [key: string]: any; }> {
         this.onremove = (): void => { controllerInstance!.onRemove(); }
     }
 
-    public static getInstance(): Component | null { return null; }
-
     protected abstract getController(): Controller | null;
 
     protected abstract getView(): View;
