@@ -30,6 +30,8 @@ class ReservationViewModel extends ViewModel {
         this.page = (typeof query["page"] == "undefined") ? null : Number(query["page"]);
         this.limit = (typeof query["limit"] == "undefined") ? null : Number(query["limit"]);
         this.reservationApiModel.init();
+
+        setTimeout(() => { this.update(); }, 200);
     }
 
     //更新

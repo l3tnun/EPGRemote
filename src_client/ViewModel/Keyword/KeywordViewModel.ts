@@ -32,6 +32,8 @@ class KeywordViewModel extends ViewModel {
         let query = Util.getCopyQuery();
         this.page = (typeof query["page"] == "undefined") ? null : Number(query["page"]);
         this.limit = (typeof query["limit"] == "undefined") ? null : Number(query["limit"]);
+
+        setTimeout(() => { this.update(); }, 200);
     }
 
     //model の更新

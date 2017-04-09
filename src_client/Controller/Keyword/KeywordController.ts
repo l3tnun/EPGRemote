@@ -12,7 +12,6 @@ class KeywordController extends ParentPageController {
         super.initModel();
         this.viewModel = <KeywordViewModel>this.getModel("KeywordViewModel");
         this.viewModel.init();
-        setTimeout(() => { this.viewModel.update(); }, 100);
 
         window.addEventListener('resize', this.resizeListener, false );
     }
