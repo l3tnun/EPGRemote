@@ -22,7 +22,7 @@ class RecordedViewModel extends ViewModel {
         setTimeout(() => {
             this.setup(Util.getCopyQuery());
             this.update();
-        }, 100);
+        }, 200);
     }
 
     /**

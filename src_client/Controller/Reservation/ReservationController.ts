@@ -13,7 +13,6 @@ class ReservationController extends ParentPageController {
 
         this.viewModel = <ReservationViewModel>this.getModel("ReservationViewModel");
         this.viewModel.init();
-        setTimeout(() => { this.viewModel.update(); }, 100);
 
         window.addEventListener('resize', this.resizeListener, false );
     }
