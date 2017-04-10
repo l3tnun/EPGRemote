@@ -31,7 +31,7 @@ class GetProgramListSql extends Sql {
         sql += `select * from ${ this.recordName }channelTbl where ${typeOption} ${channelOption} and skip=0 order by sid;`;
 
         //録画済み
-        sql += `select program_id from ${ this.recordName }reserveTbl where complete=0`;
+        sql += `select program_id from ${ this.recordName }reserveTbl where complete=0 and autorec>=0`;
         if(option["ch"] != null) { sql += ` and ${ channelOption };`; } else { sql +=';'; }
 
         for(let i = 1; i <= dayMax; i++) {
