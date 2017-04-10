@@ -55,8 +55,8 @@ class DeleteVideoEpgrecModuleModel extends EpgrecModuleModel implements DeleteVi
             snackbarStr = "ビデオ削除失敗 " + value["messeage"] + " " + program["title"];
         } else {
             snackbarStr = "ビデオ削除 " + program["title"];
-            this.recordedApiModel.update();
         }
+        this.recordedApiModel.update();
 
         this.dialog.close();
         this.snackbar.open(snackbarStr);
