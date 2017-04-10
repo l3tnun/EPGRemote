@@ -11,7 +11,7 @@ class GetReservationListSql extends Sql {
         let limit: number = option["limit"];
 
         let sql = `select * from ${ this.recordName }channelTbl;`
-        sql += `select * from ${ this.recordName }reserveTbl where endtime >= ${ this.getNow() } order by starttime limit ${ limit } offset ${ SqlUtil.getOffset(page, limit) };`
+        sql += `select * from ${ this.recordName }reserveTbl where endtime >= ${ this.getNow() } and autorec>=0 order by starttime limit ${ limit } offset ${ SqlUtil.getOffset(page, limit) };`
         sql += `select count(*) from ${ this.recordName }reserveTbl where endtime >= ${ this.getNow() } order by starttime`;
 
         this.runQuery(sql, (rows) => { callback(rows); },
