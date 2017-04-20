@@ -30,8 +30,7 @@ class LiveWatchVideoView extends View {
                 oncreate: (vnode: VnodeDOM<any, any>) => {
                     //HLS.js
                     //Edge では HLS.js が動作しない
-                    //Android では一部のチャンネルで音が途切れる
-                    if(Hls.isSupported() && !Util.uaIsEdge() && !Util.uaIsAndroid()) {
+                    if(Hls.isSupported() && !Util.uaIsEdge()) {
                         let hls = this.viewModel.createHls();
                         hls.loadSource("streamfiles/stream" + streamId + ".m3u8");
                         hls.attachMedia(vnode.dom);
