@@ -7,7 +7,7 @@ interface SearchConfigApiModelInterface extends ApiModel {
     update(callback?: Function | null): void;
     getGenres(): { [key: string]: any }[];
     getChannel(): { [key: string]: any }[];
-    getSubGenre(): { [key: number]: { [key:number]: string } };
+    getSubGenres(): { [key: number]: { [key:number]: string } };
     getRecMode(): { [key: string]: any }[];
     getStartTranscodeId(): number | null;
     getRecModeDefaultId(): number | null;
@@ -20,7 +20,7 @@ interface SearchConfigApiModelInterface extends ApiModel {
 class SearchConfigApiModel implements SearchConfigApiModelInterface {
     private genres: { [key: string]: any }[] = [];
     private channel: { [key: string]: any }[] = [];
-    private subGenre: { [key: number]: { [key:number]: string } } = {};
+    private subGenres: { [key: number]: { [key:number]: string } } = {};
     private recMode: { [key: string]: any }[] = [];
     private startTranscodeId: number | null = null;
     private recModeDefaultId: number | null = null;
@@ -32,14 +32,14 @@ class SearchConfigApiModel implements SearchConfigApiModelInterface {
         .then((value) => {
             this.genres = [];
             this.channel = [];
-            this.subGenre = {};
+            this.subGenres = {};
             this.recMode = [];
             this.startTranscodeId = null;
             this.recModeDefaultId = null;
             this.broadcast = {};
 
             this.genres = value["genres"];
-            this.subGenre = value["subGenre"];
+            this.subGenres = value["subGenres"];
             this.recMode = value["recMode"];
             this.startTranscodeId = value["startTranscodeId"];
             this.recModeDefaultId = value["recModeDefaultId"];
@@ -69,8 +69,8 @@ class SearchConfigApiModel implements SearchConfigApiModelInterface {
     }
 
     //サブジャンルを返す
-    public getSubGenre(): { [key: number]: { [key:number]: string } } {
-        return this.subGenre;
+    public getSubGenres(): { [key: number]: { [key:number]: string } } {
+        return this.subGenres;
     }
 
     //recMode を返す

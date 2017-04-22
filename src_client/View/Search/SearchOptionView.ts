@@ -187,7 +187,7 @@ class SearchOptionView extends SearchOptionBaseView {
     //サブジャンルセレクタの中身を生成
     private createSubGenreOption(): Vnode<any, any>[] {
         let result: Vnode<any, any>[] = [];
-        let subGenres = this.viewModel.getSubGenre()[this.viewModel.genreValue];
+        let subGenres = this.viewModel.getSubGenres()[this.viewModel.genreValue];
 
         for(let id in subGenres) {
             if(subGenres[id] == "すべて") {

@@ -4,6 +4,7 @@ import * as m from 'mithril';
 import { Vnode } from 'mithril';
 import ParentPageView from '../ParentPageView';
 import DateUtil from '../../Util/DateUtil';
+import Util from '../../Util/Util';
 import DialogViewModel from '../../ViewModel/Dialog/DialogViewModel';
 import ReservationViewModel from '../../ViewModel/Reservation/ReservationViewModel';
 import PaginationComponent from '../../Component/Pagination/PaginationComponent';
@@ -112,7 +113,13 @@ class ReservationView extends ParentPageView {
                 //番組情報
                 m("div", { class: "mdl-card__supporting-text" }, [
                     m("div", { class: "reservation-card-title" }, program["title"]),
-                    m("div", { class: "reservation-card-time" }, this.getCardRecTime(program["starttime"], program["endtime"]), this.getRecDiffTime(program["endtime"], program["starttime"])),
+                    m("a", {
+                        class: "reservation-card-time",
+                        href: this.getProgramTableLink(program),
+                        oncreate: m.route.link
+                    }, this.getCardRecTime(program["starttime"], program["endtime"]),
+                        this.getRecDiffTime(program["endtime"], program["starttime"])
+                    ),
                     m("div", { class: "reservation-card-channel-name" }, program["channel_name"]),
                     m("div", { class: "reservation-card-description" }, program["description"])
                 ])
@@ -162,8 +169,14 @@ class ReservationView extends ParentPageView {
     private createTableContent(program: { [key: string]: any }): Vnode<any, any> {
         return m("tr", [
             m("th", { class: "reservation-list-th reservation-list-channel-name mdl-data-table__cell--non-numeric" }, program["channel_name"]),
-            m("th", { class: "reservation-list-th reservation-list-date mdl-data-table__cell--non-numeric" }, `${ this.getTableDateStr(program["starttime"]) }`),
-            m("th", { class: "reservation-list-th reservation-list-time mdl-data-table__cell--non-numeric" }, [
+            m("th", {
+                class: "reservation-list-th reservation-list-date mdl-data-table__cell--non-numeric",
+                onclick: () => { m.route.set(this.getProgramTableLink(program)); }
+            }, `${ this.getTableDateStr(program["starttime"]) }`),
+            m("th", {
+                class: "reservation-list-th reservation-list-time mdl-data-table__cell--non-numeric",
+                onclick: () => { m.route.set(this.getProgramTableLink(program)); }
+            }, [
                 `${ this.getTableRectime(program["starttime"], program["endtime"]) }`,
                 m("div", { class: "reservation-list-rec-time" }, this.getRecDiffTime(program["endtime"], program["starttime"]))
             ]),
@@ -183,7 +196,7 @@ class ReservationView extends ParentPageView {
                         //menu close
                         this.menuViewModel.close();
                     }
-                },"削除")
+                }, "削除")
             ])
         ]);
     }
@@ -199,6 +212,15 @@ class ReservationView extends ParentPageView {
         let end = DateUtil.getJaDate(new Date(endStr));
 
         return `${ DateUtil.format(start, "hh:mm") } ~ ${ DateUtil.format(end, "hh:mm") }`;
+    }
+
+    private getProgramTableLink(program: { [key: string]: any }): string {
+        let query = {
+            time: DateUtil.format(DateUtil.getJaDate(new Date(program["starttime"])), "yyyyMMddhh"),
+            type: program["type"]
+        }
+
+        return `/program?${ Util.buildQueryStr(query) }`;
     }
 }
 

@@ -21,13 +21,13 @@ class SearchConfigModel extends ApiModel {
             let recMode = configJson.epgrecConfig.recMode;
             let startTranscodeId = configJson.epgrecConfig.startTranscodeId;
             let recModeDefaultId = configJson.epgrecConfig.recModeDefaultId;
-            let subGenre = SubGenreModule.getAllSubGenre();
+            let subGenres = SubGenreModule.getAllSubGenres();
             let broadcast = configJson.broadcast;
 
             this.results = {
                 genres: genres,
                 channel: channel,
-                subGenre: subGenre,
+                subGenres: subGenres,
                 recMode: recMode,
                 startTranscodeId: startTranscodeId,
                 recModeDefaultId: recModeDefaultId,

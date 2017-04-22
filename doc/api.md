@@ -339,6 +339,12 @@ Format
         }, ....
     ],
 
+    subGenres: {
+        "0": {
+            "16": "すべて"
+        }, ....
+    },
+
     time: {
         startTime:        2016010112,
         endTime:        2016010120
@@ -1359,7 +1365,7 @@ Format
             skip: 0
         }, ...
     ],
-    subGenre: {
+    subGenres: {
         0: { //genre_id 0
             16: "すべて"
         },

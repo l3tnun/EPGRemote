@@ -15,7 +15,8 @@ interface ProgramApiOptionInterface {
 interface ProgramApiModelInterface extends ApiModel {
     init(callback: Function): void;
     update(diff?: boolean): void;
-    getGenre(): { [key: string]: any }[] | null;
+    getGenres(): { [key: string]: any }[] | null;
+    getSubGenres(): { [key: number]: { [key:number]: string } } | null;
     getTime(): { [key: string]: number } | null;
     getChannel(): { [key: string]: any }[] | null;
     getProgram(): { [key: string]: any }[] | null;
@@ -27,7 +28,8 @@ interface ProgramApiModelInterface extends ApiModel {
 * 番組表情報を取得
 */
 class ProgramApiModel implements ProgramApiModelInterface {
-    private genre: { [key: string]: any }[] | null = null;
+    private genres: { [key: string]: any }[] | null = null;
+    private subGenres: { [key: number]: { [key:number]: string } } | null = null;
     private time: { [key: string]: number } | null = null;
     private channel: { [key: string]: any }[] | null = null;
     private program: { [key: string]: any }[] | null = null;
@@ -39,7 +41,8 @@ class ProgramApiModel implements ProgramApiModelInterface {
     * @param 差分更新処理の callback 差分更新時に呼ぶ
     */
     public init (callback: Function): void {
-        this.genre = null;
+        this.genres = null;
+        this.subGenres = null;
         this.time = null;
         this.channel = null;
         this.program = null;
@@ -61,7 +64,8 @@ class ProgramApiModel implements ProgramApiModelInterface {
 
         m.request({method: "GET", url: `/api/program?${ m.buildQueryString(option) }`})
         .then((value) => {
-            this.genre = value["genres"];
+            this.genres = value["genres"];
+            this.subGenres = value["subGenres"];
             this.time = value["time"];
             this.channel = value["channel"];
             this.program = value["program"];
@@ -78,8 +82,12 @@ class ProgramApiModel implements ProgramApiModelInterface {
         });
     }
 
-    public getGenre(): { [key: string]: any }[] | null {
-        return this.genre;
+    public getGenres(): { [key: string]: any }[] | null {
+        return this.genres;
+    }
+
+    public getSubGenres(): { [key: number]: { [key:number]: string } } | null {
+        return this.subGenres;
     }
 
     public getTime(): { [key: string]: number } | null {

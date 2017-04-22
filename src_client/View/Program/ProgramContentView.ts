@@ -272,7 +272,9 @@ class ProgramContentView extends View {
                     copyProgram,
                     channel,
                     this.viewModel.getRecMode(),
-                    this.viewModel.getRecModeDefaultId()
+                    this.viewModel.getRecModeDefaultId(),
+                    this.viewModel.getGenres(),
+                    this.viewModel.getSubGenres(),
                 );
                 this.dialog.open(ProgramInfoDialogViewModel.infoDialogId);
                 m.redraw();
