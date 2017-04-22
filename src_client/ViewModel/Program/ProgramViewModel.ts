@@ -228,8 +228,13 @@ class ProgramViewModel extends ViewModel {
     }
 
     //ジャンルを返す
-    public getGenre(): { [key: string]: any }[] | null {
-        return this.programApiModel.getGenre();
+    public getGenres(): { [key: string]: any }[] | null {
+        return this.programApiModel.getGenres();
+    }
+
+    //サブジャンルを返す
+    public getSubGenres(): { [key: number]: { [key:number]: string } } | null {
+        return this.programApiModel.getSubGenres();
     }
 
     //time を返す

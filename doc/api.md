@@ -339,7 +339,7 @@ Format
         }, ....
     ],
 
-    subGenre: {
+    subGenres: {
         "0": {
             "16": "すべて"
         }, ....
@@ -1365,7 +1365,7 @@ Format
             skip: 0
         }, ...
     ],
-    subGenre: {
+    subGenres: {
         0: { //genre_id 0
             16: "すべて"
         },

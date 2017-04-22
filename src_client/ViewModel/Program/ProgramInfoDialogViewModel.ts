@@ -46,15 +46,15 @@ class ProgramInfoDialogViewModel extends ViewModel {
     }
 
     public setProgram(
-        _program: { [key: string]: any },
-        _channel: { [key: string]: any },
-        _recModeList: { [key: string]: any }[],
-        _recModeDefaultId: number
+        program: { [key: string]: any },
+        channel: { [key: string]: any },
+        recModeList: { [key: string]: any }[],
+        recModeDefaultId: number
     ): void {
-        this.program = _program;
-        this.channel = _channel;
-        this.recModeList = _recModeList;
-        this.recModeDefaultId = _recModeDefaultId;
+        this.program = program;
+        this.channel = channel;
+        this.recModeList = recModeList;
+        this.recModeDefaultId = recModeDefaultId;
         this.init();
     }
 

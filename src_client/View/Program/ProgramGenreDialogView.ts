@@ -32,7 +32,7 @@ class ProgramGenreDialogView extends View {
 
     //ジャンルリストを生成
     private createGenreList(): Vnode<any, any>[] {
-        let genres = this.programViewModel.getGenre();
+        let genres = this.programViewModel.getGenres();
         if(genres == null || this.viewModel.tmpGenre == null) { return [ m("div", "empty") ] }
 
         return genres.map((genre: { [key: string]: any }) => {

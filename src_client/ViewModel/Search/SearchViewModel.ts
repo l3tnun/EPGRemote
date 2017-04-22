@@ -405,8 +405,8 @@ class SearchViewModel extends ViewModel {
         return this.searchConfigApiModel.getChannel();
     }
 
-    public getSubGenre(): { [key: number]: { [key:number]: string } } {
-        return this.searchConfigApiModel.getSubGenre();
+    public getSubGenres(): { [key: number]: { [key:number]: string } } {
+        return this.searchConfigApiModel.getSubGenres();
     }
 
     public getRecMode(): { [key: string]: any }[] {

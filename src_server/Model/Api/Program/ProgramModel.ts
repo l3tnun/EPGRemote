@@ -63,7 +63,7 @@ class ProgramModel extends ApiModel {
 
             this.results = {
                 genres: genres,
-                subGenre: SubGenreModule.getAllSubGenre(),
+                subGenres: SubGenreModule.getAllSubGenres(),
                 time: time,
                 channel: channel,
                 program: programs

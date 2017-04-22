@@ -217,7 +217,7 @@ namespace SubGenreModule {
         else { return subGenreTable[genre][sub_code]; }
     }
 
-    export const getAllSubGenre = () => {
+    export const getAllSubGenres = () => {
         return subGenreTable;
     }
 }
