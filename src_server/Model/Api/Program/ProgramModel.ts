@@ -1,6 +1,7 @@
 "use strict";
 
 import ApiModel from '../ApiModel';
+import SubGenreModule from '../../SubGenreModule';
 import Sql from '../../../Sql/Sql';
 
 class ProgramModel extends ApiModel {
@@ -62,6 +63,7 @@ class ProgramModel extends ApiModel {
 
             this.results = {
                 genres: genres,
+                subGenre: SubGenreModule.getAllSubGenre(),
                 time: time,
                 channel: channel,
                 program: programs
