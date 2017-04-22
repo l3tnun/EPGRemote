@@ -68,17 +68,17 @@ class ProgramInfoDialogViewModel extends ViewModel {
         return this.program;
     }
 
-    public getGenre(): string {
-        let genre = this.genres[this.program["category_id"]];
-        return typeof genre == "undefined" ? "genre" : genre["name_jp"];
+    public getGenre(): string | null {
+        let genre = this.genres[this.program["category_id"] - 1];
+        return typeof genre == "undefined" ? null : genre["name_jp"];
     }
 
-    public getSubGenre(): string {
-        let genre = this.genres[this.program["category_id"]];
-        if(typeof genre == "undefined") { return "sub"; }
+    public getSubGenre(): string | null {
+        let genre = this.genres[this.program["category_id"] - 1];
+        if(typeof genre == "undefined") { return null; }
 
         let subGenre = this.subGenres[genre["id"]][this.program["sub_genre"]];
-        return typeof subGenre == "undefined" ? "sub" : subGenre;
+        return typeof subGenre == "undefined" ? null : subGenre;
     }
 
     public getChannel(): { [key: string]: any } {

@@ -55,7 +55,15 @@ class ProgramInfoDialogView extends View {
     }
 
     private createGenreStr(): string {
-        return `${ this.viewModel.getGenre() } / ${ this.viewModel.getSubGenre() }`;
+        let genre = this.viewModel.getGenre();
+        let subGenre = this.viewModel.getSubGenre();
+
+        let str = "";
+
+        if(genre != null) { str = genre }
+        if(genre != null && subGenre != null) { str += ` / ${ subGenre }` }
+
+        return str;
     }
 
     //番組時間
