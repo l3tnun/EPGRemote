@@ -32,7 +32,14 @@ class ProgramInfoDialogView extends View {
         }, [
             m("div", { class: "program-dialog-title" }, program["title"]),
             m("div", { class: "program-dialog-channel" }, channel["name"]),
-            m("div", { class: "program-dialog-time" }, this.createTimeStr() ),
+            m("div", {
+                class: "program-dialog-time",
+                onclick: () => {
+                    if(Util.getRoute() != "/search") { return; }
+                    this.dialog.close();
+                    setTimeout(() => { m.route.set(this.getProgramTableLink(program)); });
+                }
+            }, this.createTimeStr() ),
             m("div", { class: "program-dialog-description" }, program["description"]),
 
             this.createProperty(),
@@ -213,7 +220,6 @@ class ProgramInfoDialogView extends View {
         return m("button", { class: "mdl-button mdl-js-button mdl-button--primary",
             onclick: () => {
                 this.dialog.close();
-                console.log(this.createSearchQuery());
                 setTimeout(() => {
                     m.route.set("/search", this.createSearchQuery());
                 }, 0);
@@ -237,6 +243,15 @@ class ProgramInfoDialogView extends View {
             category_id: program["category_id"],
             sub_genre: program["sub_genre"]
         }
+    }
+
+    private getProgramTableLink(program: { [key: string]: any }): string {
+        let query = {
+            time: DateUtil.format(DateUtil.getJaDate(new Date(program["starttime"])), "yyyyMMddhh"),
+            type: program["type"]
+        }
+
+        return `/program?${ Util.buildQueryStr(query) }`;
     }
 }
 
