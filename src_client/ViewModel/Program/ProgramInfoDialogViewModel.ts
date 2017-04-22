@@ -17,6 +17,8 @@ class ProgramInfoDialogViewModel extends ViewModel {
     private customRecEpgrecModuleModel: CustomRecEpgrecModuleModelInterface;
     private program: { [key: string]: any } = {};
     private channel: { [key: string]: any } = {};
+    private genres: { [key: string]: any }[] = [];
+    private subGenres: { [key: number]: { [key:number]: string } } = {};
     private recModeList: { [key: string]: any }[] = [];
     private recModeDefaultId: number = -1;
     public priority: number;
@@ -49,17 +51,34 @@ class ProgramInfoDialogViewModel extends ViewModel {
         program: { [key: string]: any },
         channel: { [key: string]: any },
         recModeList: { [key: string]: any }[],
-        recModeDefaultId: number
+        recModeDefaultId: number,
+        genres: { [key: string]: any }[] | null,
+        subGenres: { [key: number]: { [key:number]: string } } | null
     ): void {
         this.program = program;
         this.channel = channel;
         this.recModeList = recModeList;
         this.recModeDefaultId = recModeDefaultId;
+        this.genres = genres == null ? [] : genres;
+        this.subGenres = subGenres == null ? {} : subGenres;
         this.init();
     }
 
     public getProgram(): { [key: string]: any } {
         return this.program;
+    }
+
+    public getGenre(): string {
+        let genre = this.genres[this.program["category_id"]];
+        return typeof genre == "undefined" ? "genre" : genre["name_jp"];
+    }
+
+    public getSubGenre(): string {
+        let genre = this.genres[this.program["category_id"]];
+        if(typeof genre == "undefined") { return "sub"; }
+
+        let subGenre = this.subGenres[genre["id"]][this.program["sub_genre"]];
+        return typeof subGenre == "undefined" ? "sub" : subGenre;
     }
 
     public getChannel(): { [key: string]: any } {

@@ -40,6 +40,7 @@ class ProgramInfoDialogView extends View {
                     setTimeout(() => { m.route.set(this.getProgramTableLink(program)); });
                 }
             }, this.createTimeStr() ),
+            m("div", { class: "program-dialog-genre" }, this.createGenreStr()),
             m("div", { class: "program-dialog-description" }, program["description"]),
 
             this.createProperty(),
@@ -51,6 +52,10 @@ class ProgramInfoDialogView extends View {
             ])
 
         ]);
+    }
+
+    private createGenreStr(): string {
+        return `${ this.viewModel.getGenre() } / ${ this.viewModel.getSubGenre() }`;
     }
 
     //番組時間
