@@ -28,7 +28,7 @@ interface SearchResultOptionInterface {
     prgtime: number;
 }
 
-interface SearchResultApiModelInterface extends ApiModel {
+interface SearchResultApiModelInterface {
     init(): void;
     setOption(option: SearchResultOptionInterface): void;
     update(callback?: Function | null): void;
@@ -38,7 +38,7 @@ interface SearchResultApiModelInterface extends ApiModel {
 /**
 * search の検索結果を取得する
 */
-class SearchResultApiModel implements SearchResultApiModelInterface {
+class SearchResultApiModel extends ApiModel implements SearchResultApiModelInterface {
     private result: { [key: string]: any }[] = [];
     private option: SearchResultOptionInterface | null = null;
 
@@ -81,12 +81,12 @@ class SearchResultApiModel implements SearchResultApiModelInterface {
         if(this.option.sub_genre != 0) { query["sub_genre"] = this.option.sub_genre; }
         if(this.option.prgtime != 0) { query["prgtime"] = this.option.prgtime; }
 
-        m.request({
+        this.getRequest({
             method: "POST",
             url: `/api/search`,
             data: m.buildQueryString(query)
-        })
-        .then((value) => {
+        },
+        (value: {}) => {
             if(value["status"] == "completed") {
                 this.result = value["program"];
             } else {
@@ -94,10 +94,10 @@ class SearchResultApiModel implements SearchResultApiModelInterface {
             }
             if(callback != null) { callback(); }
         },
-        (error) => {
+        (error: string) => {
             console.log("SearchResultApiModel update error");
             console.log(error);
-        });
+        }, 10);
     }
 
     public getResult(): { [key: string]: any }[] {

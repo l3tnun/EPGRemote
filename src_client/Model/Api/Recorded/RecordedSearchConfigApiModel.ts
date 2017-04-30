@@ -1,7 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
-import Model from '../../Model';
+import RequestModel from '../../RequestModel';
 
 interface RecordedSearchConfigQueryInterface {
     keyword_id?: number,
@@ -10,7 +10,7 @@ interface RecordedSearchConfigQueryInterface {
     search?: string
 }
 
-interface RecordedSearchConfigApiModelInterface extends Model {
+interface RecordedSearchConfigApiModelInterface {
     keywordUpdate(): void;
     categoryUpdate(query: RecordedSearchConfigQueryInterface): void;
     channelUpdate(query: RecordedSearchConfigQueryInterface): void;
@@ -22,7 +22,7 @@ interface RecordedSearchConfigApiModelInterface extends Model {
 /**
 * RecordedSearchConfigApiModel
 */
-class RecordedSearchConfigApiModel implements RecordedSearchConfigApiModelInterface {
+class RecordedSearchConfigApiModel extends RequestModel implements RecordedSearchConfigApiModelInterface {
     private keyword: { [key: string]: any }[] = [];
     private category: { [key: string]: any }[] = [];
     private channel: { [key: string]: any }[] = [];
@@ -31,14 +31,11 @@ class RecordedSearchConfigApiModel implements RecordedSearchConfigApiModelInterf
     * keyword update
     */
     public keywordUpdate(): void {
-         m.request({ method: "GET", url: `/api/recorded/keyword` })
-        .then((value: { [key: string]: any }[]) => {
+        this.getRequest({ method: "GET", url: `/api/recorded/keyword` },
+        (value: { [key: string]: any }[]) => {
             this.keyword = value;
         },
-        (error) => {
-            console.log("Recorded keyword update error");
-            console.log(error);
-        });
+        "Recorded keyword update error");
     }
 
     /**
@@ -46,17 +43,14 @@ class RecordedSearchConfigApiModel implements RecordedSearchConfigApiModelInterf
     * @param query query
     */
     public categoryUpdate(query: RecordedSearchConfigQueryInterface): void {
-        m.request({
+        this.getRequest({
             method: "GET",
             url: `/api/recorded/category?${ m.buildQueryString(query) }`
-        })
-        .then((value: { [key: string]: any }[]) => {
+        },
+        (value: { [key: string]: any }[]) => {
             this.category = value;
         },
-        (error) => {
-            console.log("Recorded category update error");
-            console.log(error);
-        });
+        "Recorded category update error");
     }
 
     /**
@@ -64,17 +58,14 @@ class RecordedSearchConfigApiModel implements RecordedSearchConfigApiModelInterf
     * @param query query
     */
     public channelUpdate(query: RecordedSearchConfigQueryInterface): void {
-        m.request({
+        this.getRequest({
             method: "GET",
             url: `/api/recorded/channel?${ m.buildQueryString(query) }`
-        })
-        .then((value: { [key: string]: any }[]) => {
+        },
+        (value: { [key: string]: any }[]) => {
             this.channel = value;
         },
-        (error) => {
-            console.log("Recorded channel update error");
-            console.log(error);
-        });
+        "Recorded channel update error");
     }
 
     //keyword を返す

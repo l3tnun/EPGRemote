@@ -1,9 +1,8 @@
 "use strict";
 
-import * as m from 'mithril';
 import ApiModel from '../ApiModel';
 
-interface SearchConfigApiModelInterface extends ApiModel {
+interface SearchConfigApiModelInterface {
     update(callback?: Function | null): void;
     getGenres(): { [key: string]: any }[];
     getChannel(): { [key: string]: any }[];
@@ -17,7 +16,7 @@ interface SearchConfigApiModelInterface extends ApiModel {
 /**
 * search の設定を取得する
 */
-class SearchConfigApiModel implements SearchConfigApiModelInterface {
+class SearchConfigApiModel extends ApiModel implements SearchConfigApiModelInterface {
     private genres: { [key: string]: any }[] = [];
     private channel: { [key: string]: any }[] = [];
     private subGenres: { [key: number]: { [key:number]: string } } = {};
@@ -28,8 +27,8 @@ class SearchConfigApiModel implements SearchConfigApiModelInterface {
 
     public update(callback: Function | null = null): void {
         //search config を取得
-        m.request({method: "GET", url: "/api/search/config" })
-        .then((value) => {
+        this.getRequest({ method: "GET", url: "/api/search/config" },
+        (value: any) => {
             this.genres = [];
             this.channel = [];
             this.subGenres = {};
@@ -52,10 +51,7 @@ class SearchConfigApiModel implements SearchConfigApiModelInterface {
 
             if(callback != null) { callback(); }
         },
-        (error) => {
-            console.log("SearchConfigApiModel update error");
-            console.log(error);
-        });
+        "SearchConfigApiModel update error");
     }
 
     //ジャンルを返す

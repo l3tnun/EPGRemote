@@ -1,9 +1,8 @@
 "use strict";
 
-import * as m from 'mithril';
 import ApiModel from '../ApiModel';
 
-interface DiskApiModelInterface extends ApiModel {
+interface DiskApiModelInterface {
     update(callback?: Function | null): void;
     getSize(): number;
     getUsed(): number;
@@ -13,7 +12,7 @@ interface DiskApiModelInterface extends ApiModel {
 /**
 * Disk 情報をサーバから取得する
 */
-class DiskApiModel implements DiskApiModelInterface {
+class DiskApiModel extends ApiModel implements DiskApiModelInterface {
     private size: number = 0;
     private used: number = 0;
     private available: number = 0;
@@ -22,8 +21,8 @@ class DiskApiModel implements DiskApiModelInterface {
     * server から disk 情報を取得する
     */
     public update(callback: Function | null = null): void {
-        m.request({ method: "GET", url: `/api/disk` })
-        .then((value) => {
+        this.getRequest({ method: "GET", url: `/api/disk` },
+        (value: {}) => {
             this.size = value["size"];
             this.used = value["used"];
             this.available = value["available"];
@@ -31,10 +30,7 @@ class DiskApiModel implements DiskApiModelInterface {
             if(callback == null) { return; }
             callback();
         },
-        (error) => {
-            console.log("DiskApiModel update error");
-            console.log(error);
-        });
+        "DiskApiModel update error");
     }
 
     /**

@@ -1,9 +1,8 @@
 "use strict";
 
-import * as m from 'mithril';
 import ApiModel from '../ApiModel';
 
-interface LiveConfigEnableApiModelInterface extends ApiModel {
+interface LiveConfigEnableApiModelInterface {
     update(): void;
     getHLSLive(): boolean;
     getHttpLive(): boolean;
@@ -13,22 +12,19 @@ interface LiveConfigEnableApiModelInterface extends ApiModel {
 /**
 * ライブ配信、録画配信が有効になっているかサーバから取得する
 */
-class LiveConfigEnableApiModel implements LiveConfigEnableApiModelInterface {
+class LiveConfigEnableApiModel extends ApiModel implements LiveConfigEnableApiModelInterface {
     private enableHLSLive: boolean = false;
     private enableRecorded: boolean = false;
     private enableHttpLive: boolean = false;
 
     public update(): void {
-        m.request({ method: "GET", url: `/api/live/config/enable` })
-        .then((value) => {
+        this.getRequest({ method: "GET", url: `/api/live/config/enable` },
+        (value: {}) => {
             this.enableHLSLive = value["enableLiveStream"];
             this.enableRecorded = value["enableRecordedStream"];
             this.enableHttpLive = value["enableLiveHttpStream"];
         },
-        (error) => {
-            console.log('LiveConfigEnableApiModel update error');
-            console.log(error);
-        });
+        "LiveConfigEnableApiModel update error");
     }
 
     /**

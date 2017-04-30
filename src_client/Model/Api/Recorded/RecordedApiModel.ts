@@ -13,7 +13,7 @@ interface  RecordedApiModelParamsInterface {
     limit?: number
 }
 
-interface RecordedApiModelInterface extends ApiModel {
+interface RecordedApiModelInterface {
     init(): void;
     setup(option: RecordedApiModelParamsInterface): void;
     update(): void;
@@ -25,7 +25,7 @@ interface RecordedApiModelInterface extends ApiModel {
 /**
 * 録画済み一覧を取得する
 */
-class RecordedApiModel implements RecordedApiModelInterface {
+class RecordedApiModel extends ApiModel implements RecordedApiModelInterface {
     private option: RecordedApiModelParamsInterface = {};
     private recordedList: any[] = [];
     private totalNum: number | null = null;
@@ -50,8 +50,8 @@ class RecordedApiModel implements RecordedApiModelInterface {
             }
         }
 
-        m.request({method: "GET", url: `/api/recorded?${ m.buildQueryString(query) }`})
-        .then((value) => {
+        this.getRequest({ method: "GET", url: `/api/recorded?${ m.buildQueryString(query) }` },
+        (value: {}) => {
             let programs = value["programs"];
             let totalNum = value["totalNum"];
             let limit = value["limit"];
@@ -63,10 +63,7 @@ class RecordedApiModel implements RecordedApiModelInterface {
                 this.limit = limit;
             }
         },
-        (error) => {
-            console.log("RecordedApiModel update error");
-            console.log(error);
-        });
+        "RecordedApiModel update error");
     }
 
     public getRecordedList(): any[] {

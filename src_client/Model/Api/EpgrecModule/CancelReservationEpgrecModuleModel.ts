@@ -31,17 +31,12 @@ class CancelReservationEpgrecModuleModel extends EpgrecModuleModel implements Ca
             autorec: autorec ? 1 : 0
         };
 
-        m.request({
+        this.getRequest({
             method: "DELETE",
             url: `/api/reservation?${ m.buildQueryString(query) }`
-        })
-        .then((_value) => {
-            //this.viewUpdate(_value);
         },
-        (error) => {
-            console.log("CancelReservationEpgrecModuleModel error.");
-            console.log(error);
-        });
+        null,
+        "CancelReservationEpgrecModuleModel error.");
     }
 
     public viewUpdate(value: { [key: string]: any; }): void {

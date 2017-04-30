@@ -1,6 +1,5 @@
 "use strict";
 
-import * as m from 'mithril';
 import EpgrecModuleModel from './EpgrecModuleModel';
 import { RecordedApiModelInterface } from '../Recorded/RecordedApiModel';
 
@@ -25,17 +24,12 @@ class DeleteVideoEpgrecModuleModel extends EpgrecModuleModel implements DeleteVi
     * @param rec_id rec_id
     */
     public execute(rec_id: number): void {
-        m.request({
+        this.getRequest({
             method: "DELETE",
             url: `/api/recorded/video?rec_id=${rec_id}&delete_file=1`
-        })
-        .then((_value) => {
-            //this.viewUpdate(_value);
         },
-        (error) => {
-            console.log("DeleteVideoEpgrecModuleModel error.");
-            console.log(error);
-        });
+        null,
+        "DeleteVideoEpgrecModuleModel error.");
     }
 
     public viewUpdate(value: { [key: string]: any; }): void {

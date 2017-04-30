@@ -4,7 +4,7 @@ import * as m from 'mithril';
 import ApiModel from '../ApiModel';
 import Util from '../../../Util/Util';
 
-interface RecordedVideoLinkApiModelInterface extends ApiModel {
+interface RecordedVideoLinkApiModelInterface {
     update(rec_id: number): void;
     getLink(): { [key: string]: any }[] | null;
     getiOSURL(): { [key: string]: string } | null;
@@ -15,7 +15,7 @@ interface RecordedVideoLinkApiModelInterface extends ApiModel {
 /**
 * RecordedVideoLinkApiModel
 */
-class RecordedVideoLinkApiModel implements RecordedVideoLinkApiModelInterface {
+class RecordedVideoLinkApiModel extends ApiModel implements RecordedVideoLinkApiModelInterface {
     private videoLink: { [key: string]: any }[] | null = null;
     private iosURL: { [key: string]: string } | null = null;
     private androidURL: { [key: string]: string } | null = null;
@@ -35,8 +35,8 @@ class RecordedVideoLinkApiModel implements RecordedVideoLinkApiModelInterface {
         if(isAndroid) { query["android"] = 1; }
         if(isWindows) { query["windows"] = 1; }
 
-        m.request({method: "GET", url: `/api/recorded/video?${ m.buildQueryString(query) }`})
-        .then((value: { [key: string]: any }[]) => {
+        this.getRequest({ method: "GET", url: `/api/recorded/video?${ m.buildQueryString(query) }` },
+        (value: { [key: string]: any }[]) => {
             this.iosURL = isIos ? <{ [key: string]: string }>(value.pop()) : null;
             this.androidURL = isAndroid ? <{ [key: string]: string }>(value.pop()) : null;
             this.windowsURL = isWindows ? <{ [key: string]: string }>(value.pop()) : null;
@@ -46,10 +46,7 @@ class RecordedVideoLinkApiModel implements RecordedVideoLinkApiModelInterface {
                 this.videoLink.map((video: any) => { video.path = Util.encodeURL(video.path); });
             }
         },
-        (error) => {
-            console.log("RecordedVideoLinkApiModel update error");
-            console.log(error);
-        });
+        "RecordedVideoLinkApiModel update error");
     }
 
     //ビデオリンクを返す

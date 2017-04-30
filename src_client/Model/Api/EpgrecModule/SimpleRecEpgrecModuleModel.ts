@@ -36,18 +36,13 @@ class SimpleRecEpgrecModuleModel extends EpgrecModuleModel implements SimpleRecE
             program_id: program_id,
         };
 
-        m.request({
+        this.getRequest({
             method: "PUT",
             url: `/api/program/simplerec`,
             data: m.buildQueryString(query)
-        })
-        .then((_value) => {
-            //this.viewUpdate(_value);
         },
-        (error) => {
-            console.log("SimpleRecEpgrecModuleModel error.");
-            console.log(error);
-        });
+        null,
+        "SimpleRecEpgrecModuleModel error.");
     }
 
     public viewUpdate(value: { [key: string]: any; }): void {

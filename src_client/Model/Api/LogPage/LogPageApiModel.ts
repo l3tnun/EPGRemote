@@ -3,7 +3,7 @@
 import * as m from 'mithril';
 import ApiModel from '../ApiModel';
 
-interface LogPageApiModelInterface extends ApiModel {
+interface LogPageApiModelInterface {
     update(level0: boolean, level1: boolean, level2: boolean, level3: boolean): void;
     getLogList(): any[];
 }
@@ -11,7 +11,7 @@ interface LogPageApiModelInterface extends ApiModel {
 /**
 * ライブ配信、録画配信が有効になっているかサーバから取得する
 */
-class LogPageApiModel implements LogPageApiModelInterface {
+class LogPageApiModel extends ApiModel implements LogPageApiModelInterface {
     private logList: any[] = [];
 
     /**
@@ -29,14 +29,11 @@ class LogPageApiModel implements LogPageApiModelInterface {
             debug:  level3 ? 1 : 0
         }
 
-        m.request({ method: "GET", url: `/api/log?${ m.buildQueryString(query) }` })
-        .then((value: any[]) => {
+        this.getRequest({ method: "GET", url: `/api/log?${ m.buildQueryString(query) }` },
+        (value: any[]) => {
             this.logList = value;
         },
-        (error) => {
-            console.log("LogPageApiModel update error");
-            console.log(error);
-        });
+        "LogPageApiModel update error", 10);
     }
 
     //logList を返す

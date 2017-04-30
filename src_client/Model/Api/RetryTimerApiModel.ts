@@ -4,9 +4,9 @@ import ApiModel from './ApiModel';
 import TimerManager from '../../Util/TimerManager';
 
 /**
-* ApiModel に Retry 機能を追加
+* /live/watch 用の retry
 */
-abstract class RetryApiModel extends ApiModel {
+abstract class RetryTimerApiModel extends ApiModel {
     protected retry: number = 0;
 
     //json の取得
@@ -50,5 +50,5 @@ abstract class RetryApiModel extends ApiModel {
     }
 }
 
-export default RetryApiModel;
+export default RetryTimerApiModel;
 

@@ -37,17 +37,12 @@ class CancelRecEpgrecModuleModel extends EpgrecModuleModel implements CancelRecE
             autorec: autorec ? 1 : 0
         };
 
-        m.request({
+        this.getRequest({
             method: "DELETE",
             url: `/api/program/cancelrec?${ m.buildQueryString(query) }`
-        })
-        .then((_value) => {
-            //this.viewUpdate(_value);
         },
-        (error) => {
-            console.log("CancelRecEpgrecModuleModel error.");
-            console.log(error);
-        });
+        null,
+        "CancelRecEpgrecModuleModel error.");
     }
 
     public viewUpdate(value: { [key: string]: any; }): void {

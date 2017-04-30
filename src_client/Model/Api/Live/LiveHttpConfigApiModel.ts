@@ -1,9 +1,8 @@
 "use strict";
 
-import * as m from 'mithril';
 import ApiModel from '../ApiModel';
 
-interface LiveHttpConfigApiModelInterface extends ApiModel {
+interface LiveHttpConfigApiModelInterface {
     update(): void;
     getIOS(): string | null;
     getAndroid(): string | null;
@@ -12,13 +11,13 @@ interface LiveHttpConfigApiModelInterface extends ApiModel {
 /**
 * http 視聴で必要な URL Scheme を取得する
 */
-class LiveHttpConfigApiModel implements LiveHttpConfigApiModelInterface {
+class LiveHttpConfigApiModel extends ApiModel implements LiveHttpConfigApiModelInterface {
     private iOSURL: string | null = null;
     private androidURL: string | null = null;
 
     public update(): void {
-        m.request({ method: "GET", url: `/api/live/http/config` })
-        .then((value) => {
+        this.getRequest({ method: "GET", url: `/api/live/http/config` },
+        (value: {}) => {
             if(typeof value["HttpLiveViewiOSURL"] != "undefined") {
                 this.iOSURL = value["HttpLiveViewiOSURL"];
             }
@@ -26,10 +25,7 @@ class LiveHttpConfigApiModel implements LiveHttpConfigApiModelInterface {
                 this.androidURL = value["HttpLiveViewAndroidURL"];
             }
         },
-        (error) => {
-            console.log('LiveHttpConfigApiModel update error');
-            console.log(error);
-        });
+        "LiveHttpConfigApiModel update error");
     }
 
     /**
