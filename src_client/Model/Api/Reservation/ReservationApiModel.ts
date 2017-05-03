@@ -3,7 +3,7 @@
 import * as m from 'mithril';
 import ApiModel from '../ApiModel';
 
-interface ReservationApiModelInterface extends ApiModel {
+interface ReservationApiModelInterface {
     init(): void;
     setup(page: number | null, limit: number | null): void;
     update(): void;
@@ -15,7 +15,7 @@ interface ReservationApiModelInterface extends ApiModel {
 /**
 * ライブ配信、録画配信が有効になっているかサーバから取得する
 */
-class ReservationApiModel implements ReservationApiModelInterface {
+class ReservationApiModel extends ApiModel implements ReservationApiModelInterface {
     private programs: { [key: string]: any }[] = [];
     private page: number | null = null;
     private limit: number | null = null;
@@ -39,8 +39,8 @@ class ReservationApiModel implements ReservationApiModelInterface {
         if(this.page != null) { query["page"] = this.page; }
         if(this.limit != null) { query["limit"] = this.limit; }
 
-        m.request({method: "GET", url: `/api/reservation?${ m.buildQueryString(query) }`})
-        .then((value) => {
+        this.getRequest( {method: "GET", url: `/api/reservation?${ m.buildQueryString(query) }`},
+        (value: {}) => {
             let prgorams = value["programs"];
             let limit = value["limit"];
             let totalNum = value["totalNum"];
@@ -51,10 +51,7 @@ class ReservationApiModel implements ReservationApiModelInterface {
                 this.totalNum = totalNum;
             }
         },
-        (error) => {
-            console.log("ReservationApiModel update error");
-            console.log(error);
-        });
+        "ReservationApiModel update error");
     }
 
     public getPrograms(): { [key: string]: any }[] {

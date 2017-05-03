@@ -1,7 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
-import RetryApiModel from '../../RetryApiModel';
+import RetryTimerApiModel from '../../RetryTimerApiModel';
 
 interface LiveWatchStreamInfoApiModelInterface {
     update(streamId: number): void;
@@ -12,7 +12,7 @@ interface LiveWatchStreamInfoApiModelInterface {
 * ライブ配信、録画配信が有効になっているかサーバから取得する
 * @throw LiveWatchStreamInfoApiStreamIdError update の streamId が null の場合に発生する
 */
-class LiveWatchStreamInfoApiModel extends RetryApiModel implements LiveWatchStreamInfoApiModelInterface {
+class LiveWatchStreamInfoApiModel extends RetryTimerApiModel implements LiveWatchStreamInfoApiModelInterface {
     private info: { [key: string]: any } = {};
 
     /**

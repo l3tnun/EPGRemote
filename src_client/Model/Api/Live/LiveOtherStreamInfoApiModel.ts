@@ -1,7 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
-import RetryApiModel from '../RetryApiModel';
+import RetryTimerApiModel from '../RetryTimerApiModel';
 
 interface LiveOtherStreamInfoApiModelInterface {
     update(): void;
@@ -11,7 +11,7 @@ interface LiveOtherStreamInfoApiModelInterface {
 /**
 * 配信中のストリーム情報を取得する
 */
-class LiveOtherStreamInfoApiModel extends RetryApiModel implements LiveOtherStreamInfoApiModelInterface {
+class LiveOtherStreamInfoApiModel extends RetryTimerApiModel implements LiveOtherStreamInfoApiModelInterface {
     private list: any[] = [];
 
     public update(): void {

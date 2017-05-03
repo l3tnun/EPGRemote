@@ -12,7 +12,7 @@ interface ProgramApiOptionInterface {
     ch?: string;
 }
 
-interface ProgramApiModelInterface extends ApiModel {
+interface ProgramApiModelInterface {
     init(callback: Function): void;
     update(diff?: boolean): void;
     getGenres(): { [key: string]: any }[] | null;
@@ -27,7 +27,7 @@ interface ProgramApiModelInterface extends ApiModel {
 /**
 * 番組表情報を取得
 */
-class ProgramApiModel implements ProgramApiModelInterface {
+class ProgramApiModel extends ApiModel implements ProgramApiModelInterface {
     private genres: { [key: string]: any }[] | null = null;
     private subGenres: { [key: number]: { [key:number]: string } } | null = null;
     private time: { [key: string]: number } | null = null;
@@ -62,8 +62,8 @@ class ProgramApiModel implements ProgramApiModelInterface {
             option.time = DateUtil.format(DateUtil.getJaDate(new Date(this.time["startTime"])), "yyyyMMddhh");
         }
 
-        m.request({method: "GET", url: `/api/program?${ m.buildQueryString(option) }`})
-        .then((value) => {
+        this.getRequest({ method: "GET", url: `/api/program?${ m.buildQueryString(option) }` },
+        (value: {}) => {
             this.genres = value["genres"];
             this.subGenres = value["subGenres"];
             this.time = value["time"];
@@ -76,10 +76,7 @@ class ProgramApiModel implements ProgramApiModelInterface {
                 this.diffUpdateCallback();
             }
         },
-        (error) => {
-            console.log("ProgramApiModel update error");
-            console.log(error);
-        });
+        "ProgramApiModel update error", 40);
     }
 
     public getGenres(): { [key: string]: any }[] | null {

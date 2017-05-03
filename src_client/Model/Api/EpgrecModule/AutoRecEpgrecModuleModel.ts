@@ -38,18 +38,13 @@ class AutoRecEpgrecModuleModel extends EpgrecModuleModel implements AutoRecEpgre
             autorec: autorec ? 1 : 0
         };
 
-        m.request({
+        this.getRequest({
             method: "PUT",
             url: `/api/program/autorec`,
             data: m.buildQueryString(query)
-        })
-        .then((_value) => {
-            //this.viewUpdate(_value);
         },
-        (error) => {
-            console.log("AutoRecEpgrecModuleModel error.");
-            console.log(error);
-        });
+        null,
+        "AutoRecEpgrecModuleModel error.");
     }
 
     public viewUpdate(value: { [key: string]: any; }): void {

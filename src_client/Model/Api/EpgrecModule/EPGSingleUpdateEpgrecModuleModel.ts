@@ -25,17 +25,12 @@ class EPGSingleUpdateEpgrecModuleModel extends EpgrecModuleModel implements EPGS
     * @param channel_disc: channel disc
     */
     public execute(channel_disc: string): void {
-        m.request({
+        this.getRequest({
             method: "GET",
             url: `/api/epg?${ m.buildQueryString({ channel_disc: channel_disc }) }`
-        })
-        .then((_value) => {
-            //this.viewUpdate(_value);
         },
-        (error) => {
-            console.log("EPGSingleUpdateEpgrecModuleModel error.");
-            console.log(error);
-        });
+        null,
+        "EPGSingleUpdateEpgrecModuleModel error.");
     }
 
     public viewUpdate(value: { [key: string]: any; }): void {

@@ -4,7 +4,7 @@ import * as m from 'mithril';
 import ApiModel from '../ApiModel';
 import Util from '../../../Util/Util';
 
-interface KeywordApiModelInterface extends ApiModel {
+interface KeywordApiModelInterface {
     init(): void;
     setup(page: number | null, limit: number | null): void;
     update(): void;
@@ -16,7 +16,7 @@ interface KeywordApiModelInterface extends ApiModel {
 /**
 * キーワード一覧をサーバから取得する
 */
-class KeywordApiModel implements KeywordApiModelInterface {
+class KeywordApiModel extends ApiModel implements KeywordApiModelInterface {
     private keywords: { [key: string]: any }[] = [];
     private page: number | null = null;
     private limit: number | null = null;
@@ -40,8 +40,8 @@ class KeywordApiModel implements KeywordApiModelInterface {
         if(this.page != null) { query["page"] = this.page; }
         if(this.limit != null) { query["limit"] = this.limit; }
 
-        m.request({method: "GET", url: `/api/keyword?${ m.buildQueryString(query) }`})
-        .then((value) => {
+        this.getRequest({ method: "GET", url: `/api/keyword?${ m.buildQueryString(query) }` },
+        (value: {}) => {
             let keywords = value["keywords"];
             let limit = value["limit"];
             let totalNum = value["totalNum"];
@@ -84,10 +84,7 @@ class KeywordApiModel implements KeywordApiModelInterface {
             this.limit = limit;
             this.totalNum = totalNum;
         },
-        (error) => {
-            console.log("KeywordApiModel update error");
-            console.log(error);
-        });
+        "KeywordApiModel update error");
     }
 
     public getKeywords(): { [key: string]: any }[] {

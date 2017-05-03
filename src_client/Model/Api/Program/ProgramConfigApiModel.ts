@@ -1,9 +1,8 @@
 "use strict";
 
-import * as m from 'mithril';
 import ApiModel from '../ApiModel';
 
-interface ProgramConfigApiModelInterface extends ApiModel {
+interface ProgramConfigApiModelInterface {
     update(): void;
     getRecMode(): { [key: string]: any }[];
     getStartTranscodeId(): number | null;
@@ -15,7 +14,7 @@ interface ProgramConfigApiModelInterface extends ApiModel {
 /**
 * /program で必要な config を取得
 */
-class ProgramConfigApiModel implements ProgramConfigApiModelInterface {
+class ProgramConfigApiModel extends ApiModel implements ProgramConfigApiModelInterface {
     private recMode: { [key: string]: any }[] = [];
     private startTranscodeId: number | null = null;
     private recModeDefaultId: number | null = null;
@@ -26,18 +25,15 @@ class ProgramConfigApiModel implements ProgramConfigApiModelInterface {
     * /program で必要な config を取得
     */
     public update(): void {
-        m.request({method: "GET", url: `/api/program/config`})
-        .then((value) => {
+        this.getRequest({ method: "GET", url: `/api/program/config` },
+        (value: {}) => {
             this.recMode = value["recMode"];
             this.startTranscodeId = value["startTranscodeId"];
             this.recModeDefaultId = value["recModeDefaultId"];
             this.tabletViewConfig = value["programViewConfig"]["tablet"];
             this.mobileViewConfig = value["programViewConfig"]["mobile"];
         },
-        (error) => {
-            console.log("ProgramConfigApiModel update error");
-            console.log(error);
-        });
+        "ProgramConfigApiModel update error");
     }
 
     public getRecMode(): { [key: string]: any }[] {
