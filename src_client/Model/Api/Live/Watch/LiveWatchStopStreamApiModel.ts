@@ -1,16 +1,15 @@
 "use strict";
 
-import * as m from 'mithril';
 import ApiModel from '../../ApiModel';
 
-interface LiveWatchStopStreamApiModelInterface extends ApiModel {
+interface LiveWatchStopStreamApiModelInterface {
     update(streamId: number): void;
 }
 
 /**
 * ライブ配信停止
 */
-class LiveWatchStopStreamApiModel implements LiveWatchStopStreamApiModelInterface {
+class LiveWatchStopStreamApiModel extends ApiModel implements LiveWatchStopStreamApiModelInterface {
     /**
     * 配信停止
     * @param streamId stream id
@@ -21,7 +20,7 @@ class LiveWatchStopStreamApiModel implements LiveWatchStopStreamApiModelInterfac
             return;
         }
 
-        m.request({ method: "DELETE", url: `/api/live/watch?stream=${ streamId }` });
+        this.getRequest({ method: "DELETE", url: `/api/live/watch?stream=${ streamId }` });
     }
 }
 

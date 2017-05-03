@@ -1,6 +1,5 @@
 "use strict";
 
-import * as m from 'mithril';
 import ApiModel from '../ApiModel';
 
 interface SearchKeywordConfigValue {
@@ -53,7 +52,7 @@ interface SearchKeywordConfigValue {
     ts_del: boolean;
 }
 
-interface SearchKeywordConfigApiModelInterface extends ApiModel {
+interface SearchKeywordConfigApiModelInterface {
     update(keyword_id: number, callback?: Function): void;
     getConfig(): SearchKeywordConfigValue | null;
 }
@@ -61,12 +60,12 @@ interface SearchKeywordConfigApiModelInterface extends ApiModel {
 /**
 * search の keyword_id 指定時の設定を取得する
 */
-class SearchKeywordConfigApiModel implements SearchKeywordConfigApiModelInterface {
+class SearchKeywordConfigApiModel extends ApiModel implements SearchKeywordConfigApiModelInterface {
     private config: SearchKeywordConfigValue | null = null;
 
     public update(keyword_id: number, callback: Function | null = null): void {
-        m.request({method: "GET", url: "/api/keyword?keyword_id=" + keyword_id })
-        .then((value) => {
+        this.getRequest({ method: "GET", url: "/api/keyword?keyword_id=" + keyword_id },
+        (value: {}) => {
             this.config = <SearchKeywordConfigValue>value["keyword"];
             this.config.sft_start = Math.floor(this.config.sft_start / 60);
             this.config.sft_end = Math.floor(this.config.sft_end / 60);
@@ -76,10 +75,7 @@ class SearchKeywordConfigApiModel implements SearchKeywordConfigApiModelInterfac
                 callback();
             }
         },
-        (error) => {
-            console.log("SearcgKeywordConfigApiModel update error");
-            console.log(error);
-        });
+        "SearcgKeywordConfigApiModel update error");
     }
 
     public getConfig(): SearchKeywordConfigValue | null{

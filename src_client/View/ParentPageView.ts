@@ -2,7 +2,6 @@
 
 import * as m from 'mithril';
 import { Vnode, VnodeDOM } from 'mithril';
-import Util from '../Util/Util';
 import View from './View';
 import NavigationComponent from '../Component/Navigation/NavigationComponent';
 import HeaderComponent from '../Component/Header/HeaderComponent';
@@ -27,8 +26,6 @@ abstract class ParentPageView extends View {
     private navigationComponent = new NavigationComponent();
     private diskDialogComponent = new DiskDialogComponent();
     private snackbarComponent = new SnackbarComponent();
-
-    private _query_: { [key: string]: any } = {};
 
     //Mithril へ渡される部分
     public abstract execute(): Vnode<any, any>
@@ -108,22 +105,9 @@ abstract class ParentPageView extends View {
         oncreate: ((vnode: VnodeDOM<any, any>) => void) | null = null
     ): Vnode<any, any> {
         return m("main", {
-            class: "fadeIn mdl-layout__content",
+            class: "mdl-layout__content",
             oncreate: (vnode: VnodeDOM<any, any>) => {
                 if(oncreate != null) { oncreate(vnode); }
-
-                this._query_ = Util.getCopyQuery();
-                this.addShowAnimetion(vnode.dom);
-            },
-            onupdate: (vnode: VnodeDOM<any, any>) => {
-                let newQuery = Util.getCopyQuery();
-                if(Util.buildQueryStr(newQuery) != Util.buildQueryStr(this._query_) && newQuery["reload"] != 1) {
-                    //query が違う
-                    this._query_ = newQuery;
-                    this.hideAnimetion(vnode.dom);
-                    setTimeout(() => { (<HTMLElement>(vnode.dom)).scrollTop = 0; }, 250);
-                    this.addShowAnimetion(vnode.dom);
-                }
             }
         }, [
             m("div", {class: "page-content" }, [

@@ -3,7 +3,7 @@
 import * as m from 'mithril';
 import ApiModel from '../ApiModel';
 
-interface LiveConfigApiModelInterface extends ApiModel {
+interface LiveConfigApiModelInterface {
     update(): void;
     setType(type: string): void;
     setHttp(http: boolean): void;
@@ -14,7 +14,7 @@ interface LiveConfigApiModelInterface extends ApiModel {
 /**
 * ライブ配信、録画配信が有効になっているかサーバから取得する
 */
-class LiveConfigApiModel implements LiveConfigApiModelInterface {
+class LiveConfigApiModel extends ApiModel implements LiveConfigApiModelInterface {
     private type: string | null = null;
     private http: boolean;
     private tunerList: any[] = [];
@@ -27,15 +27,12 @@ class LiveConfigApiModel implements LiveConfigApiModelInterface {
         let query = { type: this.type }
         if(this.http) { query["method"] = "http-live"; }
 
-        m.request({ method: "GET", url: `/api/live/config?${ m.buildQueryString(query) }` })
-        .then((value) => {
+        this.getRequest({ method: "GET", url: `/api/live/config?${ m.buildQueryString(query) }` },
+        (value: {}) => {
             this.tunerList = value["tunerList"];
             this.videoList = value["videoConfig"];
         },
-        (error) => {
-            console.log('LiveConfigApiModel update error');
-            console.log(error);
-        });
+        "LiveConfigApiModel update error");
     }
 
     /**

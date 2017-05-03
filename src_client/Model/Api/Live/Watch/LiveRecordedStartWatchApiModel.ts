@@ -3,7 +3,7 @@
 import * as m from 'mithril';
 import ApiModel from '../../ApiModel';
 
-interface LiveRecordedStartWatchApiModelInterface extends ApiModel {
+interface LiveRecordedStartWatchApiModelInterface {
     update(id: number, type: number, video: number, stream?: number | null): void;
 }
 
@@ -11,7 +11,7 @@ interface LiveRecordedStartWatchApiModelInterface extends ApiModel {
 * stream を開始する
 * @throw LiveRecordedStartWatchApiModelUpdateError stream 開始に失敗した時に発生する
 */
-class LiveRecordedStartWatchApiModel implements LiveRecordedStartWatchApiModelInterface {
+class LiveRecordedStartWatchApiModel extends ApiModel implements LiveRecordedStartWatchApiModelInterface {
     /**
     * server から video, tuner 情報を取得する
     * @param id videoId
@@ -29,19 +29,19 @@ class LiveRecordedStartWatchApiModel implements LiveRecordedStartWatchApiModelIn
 
         if(stream != null) { query["stream"] = stream; }
 
-        m.request({
+        this.getRequest({
             method: "POST",
             url: "/api/live/watch",
             data: m.buildQueryString(query)
-        })
-        .then((value) => {
+        },
+        (value: {}) => {
             let stream = value["streamId"];
 
             //チャンネル切り替えの時は何もしない
             if(typeof stream == "undefined" || stream == null) { return; }
             m.route.set(`/live/watch?stream=${ stream }`);
         },
-        (error) => {
+        (error: string) => {
             if(stream == null) { console.log("録画番組のストリーム開始に失敗しました。"); }
             else { console.log("録画番組のチャンネル変更に失敗しました。"); }
 

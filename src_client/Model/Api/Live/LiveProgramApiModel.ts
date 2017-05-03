@@ -1,7 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
-import RetryApiModel from '../RetryApiModel';
+import RetryTimerApiModel from '../RetryTimerApiModel';
 
 interface LiveProgramApiModelInterface {
     init(): void;
@@ -14,7 +14,7 @@ interface LiveProgramApiModelInterface {
 /**
 * 放送中の番組一覧を取得する
 */
-class LiveProgramApiModel extends RetryApiModel implements LiveProgramApiModelInterface {
+class LiveProgramApiModel extends RetryTimerApiModel implements LiveProgramApiModelInterface {
     private list: { [key: string]: any }[] = [];
     private type: string | null = null;
     private time: number = 0;

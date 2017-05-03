@@ -3,7 +3,7 @@
 import * as m from 'mithril';
 import ApiModel from '../ApiModel';
 
-interface RecordedVideoConfigApiModelInterface extends ApiModel {
+interface RecordedVideoConfigApiModelInterface {
     update(): void;
     getConfig(): { [key: string]: any }[];
 }
@@ -11,19 +11,16 @@ interface RecordedVideoConfigApiModelInterface extends ApiModel {
 /**
 * RecordedVideoConfigApiModel
 */
-class RecordedVideoConfigApiModel implements RecordedVideoConfigApiModelInterface {
+class RecordedVideoConfigApiModel extends ApiModel implements RecordedVideoConfigApiModelInterface {
     private config: { [key: string]: any }[] = [];
 
     //config の取得
     public update(): void {
-        m.request({method: "GET", url: `/api/live/config?${ m.buildQueryString({ type: "recorded" }) }`})
-        .then((value) => {
+        this.getRequest({ method: "GET", url: `/api/live/config?${ m.buildQueryString({ type: "recorded" }) }` },
+        (value: {}) => {
                 this.config = value["videoConfig"];
         },
-        (error) => {
-            console.log("RecordedVideoConfigApiModel update error");
-            console.log(error);
-        });
+        "RecordedVideoConfigApiModel update error");
     }
 
     //config を返す

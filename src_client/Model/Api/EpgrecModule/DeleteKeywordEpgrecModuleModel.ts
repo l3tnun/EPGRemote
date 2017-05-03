@@ -1,6 +1,5 @@
 "use strict";
 
-import * as m from 'mithril';
 import EpgrecModuleModel from './EpgrecModuleModel';
 import { KeywordApiModelInterface } from '../Keyword/KeywordApiModel';
 
@@ -25,17 +24,12 @@ class DeleteKeywordEpgrecModuleModel extends EpgrecModuleModel implements Delete
     * @param keyword_id keword_id
     */
     public execute(keyword_id: number): void {
-        m.request({
+        this.getRequest({
             method: "DELETE",
             url: `/api/keyword?keyword_id=${ keyword_id }`
-        })
-        .then((_value) => {
-            //this.viewUpdate(_value);
         },
-        (error) => {
-            console.log("DeleteKeywordEpgrecModuleModel error.");
-            console.log(error);
-        });
+        null,
+        "DeleteKeywordEpgrecModuleModel error.");
     }
 
     public viewUpdate(value: { [key: string]: any; }): void {

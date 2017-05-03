@@ -31,18 +31,13 @@ class EnableKeywordEpgrecModuleModel extends EpgrecModuleModel implements Enable
             status: status ? 1 : 0
         };
 
-        m.request({
+        this.getRequest({
             method: "PUT",
             url: `/api/keyword`,
             data: m.buildQueryString(query)
-        })
-        .then((_value) => {
-            //this.viewUpdate(_value);
         },
-        (error) => {
-            console.log("EnableKeywordEpgrecModuleModel error.");
-            console.log(error);
-        });
+        null,
+        "EnableKeywordEpgrecModuleModel error.");
     }
 
     public viewUpdate(value: { [key: string]: any; }): void {
