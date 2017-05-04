@@ -19,7 +19,7 @@ class LiveWatchStreamInfoViewModel extends ViewModel {
     //初期化処理
     public init(): void {
         if(m.route.param("stream") == null) { return; }
-        this.liveWatchStreanInfoApiModel.update(Number(m.route.param("stream")));
+        this.liveWatchStreanInfoApiModel.update();
     }
 
     //stream 情報を返す
