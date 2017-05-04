@@ -4,6 +4,7 @@
 interface ConfigInterface {
     serverPort: number;
     enableLiveStream: boolean;
+    enablePCLiveHttpStream: boolean;
     enableLiveHttpStream: boolean;
     enableRecordedStream: boolean;
 

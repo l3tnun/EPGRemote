@@ -10,6 +10,7 @@ class LiveConfigModel extends ApiModel {
         this.results = {};
         this.setValue(config, "enableLiveStream");
         this.setValue(config, "enableLiveHttpStream");
+        this.setValue(config, "enablePCLiveHttpStream");
         this.setValue(config, "enableRecordedStream");
 
         this.eventsNotify();
