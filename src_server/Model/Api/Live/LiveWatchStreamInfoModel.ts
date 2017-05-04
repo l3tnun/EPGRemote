@@ -148,7 +148,7 @@ class LiveWatchStreamInfoModel extends ApiModel {
     * true: http view オプションではない, false: http view 用オプションがセットされている
     */
     private checkHttpOption(): boolean {
-        return this.checkNull(this.option["channel"]) && this.checkNull(this.option["sid"]) && this.checkNull(this.option["tuner"]) && this.checkNull(this.option["video"]
+        return this.checkNull(this.option["channel"]) && this.checkNull(this.option["sid"]) && this.checkNull(this.option["tuner"]) && this.checkNull(this.option["video"]);
     }
 }
 
