@@ -29,11 +29,9 @@ class LiveWatchVideoView extends View {
                 controls: " ",
                 playsinline: " ",
                 oncreate: (vnode: VnodeDOM<any, any>) => {
-                    if(typeof this.streamId == "undefined") { return; }
-
                     //HLS.js
                     //Edge では HLS.js が動作しない
-                    if(Hls.isSupported() && !Util.uaIsEdge()) {
+                    if(Hls.isSupported() && !Util.uaIsEdge() && typeof this.streamId != "undefined") {
                         let hls = this.viewModel.createHls();
                         hls.loadSource("streamfiles/stream" + this.streamId + ".m3u8");
                         hls.attachMedia(vnode.dom);
