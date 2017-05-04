@@ -97,8 +97,8 @@ namespace ModelFactoryAdd {
             }
         ); });
         factory.add("LiveHttpWatchModel", () => { return new LiveHttpWatchModel(
-            (channel: string, sid: string, tunerId: number, videoId: number) => {
-                return new HttpStream(channel, sid, tunerId, videoId);
+            (channel: string, sid: string, tunerId: number, videoId: number, pc: boolean) => {
+                return new HttpStream(channel, sid, tunerId, videoId, pc);
             }
         ); });
 
