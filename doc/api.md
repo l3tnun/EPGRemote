@@ -185,10 +185,18 @@ Format
 
 Parameter
 
-|key    |必須 |memo                       |
-|:------|----|---------------------------|
-|stream |yes |ストリーム番号                |
-|time   |no  |指定した x 分後の番組情報を取得 |
+|key    |必須 |memo        |
+|:------|----|-------------|
+|stream |yes |ストリーム番号 |
+
+or
+
+|key     |必須 |memo    |
+|:-------|----|--------|
+|channel |yes |channel |
+|sid     |yes |sid     |
+|tuner   |yes |tunerId |
+|video   |yes |videoId |
 
 Format
 

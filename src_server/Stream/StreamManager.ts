@@ -46,6 +46,22 @@ class StreamManager extends Base {
     }
 
     /**
+    * http-live の指定されたストリームの情報を取得する
+    * @param num: stream id
+    */
+    public getHttpStreamStatus(channel: string, sid: string, tuner: number, video: number): { [key: string]: any } | null {
+        let result: { [key: string]: any } | null = null;
+
+        this.getStreamAllStatus().map((status: { [key: string]: any }) => {
+            if(status.channel == channel && status.sid == sid && status.tunerId == tuner && status.videoId == video) {
+                result = status;
+            }
+        });
+
+        return result;
+    }
+
+    /**
     * 指定されたストリームの Stream を本体を取得する
     * @param num: stream id
     */
