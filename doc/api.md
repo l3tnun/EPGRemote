@@ -101,7 +101,7 @@ Parameters
 |key    |必須 |memo                                     |
 |:------|----|------------------------------------------|
 |type   |no  |放送波を指定(GR, BS, CS, EX, recorded)      |
-|method |no  |http視聴用(http-live)                      |
+|method |no  |http視聴用(http-live or http-pc-live)      |
 
 Format
 
@@ -139,9 +139,10 @@ Format
 
 ```
 {
-    enableLiveStream:     true, //HLS リアルタイム視聴
-    enableLiveHttpStream: true, //http リアルタイム視聴
-    enableRecordedStream: true  //HLS 録画視聴
+    enableLiveStream:       true, //HLS リアルタイム視聴
+    enableLiveHttpStream:   true, //http リアルタイム視聴
+    enableLivePCHttpStream: true, //http PC リアルタイム視聴
+    enableRecordedStream:   true  //HLS 録画視聴
 }
 ```
 ---
@@ -164,7 +165,7 @@ Format
         streamNumber:,        1,                           //ストリーム番号
         viewStatus:           true,                        //再生可能な状態ならtrue
         changeChannelStatus:  true,                        //チャンネル変更が可能ならtrue
-        streamType:           "live",                      //HLS リアルタイム視聴なら live, 録画配信なら recorded, http リアルタイム視聴なら http-live
+        streamType:           "live",                      //HLS リアルタイム視聴なら live, 録画配信なら recorded, http リアルタイム視聴なら http-live, http pc リアルタイム視聴なら http-pc-live
         sid,                  "1032",                      //sid
         channel,              "13",                         //channel
         name:                 "ＮＨＫ",                     //局名
@@ -287,6 +288,7 @@ Parameter
 |channel |yes |channel |
 |tuner   |yes |tunerId |
 |video   |yes |videId  |
+|pc      |no  |0 or 1 (1 で http-pc-live になる デフォルトは 0) |
 ---
 ### /live/http/config
 
