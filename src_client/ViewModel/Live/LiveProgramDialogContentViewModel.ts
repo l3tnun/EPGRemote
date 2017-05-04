@@ -163,6 +163,14 @@ class LiveProgramDialogContentViewModel extends ViewModel {
     }
 
     /**
+    * http PC リアルタイム視聴が有効か返す
+    * 有効なら true, 無効なら false
+    */
+    public enableHttpPCLive(): boolean {
+        return this.liveConfigEnableApiModel.getHttpPCLive();
+    }
+
+    /**
     * http live view 用の link を生成する
     */
     public createHttpLiveLink(tuner: number, video: number): string | null {
@@ -185,6 +193,19 @@ class LiveProgramDialogContentViewModel extends ViewModel {
         } else {
             return null;
         }
+    }
+
+    /**
+    * http pc view 用の link を生成する
+    */
+    public createHttpPCLiveLink(tuner: number, video: number): string {
+        let query = Util.buildQueryStr({
+            channel: this.channel,
+            sid: this.sid,
+            tuner: tuner,
+            video: video
+        });
+        return `/live/watch?${ query }`;
     }
 }
 

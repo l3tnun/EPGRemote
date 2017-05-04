@@ -144,7 +144,14 @@ class LiveProgramDialogContentView extends View {
         } else if(this.dialogContentViewModel.enableHLSLive() && !this.dialogContentViewModel.changeHttpView) {
             //HLS 新規ストリーム開始
             this.dialogContentViewModel.startStream(tuner, video);
-        } else {
+        } else if(this.dialogContentViewModel.enableHttpPCLive() && !Util.uaIsiOS() && !Util.uaIsAndroid()) {
+            //http pc 新規ストリーム
+            this.dialogViewModel.close();
+
+            setTimeout(() => {
+                m.route.set( this.dialogContentViewModel.createHttpPCLiveLink(tuner!, video) );
+            }, 500);
+        } else if(this.dialogContentViewModel.enableHttpLive()){
             //http 新規ストリーム開始
             this.dialogViewModel.close();
 
@@ -168,7 +175,7 @@ class LiveProgramDialogContentView extends View {
         if(!this.dialogContentViewModel.enableHttpLive()
             || !this.dialogContentViewModel.enableHLSLive()
             || location.href.indexOf("/live/watch") != -1
-            || (!Util.uaIsiOS() && !Util.uaIsAndroid())
+            || (!Util.uaIsiOS() && !Util.uaIsAndroid() && !this.dialogContentViewModel.enableHttpPCLive())
         ) { return null; }
 
         return m("label", {

@@ -13,26 +13,29 @@ import LiveWatchVideoViewModel from '../../../ViewModel/Live/Watch/LiveWatchVide
 */
 class LiveWatchVideoView extends View {
     private viewModel: LiveWatchVideoViewModel;
+    private streamId: string;
 
     public execute(): Vnode<any, any> {
-        let streamId = m.route.param("stream");
+        this.streamId = m.route.param("stream");
         this.viewModel = <LiveWatchVideoViewModel>this.getModel("LiveWatchVideoViewModel");
 
         if(this.viewModel.getShowStatus()) {
             //video 表示
             return m("video", {
-                src: `streamfiles/stream${streamId}.m3u8`,
+                src: this.getSource(),
                 preload: "none",
                 height: "$auto",
                 width: "100%",
                 controls: " ",
                 playsinline: " ",
                 oncreate: (vnode: VnodeDOM<any, any>) => {
+                    if(typeof this.streamId == "undefined") { return; }
+
                     //HLS.js
                     //Edge では HLS.js が動作しない
                     if(Hls.isSupported() && !Util.uaIsEdge()) {
                         let hls = this.viewModel.createHls();
-                        hls.loadSource("streamfiles/stream" + streamId + ".m3u8");
+                        hls.loadSource("streamfiles/stream" + this.streamId + ".m3u8");
                         hls.attachMedia(vnode.dom);
                         hls.on(Hls.Events.MANIFEST_PARSED, () =>{
                             (<HTMLMediaElement>(vnode.dom)).play();
@@ -49,6 +52,8 @@ class LiveWatchVideoView extends View {
                     (<HTMLMediaElement>(vnode.dom)).pause();
                     (<HTMLMediaElement>(vnode.dom)).src = "";
                     (<HTMLMediaElement>(vnode.dom)).load();
+
+                    if(typeof this.streamId == "undefined") { return; }
                     this.viewModel.HlsDestroy();
                 }
             });
@@ -66,6 +71,17 @@ class LiveWatchVideoView extends View {
                 })
             ]);
         }
+    }
+
+    private getSource(): string {
+        if(typeof this.streamId == "undefined") {
+            let query = Util.getCopyQuery();
+            query["pc"] = 1;
+
+            return `/api/live/http/watch?${ Util.buildQueryStr(query) }`;
+        }
+
+        return `streamfiles/stream${ this.streamId }.m3u8`;
     }
 }
 
