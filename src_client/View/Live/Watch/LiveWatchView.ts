@@ -118,6 +118,8 @@ class LiveWatchView extends ParentPageView {
 
     //配信停止ボタン
     private createStopButton(): Vnode<any, any> {
+        if(m.route.param("stream") == null) { return m(""); }
+
         return m("button",{
             class: "fab-right-bottom mdl-shadow--8dp mdl-button mdl-js-button mdl-button--fab mdl-button--colored",
             onclick: () => {
