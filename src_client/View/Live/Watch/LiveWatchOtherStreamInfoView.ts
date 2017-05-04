@@ -33,7 +33,6 @@ class LiveWatchOtherStreamInfoView extends View {
         let result: Vnode<any, any>[] = [];
 
         info.map((data: { [key: string]: any }) => {
-            console.log(data["streamType"]);
             if(data["streamType"] != "live" && data["streamType"] != "recorded") { return; };
             result.push(
                 m("a", { class: "card-link", href: `/live/watch?stream=${ data["streamNumber"] }`, oncreate: m.route.link }, [
