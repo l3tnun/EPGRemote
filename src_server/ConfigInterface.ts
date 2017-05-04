@@ -27,6 +27,12 @@ interface ConfigInterface {
         command: string
     }[];
 
+    livePCHttpVideoSetting: {
+        id: number,
+        name: string,
+        command: string
+    }[];
+
     recordedVideoSetting: {
         id: number,
         name: string,
