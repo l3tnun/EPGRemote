@@ -40,7 +40,7 @@ class LiveWatchStreamInfoModel extends ApiModel {
         this.streamStatus.map((data: { [key: string]: any }) => {
             if(data["streamType"] == "live") { this.setLiveStreamInfo(data); }
             else if(data["streamType"] == "recorded") { this.setRecordedStreamInfo(data); }
-            else if(data["streamType"] == "http-live") { this.setHttpLiveStreamInfo(data); }
+            else if(data["streamType"] == "http-live" || data["streamType"] == "http-pc-live") { this.setHttpLiveStreamInfo(data); }
             else {
                 this.results.push(data);
                 this.checkDone();
