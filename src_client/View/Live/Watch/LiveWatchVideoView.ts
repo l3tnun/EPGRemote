@@ -22,13 +22,15 @@ class LiveWatchVideoView extends View {
         if(this.viewModel.getShowStatus()) {
             //video 表示
             return m("video", {
-                src: this.getSource(),
                 preload: "none",
                 height: "$auto",
                 width: "100%",
                 controls: " ",
                 playsinline: " ",
                 oncreate: (vnode: VnodeDOM<any, any>) => {
+                    //set source
+                    (<HTMLMediaElement>(vnode.dom)).src = this.getSource();
+
                     //HLS.js
                     //Edge では HLS.js が動作しない
                     if(Hls.isSupported() && !Util.uaIsEdge() && typeof this.streamId != "undefined") {
@@ -42,14 +44,48 @@ class LiveWatchVideoView extends View {
                         return;
                     }
 
+                    //error 処理追加
+                    (<HTMLMediaElement>(vnode.dom)).addEventListener('error', () => {
+                        if((<HTMLMediaElement>(vnode.dom)).src.indexOf("/api/live/http/watch") == -1) {
+                            return;
+                        }
+                        Util.reload();
+                    }, true);
+
                     //再生
-                    (<HTMLMediaElement>(vnode.dom)).load();
-                    (<HTMLMediaElement>(vnode.dom)).play();
+                    try {
+                        (<HTMLMediaElement>(vnode.dom)).load();
+                        (<HTMLMediaElement>(vnode.dom)).play();
+                    } catch(e) {
+                        console.log(e);
+                    }
+                },
+                onupdate: (vnode: VnodeDOM<any, any>) => {
+                    if(m.route.param("stream") != null) { return; }
+                    let src = (<HTMLMediaElement>(vnode.dom)).src;
+                    if(src != location.href.split("#")[0].slice(0, -1) + this.getSource()) {
+                        try {
+                            (<HTMLMediaElement>(vnode.dom)).pause();
+                        } catch(e) {
+                            console.log(e);
+                        }
+                        try {
+                            (<HTMLMediaElement>(vnode.dom)).src = this.getSource();
+                            (<HTMLMediaElement>(vnode.dom)).load();
+                            (<HTMLMediaElement>(vnode.dom)).play();
+                        } catch(e) {
+                            console.log(e);
+                        }
+                    }
                 },
                 onremove: (vnode: VnodeDOM<any, any>) => {
-                    (<HTMLMediaElement>(vnode.dom)).pause();
-                    (<HTMLMediaElement>(vnode.dom)).src = "";
-                    (<HTMLMediaElement>(vnode.dom)).load();
+                    try {
+                        (<HTMLMediaElement>(vnode.dom)).pause();
+                        (<HTMLMediaElement>(vnode.dom)).src = "";
+                        (<HTMLMediaElement>(vnode.dom)).load();
+                    } catch(e) {
+                        console.log(e);
+                    }
 
                     if(typeof this.streamId == "undefined") { return; }
                     this.viewModel.HlsDestroy();
