@@ -1,6 +1,7 @@
 "use strict";
 
 import ApiModel from '../ApiModel';
+import Util from '../../../Util/Util';
 
 interface LiveConfigEnableApiModelInterface {
     update(): void;
@@ -51,7 +52,7 @@ class LiveConfigEnableApiModel extends ApiModel implements LiveConfigEnableApiMo
     * 有効なら true, 無効なら false
     */
     public getHttpPCLive(): boolean {
-        return this.enableHttpPCLive;
+        return this.enableHttpPCLive && ( Util.uaIsChrome() || Util.uaIsFirefox() || Util.uaIsEdge() || Util.uaIsIE());
     }
 
     /**

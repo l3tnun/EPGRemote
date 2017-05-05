@@ -66,6 +66,20 @@ namespace Util {
     }
 
     /**
+    * UA が Chrome か判定
+    */
+    export const uaIsChrome = (): boolean => {
+        return /chrome|Chrome/.test(navigator.userAgent);
+    }
+
+    /**
+    * UA が Firefox か判定
+    */
+    export const uaIsFirefox = (): boolean => {
+        return /firefox|Firefox/.test(navigator.userAgent);
+    }
+
+    /**
     * UA が Mobile か判定
     */
     export const uaIsMobile = (): boolean => {
