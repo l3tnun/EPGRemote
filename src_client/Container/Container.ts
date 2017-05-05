@@ -191,7 +191,8 @@ namespace Container {
                 liveStartWatchApiModel,
                 epgSingleUpdateEpgrecModuleModel,
                 liveConfigEnableApiModel,
-                liveHttpConfigApiModel
+                liveHttpConfigApiModel,
+                liveWatchStreamInfoApiModel
             )
         );
 

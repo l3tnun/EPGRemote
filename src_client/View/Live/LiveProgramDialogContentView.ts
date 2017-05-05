@@ -69,17 +69,10 @@ class LiveProgramDialogContentView extends View {
         return m("div", { style: "display: flex; width: 50%; float: left;" }, [
             m("div", { class: "pulldown mdl-layout-spacer" }, [
                 m("select", { id: LiveProgramDialogContentView.tunerPullDownId }, [
-                    this.createPulldownContent(this.dialogContentViewModel.getTunerList(this.getStreamNumber()))
+                    this.createPulldownContent(this.dialogContentViewModel.getTunerList(this.dialogContentViewModel.getStreamNumber()))
                 ])
             ])
         ]);
-    }
-
-    //ページのstreamnumber を取得する
-    private getStreamNumber(): number | null {
-        let num = m.route.param("stream");
-        if(typeof num == "undefined") { return null; }
-        return Number(num);
     }
 
     //video pulldown の生成
@@ -119,13 +112,13 @@ class LiveProgramDialogContentView extends View {
     private start(): void {
         let tuner = this.getTunerPullDownValue();
         let video = this.getVideoPullDownValue();
-        let streamNum = this.getStreamNumber();
+        let streamNum = this.dialogContentViewModel.getStreamNumber();
 
         //チャンネル変更か調べる
         let changeFlg = false;
         if(streamNum != null) {
             this.dialogContentViewModel.getTunerList(streamNum).map((data: { [key: string]: any }) => {
-                if(data["id"] == tuner && data["streamId"] == this.getStreamNumber()) {
+                if(data["id"] == tuner && data["streamId"] == this.dialogContentViewModel.getStreamNumber() && m.route.param("stream") != null) {
                     changeFlg = true;
                 }
             });
@@ -138,8 +131,8 @@ class LiveProgramDialogContentView extends View {
             return;
         }
 
-        if((changeFlg || !this.dialogContentViewModel.enableNewStream) && streamNum != null) {
-            //チャンネル変更
+        if((changeFlg || !this.dialogContentViewModel.enableNewStream) && streamNum != null && m.route.param("stream") != null) {
+            //HLS チャンネル変更
             this.dialogContentViewModel.changeStream(tuner, video, streamNum);
         } else if(this.dialogContentViewModel.enableHLSLive() && !this.dialogContentViewModel.changeHttpView) {
             //HLS 新規ストリーム開始

@@ -1,5 +1,6 @@
 "use strict";
 
+import * as m from 'mithril';
 import Util from '../../Util/Util';
 import ViewModel from '../ViewModel';
 import { LiveConfigApiModelInterface } from '../../Model/Api/Live/LiveConfigApiModel';
@@ -7,6 +8,7 @@ import { LiveStartWatchApiModelInterface } from '../../Model/Api/Live/Watch/Live
 import { EPGSingleUpdateEpgrecModuleModelInterface } from '../../Model/Api/EpgrecModule/EPGSingleUpdateEpgrecModuleModel';
 import { LiveConfigEnableApiModelInterface } from '../../Model/Api/Live/LiveConfigEnableApiModel';
 import { LiveHttpConfigApiModelInterface } from '../../Model/Api/Live/LiveHttpConfigApiModel';
+import { LiveWatchStreamInfoApiModelInterface } from '../../Model/Api/Live/Watch/LiveWatchStreamInfoApiModel';
 
 /**
 * LiveConfig の ViewModel
@@ -17,6 +19,7 @@ class LiveProgramDialogContentViewModel extends ViewModel {
     private epgSingleUpdateEpgrecModuleModel: EPGSingleUpdateEpgrecModuleModelInterface;
     private liveConfigEnableApiModel: LiveConfigEnableApiModelInterface;
     private liveHttpConfigApiModel: LiveHttpConfigApiModelInterface;
+    private liveWatchStreamInfoApiModel: LiveWatchStreamInfoApiModelInterface;
     private title: string = "";
     private sid: string;
     private channel: string;
@@ -29,7 +32,8 @@ class LiveProgramDialogContentViewModel extends ViewModel {
         _liveStartWatchApiModel :LiveStartWatchApiModelInterface,
         _epgSingleUpdateEpgrecModuleModel: EPGSingleUpdateEpgrecModuleModelInterface,
         _liveConfigEnableApiModel: LiveConfigEnableApiModelInterface,
-        _liveHttpConfigApiModel: LiveHttpConfigApiModelInterface
+        _liveHttpConfigApiModel: LiveHttpConfigApiModelInterface,
+        _liveWatchStreamInfoApiModel: LiveWatchStreamInfoApiModelInterface
     ) {
         super();
 
@@ -38,6 +42,7 @@ class LiveProgramDialogContentViewModel extends ViewModel {
         this.epgSingleUpdateEpgrecModuleModel = _epgSingleUpdateEpgrecModuleModel;
         this.liveConfigEnableApiModel = _liveConfigEnableApiModel;
         this.liveHttpConfigApiModel = _liveHttpConfigApiModel;
+        this.liveWatchStreamInfoApiModel = _liveWatchStreamInfoApiModel;
     }
 
     /**
@@ -49,7 +54,13 @@ class LiveProgramDialogContentViewModel extends ViewModel {
     * @param chanelDisk channelDisk
     */
     public setup(title: string, type: string, channel: string, sid: string, channelDisk: string | null = null): void {
-        this.changeHttpView = !this.enableHLSLive();
+        if(location.href.indexOf("/live/watch") == -1 || m.route.param("stream") != null) {
+            //HLS 視聴時
+            this.changeHttpView = !this.enableHLSLive();
+        } else {
+            //http 視聴時
+            this.changeHttpView = true;
+        }
         this.title = title;
         this.channel = channel;
         this.sid = sid;
@@ -206,6 +217,18 @@ class LiveProgramDialogContentViewModel extends ViewModel {
             video: video
         });
         return `/live/watch?${ query }`;
+    }
+
+    /**
+    * StreamNumber を返す
+    */
+    public getStreamNumber(): number | null {
+        if(location.href.indexOf("/live/watch") == -1) {
+            let num = m.route.param("stream");
+            return typeof num == "undefined" ? null : Number(num);
+        }
+
+        return this.liveWatchStreamInfoApiModel.getInfo()["streamNumber"];
     }
 }
 
