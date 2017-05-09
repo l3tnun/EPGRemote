@@ -141,8 +141,13 @@ class LiveProgramDialogContentView extends View {
             //http pc 新規ストリーム
             this.dialogViewModel.close();
 
+            let href = this.dialogContentViewModel.createHttpPCLiveLink(tuner!, video);
             setTimeout(() => {
-                m.route.set( this.dialogContentViewModel.createHttpPCLiveLink(tuner!, video) );
+                if(href == null) {
+                    this.snackbarViewModel.open("現在の設定と同じです。");
+                } else {
+                    m.route.set(href);
+                }
             }, 500);
         } else if(this.dialogContentViewModel.enableHttpLive()){
             //http 新規ストリーム開始

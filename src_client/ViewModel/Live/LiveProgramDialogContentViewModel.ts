@@ -208,15 +208,17 @@ class LiveProgramDialogContentViewModel extends ViewModel {
 
     /**
     * http pc view 用の link を生成する
+    * query が同じだと null を返す
     */
-    public createHttpPCLiveLink(tuner: number, video: number): string {
+    public createHttpPCLiveLink(tuner: number, video: number): string | null {
         let query = Util.buildQueryStr({
             channel: this.channel,
             sid: this.sid,
             tuner: tuner,
             video: video
         });
-        return `/live/watch?${ query }`;
+
+        return Util.buildQueryStr(Util.getCopyQuery()) == query ? null : `/live/watch?${ query }`;
     }
 
     /**
