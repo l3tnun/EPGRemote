@@ -44,7 +44,7 @@ class LiveConfigEnableApiModel extends ApiModel implements LiveConfigEnableApiMo
     * 有効なら true, 無効なら false
     */
     public getHttpLive(): boolean {
-        return this.enableHttpLive;
+        return this.enableHttpLive && ( Util.uaIsiOS() || Util.uaIsAndroid() );
     }
 
     /**
@@ -52,7 +52,7 @@ class LiveConfigEnableApiModel extends ApiModel implements LiveConfigEnableApiMo
     * 有効なら true, 無効なら false
     */
     public getHttpPCLive(): boolean {
-        return this.enableHttpPCLive && ( Util.uaIsChrome() || Util.uaIsFirefox() || Util.uaIsEdge() || Util.uaIsIE());
+        return this.enableHttpPCLive && ( Util.uaIsChrome() || Util.uaIsFirefox() || Util.uaIsEdge() || Util.uaIsIE() ) && !Util.uaIsiOS() && !Util.uaIsAndroid();
     }
 
     /**

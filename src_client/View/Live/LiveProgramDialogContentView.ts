@@ -170,11 +170,15 @@ class LiveProgramDialogContentView extends View {
 
     //HLS と http 切り替えチェックボックス
     private createHttpCheckBox(): Vnode<any, any> | null {
-        if(!this.dialogContentViewModel.enableHttpLive()
-            || !this.dialogContentViewModel.enableHLSLive()
-            || location.href.indexOf("/live/watch") != -1
-            || (!Util.uaIsiOS() && !Util.uaIsAndroid() && !this.dialogContentViewModel.enableHttpPCLive())
-        ) { return null; }
+        if(location.href.indexOf("/live/watch") != -1) { return null; }
+        else {
+            let method = 0;
+            if(this.dialogContentViewModel.enableHLSLive()) { method += 1; }
+            if(this.dialogContentViewModel.enableHttpLive()) { method += 1; }
+            if(this.dialogContentViewModel.enableHttpPCLive()) { method += 1; }
+
+            if(method <= 1) { return null; }
+        }
 
         return m("label", {
             class: "mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect",
