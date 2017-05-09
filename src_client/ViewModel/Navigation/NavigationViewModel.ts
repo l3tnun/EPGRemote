@@ -56,7 +56,7 @@ class NavigationViewModel extends ViewModel {
             //ios or android の場合
             return this.liveConfigEnableApiModel.getHLSLive() || this.liveConfigEnableApiModel.getHttpLive();
         } else {
-            return this.liveConfigEnableApiModel.getHLSLive();
+            return this.liveConfigEnableApiModel.getHLSLive() || this.liveConfigEnableApiModel.getHttpPCLive();
         }
     }
 

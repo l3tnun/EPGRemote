@@ -56,7 +56,7 @@ class LiveWatchVideoViewModel extends ViewModel {
     * true: 表示, false: 非表示
     */
     public getShowStatus(): boolean {
-        return this.showModel.get();
+        return this.showModel.get() || typeof m.route.param("stream") == "undefined";
     }
 
     /**

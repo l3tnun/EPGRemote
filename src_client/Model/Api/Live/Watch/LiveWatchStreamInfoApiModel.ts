@@ -1,30 +1,27 @@
 "use strict";
 
 import * as m from 'mithril';
+import Util from '../../../../Util/Util';
 import RetryTimerApiModel from '../../RetryTimerApiModel';
 
 interface LiveWatchStreamInfoApiModelInterface {
-    update(streamId: number): void;
+    update(): void;
     getInfo(): { [key: string]: any };
 }
 
 /**
 * ライブ配信、録画配信が有効になっているかサーバから取得する
-* @throw LiveWatchStreamInfoApiStreamIdError update の streamId が null の場合に発生する
 */
 class LiveWatchStreamInfoApiModel extends RetryTimerApiModel implements LiveWatchStreamInfoApiModelInterface {
     private info: { [key: string]: any } = {};
 
     /**
     * server から 指定された stream 情報を取得する
-    * @throw LiveWatchStreamInfoApiStreamIdError update の streamId が null の場合に発生する
     */
-    public update(streamId: number): void {
-        if(streamId == null) {
-            throw new Error("LiveWatchStreamInfoApiStreamIdError");
-        }
+    public update(): void {
+        let query = Util.getCopyQuery();
 
-        m.request({ method: "GET", url: `/api/live/watch?stream=${ streamId }` })
+        m.request({ method: "GET", url: `/api/live/watch?${ Util.buildQueryStr(query) }` })
         .then((value) => {
             this.info = value;
 
@@ -33,7 +30,7 @@ class LiveWatchStreamInfoApiModel extends RetryTimerApiModel implements LiveWatc
 
             //timer に登録
             this.addTimer("LiveWatchStreamInfoApiModel", updateTime, () => {
-                this.update(streamId);
+                this.update();
             });
         },
         (error) => {
@@ -41,7 +38,7 @@ class LiveWatchStreamInfoApiModel extends RetryTimerApiModel implements LiveWatc
             console.log(error);
 
             this.retryCount("LiveWatchStreamInfoApiModel", () => {
-                this.update(streamId);
+                this.update();
             })
         });
     }

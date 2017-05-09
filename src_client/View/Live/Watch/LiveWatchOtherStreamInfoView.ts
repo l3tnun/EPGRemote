@@ -18,10 +18,16 @@ class LiveWatchOtherStreamInfoView extends View {
         let info = this.viewModel.getOtherStreamInfo();
         if(info.length == 0) { return m(""); }
 
-        return m("div", { class: "live-program mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col" }, [
+        let content = this.createCard(info);
+        if(content.length == 0) { return m(""); }
+
+        return m("div", {
+            class: "live-program mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col",
+            onclick: () => { this.viewModel.update(); }
+        }, [
             m("div", { class: "mdl-card__supporting-text" }, [
                 m("div", { class: "live-program-description" }, [ "配信中" ]),
-                this.createCard(info)
+                content
             ])
         ]);
     }
@@ -30,6 +36,7 @@ class LiveWatchOtherStreamInfoView extends View {
         let result: Vnode<any, any>[] = [];
 
         info.map((data: { [key: string]: any }) => {
+            if(data["streamType"] != "live" && data["streamType"] != "recorded") { return; };
             result.push(
                 m("a", { class: "card-link", href: `/live/watch?stream=${ data["streamNumber"] }`, oncreate: m.route.link }, [
                     m("div", { class: "program-station-name" }, data["name"]),

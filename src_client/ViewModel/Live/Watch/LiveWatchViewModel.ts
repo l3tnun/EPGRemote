@@ -1,5 +1,6 @@
 "use strict";
 
+import * as m from 'mithril';
 import ViewModel from '../../ViewModel';
 import { BroadCastApiModelInterface } from '../../../Model/Api/BroadCastApiModel';
 import { LiveWatchStopStreamApiModelInterface } from '../../../Model/Api/Live/Watch/LiveWatchStopStreamApiModel';
@@ -49,7 +50,7 @@ class LiveWatchViewModel extends ViewModel {
     * live stream が有効か返す true: 有効, false: 無効
     */
     public liveIsEnable(): boolean {
-        return this.liveConfigEnableApiModel.getHLSLive();
+        return this.liveConfigEnableApiModel.getHLSLive() || ( this.liveConfigEnableApiModel.getHttpPCLive() && m.route.param("stream") == null);
     }
 }
 

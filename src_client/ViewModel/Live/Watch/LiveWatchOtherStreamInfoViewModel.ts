@@ -16,6 +16,10 @@ class LiveWatchOtherStreamInfoViewModel extends ViewModel {
         this.liveOtherStreamInfoApiModel = _liveOtherModel;
     }
 
+    public update(): void {
+        this.liveOtherStreamInfoApiModel.update();
+    }
+
     //this.streamId 以外の stream 情報を返す
     public getOtherStreamInfo(): any[] {
         let info = this.liveOtherStreamInfoApiModel.getList();

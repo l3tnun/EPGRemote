@@ -121,6 +121,11 @@ class LiveWatchView extends ParentPageView {
         return m("button",{
             class: "fab-right-bottom mdl-shadow--8dp mdl-button mdl-js-button mdl-button--fab mdl-button--colored",
             onclick: () => {
+                if(m.route.param("stream") == null) {
+                    m.route.set("/");
+                    return;
+                }
+
                 let streamNum = this.getStreamId();
                 if(streamNum == null) { return; }
                 this.liveWatchViewModel.stopStream(streamNum);

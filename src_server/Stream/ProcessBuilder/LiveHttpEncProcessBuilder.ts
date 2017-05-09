@@ -7,9 +7,12 @@ import VideoConfigManager from '../../VideoConfigManager';
 class LiveHttpEncProcessBuilder extends ProcessBuilder {
     private videoConfigManager = VideoConfigManager.getInstance();
 
-    private getEncConfig(videoId: number): string {
+    private getEncConfig(videoId: number, pc: boolean): string {
         let videoConfig: { [key: string]: any } = {};
-        this.videoConfigManager.getAllLiveHttpVideoConfig().map((data: { [key: string]: any }) => {
+
+        let config = pc ? this.videoConfigManager.getAllLivePCHttpVideoConfig() : this.videoConfigManager.getAllLiveHttpVideoConfig();
+
+        config.map((data: { [key: string]: any }) => {
             if(data["id"] == videoId) { videoConfig = data; }
         });
 
@@ -19,7 +22,7 @@ class LiveHttpEncProcessBuilder extends ProcessBuilder {
     }
 
     public build(option: { [key: string]: any }): child_process.ChildProcess {
-        let encConfig = this.getEncConfig(option["videoId"]).split(" ").filter(Boolean);
+        let encConfig = this.getEncConfig(option["videoId"], option["pc"]).split(" ").filter(Boolean);
         let encCmd = encConfig.shift();
 
         let encChild = this.spawn(encCmd!, encConfig);

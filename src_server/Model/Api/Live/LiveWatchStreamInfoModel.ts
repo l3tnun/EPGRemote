@@ -21,11 +21,23 @@ class LiveWatchStreamInfoModel extends ApiModel {
 
     public execute(): void {
         let streamId = this.option["streamId"];
-        if(typeof streamId == "undefined") {
+        let channel = this.option["channel"];
+        let sid = this.option["sid"];
+        let tuner = this.option["tuner"];
+        let video = this.option["video"];
+
+        if(typeof streamId == "undefined" && this.checkHttpOption()) {
             this.streamStatus = StreamManager.getInstance().getStreamAllStatus();
         } else {
             this.streamStatus = [];
-            let status = StreamManager.getInstance().getStreamStatus(Number(streamId));
+            let status: { [key: string]: any } | null;
+
+            if(typeof streamId == "undefined") {
+                //http-live 用
+                status = StreamManager.getInstance().getHttpStreamStatus(channel, sid, tuner, video);
+            } else {
+                status = StreamManager.getInstance().getStreamStatus(Number(streamId));
+            }
             if(status != null) { this.streamStatus = [status] }
         }
 
@@ -40,7 +52,7 @@ class LiveWatchStreamInfoModel extends ApiModel {
         this.streamStatus.map((data: { [key: string]: any }) => {
             if(data["streamType"] == "live") { this.setLiveStreamInfo(data); }
             else if(data["streamType"] == "recorded") { this.setRecordedStreamInfo(data); }
-            else if(data["streamType"] == "http-live") { this.setHttpLiveStreamInfo(data); }
+            else if(data["streamType"] == "http-live" || data["streamType"] == "http-pc-live") { this.setHttpLiveStreamInfo(data); }
             else {
                 this.results.push(data);
                 this.checkDone();
@@ -121,7 +133,7 @@ class LiveWatchStreamInfoModel extends ApiModel {
                 return 0;
             });
 
-            if(typeof this.option["streamId"] == "undefined") {
+            if(typeof this.option["streamId"] == "undefined" && this.checkHttpOption()) {
                 this.results.push({ updateTime: this.minEndtime + this.getRandtime() });
             } else {
                 this.results = this.results[0];
@@ -129,6 +141,14 @@ class LiveWatchStreamInfoModel extends ApiModel {
             }
             this.eventsNotify();
         }
+    }
+
+    /**
+    * http view 用のオプションが渡されているかチェックする
+    * true: http view オプションではない, false: http view 用オプションがセットされている
+    */
+    private checkHttpOption(): boolean {
+        return this.checkNull(this.option["channel"]) && this.checkNull(this.option["sid"]) && this.checkNull(this.option["tuner"]) && this.checkNull(this.option["video"]);
     }
 }
 

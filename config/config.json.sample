@@ -3,6 +3,7 @@
 
     "enableLiveStream" : true,
     "enableLiveHttpStream" : false,
+    "enableLivePCHttpStream" : false,
     "enableRecordedStream" : true,
 
     "broadcast" :  { "GR" : true, "BS" : true, "CS" : true, "EX" : false },
@@ -40,6 +41,19 @@
             "id"      : 4,
             "name"    : "720x480(sub)",
             "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode sub -i pipe:0 -acodec libfdk_aac -ar 48000 -ab 192k -ac 2 -vcodec libx264 -s 720x480 -filter:v yadif -aspect 16:9 -vb 1500k -f mpegts -movflags frag_keyframe+empty_moov pipe:1"
+        }
+    ],
+
+    "livePCHttpVideoSetting" : [
+        {
+            "id" : 1,
+            "name" : "1280x720(main)",
+            "command" : "/usr/local/ffmpeg_build/bin/ffmpeg -re -dual_mono_mode main -i pipe:0 -s 1280x720 -filter:v yadif -aspect 16:9 -c:v libx264 -b:v 3000k -c:a libfdk_aac -ar 48000 -ab 192k -ac 2 -f mp4 -movflags empty_moov pipe:1"
+        },
+        {
+            "id" : 2,
+            "name" : "1280x720(sub)",
+            "command" : "/usr/local/ffmpeg_build/bin/ffmpeg -re -dual_mono_mode sub -i pipe:0 -s 1280x720 -filter:v yadif -aspect 16:9 -c:v libx264 -b:v 3000k -c:a libfdk_aac -ar 48000 -ab 192k -ac 2 -f mp4 -movflags empty_moov pipe:1"
         }
     ],
 

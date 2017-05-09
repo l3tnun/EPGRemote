@@ -11,13 +11,30 @@ class LiveWatchGetController extends Controller {
 
         let model = this.modelFactory.get("LiveWatchStreamInfoModel");
         let streamId = parsedUrl.query.stream;
-        if(typeof streamId != "undefined") { model.setOption({ streamId: Number(streamId) }); }
+        let channel = parsedUrl.query.channel;
+        let sid = parsedUrl.query.sid;
+        let tuner = parsedUrl.query.tuner;
+        let video = parsedUrl.query.video;
+
+        if(!this.check(streamId)) { model.setOption({ streamId: Number(streamId) }); }
+        if(!this.check(channel) && !this.check(sid) && !this.check(tuner) && !this.check(video)) {
+            model.setOption({
+                channel: channel,
+                sid: sid,
+                tuner: Number(tuner),
+                video: Number(video)
+            });
+        }
 
         let view = new NormalApiView(response, "LiveWatchStreamInfoModel");
         view.setModels({ LiveWatchStreamInfoModel: model });
 
         model.addViewEvent(view);
         model.execute();
+    }
+
+    private check(value: string): boolean {
+        return typeof value == "undefined";
     }
 }
 

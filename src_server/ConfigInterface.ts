@@ -4,6 +4,7 @@
 interface ConfigInterface {
     serverPort: number;
     enableLiveStream: boolean;
+    enableLivePCHttpStream: boolean;
     enableLiveHttpStream: boolean;
     enableRecordedStream: boolean;
 
@@ -21,6 +22,12 @@ interface ConfigInterface {
     }[];
 
     liveHttpVideoSetting: {
+        id: number,
+        name: string,
+        command: string
+    }[];
+
+    livePCHttpVideoSetting: {
         id: number,
         name: string,
         command: string
