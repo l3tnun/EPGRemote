@@ -21,7 +21,10 @@ class LiveWatchOtherStreamInfoView extends View {
         let content = this.createCard(info);
         if(content.length == 0) { return m(""); }
 
-        return m("div", { class: "live-program mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col" }, [
+        return m("div", {
+            class: "live-program mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col",
+            onclick: () => { this.viewModel.update(); }
+        }, [
             m("div", { class: "mdl-card__supporting-text" }, [
                 m("div", { class: "live-program-description" }, [ "配信中" ]),
                 content
