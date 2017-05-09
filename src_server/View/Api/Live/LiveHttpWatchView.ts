@@ -40,14 +40,16 @@ class LiveHttpWatchView extends ApiView {
         this.streamId = model.getResults()["streamId"];
         this.encChild = model.getResults()["encChild"];
         this.recChild = model.getResults()["recChild"];
+        let contentType = model.getResults()["contentType"];
 
         //child エラー処理
         this.setChildErrorProcessing(this.encChild);
         this.setChildErrorProcessing(this.recChild);
 
+
         //ffmpeg の結果を response で返す
         this.response.writeHead(200, {
-            "Content-Type": "video/mpeg",
+            "Content-Type": contentType,
             "Cache-Control": "no-cache",
             "Pragma": "no-cache"
         });

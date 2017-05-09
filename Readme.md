@@ -5,7 +5,7 @@ epgrecUNA の HLS View + スマートフォン & タブレット用 Web UI (Node
 
 ## これはなに？
 
-epgrecUNA 用の後方支援プログラムです。epgrecUNA の番組情報を使用して HLS(HTTP Live Streaming) や http でリアルタイムに視聴可能にします。
+epgrecUNA 用の後方支援プログラムです。epgrecUNA の番組情報を使用して HLS(HTTP Live Streaming) や http でリアルタイムに視聴を可能にします。
 
 [dailymotion/hls.js](https://github.com/dailymotion/hls.js/tree/master) を使用しているため、HLS 非対応ブラウザ(Desktop版 Chrome, Firefox など)でも視聴可能です。
 
@@ -22,7 +22,7 @@ epgrecUNA 用の後方支援プログラムです。epgrecUNA の番組情報を
 HLS でのリアルタイム視聴は CPU にとってかなり重たい処理となります。スペックに余裕があるマシンで動かしてください。
 QSV や NVEnc 等のハードウェアエンコードを使うことをおすすめします。
 
-http 配信の場合は iOS や Android しか再生できませんが、mpeg2ts をそのまま配信可能なので低スペックマシンでも配信が可能になります。
+http 配信(モバイル版)の場合は iOS や Android しか再生できませんが、mpeg2ts をそのまま配信可能なので低スペックマシンでも配信が可能になります。
 その分クライアントでの再生が大変ですが、Android で mpeg2 デコーダーが搭載されたものであれば問題無いはずです。
 
 ffmpeg の設定については [v42fg3g/TvRemoteViewer_VB](https://github.com/v42fg3g/TvRemoteViewer_VB/) を参考にさせていただきました。作者さんありがとうございます。
@@ -100,8 +100,10 @@ vim config/config.json
 
     //放送中番組の HLS 配信を有効にするか true: 有効, false: 無効
     "enableLiveStream" : true,
-    //放送中番組の http 配信を有効にするか true: 有効, false: 無効
+    //放送中番組の http 配信(モバイル版)を有効にするか true: 有効, false: 無効
     "enableLiveHttpStream" : true,
+    //放送中番組の http 配信(PC 限定)を有効にするか true: 有効, false: 無効
+    "enableLivePCHttpStream" : false,
     //録画済みファイルの HLS 配信を有効にするか true: 有効, false: 無効
     "enableRecordedStream" : true,
 
@@ -120,7 +122,7 @@ vim config/config.json
          }, ...
     ],
 
-	//放送中番組の http 配信で使用される ffmpeg の設定
+	//放送中番組の http 配信(モバイル版)で使用される ffmpeg の設定
     //enableLiveHttpStream が false の場合必要ない
     "liveHttpVideoSetting" : [
         {
@@ -128,6 +130,17 @@ vim config/config.json
             "name"    : "無変換(主音声)", //Web UI で表示される名前
             //ffmpeg コマンド
             "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode main -i pipe:0 -acodec libfdk_aac -ar 48000 -ab 192k -ac 2 -vcodec copy -f mpegts -movflags frag_keyframe+empty_moov pipe:1"
+        }, ...
+    ],
+
+    //放送中番組の http 配信(PC 限定)で使用される ffmpeg の設定 (mp4のみ)
+    //enableLivePCHttpStream が false の場合必要ない
+    "liveHttpVideoSetting" : [
+        {
+            "id"      : 1,                //設定を一意に特定するためのID, 重複禁止
+            "name"    : "1280x720(main)", //Web UI で表示される名前
+            //ffmpeg コマンド
+            "command" : "/usr/local/ffmpeg_build/bin/ffmpeg -re -dual_mono_mode main -i pipe:0 -s 1280x720 -filter:v yadif -aspect 16:9 -c:v libx264 -b:v 3000k -c:a libfdk_aac -ar 48000 -ab 192k -ac 2 -f mp4 -movflags empty_moov pipe:1"
         }, ...
     ],
 
@@ -161,7 +174,7 @@ vim config/config.json
     "streamFilePath" : "/hoge/streamfiles",
 
     //HLS の最大同時視聴数
-    //enableLiveStream と enableRecordedStream 両方が false の場合必要ない
+    //enableLiveStream, enableRecordedStream, enableLiveHttpStream, enableLivePCHttpStream の全てが false の場合必要ない
     "maxStreamNumber" : 4,
 
     //epgrecUNA のデータベース(MySQL) にアクセスする設定
@@ -278,7 +291,7 @@ npm start
 
 サービス化については pm2 等で各自で行ってください。
 
-## Android 6.0 で番組表が重いぞ、という方へ
+## Android 6.0 以降で番組表が重いぞ、という方へ
 設定のユーザー補助機能で "操作の監視" を行っているアプリが原因のようで、これらを OFF にすると問題は解消されました。
 
 具体的なアプリは LMT Launcher や Pie Control などが挙げられます。

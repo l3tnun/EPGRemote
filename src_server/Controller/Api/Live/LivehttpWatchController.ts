@@ -14,7 +14,8 @@ class LivehttpWatchController extends Controller {
             channel: parsedUrl.query.channel,
             sid: parsedUrl.query.sid,
             tunerId: Number(parsedUrl.query.tuner),
-            videoId: Number(parsedUrl.query.video)
+            videoId: Number(parsedUrl.query.video),
+            pc: Number(parsedUrl.query.pc)
         });
 
         let view = new LiveHttpWatchView(response, request);

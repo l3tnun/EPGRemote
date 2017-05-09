@@ -63,6 +63,8 @@ class NavigationView extends View {
                 result.push( this.createLink(`${data.name}`, `/live/watch?stream=${data.streamNumber}`) );
             } else if(data["streamType"] == "http-live") {
                 result.push( this.createHttpViewLink(data) );
+            } else if(data["streamType"] == "http-pc-live") {
+                result.push( this.createHttpPCViewLink(data) );
             }
 
             if(streamInfo.length == index + 1) {
@@ -133,6 +135,15 @@ class NavigationView extends View {
                 } else {
                     alert(`お使いの端末は http 再生に対応していません。VLC Media Player 等で次のリンクを開いてください。${ location.protocol }//${ path }`);
                 }
+            }
+        }, data.name);
+    }
+
+    private createHttpPCViewLink(data: { [key: string]: any }): Vnode<any, any> {
+        return m("a", {
+            class: "mdl-navigation__link drawer-busy",
+            onclick: () => {
+                alert('この配信は配信を開始した端末からしか視聴できません。');
             }
         }, data.name);
     }

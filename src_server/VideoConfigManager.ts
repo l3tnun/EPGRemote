@@ -46,6 +46,19 @@ class VideoConfigManager extends Base {
     }
 
     /**
+    * http PC Live 配信用の設定を取得
+    */
+    public getAllLivePCHttpVideoConfig(): any {
+        let config = this.config.getConfig().livePCHttpVideoSetting;
+
+        if(typeof config == "undefined" || typeof config.length == "undefined" || config.length == 0) {
+            return [];
+        }
+
+        return config;
+    }
+
+    /**
     * 録画済みビデオ配信用の設定を取得
     */
     public getAllRecordedVideoConfig(): any {

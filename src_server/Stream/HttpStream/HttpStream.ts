@@ -11,17 +11,19 @@ class HttpStream extends Stream {
     private sid: string;
     private tunerId: number;
     private videoId: number;
+    private pc: boolean;
     private encChild: child_process.ChildProcess;
     private recChild: child_process.ChildProcess;
     private streamNumber: number;
 
-    constructor(_channel: string, _sid: string, _tunerId: number, _videoId: number) {
+    constructor(_channel: string, _sid: string, _tunerId: number, _videoId: number, _pc: boolean) {
         super();
 
         this.channel = _channel;
         this.sid = _sid;
         this.tunerId = _tunerId;
         this.videoId = _videoId;
+        this.pc = _pc;
     }
 
     public start(streamNumber: number): void {
@@ -37,7 +39,7 @@ class HttpStream extends Stream {
         this.streamNumber = streamNumber;
 
         //run command
-        this.encChild = new LiveHttpEncProcessBuilder().build({ videoId: this.videoId });
+        this.encChild = new LiveHttpEncProcessBuilder().build({ videoId: this.videoId, pc: this.pc });
         this.recChild = new RecProcessBuilder().build({ channel: this.channel, sid: this.sid, tunerId: this.tunerId });
         this.recChild.stdout.pipe(this.encChild.stdin);
 
@@ -66,7 +68,7 @@ class HttpStream extends Stream {
         };
     }
 
-    public getType(): string { return "http-live"; }
+    public getType(): string { return this.pc ? "http-pc-live" : "http-live"; }
 
     public changeWaitTime(): number { return 1000; }
 

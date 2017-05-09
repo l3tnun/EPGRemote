@@ -9,7 +9,7 @@ class LiveConfigModel extends ApiModel {
         let configJson = this.config.getConfig();
         this.results = {}
 
-        if(!configJson.enableLiveStream && !configJson.enableRecordedStream && !configJson.enableLiveHttpStream) {
+        if(!configJson.enableLiveStream && !configJson.enableRecordedStream && !configJson.enableLiveHttpStream && !configJson.enableLivePCHttpStream) {
             //全て無効
             this.setError("stream");
             return;
@@ -20,6 +20,10 @@ class LiveConfigModel extends ApiModel {
         } else if(!configJson.enableLiveHttpStream && this.option["method"] == "http-live") {
             //http リアルタイム視聴が無効
             this.setError("enableLiveHttpStream");
+            return;
+        } else if(!configJson.enableLivePCHttpStream && this.option["method"] == "http-pc-live") {
+            //http PC リアルタイム視聴が無効
+            this.setError("enableLivePCHttpStream");
             return;
         } else if(!configJson.enableLiveStream && typeof this.option["method"] == "undefined" && this.option["type"] != "recorded") {
             //HLS リアルタイム視聴が無効
@@ -42,6 +46,9 @@ class LiveConfigModel extends ApiModel {
             if(typeof this.option["method"] != "undefined" && this.option["method"] == "http-live") {
                 //http リアルタイム視聴
                 this.results["videoConfig"] = VideoConfigManager.getInstance().getAllLiveHttpVideoConfig();
+            } else if(typeof this.option["method"] != "undefined" && this.option["method"] == "http-pc-live") {
+                //http PC リアルタイム視聴
+                this.results["videoConfig"] = VideoConfigManager.getInstance().getAllLivePCHttpVideoConfig();
             } else {
                 //HLS リアルタイム視聴
                 this.results["videoConfig"] = VideoConfigManager.getInstance().getAllLiveVideoConfig();

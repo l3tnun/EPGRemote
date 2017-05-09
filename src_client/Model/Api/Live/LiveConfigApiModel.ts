@@ -1,6 +1,7 @@
 "use strict";
 
 import * as m from 'mithril';
+import Util from '../../../Util/Util';
 import ApiModel from '../ApiModel';
 
 interface LiveConfigApiModelInterface {
@@ -25,7 +26,7 @@ class LiveConfigApiModel extends ApiModel implements LiveConfigApiModelInterface
         if(this.type == null) { return; }
 
         let query = { type: this.type }
-        if(this.http) { query["method"] = "http-live"; }
+        if(this.http) { query["method"] = Util.uaIsiOS() || Util.uaIsAndroid() ? "http-live" : "http-pc-live"; }
 
         this.getRequest({ method: "GET", url: `/api/live/config?${ m.buildQueryString(query) }` },
         (value: {}) => {
