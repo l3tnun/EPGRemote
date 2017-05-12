@@ -72,6 +72,11 @@ interface ConfigInterface {
         startTranscodeId: number
     };
 
+    channelMapGR: string[];
+    channelMapBS: string[];
+    channelMapCS: string[];
+    channelMapEX: string[];
+
     programLength: number;
 
     programViewConfig: {

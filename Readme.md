@@ -208,6 +208,14 @@ vim config/config.json
         "startTranscodeId" : 3
     },
 
+    //GR の並べ替え設定 channel_disc を設定する。
+    //必須設定ではない。設定する場合は全ての channel_disc の記述を行う事
+    //以下のchannelMapBS, channelMapCS, channelMapEX も同じ
+    "channelMapGR": [ "GR20_26624", "GR20_26625", "GR13_1032", ... ],
+    "channelMapBS": [ ... ],
+    "channelMapCS": [ ... ],
+    "channelMapEX": [ ... ],
+
     "programLength": 8, //番組表1ページで表示する時間
 
     //番組表の設定
