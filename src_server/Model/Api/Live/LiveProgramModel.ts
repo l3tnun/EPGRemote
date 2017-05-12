@@ -1,9 +1,9 @@
 "use strict";
 
-import ApiModel from '../ApiModel';
+import SortCheannelMapApiModel from '../SortCheannelMapApiModel';
 import Sql from '../../../Sql/Sql';
 
-class LiveProgramModel extends ApiModel {
+class LiveProgramModel extends SortCheannelMapApiModel {
     private getLiveProgramListSql: Sql;
 
     constructor(_getLiveProgramListSql: Sql) {
@@ -26,6 +26,11 @@ class LiveProgramModel extends ApiModel {
                 let endtime = new Date(data["endtime"]).getTime() - nowDate;
                 if(minEndtime > endtime) { minEndtime = endtime; }
             });
+
+            //sort
+            if(!this.checkNull(this.option["type"])) {
+                this.results = this.sortChannel(this.option["type"], this.results);
+            }
 
             this.results.push({ updateTime: minEndtime + this.getRandtime() });
 

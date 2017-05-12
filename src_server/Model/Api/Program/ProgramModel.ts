@@ -1,10 +1,10 @@
 "use strict";
 
-import ApiModel from '../ApiModel';
+import SortCheannelMapApiModel from '../SortCheannelMapApiModel';
 import SubGenreModule from '../../SubGenreModule';
 import Sql from '../../../Sql/Sql';
 
-class ProgramModel extends ApiModel {
+class ProgramModel extends SortCheannelMapApiModel {
     private getProgramListSql: Sql;
 
     constructor(_getProgramListSql: Sql) {
@@ -26,6 +26,11 @@ class ProgramModel extends ApiModel {
             let genres = rows[0];
             let channel = rows[1];
             let time = rows.pop();
+
+            //sort channel
+            if(channel.length > 1 && this.option["type"] != null) {
+                channel = this.sortChannel(this.option["type"], channel);
+            }
 
             let recorded = {};
             rows[2].map((rec: { [key: string]: any }) => {
