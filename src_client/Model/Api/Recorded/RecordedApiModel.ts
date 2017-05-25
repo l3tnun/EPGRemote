@@ -36,6 +36,7 @@ class RecordedApiModel extends ApiModel implements RecordedApiModelInterface {
         this.recordedList = [];
         this.totalNum = null;
         this.limit = null;
+        m.redraw();
     }
 
     public setup(_option: RecordedApiModelParamsInterface): void {
