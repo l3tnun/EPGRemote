@@ -1,12 +1,13 @@
 "use strict";
 
 import Controller from '../Controller';
+import { ControllerStatus } from '../../Enums';
 
 class NavigationController extends Controller {
-    public initModel(): void {
-        super.initModel();
+    public initModel(status: ControllerStatus): void {
+        super.initModel(status);
 
-        this.getModel("NavigationViewModel").init();
+        this.getModel("NavigationViewModel").init(status);
     }
 }
 
