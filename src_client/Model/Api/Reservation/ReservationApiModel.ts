@@ -26,6 +26,7 @@ class ReservationApiModel extends ApiModel implements ReservationApiModelInterfa
         this.page = null;
         this.limit = null;
         this.totalNum = 0;
+        m.redraw();
     }
 
     public setup(_page: number | null, _limit: number | null): void {

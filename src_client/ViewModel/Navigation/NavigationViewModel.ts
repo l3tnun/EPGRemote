@@ -15,6 +15,7 @@ class NavigationViewModel extends ViewModel {
     private liveOtherStreamInfoApiModel: LiveOtherStreamInfoApiModelInterface;
     private liveConfigEnableApiModel: LiveConfigEnableApiModelInterface;
     private liveHttpConfigApiModel: LiveHttpConfigApiModelInterface;
+    private inited: boolean = false;
 
     constructor(
         _broadCast: BroadCastApiModelInterface,
@@ -31,10 +32,13 @@ class NavigationViewModel extends ViewModel {
     }
 
     public init(): void {
+        if(this.inited) { return; }
+
         this.broadCastApiModel.update();
         this.liveOtherStreamInfoApiModel.update();
         this.liveConfigEnableApiModel.update();
         this.liveHttpConfigApiModel.update();
+        this.inited = true;
     }
 
     //有効な放送波を返す

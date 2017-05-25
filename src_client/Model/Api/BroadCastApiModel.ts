@@ -14,8 +14,6 @@ class BroadCastApiModel extends ApiModel implements BroadCastApiModelInterface {
     private list: string[] = [];
 
     public update(): void {
-        if(this.list.length != 0) { return; }
-
         this.getRequest({ method: "GET", url: `/api/broadcast` },
         (value: string[]) => {
             this.list = value;
