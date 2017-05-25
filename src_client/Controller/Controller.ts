@@ -2,6 +2,7 @@
 
 import Util from '../Util/Util';
 import MithrilBase from '../MithrilBase';
+import { ControllerStatus } from '../Enums';
 
 /**
 * Controller 抽象クラス
@@ -18,7 +19,7 @@ abstract class Controller extends MithrilBase {
     public onInit(): void {
         this.query = Util.getCopyQuery();
         this.queryChanged = false;
-        this.initModel();
+        this.initModel("init");
     }
 
     /**
@@ -35,7 +36,8 @@ abstract class Controller extends MithrilBase {
     * onupdate
     */
     public onUpdate(): void {
-        if(this.queryChanged) { this.initModel(); }
+        //query の変更で initModel する場合は state を update にする
+        if(this.queryChanged) { this.initModel("update"); }
         this.query = this.newQuery;
         this.queryChanged = false;
     }
@@ -50,7 +52,7 @@ abstract class Controller extends MithrilBase {
     * 使用する Model を初期化する
     * 同じページでも query が異なると呼ばれる
     */
-    protected initModel(): void {}
+    protected initModel(status: ControllerStatus = "init"): void { status; }
 }
 
 export default Controller;

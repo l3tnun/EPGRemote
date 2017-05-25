@@ -6,6 +6,7 @@ import { BroadCastApiModelInterface } from '../../Model/Api/BroadCastApiModel';
 import { LiveOtherStreamInfoApiModelInterface } from '../../Model/Api/Live/LiveOtherStreamInfoApiModel';
 import { LiveConfigEnableApiModelInterface } from '../../Model/Api/Live/LiveConfigEnableApiModel';
 import { LiveHttpConfigApiModelInterface } from '../../Model/Api/Live/LiveHttpConfigApiModel';
+import { ControllerStatus } from '../../Enums';
 
 /**
 * Navigation の ViewModel
@@ -31,7 +32,11 @@ class NavigationViewModel extends ViewModel {
         this.liveHttpConfigApiModel = _liveHttpConfigApiModel;
     }
 
-    public init(): void {
+    public init(status: ControllerStatus): void {
+        if(status == "update") {
+            this.liveOtherStreamInfoApiModel.update();
+        }
+
         if(this.inited) { return; }
 
         this.broadCastApiModel.update();
