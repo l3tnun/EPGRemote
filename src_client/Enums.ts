@@ -1,3 +1,3 @@
-type ControllerStatus = "init" | "update";
+type ControllerStatus = "init" | "update" | "reload";
 
 export { ControllerStatus };

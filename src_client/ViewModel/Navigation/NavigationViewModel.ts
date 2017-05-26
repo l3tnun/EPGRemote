@@ -33,7 +33,7 @@ class NavigationViewModel extends ViewModel {
     }
 
     public init(status: ControllerStatus): void {
-        if(status == "update") {
+        if(status == "reload") {
             this.liveOtherStreamInfoApiModel.update();
         }
 

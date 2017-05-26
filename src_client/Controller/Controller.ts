@@ -36,8 +36,8 @@ abstract class Controller extends MithrilBase {
     * onupdate
     */
     public onUpdate(): void {
-        //query の変更で initModel する場合は state を update にする
-        if(this.queryChanged) { this.initModel("update"); }
+        //query の変更で initModel する場合は state を 適宜変更する
+        if(this.queryChanged) { this.initModel(this.query["reload"] == 1 ? "reload" : "update"); }
         this.query = this.newQuery;
         this.queryChanged = false;
     }
