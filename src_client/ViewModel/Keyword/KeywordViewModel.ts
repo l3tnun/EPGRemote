@@ -62,7 +62,7 @@ class KeywordViewModel extends ViewModel {
         if((!this.showStatus || this.showStatus == null) && window.innerWidth < KeywordViewModel.viewChangeWidth) {
             this.showStatus = true;
             m.redraw();
-        } else if((this.showStatus || this.showStatus == null) && window.innerWidth > KeywordViewModel.viewChangeWidth) {
+        } else if((this.showStatus || this.showStatus == null) && window.innerWidth >= KeywordViewModel.viewChangeWidth) {
             this.showStatus = false;
             m.redraw();
         }
