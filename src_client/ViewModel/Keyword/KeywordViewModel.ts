@@ -5,6 +5,7 @@ import ViewModel from '../ViewModel';
 import Util from '../../Util/Util';
 import { KeywordApiModelInterface } from '../../Model/Api/Keyword/KeywordApiModel';
 import { EnableKeywordEpgrecModuleModelInterface } from '../../Model/Api/EpgrecModule/EnableKeywordEpgrecModuleModel';
+import { ControllerStatus } from '../../Enums';
 
 /**
 * Keyword の ViewModel
@@ -26,12 +27,15 @@ class KeywordViewModel extends ViewModel {
     * 初期化
     * controller からページ読み込み時に呼ばれる
     */
-    public init(): void {
-        this.keywordApiModel.init();
-        this.showStatus = null;
+    public init(status: ControllerStatus): void {
         let query = Util.getCopyQuery();
         this.page = (typeof query["page"] == "undefined") ? null : Number(query["page"]);
         this.limit = (typeof query["limit"] == "undefined") ? null : Number(query["limit"]);
+
+        if(status != "reload") {
+            this.keywordApiModel.init();
+            this.showStatus = null;
+        }
 
         setTimeout(() => { this.update(); }, 200);
     }
