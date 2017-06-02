@@ -2,16 +2,17 @@
 
 import ParentPageController from '../ParentPageController';
 import KeywordViewModel from '../../ViewModel/Keyword/KeywordViewModel';
+import { ControllerStatus } from '../../Enums';
 
 class KeywordController extends ParentPageController {
     private resizeListener = this.resize.bind(this);
     private viewModel: KeywordViewModel;
 
     //ViewModel 初期化
-    public initModel(): void {
-        super.initModel();
+    public initModel(status: ControllerStatus): void {
+        super.initModel(status);
         this.viewModel = <KeywordViewModel>this.getModel("KeywordViewModel");
-        this.viewModel.init();
+        this.viewModel.init(status);
 
         window.addEventListener('resize', this.resizeListener, false );
     }

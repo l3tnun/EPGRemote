@@ -4,6 +4,7 @@ import * as m from 'mithril';
 import ViewModel from '../ViewModel';
 import Util from '../../Util/Util';
 import { ReservationApiModelInterface } from '../../Model/Api/Reservation/ReservationApiModel';
+import { ControllerStatus } from '../../Enums';
 
 /**
 * Reservation の ViewModel
@@ -24,12 +25,14 @@ class ReservationViewModel extends ViewModel {
     * 初期化
     * controller からページ読み込み時に呼ばれる
     */
-    public init(): void {
-        this.showStatus = null;
+    public init(status: ControllerStatus): void {
         let query = Util.getCopyQuery();
         this.page = (typeof query["page"] == "undefined") ? null : Number(query["page"]);
         this.limit = (typeof query["limit"] == "undefined") ? null : Number(query["limit"]);
-        this.reservationApiModel.init();
+        if(status != "reload") {
+            this.showStatus = null;
+            this.reservationApiModel.init();
+        }
 
         setTimeout(() => { this.update(); }, 200);
     }

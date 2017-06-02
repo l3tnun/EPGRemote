@@ -3,6 +3,7 @@
 import * as m from 'mithril';
 import ParentPageController from '../ParentPageController';
 import ProgramViewModel from '../../ViewModel/Program/ProgramViewModel';
+import { ControllerStatus } from '../../Enums';
 
 class ProgramController extends ParentPageController {
     private resizeListener = this.resize.bind(this);
@@ -10,11 +11,11 @@ class ProgramController extends ParentPageController {
     private nowBarTimerId: number;
 
     //ViewModel 初期化
-    public initModel(): void {
-        super.initModel();
+    public initModel(status: ControllerStatus): void {
+        super.initModel(status);
 
         this.viewModel = <ProgramViewModel>this.getModel("ProgramViewModel");
-        this.viewModel.init();
+        this.viewModel.init(status);
 
         //時刻線の位置を定期的に更新
         setTimeout(() => { this.updateNowBarTimer(); }, 100);

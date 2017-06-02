@@ -35,10 +35,7 @@ class LiveProgramCardView extends View {
         this.dialogViewModel = <DialogViewModel>this.getModel("DialogViewModel");
         this.dialogContentViewModel = <LiveProgramDialogContentViewModel>this.getModel("LiveProgramDialogContentViewModel");
 
-        return m("div", {
-            id: LiveProgramCardViewModel.cardParentId,
-            style: `height: 100%;`
-        }, [
+        return m("div", { id: LiveProgramCardViewModel.cardParentId }, [
             this.viewSingle ? this.singleCardView() : this.multipleCardView(),
             m("div", { class: "live-program-dummy" }) //dummy space
         ]);

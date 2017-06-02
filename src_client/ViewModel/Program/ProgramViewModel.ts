@@ -6,6 +6,7 @@ import Util from '../../Util/Util';
 import { ProgramApiModelInterface } from '../../Model/Api/Program/ProgramApiModel';
 import { ProgramConfigApiModelInterface } from '../../Model/Api/Program/ProgramConfigApiModel';
 import { LiveConfigEnableApiModelInterface } from '../../Model/Api/Live/LiveConfigEnableApiModel';
+import { ControllerStatus } from '../../Enums';
 
 interface ProgramCacheStructure {
     autorec: number;
@@ -47,18 +48,24 @@ class ProgramViewModel extends ViewModel {
     * 初期化
     * ParentPageController から呼ばれる
     */
-    public init(): void {
-        this.stationCnt = 0;
-        this.initScrollPosition();
-        this.showProgress();
-        this.programUpdateTime = null;
-        this.programApiModel.init(() => { this.diffUpdate(); });
-        this.updateProgram();
-        this.programConfigApiModel.update();
-        this.initUpdateTime();
-        this.headerHeight = 0;
-        this.windowWidth = 0;
-        this.resetCache();
+    public init(status: ControllerStatus): void {
+        if(status == "reload") {
+            this.resetCache();
+            this.showProgress();
+            this.updateProgram();
+        } else {
+            this.stationCnt = 0;
+            this.initScrollPosition();
+            this.showProgress();
+            this.programUpdateTime = null;
+            this.programApiModel.init(() => { this.diffUpdate(); });
+            this.updateProgram();
+            this.programConfigApiModel.update();
+            this.initUpdateTime();
+            this.headerHeight = 0;
+            this.windowWidth = 0;
+            this.resetCache();
+        }
     }
 
     //program api model を更新する

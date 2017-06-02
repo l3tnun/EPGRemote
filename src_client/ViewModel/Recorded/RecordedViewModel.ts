@@ -3,6 +3,7 @@
 import Util from '../../Util/Util';
 import ViewModel from '../ViewModel';
 import { RecordedApiModelParamsInterface, RecordedApiModelInterface} from '../../Model/Api/Recorded/RecordedApiModel';
+import { ControllerStatus } from '../../Enums';
 
 /**
 * Recorded ViewModel
@@ -17,8 +18,8 @@ class RecordedViewModel extends ViewModel {
         this.recordedApiModel = _recordedApiModel;
     }
 
-    public init(): void {
-        this.recordedApiModel.init();
+    public init(status: ControllerStatus): void {
+        if(status != "reload") { this.recordedApiModel.init(); }
         setTimeout(() => {
             this.setup(Util.getCopyQuery());
             this.update();
