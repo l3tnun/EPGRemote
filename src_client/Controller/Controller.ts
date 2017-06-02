@@ -52,7 +52,7 @@ abstract class Controller extends MithrilBase {
     * 使用する Model を初期化する
     * 同じページでも query が異なると呼ばれる
     */
-    protected initModel(status: ControllerStatus = "init"): void { status; }
+    protected initModel(_status: ControllerStatus = "init"): void {}
 }
 
 export default Controller;

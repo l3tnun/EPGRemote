@@ -3,6 +3,7 @@
 import Controller from './Controller';
 import TimerManager from '../Util/TimerManager';
 import SocketIoManager from '../SocketIo/SocketIoManager';
+import { ControllerStatus } from '../Enums';
 
 /**
 * 親ページの Controller
@@ -28,8 +29,8 @@ class ParentPageController extends Controller {
         TimerManager.getInstance().stopAll();
     }
 
-    protected initModel(): void {
-        super.initModel();
+    protected initModel(status: ControllerStatus = "init"): void {
+        super.initModel(status);
         this.socketIoManager.init();
         this.enableSocketIoModules();
     }
