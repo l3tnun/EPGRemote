@@ -2,17 +2,18 @@
 
 import ParentPageController from '../ParentPageController';
 import ReservationViewModel from '../../ViewModel/Reservation/ReservationViewModel';
+import { ControllerStatus } from '../../Enums';
 
 class ReservationController extends ParentPageController {
     private resizeListener = this.resize.bind(this);
     private viewModel: ReservationViewModel;
 
     //ViewModel 初期化
-    public initModel(): void {
-        super.initModel();
+    public initModel(status: ControllerStatus): void {
+        super.initModel(status);
 
         this.viewModel = <ReservationViewModel>this.getModel("ReservationViewModel");
-        this.viewModel.init();
+        this.viewModel.init(status);
 
         window.addEventListener('resize', this.resizeListener, false );
     }
