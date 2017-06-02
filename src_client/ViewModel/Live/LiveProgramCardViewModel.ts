@@ -1,5 +1,6 @@
 "use strict";
 
+import * as m from 'mithril';
 import ViewModel from '../ViewModel';
 import { LiveProgramApiModelInterface } from '../../Model/Api/Live/LiveProgramApiModel';
 import { ControllerStatus } from '../../Enums';
@@ -20,6 +21,7 @@ class LiveProgramCardViewModel extends ViewModel {
     public init(status: ControllerStatus): void {
         if(status == "reload") { return; }
         this.liveProgramApiModel.init();
+        if(status == "update") { m.redraw(); }
     }
 
     /**

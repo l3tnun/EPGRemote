@@ -24,7 +24,6 @@ class LiveProgramApiModel extends RetryTimerApiModel implements LiveProgramApiMo
         this.list = [];
         this.time = 0;
         this.retry = 0;
-        m.redraw();
     }
 
     //更新
