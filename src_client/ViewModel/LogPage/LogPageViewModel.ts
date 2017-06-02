@@ -2,6 +2,7 @@
 
 import ViewModel from '../ViewModel';
 import { LogPageApiModelInterface } from '../../Model/Api/LogPage/LogPageApiModel';
+import { ControllerStatus } from '../../Enums';
 
 /**
 * LogPage の ViewModel
@@ -23,11 +24,14 @@ class LogPageViewModel extends ViewModel {
     * 初期化
     * controller からページ読み込み時に呼ばれる
     */
-    public init(): void {
-        this._info = true;
-        this._warning = true;
-        this._error = true;
-        this._debug = false;
+    public init(status: ControllerStatus): void {
+        if(status != "reload") {
+            this._info = true;
+            this._warning = true;
+            this._error = true;
+            this._debug = false;
+        }
+
         this.update();
     }
 
