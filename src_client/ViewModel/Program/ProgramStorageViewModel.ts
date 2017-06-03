@@ -37,7 +37,7 @@ class ProgramStorageViewModel extends ViewModel {
     }
 
     //ジャンル情報の取得
-    public get(): { [key: number]: boolean; } {
+    public get(): { [key: number]: boolean; } | null {
         return this.storageModel.get(ProgramStorageViewModel.storageKey);
     }
 

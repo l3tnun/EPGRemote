@@ -4,7 +4,7 @@ import Model from '../Model';
 
 interface StorageModelInterface extends Model {
     set(key: string, value: any): void;
-    get(key: string): any;
+    get(key: string): any | null;
     remove(key: string): void;
 }
 
@@ -25,8 +25,14 @@ class StorageModel implements StorageModelInterface {
     * key で指定した値の取得
     * @param key key
     */
-    public get(key: string): any {
-        let value = window.localStorage.getItem(key);
+    public get(key: string): any | null {
+        let value: any | null
+        try {
+            value = window.localStorage.getItem(key);
+        } catch(e) {
+            return null;
+        }
+
         return value == null ? null : JSON.parse(value);
     }
 
