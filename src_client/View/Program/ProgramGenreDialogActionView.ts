@@ -15,7 +15,7 @@ class ProgramGenreDialogActionView extends View {
     private viewModel: ProgramStorageViewModel;
     private dialog: DialogViewModel;
     private programViewModel: ProgramViewModel;
-    private storedGenre: { [key: number]: boolean; };
+    private storedGenre: { [key: number]: boolean; } | null;
 
     public execute(): Vnode<any, any> {
         this.viewModel = <ProgramStorageViewModel>this.getModel("ProgramStorageViewModel");

@@ -18,7 +18,7 @@ class ProgramContentView extends View {
     private dialog: DialogViewModel;
     private viewConfig: { [key: string]: number };
     private infoDialogViewModel: ProgramInfoDialogViewModel;
-    private storedGenre: { [key: number]: boolean; };
+    private storedGenre: { [key: number]: boolean; } | null;
 
     public execute(): Vnode<any, any> {
         this.viewModel = <ProgramViewModel>this.getModel("ProgramViewModel");
@@ -235,7 +235,7 @@ class ProgramContentView extends View {
         classStr += `ctg_${ program["category_id"] } `
 
         //表示ジャンル
-        if(typeof this.storedGenre[program["category_id"]] != "undefined" && !this.storedGenre[program["category_id"]]) { classStr += "ctg-hide "; }
+        if(this.storedGenre != null && typeof this.storedGenre[program["category_id"]] != "undefined" && !this.storedGenre[program["category_id"]]) { classStr += "ctg-hide "; }
 
         if(program["recorded"]) { classStr += `${ ProgramViewModel.recordedClassStr  } `; } //予約枠線
         if(program["autorec"] == 0) { classStr += `${ ProgramViewModel.autorecClassStr } `; } //自動予約禁止
