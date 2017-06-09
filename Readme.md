@@ -192,6 +192,8 @@ vim config/config.json
     //epgrecUNA の設定
     "epgrecConfig" : {
         "host" : "http://127.0.0.1:1180",        //ホスト
+        "openHost": "http://192.168.11.2:1180",  //epgrec UNA の外部アクセス用ホスト (kodi で使用する)
+        "rootPath": "/var/www/epgrec",           //epgrec UNA の root ディレクトリパス (kodi で使用する)
         "videoPath" : "/var/www/epgrec/video",   //録画ファイルが保存されているディレクトリのパス
         "thumbsPath" : "/var/www/epgrec/thumbs", //サムネイルが保存されているディレクトリのパス
         //epgre UNA の予約カスタマイズの録画モード id は 0 から順につける

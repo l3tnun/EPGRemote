@@ -36,6 +36,7 @@ import SearchModel from './Api/Search/SearchModel';
 import LogModel from './Api/Log/LogModel';
 import EPGSingleUpdateModel from './Api/Epg/EPGSingleUpdateModel';
 import DiskModel from './Api/Disk/DiskModel';
+import KodiRecordedModel from './Api/Kodi/KodiRecordedModel';
 
 import LiveStream from '../Stream/LiveStream/LiveStream';
 import HttpStream from '../Stream/HttpStream/HttpStream';
@@ -55,6 +56,7 @@ import GetKeywordListSql from '../Sql/GetKeywordListSql';
 import GetSearchConfigSql from '../Sql/GetSearchConfigSql';
 import GetSearchResultConfigSql from '../Sql/GetSearchResultConfigSql';
 import GetLogListSql from '../Sql/GetLogListSql';
+import GetKodiRecordedListSql from '../Sql/GetKodiRecordedListSql';
 
 import AutorecEpgrecOperater from '../EpgrecOperater/AutorecEpgrecOperater';
 import CancelRecEpgrecOperater from '../EpgrecOperater/CancelRecEpgrecOperater'
@@ -201,6 +203,11 @@ namespace ModelFactoryAdd {
 
         //Disk
         factory.add("DiskModel", () => { return new DiskModel(); });
+
+        //Kodi
+        factory.add("KodiRecordedModel", () => {
+            return new KodiRecordedModel(new GetKodiRecordedListSql());
+        });
     }
 }
 

@@ -62,6 +62,8 @@ interface ConfigInterface {
 
     epgrecConfig: {
         host: string,
+        openHost: string,
+        rootPath: string,
         videoPath: string,
         thumbsPath: string,
         recMode: {
