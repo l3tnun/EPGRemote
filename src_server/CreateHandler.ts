@@ -47,6 +47,8 @@ import EPGSingleUpdateController from './Controller/Api/Epg/EPGSingleUpdateContr
 
 import DiskController from './Controller/Api/Disk/DiskController';
 
+import KodiRecordedController from './Controller/Api/Kodi/KodiRecordedController';
+
 class CreateHandler {
     public static create(): { [key: string]: Controller } {
         let handle: { [key: string]: Controller } = {};
@@ -96,6 +98,8 @@ class CreateHandler {
         handle["/api/epg:GET"] = new EPGSingleUpdateController();
 
         handle["/api/disk:GET"] = new DiskController();
+
+        handle["/api/kodi/recorded:GET"] = new KodiRecordedController();
 
         return handle;
     }

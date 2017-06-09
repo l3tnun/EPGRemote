@@ -27,14 +27,14 @@ http://{HOSTNAME}:{PORT}/api/live/program?types=GR
 
 ##Resource
 
-###/broadcast
+### /broadcast
 
 有効な放送波情報
 
-#####URI: ``/broadcast``
-#####Formats: json
+##### URI: ``/broadcast``
+##### Formats: json
 
-#####Methods: GET
+##### Methods: GET
 
 Parameter: なし
 
@@ -48,14 +48,14 @@ Format
 ```
 ---
 
-###/live/program
+### /live/program
 
 放送中の番組情報
 
-#####URI: ``/live/program``
-#####Formats: json
+##### URI: ``/live/program``
+##### Formats: json
 
-#####Methods: GET
+##### Methods: GET
 指定した放送波の番組情報の一覧を表示する
 
 Parameter
@@ -87,14 +87,14 @@ Format
 ```
 
 ---
-###/live/config
+### /live/config
 
 ライブ視聴に必要な config, 使用可能なものが返される
 
-#####URI: ``/live/config``
-#####Formats: json
+##### URI: ``/live/config``
+##### Formats: json
 
-#####Methods: GET
+##### Methods: GET
 
 Parameters
 
@@ -128,10 +128,10 @@ Format
 ---
 ### /live/config/enable
 
-#####Methods: GET
-#####Formats: json
+##### Methods: GET
+##### Formats: json
 
-#####Methods: GET
+##### Methods: GET
 
 config.json でストリーミング再生が有効になっているかを返す
 
@@ -146,13 +146,13 @@ Format
 }
 ```
 ---
-###/live/watch
+### /live/watch
 
 ライブ視聴
 
-#####URI: ``/live/watch``
-#####Formats: json
-#####Methods: GET 
+##### URI: ``/live/watch``
+##### Formats: json
+##### Methods: GET
 現在ライブ配信中のストリーム情報を取得
 
 Parameters: なし
@@ -180,7 +180,7 @@ Format
 ]
 ```
 
-#####Methods: GET
+##### Methods: GET
 指定したストリームの情報を取得
 
 Parameter
@@ -215,7 +215,7 @@ Format
 }
 ```
 
-#####Methods: POST
+##### Methods: POST
 HLS でリアルタイム配信を開始
 
 Parameters
@@ -236,7 +236,7 @@ Format
 ```
 
 
-#####Methods: POST
+##### Methods: POST
 録画済み番組を配信を開始
 
 Parameters
@@ -255,7 +255,7 @@ Format
 ]
 ```
 
-#####Methods: POST
+##### Methods: POST
 チャンネル変更
 
 Parameters
@@ -268,7 +268,7 @@ Parameters
 |tunerId |yes |tunerId  |
 |videoId |yes |videId   |
 
-#####Methods: DELETE
+##### Methods: DELETE
 配信停止
 
 Parameters
@@ -280,9 +280,9 @@ Parameters
 ---
 ### /live/http/watch
 
-#####Methods: GET
+##### Methods: GET
 
-#####Formats: mpegts
+##### Formats: mpegts
 
 http でリアルタイム視聴を開始する
 
@@ -300,8 +300,8 @@ Parameter
 ---
 ### /live/http/config
 
-#####Methods: GET
-#####Formats: json
+##### Methods: GET
+##### Formats: json
 
 http でリアルタイム視聴する際に必要な設定を返す
 
@@ -319,14 +319,14 @@ Format
 
 
 ---
-###/program
+### /program
 
 放送中の番組情報
 
-#####URI: ``/program``
-#####Formats: json
+##### URI: ``/program``
+##### Formats: json
 
-#####Methods: GET
+##### Methods: GET
 指定した放送波の番組情報の一覧を表示する
 
 Parameter
@@ -407,14 +407,14 @@ Format
 ```
 
 ---
-###/program/config
+### /program/config
 
 放送中の番組情報
 
-#####URI: ``/program/config``
-#####Formats: json
+##### URI: ``/program/config``
+##### Formats: json
 
-#####Methods: GET
+##### Methods: GET
 番組表表示に必要な config
 
 Parameter: なし
@@ -461,14 +461,14 @@ Format
 }
 ```
 ---
-###/program/autorec
+### /program/autorec
 
 番組の自動予約禁止
 
-#####URI: ``/program/autorec``
-#####Formats: json
+##### URI: ``/program/autorec``
+##### Formats: json
 
-#####Methods: PUT
+##### Methods: PUT
 
 Parameter
 
@@ -500,14 +500,14 @@ Format
 ```
 
 ---
-###/program/simplerec
+### /program/simplerec
 
 番組の簡易予約
 
-#####URI: ``/program/simplerec``
-#####Formats: json
+##### URI: ``/program/simplerec``
+##### Formats: json
 
-#####Methods: PUT
+##### Methods: PUT
 
 Parameter
 
@@ -546,14 +546,14 @@ Format
 ```
 
 ---
-###/program/cancelrec
+### /program/cancelrec
 
 番組予約のキャンセル
 
-#####URI: ``/program/cancelrec``
-#####Formats: json
+##### URI: ``/program/cancelrec``
+##### Formats: json
 
-#####Methods: DELETE
+##### Methods: DELETE
 
 Parameter
 
@@ -592,14 +592,14 @@ Format
 }
 ```
 ---
-###/program/customrec
+### /program/customrec
 
 番組の簡易予約
 
-#####URI: ``/program/customrec``
-#####Formats: json
+##### URI: ``/program/customrec``
+##### Formats: json
 
-#####Methods: PUT
+##### Methods: PUT
 
 Parameter
 
@@ -658,14 +658,14 @@ Format
 ```
 
 ---
-###/recorded
+### /recorded
 
 録画済み一覧
 
-#####URI: ``/recorded``
-#####Formats: json
+##### URI: ``/recorded``
+##### Formats: json
 
-#####Methods: GET
+##### Methods: GET
 
 Parameter
 
@@ -702,14 +702,14 @@ Format
 ```
 
 ---
-###/recorded/keyword
+### /recorded/keyword
 
 録画済み一覧のキーワード一覧
 
-#####URI: ``/recorded/keyword``
-#####Formats: json
+##### URI: ``/recorded/keyword``
+##### Formats: json
 
-#####Methods: GET
+##### Methods: GET
 
 Parameter
 
@@ -734,14 +734,14 @@ Format
 ```
 
 ---
-###/recorded/category
+### /recorded/category
 
 録画済み一覧のカテゴリ一覧
 
-#####URI: ``/recorded/category``
-#####Formats: json
+##### URI: ``/recorded/category``
+##### Formats: json
 
-#####Methods: GET
+##### Methods: GET
 
 Parameter
 
@@ -766,14 +766,14 @@ Format
 ```
 
 ---
-###/recorded/channel
+### /recorded/channel
 
 録画済み一覧のチャンネル一覧
 
-#####URI: ``/recorded/channel``
-#####Formats: json
+##### URI: ``/recorded/channel``
+##### Formats: json
 
-#####Methods: GET
+##### Methods: GET
 
 Parameter
 
@@ -798,14 +798,14 @@ Format
 ```
 
 ---
-###/recorded/video
+### /recorded/video
 
 指定した rec_id の番組のリンクを取得
 
-#####URI: ``/recorded/video``
-#####Formats: json
+##### URI: ``/recorded/video``
+##### Formats: json
 
-#####Methods: GET
+##### Methods: GET
 
 Parameter
 
@@ -829,14 +829,14 @@ Format
 ```
 
 ---
-###/recorded/video
+### /recorded/video
 
 指定した rec_id の video を削除
 
-#####URI: ``/recorded/video``
-#####Formats: json
+##### URI: ``/recorded/video``
+##### Formats: json
 
-#####Methods: DELETE
+##### Methods: DELETE
 
 Parameter
 
@@ -867,14 +867,14 @@ Format
 ```
 
 ---
-###/reservation
+### /reservation
 
 予約一覧
 
-#####URI: ``/reservation``
-#####Formats: json
+##### URI: ``/reservation``
+##### Formats: json
 
-#####Methods: GET
+##### Methods: GET
 
 Parameter
 
@@ -908,14 +908,14 @@ Format
 }
 ```
 ---
-###/reservation
+### /reservation
 
 指定した rec_id の 予約を削除
 
-#####URI: ``/reservation ``
-#####Formats: json
+##### URI: ``/reservation ``
+##### Formats: json
 
-#####Methods: DELETE
+##### Methods: DELETE
 
 Parameter
 
@@ -946,14 +946,14 @@ Format
 ```
 
 ---
-###/keyword
+### /keyword
 
 自動録画キーワードの一覧
 
-#####URI: ``/keyword``
-#####Formats: json
+##### URI: ``/keyword``
+##### Formats: json
 
-#####Methods: GET
+##### Methods: GET
 
 Parameter
 
@@ -1020,14 +1020,14 @@ Format
 ```
 
 ---
-###/keyword
+### /keyword
 
 指定した keyword id の自動録画キーワードを取得
 
-#####URI: ``/keyword``
-#####Formats: json
+##### URI: ``/keyword``
+##### Formats: json
 
-#####Methods: GET
+##### Methods: GET
 
 Parameter
 
@@ -1104,14 +1104,14 @@ Format
 ```
 
 ---
-###/keyword
+### /keyword
 
 指定した keyword_id の 自動キーワードを削除
 
-#####URI: ``/keyword ``
-#####Formats: json
+##### URI: ``/keyword ``
+##### Formats: json
 
-#####Methods: DELETE
+##### Methods: DELETE
 
 Parameter
 
@@ -1141,14 +1141,14 @@ Format
 ```
 
 ---
-###/keyword
+### /keyword
 
 指定した keyword_id の 自動キーワードを有効化、無効化
 
-#####URI: ``/keyword ``
-#####Formats: json
+##### URI: ``/keyword ``
+##### Formats: json
 
-#####Methods: PUT
+##### Methods: PUT
 
 Parameter
 
@@ -1181,14 +1181,14 @@ Format
 epgrec UNA からエラー情報が取得できないのでエラーメッセージはない
 
 ---
-###/keyword
+### /keyword
 
 指定した 自動キーワードを追加
 
-#####URI: ``/keyword ``
-#####Formats: json
+##### URI: ``/keyword ``
+##### Formats: json
 
-#####Methods: POST
+##### Methods: POST
 
 Parameter
 
@@ -1259,14 +1259,14 @@ Format
 epgrec UNA からエラー情報が取得できないのでエラーメッセージはない
 
 ---
-###/search
+### /search
 
 検索結果
 
-#####URI: ``/search``
-#####Formats: json
+##### URI: ``/search``
+##### Formats: json
 
-#####Methods: POST
+##### Methods: POST
 
 Parameter
 
@@ -1342,14 +1342,14 @@ Format
 ```
 
 ---
-###/search/config
+### /search/config
 
 検索に必要なオプションを取得
 
-#####URI: ``/search/config``
-#####Formats: json
+##### URI: ``/search/config``
+##### Formats: json
 
-#####Methods: GET
+##### Methods: GET
 
 Parameter: なし
 
@@ -1414,14 +1414,14 @@ Format
 ```
 
 ---
-###/log
+### /log
 
 epgrec UNA の log を取得
 
-#####URI: ``/log ``
-#####Formats: json
+##### URI: ``/log ``
+##### Formats: json
 
-#####Methods: GET
+##### Methods: GET
 
 Parameter
 
@@ -1452,14 +1452,14 @@ Format
 ```
 
 ---
-###/epg
+### /epg
 
 EPG 単局更新
 
-#####URI: ``/epg ``
-#####Formats: json
+##### URI: ``/epg ``
+##### Formats: json
 
-#####Methods: GET
+##### Methods: GET
 
 Parameter
 
@@ -1489,14 +1489,14 @@ Format
 ```
 
 ---
-###/disk
+### /disk
 
 ディスク空き容量
 
-#####URI: ``/disk ``
-#####Formats: json
+##### URI: ``/disk ``
+##### Formats: json
 
-#####Methods: GET
+##### Methods: GET
 
 Parameter: なし
 
@@ -1509,3 +1509,34 @@ Format
     available: 300   //ディスク使用可能容量(GB)
 }
 ````
+---
+### /kodi/recorded
+
+kodi で使用する 録画一覧を返す
+
+##### URI: ``/kodi/recorded``
+##### Formats: json
+
+##### Methods: GET
+
+Parameters
+
+|key    |必須 |memo                            |
+|:------|----|--------------------------------|
+|length |no  |返すリストの最大長 (default: 1000) |
+|asc    |no  |1: 昇順, 0: 降順                 |
+
+Format
+
+```
+[
+    {
+        id": 4578,                                                //番組 id
+        "title": "タイトル",                                       //番組タイトル
+        "detail": "番組詳細",                                      //番組詳細
+        "thumbnail": "http://192.168.0.2:1180/video/ .... .jpg",  //サムネイル url
+        "url": "http://192.168.11.2:1180/video/ .... .mp4",       //video url (epgrec の url)
+        "duration": 3600                                          //動画長(秒)
+    }
+]
+```
