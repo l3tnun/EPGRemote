@@ -20,7 +20,7 @@ class GetKodiRecordedListSql extends Sql {
         sql += `${ this.recordName }transcodeTbl.path as enc_path `;
         sql += `from ${ this.recordName }reserveTbl left join ${ this.recordName }transcodeTbl `;
         sql += `on ${ this.recordName }reserveTbl.id = ${ this.recordName }transcodeTbl.rec_id `;
-        sql += `where ${ this.recordName }reserveTbl.starttime <= NOW() `;
+        sql += `where ${ this.recordName }reserveTbl.starttime <= ${ this.getNow() } `;
         sql += `order by ${ this.recordName }reserveTbl.starttime ${ sort } `;
 
         this.runQuery(sql, (rows) => { callback(rows); },

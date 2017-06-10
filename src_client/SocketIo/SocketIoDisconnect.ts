@@ -28,7 +28,7 @@ namespace SocketIoDisconnect {
         //切断時
         let busy: Element | null = null;
         io.on('disconnect', () => {
-            if(movePage) { return; }
+            if(movePage || busy != null) { return; }
             //"接続が切断された
             busy = document.createElement("div");
             busy.setAttribute("style", "width: 100%; height: 100%; position: absolute; left: 0px; top: 0px; background-color: black; opacity: 0.5; z-index: 100000;");
@@ -38,7 +38,7 @@ namespace SocketIoDisconnect {
         //再接続時 reload
         io.on('reconnect', () => {
             Util.fakeReload();
-            if(busy != null) { setTimeout(() => { document.body.removeChild(busy!) }, 600);  }
+            if(busy != null) { setTimeout(() => { document.body.removeChild(busy!); busy = null; }, 600);  }
         });
     }
 }
