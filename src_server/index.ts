@@ -27,7 +27,7 @@ const options = minimist(process.argv.slice(2), knownOptions);
 const isDev = (options["env"] === 'development') ? true : false;
 
 if(!isDev) {
-    process.on("uncaughtException", (error: string) => {
+    process.on("uncaughtException"!, (error: Error) => {
         log.system.fatal("uncaughtException: " + error);
     });
 }
