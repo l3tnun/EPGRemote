@@ -16,6 +16,9 @@ class DeleteKeywordEpgrecOperater extends EpgrecOperater {
         let url = `${this.hostUrl}/deleteKeyword.php?keyword_id=${keyword_id}`;
 
         this.httpGet(url, `DeleteKeywordEpgrecOperater ${ keyword_id }`, callback, errCallback);
+
+        //recordedTable.php にアクセスして DB のレコードを更新する
+        setTimeout(() => { this.httpGet(`${this.hostUrl}/recordedTable.php`, "Update recordedTable.php"); }, 1000);
     }
 }
 

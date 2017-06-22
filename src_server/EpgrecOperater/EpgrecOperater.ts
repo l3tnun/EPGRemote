@@ -10,8 +10,8 @@ abstract class EpgrecOperater extends Base {
     protected httpGet(
         url: string,
         name: string,
-        callback: (value: string) => void,
-        errCallback: (value: { [key: string]: any }) => void,
+        callback?: (value: string) => void,
+        errCallback?: (value: { [key: string]: any }) => void ,
         timeoutCallback?: (value: { [key: string]: any }) => void
     ): void {
         if(typeof timeoutCallback == "undefined") { timeoutCallback = errCallback; }
@@ -25,12 +25,12 @@ abstract class EpgrecOperater extends Base {
 
             res.on('data', (chunk) => { body += chunk; });
 
-            res.on('end', () => { callback(body); });
+            if(typeof callback != "undefined") { res.on('end', () => { callback(body); }); }
         }).on('error',(e) => {
             if(timeout) { return; }
             this.log.system.error('EpgrecOperater failed http get ' + name)
             this.log.system.error(e.message);
-            errCallback({ code: 500 });
+            if(typeof errCallback != "undefined") { errCallback({ code: 500 }); }
         });
 
         req.setTimeout(1000);

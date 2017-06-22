@@ -63,6 +63,7 @@ class KeywordAddModel extends ApiModel {
         try {
             operetarOption = {
                 add_keyword:        1,
+                keyword_id:         0,
                 k_use_regexp:       this.option["use_regexp"],
                 k_collate_ci:       this.option["collate_ci"],
                 k_ena_title:        this.option["ena_title"],
