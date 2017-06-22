@@ -87,7 +87,7 @@ class ResponseSpecifiedFile extends View {
         }
     }
 
-    private readRangeHeader(range: string | string[] | null, totalLength: number): { Start: number, End: number } | null {
+    private readRangeHeader(range: string | string[] | undefined | null, totalLength: number): { Start: number, End: number } | null {
         if (typeof range != "string" || range == null || range.length == 0) { return null; }
 
         let array = range.split(/bytes=([0-9]*)-([0-9]*)/);
