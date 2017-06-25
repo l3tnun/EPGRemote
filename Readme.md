@@ -304,8 +304,6 @@ npm start
 ## Android での web アプリ化
 Android の Chrome で以下のように開くとホーム画面に追加時に web アプリ化されます。
 
-トップページの初回描画時に設定が行われるため、リロードしてからホーム画面に追加を押してください。
-
 ```
 http://hostIP:PORT/#/?mobile=1
 ```
