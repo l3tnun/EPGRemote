@@ -140,7 +140,7 @@ vim config/config.json
             "id"      : 1,                //設定を一意に特定するためのID, 重複禁止
             "name"    : "1280x720(main)", //Web UI で表示される名前
             //ffmpeg コマンド
-            "command" : "/usr/local/ffmpeg_build/bin/ffmpeg -re -dual_mono_mode main -i pipe:0 -s 1280x720 -filter:v yadif -aspect 16:9 -c:v libx264 -b:v 3000k -c:a libfdk_aac -ar 48000 -ab 192k -ac 2 -f mp4 -movflags empty_moov pipe:1"
+            "command" : "/usr/local/bin/ffmpeg -re -dual_mono_mode main -i pipe:0 -s 1280x720 -filter:v yadif -aspect 16:9 -c:v libx264 -b:v 3000k -c:a libfdk_aac -ar 48000 -ab 192k -ac 2 -f mp4 -movflags empty_moov pipe:1"
         }, ...
     ],
 
@@ -300,6 +300,15 @@ npm start
 ログファイルの保存場所や streamFilePath のディレクトリが作成されていないと落ちます。
 
 サービス化については pm2 等で各自で行ってください。
+
+## Android での web アプリ化
+Android の Chrome で以下のように開くとホーム画面に追加時に web アプリ化されます。
+
+トップページの初回描画時に設定が行われるため、リロードしてからホーム画面に追加を押してください。
+
+```
+http://hostIP:PORT/#/?mobile=1
+```
 
 ## Android 6.0 以降で番組表が重いぞ、という方へ
 設定のユーザー補助機能で "操作の監視" を行っているアプリが原因のようで、これらを OFF にすると問題は解消されました。
