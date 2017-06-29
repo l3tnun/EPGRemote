@@ -31,7 +31,7 @@ class RecordedView extends ParentPageView {
     private recordedMenuViewModel: RecordedMenuViewModel;
     private recordedVideoLinkViewModel: RecordedVideoLinkDialogViewModel;
     private recordedSearchMenuViewModel: RecordedSearchMenuViewModel;
-    private resizeListener = this.resize.bind(this);
+    private resizeListener = (() => { setTimeout(() => { this.resize() }, 100); }).bind(this);
 
     private paginationComponent = new PaginationComponent();
     private menuComponent = new MenuComponent();
@@ -116,7 +116,7 @@ class RecordedView extends ParentPageView {
             oncreate: () => {
                 window.addEventListener("resize", this.resizeListener, false);
             },
-            onupdate: () => { this.resize(0); },
+            onupdate: () => { this.resize(); },
             onremove: () => {
                 window.removeEventListener("resize", this.resizeListener, false );
             }
@@ -126,17 +126,15 @@ class RecordedView extends ParentPageView {
         ]);
     }
 
-    private resize(wait: number = 100): void {
-        setTimeout(() => {
-            let element = <HTMLElement>document.getElementById(RecordedView.mainViewId);
-            if(element == null) { return; }
+    private resize(): void {
+        let element = <HTMLElement>document.getElementById(RecordedView.mainViewId);
+        if(element == null) { return; }
 
-            if(window.innerWidth <= RecordedView.gridChangeWidth) { element.style.width = ""; return; }
+        if(window.innerWidth <= RecordedView.gridChangeWidth) { element.style.width = ""; return; }
 
-            let width = Math.floor(window.innerWidth / RecordedView.gridCardWidth) * RecordedView.gridCardWidth || RecordedView.gridCardWidth;
+        let width = Math.floor(window.innerWidth / RecordedView.gridCardWidth) * RecordedView.gridCardWidth || RecordedView.gridCardWidth;
 
-            element.style.width = width + "px";
-        }, wait);
+        element.style.width = width + "px";
     }
 
     //カードリスト表示
