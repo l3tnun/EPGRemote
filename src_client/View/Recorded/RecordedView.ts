@@ -116,7 +116,7 @@ class RecordedView extends ParentPageView {
             oncreate: () => {
                 window.addEventListener("resize", this.resizeListener, false);
             },
-            onupdate: () => { this.resize(); },
+            onupdate: () => { this.resize(0); },
             onremove: () => {
                 window.removeEventListener("resize", this.resizeListener, false );
             }
@@ -126,15 +126,17 @@ class RecordedView extends ParentPageView {
         ]);
     }
 
-    private resize(): void {
-        let element = <HTMLElement>document.getElementById(RecordedView.mainViewId);
-        if(element == null) { return; }
+    private resize(wait: number = 100): void {
+        setTimeout(() => {
+            let element = <HTMLElement>document.getElementById(RecordedView.mainViewId);
+            if(element == null) { return; }
 
-        if(window.innerWidth <= RecordedView.gridChangeWidth) { element.style.width = ""; return; }
+            if(window.innerWidth <= RecordedView.gridChangeWidth) { element.style.width = ""; return; }
 
-        let width = Math.floor(window.innerWidth / RecordedView.gridCardWidth) * RecordedView.gridCardWidth || RecordedView.gridCardWidth;
+            let width = Math.floor(window.innerWidth / RecordedView.gridCardWidth) * RecordedView.gridCardWidth || RecordedView.gridCardWidth;
 
-        element.style.width = width + "px";
+            element.style.width = width + "px";
+        }, wait);
     }
 
     //カードリスト表示
