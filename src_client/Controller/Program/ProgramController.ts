@@ -44,7 +44,7 @@ class ProgramController extends ParentPageController {
 
     //window resize
     private resize(): void {
-        this.viewModel.resize();
+        setTimeout(() => { this.viewModel.resize(); }, 100);
     }
 
     //時刻線の位置を更新するたびに 1分毎に再描画させる

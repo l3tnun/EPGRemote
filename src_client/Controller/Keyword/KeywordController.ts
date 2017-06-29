@@ -32,7 +32,7 @@ class KeywordController extends ParentPageController {
     }
 
     private resize(): void {
-        this.viewModel.resize();
+        setTimeout(() => { this.viewModel.resize(); }, 100);
     }
 }
 
