@@ -301,12 +301,24 @@ npm start
 
 サービス化については pm2 等で各自で行ってください。
 
-## Android での web アプリ化
-Android の Chrome で以下のように開くとホーム画面に追加時に web アプリ化されます。
+## アプリ化
+### android
+Chrome で以下のように開くとホーム画面に追加時に web アプリ化されます。
 
 ```
 http://hostIP:PORT/#/?mobile=1
 ```
+
+### iOS
+iOS で上記の web アプリ化は使い勝手が悪かったため、専用アプリを用意しました。build 環境がある方はどうぞ。
+
+[EPGRemote-for-iOS](https://github.com/l3tnun/EPGRemote-for-iOS)
+
+## Kodi での録画視聴
+
+録画済み番組を視聴、削除するだけですがプラグインを作成しました。
+
+[plugin.video.epgremote](https://github.com/l3tnun/plugin.video.epgremote)
 
 ## Android 6.0 以降で番組表が重いぞ、という方へ
 設定のユーザー補助機能で "操作の監視" を行っているアプリが原因のようで、これらを OFF にすると問題は解消されました。
