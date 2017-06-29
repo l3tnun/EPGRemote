@@ -66,6 +66,7 @@ class ProgramViewModel extends ViewModel {
             this.windowWidth = 0;
             this.resetCache();
         }
+        this.resize();
     }
 
     //program api model を更新する
@@ -209,7 +210,6 @@ class ProgramViewModel extends ViewModel {
         } else if(newHeaderSize > 0 && newHeaderSize != this.headerHeight) {
             this.headerHeight = newHeaderSize;
             //header の高さの変更を反映させるために再描画
-            //m.redraw.strategy("diff");
             m.redraw();
         }
     }
@@ -227,7 +227,6 @@ class ProgramViewModel extends ViewModel {
         if( (newWidth > ProgramViewModel.viewConfigWidth && this.windowWidth <= ProgramViewModel.viewConfigWidth)
          || (newWidth <= ProgramViewModel.viewConfigWidth && this.windowWidth > ProgramViewModel.viewConfigWidth) ) {
             this.initUpdateTime();
-            //m.redraw.strategy("diff");
             m.redraw();
         }
 
